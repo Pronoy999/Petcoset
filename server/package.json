@@ -8,5 +8,9 @@
   },
   "keywords": [],
   "author": "Pronoy Mukherjee",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.24.0",
+    "mysql": "^2.18.1"
+  }
 }
