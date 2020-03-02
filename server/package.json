@@ -1,0 +1,12 @@
+{
+  "name": "petcoset",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js"
+  },
+  "keywords": [],
+  "author": "Pronoy Mukherjee",
+  "license": "ISC"
+}
