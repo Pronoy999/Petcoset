@@ -12,7 +12,7 @@ queryGenerator.generateSPQuery = (spName, params) => {
         let query = "CALL " + spName;
         if (params.length > 0) {
             query += "(";
-            query += params.map(par => _joinData(par)).join(",");
+            query += (params.map(par => _joinData(par)).join(","));
         } else {
             return query;
         }
