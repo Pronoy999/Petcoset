@@ -1,4 +1,4 @@
-const server = require('./Helpers/server');
+const server = require('./src/Helpers/server');
 const app = {};
 app.init = () => {
     server.init();
