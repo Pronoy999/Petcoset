@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "run": "node index.js"
+    "run": "node index.js",
+    "test":"jest"
   },
   "keywords": [],
   "author": "Pronoy Mukherjee",
   "license": "ISC",
   "dependencies": {
+    "jest": "^25.1.0",
     "moment": "^2.24.0",
     "mysql": "^2.18.1"
   }
