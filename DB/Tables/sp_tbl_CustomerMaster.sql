@@ -1,4 +1,5 @@
 DROP PROCEDURE IF EXISTS sp_tbl_CustomerMaster;
+DELIMITER $$
 CREATE PROCEDURE sp_tbl_CustomerMaster()
 BEGIN
     DECLARE currentSchema varchar(100);
@@ -33,6 +34,8 @@ BEGIN
             INDEX Email_customer (email)
         );
     end if;
-end;
+end$$
+
+DELIMITER ;
 CALL sp_tbl_CustomerMaster();
 DROP PROCEDURE IF EXISTS sp_tbl_CustomerMaster;
