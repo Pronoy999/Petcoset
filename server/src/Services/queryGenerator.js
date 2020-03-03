@@ -2,10 +2,10 @@ const printer = require('./../Helpers/printer');
 const validators = require('./../Helpers/validators');
 const queryGenerator = {};
 /**
- * Method to generate the SP Query. 
+ * Method to generate the SP Query.
  * @param spName: The name of the SP to be invoked.
  * @param params: The array containing the params.
- * @returns {string}: The String query to be executed. 
+ * @returns {boolean|string}: The String query to be executed.
  */
 queryGenerator.generateSPQuery = (spName, params) => {
     if (validators.validateString(spName)) {
@@ -13,6 +13,7 @@ queryGenerator.generateSPQuery = (spName, params) => {
         if (params.length > 0) {
             query += "(";
             query += (params.map(par => _joinData(par)).join(","));
+            return query += ")";
         } else {
             return query;
         }
@@ -21,8 +22,9 @@ queryGenerator.generateSPQuery = (spName, params) => {
         return false;
     }
 };
+
 /**
- * Internal method to join the data for the SP parameters. 
+ * Internal method to join the data for the SP parameters.
  * @param {String} data : The Data to be joined.
  */
 function _joinData(data) {
@@ -32,7 +34,8 @@ function _joinData(data) {
         return data;
     }
 }
+
 /**
- * Exporting the module. 
+ * Exporting the module.
  */
 module.exports = queryGenerator;

@@ -1,6 +1,5 @@
 const customerHandler = {};
 const constants = require('./../Helpers/constants');
-const Customer = require('./../Entity/customer');
 const validator = require('./../Helpers/validators');
 customerHandler.customer = (dataObject) => {
     return new Promise((resolve, reject) => {

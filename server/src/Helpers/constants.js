@@ -91,11 +91,17 @@ constants.ERROR_LEVEL_4 = "4";
  */
 constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
 
+/**
+ * Core-Service Keys
+ */
+constants.CORE_SERVICE_USER_NAME = "user_name";
+constants.CORE_SERVICE_PASSWORD = "password";
+constants.CORE_CUSTOMER_CREATE = "Create";
 
 /**
  * SP Names.
  */
-constants.SP_CREATE_CUSTOMER="sp_insertCustomer";
+constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
 
 /**
  * Column Names
@@ -113,11 +119,11 @@ constants.CUSTOMER_GENDER = "gender";
 constants.CUSTOMER_ADDRESS_1 = "address_1";
 constants.CUSTOMER_ADDRESS_2 = "address_2";
 constants.CUSTOMER_CITY = "city";
+constants.CUSTOMER_STATE = "state";
 constants.CUSTOMER_COUNTRY = "country";
 constants.CUSTOMER_PINCODE = "pincode";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
-
 
 
 /**
