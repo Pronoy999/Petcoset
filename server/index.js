@@ -1,4 +1,5 @@
 const server = require('./src/Helpers/server');
+require('dotenv').config();
 const app = {};
 app.init = () => {
     server.init();
