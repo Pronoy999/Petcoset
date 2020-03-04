@@ -3,15 +3,17 @@ const printer = require('./../Helpers/printer');
 const validators = require('./../Helpers/validators');
 const generator = require('./generator');
 const config = require('./../Helpers/config');
+const constants = require('./../Helpers/constants');
+const encrypterDecrypter = require("./../Helpers/encrypterDecrypter");
 /**
  * Creating pool for Database.
  * @type {Pool}
  */
 const pool = mysql.createPool({
-    host: config.databaseHost,
+    host: encrypterDecrypter.decrypt(process.env[constants.DB_HOST_KEY]),
     user: config.databaseUserName,
     database: config.databaseName,
-    password: config.databasePassword,
+    password: encrypterDecrypter.decrypt(process.env[constants.DB_PASSWORD_KEY]),
     port: config.databasePort
 });
 const database = {};

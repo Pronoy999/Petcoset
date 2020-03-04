@@ -1,18 +1,32 @@
-const constants=require('./constants');
-const crypto=require('crypto');
-const encrypterDecrypter = {};
+const constants = require('./constants');
+const config = require("./config");
+const crypto = require("crypto");
+const encryptDecrypt = {};
 /**
- * Refer to https://gist.github.com/yoavniran/c78a0991e0152b306c25
+ * Method to encrypt the data.
+ * @param dataToBeEncrypted: The Data to be encrypted.
+ * @returns {string}: the String encrypted data.
  */
-encrypterDecrypter.encrypt=(text)=>{
-    const cipher=crypto.createCipheriv("aes-256-cbc","key",null);
-    let crypted=cipher.update(text,"utf8","hex");
-    crypted+=cipher.update("hex");
-    console.log(crypted);
+encryptDecrypt.encrypt = (dataToBeEncrypted) => {
+    const iv = Buffer.alloc(16, process.env[constants.ENCRYPTION_KEY_KEY]);
+    const cipher = crypto.createCipheriv(config.ENCRYPT_ALGO, process.env[constants.ENCRYPTION_KEY_KEY], iv);
+    let encryptedData = cipher.update(dataToBeEncrypted,"utf8", config.ENCRYPT_ENCODING);
+    encryptedData += cipher.final(config.ENCRYPT_ENCODING);
+    return encryptedData.toString();
 };
-encrypterDecrypter.encrypt("HelLO");
-
 /**
- * Exporting the module. 
+ * Method to decrypt the data.
+ * @param encryptedData: The encrypted data.
+ * @returns {string}: The String decrypted data.
  */
-module.exports = encrypterDecrypter;
+encryptDecrypt.decrypt = (encryptedData) => {
+    const iv = Buffer.alloc(16, process.env[constants.ENCRYPTION_KEY_KEY]);
+    const cipher = crypto.createDecipheriv(config.ENCRYPT_ALGO, process.env[constants.ENCRYPTION_KEY_KEY], iv);
+    let decryptedData = cipher.update(encryptedData, config.ENCRYPT_ENCODING);
+    decryptedData += cipher.final();
+    return decryptedData.toString();
+};
+/**
+ * Exporting the module.
+ */
+module.exports = encryptDecrypt;

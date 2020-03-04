@@ -97,6 +97,9 @@ constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
 constants.CORE_SERVICE_USER_NAME = "user_name";
 constants.CORE_SERVICE_PASSWORD = "password";
 constants.CORE_CUSTOMER_CREATE = "Create";
+constants.ENCRYPTION_KEY_KEY = "ENCRYPTED_KEY";
+constants.DB_HOST_KEY = "DB_HOST";
+constants.DB_PASSWORD_KEY = "DB_PASSWORD";
 
 /**
  * SP Names.
