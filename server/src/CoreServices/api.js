@@ -14,7 +14,6 @@ process.on("message", (serviceData) => {
         let promise;
         switch (serviceData[constants.CORE_TYPE]) {
             case constants.CORE_API_TOKEN_CHECK:
-                console.log("Hello");
                 promise = apiService.checkApiValidity(serviceData[constants.CORE_DATA]);
                 break;
         }
@@ -22,6 +21,7 @@ process.on("message", (serviceData) => {
             process.send(responseGenerator.generateCoreResponse(true, constants.RESPONSE_SUCESS_LEVEL_1));
             process.exit(0);
         }).catch(err => {
+            printer.printError(err);
             process.send(responseGenerator.generateCoreResponse(false, false, true, constants.ERROR_LEVEL_4));
             process.exit(0);
         });
