@@ -18,7 +18,8 @@ class Customer {
      * _country
      * _pincode
      */
-    constructor(firstName, lastName, email, phone, gender, address1, address2, city, state, country, pincode) {
+    constructor(id, firstName, lastName, email, phone, gender, address1, address2, city, state, country, pincode) {
+        this._id = validators.validateNumber(id) ? id : false;
         this._firstName = validators.validateString(firstName) ? firstName : false;
         this._lastName = validators.validateString(lastName) ? lastName : false;
         this._email = validators.validateEmail(email) ? email : false;
@@ -38,11 +39,24 @@ class Customer {
      */
     createCustomer(usedReferralCode) {
         return new Promise((resolve, reject) => {
-            this._ownReferalCode = generator.generateRandomNumber(6);
+            this._ownReferalCode = generator.generateRandomToken(6);
             database.runSp(constants.SP_CREATE_CUSTOMER, [this._firstName, this._lastName, this._email,
-                this._phone, this._gender, this._address1, this._address2, this._city, this._state, this._country, this._pincode,
-                this._ownReferalCode, usedReferralCode]).then(_resultSet => {
+            this._phone, this._gender, this._address1, this._address2, this._city, this._state, this._country, this._pincode,
+            this._ownReferalCode, usedReferralCode]).then(_resultSet => {
                 //TODO: Return the customer id.
+            }).catch(err => {
+                printer.printError(err);
+                reject(err);
+            });
+        });
+    }
+    /**
+     * Method to get the customer data. 
+     */
+    getCustomerDetails() {
+        return new Promise((resolve, reject) => {
+            database.runSp(constants.SP_GET_CUSTOMER, [this._id, this._email, this._phone]).then(_resultSet => {
+                //TODO Get the customer data. 
             }).catch(err => {
                 printer.printError(err);
                 reject(err);

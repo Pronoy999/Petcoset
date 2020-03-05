@@ -1,7 +1,7 @@
 const mysql = require('mysql');
 const printer = require('./../Helpers/printer');
 const validators = require('./../Helpers/validators');
-const generator = require('./generator');
+const queryGenerator = require('./queryGenerator');
 const config = require('./../Helpers/config');
 const constants = require('./../Helpers/constants');
 const encrypterDecrypter = require("./../Helpers/encrypterDecrypter");
@@ -118,26 +118,15 @@ database._runQuery = (queryStatement, connection) => {
  * @param spName: The name of the SPs.
  * @param stringParams: The array containing the parameters.
  * @param numberParams: The number array for parameters.
- * @returns {Promise<unknown>}: Resolves result if executed, else false.
+ * @returns {Promitse<unknown>}: Resolves result if executed, else false.
  */
-database.runSp = (spName, stringParams, numberParams) => {
+daabase.runSp = (spName, params) => {
     return new Promise((resolve, reject) => {
         if (!validators.validateString(spName)) {
             reject("Invalid SP Name");
             return;
         }
-        const spStringParams = generator.generateStringParams(stringParams);
-        const spNumberParams = generator.generateNumberParams(numberParams);
-        let spQuery;
-        if (spStringParams.length > 0 && spNumberParams.length > 0) {
-            spQuery = "CALL " + spName + "(" + spStringParams + "," + spNumberParams + ")";
-        } else if (spStringParams.length > 0 && spNumberParams.length === 0) {
-            spQuery = "CALL " + spName + "(" + spStringParams + ")";
-        } else if (spStringParams.length === 0 && spNumberParams > 0) {
-            spQuery = "CALL " + spName + "(" + spStringParams + ")";
-        } else {
-            spQuery = spQuery = "CALL " + spName + "()";
-        }
+        let spQuery=queryGenerator.generateSPQuery(spName,params);
         printer.printHighlightedLog(spQuery);
         pool.getConnection((err, conn) => {
             if (err) {

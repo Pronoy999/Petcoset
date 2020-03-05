@@ -100,11 +100,22 @@ constants.CORE_CUSTOMER_CREATE = "Create";
 constants.ENCRYPTION_KEY_KEY = "ENCRYPTED_KEY";
 constants.DB_HOST_KEY = "DB_HOST";
 constants.DB_PASSWORD_KEY = "DB_PASSWORD";
+constants.CORE_RESPONSE = "res";
+constants.CORE_ERROR = "error";
+constants.CORE_TYPE = "type";
+constants.CORE_DATA = "data";
 
+/**
+ * Core services Module Keys
+ */
+constants.CORE_CUSTOMER_CREATE = "createCustomer";
+constants.CORE_CUSTOMER_GET = "getCustomer";
+constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
 /**
  * SP Names.
  */
 constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
+constants.SP_GET_CUSTOMER="sp_getCustomerDetails";
 
 /**
  * Column Names
@@ -114,6 +125,7 @@ constants.COLUMN_CREATED = "created";
 constants.COLUMN_MODIFIED_BY = "modified_by";
 constants.COLUMN_MODIFIED = "modified";
 
+constants.CUSTOMER_ID = "id";
 constants.CUSTOMER_FIRST_NAME = "first_name";
 constants.CUSTOMER_LAST_NAME = "last_name";
 constants.CUSTOMER_EMAIL = "email";
