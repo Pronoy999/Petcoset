@@ -1,8 +1,7 @@
 const handlers = require('./../Handlers');
 const validator = require('./validators');
 const routes = {
-    "ping": handlers.ping,
-    "users": handlers.users
+    "customers": handlers.customers
 };
 
 const path = {};

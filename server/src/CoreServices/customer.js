@@ -1,5 +1,6 @@
 const constants = require('./../Helpers/constants');
 const printer = require('./../Helpers/printer');
+const responseGenerator = require('./../Services/responseGenerator');
 const Customer = require('./../Entity/customer');
 const customerService = {};
 /**
@@ -18,14 +19,15 @@ process.on("message", (serviceData) => {
             //case constants.CORE_CUSTOMER_GET:
         }
         promise.then((data) => {
-            process.send(_generateCoreResponse(data[0], data[1], false, false));
+            process.send(responseGenerator.generateCoreResponse(data[0], data[1], false, false));
             process.exit(0);
         }).catch(err => {
-            process.send(_generateCoreResponse(false, false, err[0], err[1]));
+            process.send(responseGenerator.generateCoreResponse(false, false, err[0], err[1]));
             process.exit(1);
         });
     } else {
-        process.send(_generateCoreResponse(false, false, constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4));
+        process.send(responseGenerator.generateCoreResponse(false, false,
+            constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4));
         process.exit(1);
     }
 });
@@ -62,24 +64,3 @@ customerService.getCustomerData = (dataObject) => {
         //TODO: Get the customer details.
     });
 };
-
-/**
- * Method to generate the core service response object.
- * @param {boolean|String} message : the response object or data.
- * @param successLevel: the level of success.
- * @param {ERROR} error : The error message.
- * @param errorLevel: The Error Level.
- */
-function _generateCoreResponse(message, successLevel, error, errorLevel) {
-    let res = {};
-    if (error) {
-        res[constants.CORE_RESPONSE] = false;
-        res[constants.CORE_ERROR] = error;
-        res[constants.CORE_ERROR_LEVEL] = errorLevel;
-    } else {
-        res[constants.CORE_RESPONSE] = message;
-        res[constants.CORE_SUCCESS_LEVEL] = successLevel;
-        res[constants.CORE_ERROR] = false;
-    }
-    return res;
-}

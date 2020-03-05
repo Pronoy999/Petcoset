@@ -1,4 +1,5 @@
 const constants = require('./constants');
+const childProcess = require('child_process');
 const validator = {};
 /**
  * Method to check the validity of the email.
@@ -80,12 +81,20 @@ validator.validateBoolean = (data) => {
  */
 validator.validateToken = (token) => {
     return new Promise((resolve, reject) => {
-        const Api = require('./../Entity/api');
-        const api = new Api(token);
-        api.isValidToken().then(() => {
-            resolve(true);
-        }).catch(err => {
-            reject(err);
+        console.log(__dirname);
+        const worker = childProcess.fork(`${__dirname}/../CoreServices/api.js`);
+        let serviceData = {};
+        serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+        serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+        serviceData[constants.CORE_TYPE] = constants.CORE_API_TOKEN_CHECK;
+        serviceData[constants.CORE_DATA] = {[constants.API_TOKEN_KEY]: token};
+        worker.send(serviceData);
+        worker.on("message", (serviceReply) => {
+            if (serviceReply[constants.CORE_RESPONSE]) {
+                resolve(true);
+            } else {
+                reject(false);
+            }
         });
     });
 };
@@ -98,9 +107,9 @@ validator.validateString = (data) => {
     return typeof (data) === 'string' && data.length > 0;
 };
 /**
- * Method to validate a character. 
- * @param data: the data to be checked. 
- * @returns {boolean} true: if it is a valid character, else false. 
+ * Method to validate a character.
+ * @param data: the data to be checked.
+ * @returns {boolean} true: if it is a valid character, else false.
  */
 validator.validateCharacter = (data) => {
     return typeof (data) === 'string' && data.length === 1;

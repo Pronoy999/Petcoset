@@ -114,11 +114,13 @@ constants.CORE_DATA = "data";
 constants.CORE_CUSTOMER_CREATE = "createCustomer";
 constants.CORE_CUSTOMER_GET = "getCustomer";
 constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
+constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 /**
  * SP Names.
  */
 constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
 constants.SP_GET_CUSTOMER = "sp_getCustomerDetails";
+constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 
 /**
  * Column Names
@@ -142,6 +144,7 @@ constants.CUSTOMER_COUNTRY = "country";
 constants.CUSTOMER_PINCODE = "pincode";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
+constants.IS_VALID = "isValid";
 
 
 /**

@@ -13,13 +13,15 @@ handlerObj.notFound = (dataObject) => {
     });
 };
 /**
- * Method to handle the customer requests. 
+ * Method to handle the customer requests.
  */
 handlerObj.customers = (dataObject) => {
     return new Promise((resolve, reject) => {
         let promise;
         switch (dataObject.path) {
-            case "users": promise = customer.customer(dataObject); break;
+            case "customers":
+                promise = customer.customer(dataObject);
+                break;
             default:
                 reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
         }

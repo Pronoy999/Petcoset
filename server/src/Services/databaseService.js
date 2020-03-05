@@ -120,7 +120,7 @@ database._runQuery = (queryStatement, connection) => {
  * @param numberParams: The number array for parameters.
  * @returns {Promitse<unknown>}: Resolves result if executed, else false.
  */
-daabase.runSp = (spName, params) => {
+database.runSp = (spName, params) => {
     return new Promise((resolve, reject) => {
         if (!validators.validateString(spName)) {
             reject("Invalid SP Name");

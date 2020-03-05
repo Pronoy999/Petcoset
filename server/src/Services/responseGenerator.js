@@ -4,7 +4,6 @@ const response = {};
  * * Method to generate the Error Response.
  * @param responseMessage: The Response Message.
  * @param errorLevel: the level of error.
- * @param errorMessage: The message of error.
  * @returns {[number, Object]}: The array containing the error code and the response object.
  *              The first index is the error code and the second is the error message.
  */
@@ -53,6 +52,26 @@ response.generateResponse = (responseMessage, successLevel) => {
             break;
     }
     return ([httpCode, res]);
+};
+/**
+ * Method to generate the Core Response.
+ * @param message: The message to be send.
+ * @param successLevel: The success level.
+ * @param error: The error message.
+ * @param errorLevel: The error level.
+ */
+response.generateCoreResponse = (message, successLevel, error, errorLevel) => {
+    let res = {};
+    if (error) {
+        res[constants.CORE_RESPONSE] = false;
+        res[constants.CORE_ERROR] = error;
+        res[constants.CORE_ERROR_LEVEL] = errorLevel;
+    } else {
+        res[constants.CORE_RESPONSE] = message;
+        res[constants.CORE_SUCCESS_LEVEL] = successLevel;
+        res[constants.CORE_ERROR] = false;
+    }
+    return res;
 };
 /**
  * Exporting the module.
