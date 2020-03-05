@@ -18,9 +18,9 @@ BEGIN
 		   `document_type` varchar(250) DEFAULT NULL,
 		   `document_id_number` varchar(100) DEFAULT NULL,
 		   `is_active` tinyint(4) DEFAULT NULL,
-		   `created_by` varchar(250) DEFAULT NULL,
+		   `created_by` int(11) NOT NULL,
 		   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-		   `modified_by` varchar(250) DEFAULT NULL,
+		   `modified_by` int(11) DEFAULT NULL,
 		   `modified` timestamp NULL DEFAULT NULL,
 		   PRIMARY KEY (`id`),
 		   UNIQUE KEY `document_id_number` (`document_id_number`)
