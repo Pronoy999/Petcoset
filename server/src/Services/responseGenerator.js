@@ -8,24 +8,27 @@ const response = {};
  * @returns {[number, Object]}: The array containing the error code and the response object.
  *              The first index is the error code and the second is the error message.
  */
-response.generateErrorResponse = (responseMessage, errorLevel, errorMessage) => {
+response.generateErrorResponse = (responseMessage, errorLevel) => {
     const res = {};
     let errorCode;
     res[constants.RESPONSE_KEY] = responseMessage;
-    res[constants.RESPONSE_KEY_ERROR] = errorMessage;
     res[constants.ERROR_LEVEL_KEY] = errorLevel;
     switch (errorLevel) {
         case constants.ERROR_LEVEL_1:
             errorCode = constants.BAD_REQUEST_CODE;
+            res[constants.RESPONSE_KEY_ERROR] = constants.BAD_REQUEST_MESSAGE;
             break;
         case constants.ERROR_LEVEL_2:
             errorCode = constants.HTTP_NOT_FOUND_CODE;
+            res[constants.RESPONSE_KEY_ERROR] = constants.INVALID_PATH;
             break;
         case constants.ERROR_LEVEL_3:
             errorCode = constants.INTERNAL_SERVER_ERROR_CODE;
+            res[constants.RESPONSE_KEY_ERROR] = constants.INTERNAL_SERVER_ERROR_MESSAGE;
             break;
         case constants.ERROR_LEVEL_4:
             errorCode = constants.FORBIDDEN_REQUEST_CODE;
+            res[constants.RESPONSE_KEY_ERROR] = constants.FORBIDDEN_MESSAGE;
             break;
     }
     return ([errorCode, res]);

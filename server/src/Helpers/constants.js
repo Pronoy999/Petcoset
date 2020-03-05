@@ -73,6 +73,7 @@ constants.HTTP_UNAUTHORIZED_CODE = 401;
 
 constants.RESPONSE_KEY = "res";
 constants.ERROR_MESSAGE = "Error";
+constants.BAD_REQUEST_MESSAGE = "Incorrect Request";
 constants.FORBIDDEN_MESSAGE = "Incorrect Token or token expired.";
 constants.INSUFFICIENT_DATA_MESSAGE = "Insufficient Data";
 constants.INVALID_METHOD_MESSAGE = "Invalid Method";
@@ -102,6 +103,8 @@ constants.DB_HOST_KEY = "DB_HOST";
 constants.DB_PASSWORD_KEY = "DB_PASSWORD";
 constants.CORE_RESPONSE = "res";
 constants.CORE_ERROR = "error";
+constants.CORE_ERROR_LEVEL = "errorLevel";
+constants.CORE_SUCCESS_LEVEL = "successLevel";
 constants.CORE_TYPE = "type";
 constants.CORE_DATA = "data";
 
@@ -115,7 +118,7 @@ constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
  * SP Names.
  */
 constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
-constants.SP_GET_CUSTOMER="sp_getCustomerDetails";
+constants.SP_GET_CUSTOMER = "sp_getCustomerDetails";
 
 /**
  * Column Names

@@ -14,17 +14,17 @@ process.on("message", (serviceData) => {
         switch (serviceData[constants.CORE_TYPE]) {
             case constants.CORE_CUSTOMER_CREATE:
                 promise = customerService.createCustomer(serviceData[constants.CORE_DATA]); break;
-            case constants.CORE_CUSTOMER_GET:
+            //case constants.CORE_CUSTOMER_GET:
         }
         promise.then((data) => {
-            process.send(_generateCoreResponse(data, false));
+            process.send(_generateCoreResponse(data[0], data[1]));
             process.exit(0);
         }).catch(err => {
-            process.send(_generateCoreResponse(false, err));
+            process.send(_generateCoreResponse(false, false, err[0], err[1]));
             process.exit(1);
         });
     } else {
-        process.send(_generateCoreResponse(false, constants.FORBIDDEN_REQUEST_CODE));
+        process.send(_generateCoreResponse(false, false, constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4));
         process.exit(1);
     }
 });
@@ -35,27 +35,30 @@ process.on("message", (serviceData) => {
  */
 customerService.createCustomer = (dataObject) => {
     return new Promise((resolve, reject) => {
-        const customer = new Customer(false,dataObject[constants.CUSTOMER_FIRST_NAME],
+        const customer = new Customer(false, dataObject[constants.CUSTOMER_FIRST_NAME],
             dataObject[constants.CUSTOMER_LAST_NAME], dataObject[constants.CUSTOMER_EMAIL],
             dataObject[constants.CUSTOMER_PHONE_NUMBER], dataObject[constants.CUSTOMER_GENDER],
             dataObject[constants.CUSTOMER_ADDRESS_1], dataObject[constants.CUSTOMER_ADDRESS_2],
             dataObject[constants.CUSTOMER_CITY], dataObject[constants.CUSTOMER_STATE],
             dataObject[constants.CUSTOMER_COUNTRY], dataObject[constants.CUSTOMER_PINCODE]);
         customer.createCustomer(dataObject[constants.CUSTOMER_USED_REFERAL_CODE]).then(customerId => {
-            resolve(customerId);
+            resolve([customerId, constants.RESPONSE_SUCESS_LEVEL_1]);
         }).catch(err => {
             printer.printError(err);
-            reject(err);
+            reject([err, constants.ERROR_LEVEL_3]);
         });
     });
 };
-customerService.getCustomerData=(dataObject)=>{
-    return new Promise((resolve,reject)=>{
-        const customerId=dataObject[constants.CUSTOMER_ID];
-        const customerEmail=dataObject[constants.CUSTOMER_EMAIL];
-        const customerPhone=dataObject[constants.CUSTOMER_PHONE_NUMBER];
-        const customer=new Customer(customerId,false,false,customerEmail,customerPhone);
-        
+/**
+ * Method to get the customer data. 
+ */
+customerService.getCustomerData = (dataObject) => {
+    return new Promise((resolve, reject) => {
+        const customerId = dataObject[constants.CUSTOMER_ID];
+        const customerEmail = dataObject[constants.CUSTOMER_EMAIL];
+        const customerPhone = dataObject[constants.CUSTOMER_PHONE_NUMBER];
+        const customer = new Customer(customerId, false, false, customerEmail, customerPhone);
+        //TODO: Get the customer details.
     });
 };
 /**
@@ -63,13 +66,15 @@ customerService.getCustomerData=(dataObject)=>{
  * @param {String | Object} message : the response object or data.
  * @param {ERROR} error : The error message. 
  */
-function _generateCoreResponse(message, error) {
+function _generateCoreResponse(message, successLevel, error, errorLevel) {
     let res = {};
     if (err) {
         res[constants.CORE_RESPONSE] = false;
         res[constants.CORE_ERROR] = error;
+        res[constants.CORE_ERROR_LEVEL] = errorLevel;
     } else {
         res[constants.CORE_RESPONSE] = message;
+        res[constants.CORE_SUCCESS_LEVEL] = successLevel;
         res[constants.CORE_ERROR] = false;
     }
     return res;
