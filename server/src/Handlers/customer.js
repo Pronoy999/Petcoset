@@ -42,9 +42,35 @@ customerHandler.customer = (dataObject) => {
                 childWorker.send(serviceData);
                 childWorker.on("message", (childReply) => {
                     if (childReply[constants.CORE_ERROR]) {
-                        responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]);
+                        resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
                     } else {
-                        responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]);
+                        resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+                    }
+                });
+            } else {
+                reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1,
+                    constants.INSUFFICIENT_DATA_MESSAGE));
+            }
+        } else if (dataObject.method === constants.HTTP_GET) {
+            const email = validator.validateEmail(dataObject.queryString[constants.CUSTOMER_EMAIL]) ?
+                dataObject.queryString[constants.CUSTOMER_EMAIL] : false;
+            const phoneNumber = validator.validateNumber(dataObject.queryString[constants.CUSTOMER_PHONE_NUMBER]) ?
+                dataObject.queryString[constants.CUSTOMER_PHONE_NUMBER] : false;
+            const id = validator.validateNumber(dataObject.queryString[constants.CUSTOMER_ID]) ?
+                dataObject.queryString[constants.CUSTOMER_ID] : false;
+            if (email || phoneNumber || id) {
+                const childWorker = childProcess.fork(`${__dirname}/../CoreServices/customer.js`);
+                let serviceData = {};
+                serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+                serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+                serviceData[constants.CORE_TYPE] = constants.CORE_CUSTOMER_GET;
+                serviceData[constants.CORE_DATA] = dataObject.queryString;
+                childWorker.send(serviceData);
+                childWorker.on("message", (childReply) => {
+                    if (childReply[constants.CORE_ERROR]) {
+                        resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+                    } else {
+                        resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
                     }
                 });
             } else {
