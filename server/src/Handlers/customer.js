@@ -38,6 +38,7 @@ customerHandler.customer = (dataObject) => {
                 serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
                 serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
                 serviceData[constants.CORE_DATA] = dataObject.postData;
+                serviceData[constants.CORE_TYPE] = constants.CORE_CUSTOMER_CREATE;
                 childWorker.send(serviceData);
                 childWorker.on("message", (childReply) => {
                     if (childReply[constants.CORE_ERROR]) {
