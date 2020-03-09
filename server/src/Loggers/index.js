@@ -22,6 +22,7 @@ logger.appendLogs = (logData) => {
             });
     });
 };
+//TODO: Create API Logger.
 /**
  * Exporting the Loggers.
  */
