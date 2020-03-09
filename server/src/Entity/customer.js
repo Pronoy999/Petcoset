@@ -41,17 +41,21 @@ class Customer {
         return new Promise((resolve, reject) => {
             this._ownReferalCode = generator.generateRandomToken(6);
             database.runSp(constants.SP_CREATE_CUSTOMER, [this._firstName, this._lastName, this._email,
-            this._phone, this._gender, this._address1, this._address2, this._city, this._state, this._country, this._pincode,
-            this._ownReferalCode, usedReferralCode]).then(_resultSet => {
-                //TODO: Return the customer id.
+                this._phone, this._gender, this._address1, this._address2, this._city, this._state, this._country, this._pincode,
+                this._ownReferalCode, usedReferralCode]).then(_resultSet => {
+                printer.printHighlightedLog(_resultSet);
+                const result = _resultSet[0][0];
+                this._id = result[constants.CUSTOMER_ID];
+                resolve(this._id);
             }).catch(err => {
                 printer.printError(err);
                 reject(err);
             });
         });
     }
+
     /**
-     * Method to get the customer data. 
+     * Method to get the customer data.
      */
     getCustomerDetails() {
         return new Promise((resolve, reject) => {

@@ -11,6 +11,9 @@ queryGenerator.generateSPQuery = (spName, params) => {
     if (validators.validateString(spName)) {
         let query = "CALL " + spName;
         if (params.length > 0) {
+            params = params.filter((data) => {
+                return data !== undefined;
+            });
             query += "(";
             query += (params.map(par => _joinData(par)).join(","));
             return query += ")";
@@ -33,6 +36,7 @@ function _joinData(data) {
     } else if (validators.validateNumber(data)) {
         return data;
     }
+    return "''";
 }
 
 /**

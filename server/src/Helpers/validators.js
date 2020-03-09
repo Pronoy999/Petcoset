@@ -81,7 +81,6 @@ validator.validateBoolean = (data) => {
  */
 validator.validateToken = (token) => {
     return new Promise((resolve, reject) => {
-        console.log(__dirname);
         const worker = childProcess.fork(`${__dirname}/../CoreServices/api.js`);
         let serviceData = {};
         serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];

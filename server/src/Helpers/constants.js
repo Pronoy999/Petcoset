@@ -130,7 +130,7 @@ constants.COLUMN_CREATED = "created";
 constants.COLUMN_MODIFIED_BY = "modified_by";
 constants.COLUMN_MODIFIED = "modified";
 
-constants.CUSTOMER_ID = "id";
+constants.CUSTOMER_ID = "customer_id";
 constants.CUSTOMER_FIRST_NAME = "first_name";
 constants.CUSTOMER_LAST_NAME = "last_name";
 constants.CUSTOMER_EMAIL = "email";

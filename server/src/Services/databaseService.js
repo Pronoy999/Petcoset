@@ -116,9 +116,8 @@ database._runQuery = (queryStatement, connection) => {
 /**
  * Method to execute the Stored Procedures.
  * @param spName: The name of the SPs.
- * @param stringParams: The array containing the parameters.
- * @param numberParams: The number array for parameters.
- * @returns {Promitse<unknown>}: Resolves result if executed, else false.
+ * @param params: The array containing the params for the SP.
+ * @returns {Promise<unknown>}: Resolves result if executed, else false.
  */
 database.runSp = (spName, params) => {
     return new Promise((resolve, reject) => {
@@ -126,7 +125,7 @@ database.runSp = (spName, params) => {
             reject("Invalid SP Name");
             return;
         }
-        let spQuery=queryGenerator.generateSPQuery(spName,params);
+        let spQuery = queryGenerator.generateSPQuery(spName, params);
         printer.printHighlightedLog(spQuery);
         pool.getConnection((err, conn) => {
             if (err) {

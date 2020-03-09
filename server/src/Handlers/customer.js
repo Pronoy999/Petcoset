@@ -1,10 +1,11 @@
 const customerHandler = {};
 const constants = require('./../Helpers/constants');
 const validator = require('./../Helpers/validators');
-const childProcess = require('child_process');
+const printer = require('./../Helpers/printer');
 const responseGenerator = require('./../Services/responseGenerator');
+const childProcess = require('child_process');
 /**
- * Method to handle the customer requests. 
+ * Method to handle the customer requests.
  */
 customerHandler.customer = (dataObject) => {
     return new Promise((resolve, reject) => {
@@ -31,10 +32,11 @@ customerHandler.customer = (dataObject) => {
             const pincode = validator.validateNumber(dataObject.postData[constants.CUSTOMER_PINCODE]) ?
                 dataObject.postData[constants.CUSTOMER_PINCODE] : false;
             const usedCode = validator.validateString(dataObject.postData[constants.CUSTOMER_USED_REFERAL_CODE]) ?
-                dataObject.postData[constants.CUSTOMER_USED_REFERAL_CODE] : false;
+                dataObject.postData[constants.CUSTOMER_USED_REFERAL_CODE] : null;
             if (firstName && lastName && email && phoneNumber && gender && address1 && address2 && city && country && pincode) {
-                const childWorker = childProcess.fork('./../CoreServices/customer.js');
+                const childWorker = childProcess.fork(`${__dirname}/../CoreServices/customer.js`);
                 let serviceData = {};
+                dataObject.postData[constants.CUSTOMER_USED_REFERAL_CODE] = usedCode;
                 serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
                 serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
                 serviceData[constants.CORE_DATA] = dataObject.postData;
@@ -48,8 +50,7 @@ customerHandler.customer = (dataObject) => {
                     }
                 });
             } else {
-                reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1,
-                    constants.INSUFFICIENT_DATA_MESSAGE));
+                reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
             }
         } else if (dataObject.method === constants.HTTP_GET) {
             const email = validator.validateEmail(dataObject.queryString[constants.CUSTOMER_EMAIL]) ?
@@ -74,16 +75,14 @@ customerHandler.customer = (dataObject) => {
                     }
                 });
             } else {
-                reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1,
-                    constants.INSUFFICIENT_DATA_MESSAGE));
+                reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
             }
         } else {
-            reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1,
-                constants.INVALID_METHOD_MESSAGE));
+            reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
         }
     });
 };
 /**
- * Exporting the mdoule. 
+ * Exporting the mdoule.
  */
 module.exports = customerHandler;
