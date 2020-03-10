@@ -12,6 +12,7 @@ const responseGenerator = require('./../Services/responseGenerator');
 const validator = require('./../Helpers/validators');
 const printer = require('./../Helpers/printer');
 const constants = require('./constants');
+const logger = require('./../Loggers/index');
 const server = {};
 /**
  * Core Server logic for parsing and choosing the handlers.
@@ -90,27 +91,36 @@ server.unifiedServer = function (req, res) {
      * @param handlerData: The request object after parsing it.
      */
     function execHandlers(handlerData) {
+        const apiKey = handlerData[constants.API_TOKEN_KEY];
         if (handlerData.path !== 'ping') {
             validator.validateToken(handlerData[constants.API_TOKEN_KEY]).then(() => {
                 delete handlerData[constants.API_TOKEN_KEY];
-                if (handlerData.method === 'options') {
-                    sendResponse({}, 200);
+                if (handlerData.method === constants.HTTP_OPTIONS) {
+                    sendResponse({}, constants.HTTP_SUCCESS);
                 } else {
                     let promise = chosenHandler(handlerData);
                     promise.then((responseObject) => {
+                        const requestKey = generator.generateRandomToken(16);
+                        logger.logApiRequest(requestKey, handlerData.path, responseObject[0], apiKey);
+                        responseObject[1][constants.API_REQUEST_KEY]=requestKey;
                         sendResponse(responseObject[1], responseObject[0]);
                     }).catch(err => {
+                        const requestKey = generator.generateRandomToken(16);
+                        logger.logApiRequest(requestKey, handlerData.path, err[0], apiKey);
+                        err[1][constants.API_REQUEST_KEY]=requestKey;
                         sendResponse(err[1], err[0]);
                     });
                 }
             }).catch(err => {
                 printer.printError(err);
-                const response = responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_4,
-                    constants.FORBIDDEN_MESSAGE);
+                const response = responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_4);
+                const requestKey = generator.generateRandomToken(16);
+                logger.logApiRequest(requestKey, handlerData.path, err[0], apiKey);
+                err[1][constants.API_REQUEST_KEY]=requestKey;
                 sendResponse(response[1], response[0]);
             });
         } else {
-            sendResponse(constants.WELCOME_MESSAGE, 200);
+            sendResponse(constants.WELCOME_MESSAGE, constants.HTTP_SUCCESS);
         }
     }
 };

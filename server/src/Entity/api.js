@@ -7,12 +7,15 @@ class Api {
     /**
      * _apiToken
      * _apiKey
+     * _requestKey
      * @param apiToken
      * @param apiKey
+     * @param requestKey
      */
-    constructor(apiToken, apiKey) {
+    constructor(apiToken, apiKey, requestKey) {
         this._apiToken = validators.validateString(apiToken) ? apiToken : false;
         this._apiKey = validators.validateString(apiKey) ? apiKey : false;
+        this._requestKey = validators.validateString(requestKey) ? requestKey : false;
     }
 
     /**
@@ -29,6 +32,26 @@ class Api {
                     reject(false);
                 }
             }).catch(err => {
+                printer.printError(err);
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * Method to log the API Status.
+     * @param path: The end point.
+     * @param responseCode: The HTTP response Code that was send.
+     * @param apiStatus: The API Status.
+     * @returns {Promise<Boolean>}: true, if successfully logged, else false.
+     */
+    logApiStatus(path, responseCode, apiStatus) {
+        return new Promise((resolve, reject) => {
+            database.runSp(constants.SP_LOG_API_STATUS, [this._requestKey, path, apiStatus, responseCode, this._apiKey])
+                .then(_resultSet => {
+                    printer.printHighlightedLog("API Status Logged: " + _resultSet);
+                    resolve(true);
+                }).catch(err => {
                 printer.printError(err);
                 reject(err);
             });

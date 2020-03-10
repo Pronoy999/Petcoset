@@ -16,6 +16,9 @@ process.on("message", (serviceData) => {
             case constants.CORE_API_TOKEN_CHECK:
                 promise = apiService.checkApiValidity(serviceData[constants.CORE_DATA]);
                 break;
+            case constants.CORE_API_LOG:
+                promise = apiService.logAPIStatus(serviceData[constants.CORE_DATA]);
+                break;
         }
         promise.then(() => {
             process.send(responseGenerator.generateCoreResponse(true, constants.RESPONSE_SUCESS_LEVEL_1));
@@ -23,7 +26,7 @@ process.on("message", (serviceData) => {
         }).catch(err => {
             printer.printError(err);
             process.send(responseGenerator.generateCoreResponse(false, false, true, constants.ERROR_LEVEL_4));
-            process.exit(0);
+            process.exit(1);
         });
     } else {
         process.send(responseGenerator.generateCoreResponse(false, false,
@@ -40,6 +43,23 @@ apiService.checkApiValidity = (dataObject) => {
     return new Promise((resolve, reject) => {
         const api = new Api(dataObject[constants.API_TOKEN_KEY]);
         api.isValid().then(() => {
+            resolve(true);
+        }).catch(err => {
+            printer.printError(err);
+            reject(err);
+        });
+    });
+};
+/**
+ * Method to handle the API Logger Status.
+ * @param dataObject: The Core service data.
+ * @returns {Promise<Boolean>}: true if successful, else false.
+ */
+apiService.logAPIStatus = (dataObject) => {
+    return new Promise((resolve, reject) => {
+        const api = new Api(false, dataObject[constants.API_TOKEN_KEY], dataObject[constants.API_REQUEST_KEY]);
+        api.logApiStatus(dataObject[constants.API_PATH], dataObject[constants.API_LOGGER_RESPONSE_CODE],
+            dataObject[constants.API_LOGGER_STATUS]).then(() => {
             resolve(true);
         }).catch(err => {
             printer.printError(err);

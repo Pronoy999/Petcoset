@@ -51,14 +51,21 @@ constants.ROLE_EMPLOYEE = "Employee";
  * Request Keys.
  */
 constants.API_TOKEN_KEY = "key";
+constants.API_REQUEST_KEY = "request_Key";
 constants.REQUEST_TYPE = "type";
-
+/**
+ * Status Values
+ */
+constants.STATUS_PROCESSING = 1;
+constants.STATUS_COMPLETED = 2;
+constants.STATUS_ERROR = 3;
 /**
  * API Methods.
  */
 constants.HTTP_POST = "post";
 constants.HTTP_GET = "get";
 constants.HTTP_PUT = "put";
+constants.HTTP_OPTIONS = "options";
 
 /**
  * Response Codes and messages.
@@ -115,12 +122,14 @@ constants.CORE_CUSTOMER_CREATE = "createCustomer";
 constants.CORE_CUSTOMER_GET = "getCustomer";
 constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
 constants.CORE_API_TOKEN_CHECK = "checkApiToken";
+constants.CORE_API_LOG = "logAPIStatus";
 /**
  * SP Names.
  */
 constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
 constants.SP_GET_CUSTOMER = "sp_getCustomerDetails";
 constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
+constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 
 /**
  * Column Names
@@ -146,6 +155,10 @@ constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
 constants.IS_VALID = "isValid";
 
+constants.API_PATH = "path";
+constants.API_LOGGER_TOKEN = "api_token";
+constants.API_LOGGER_RESPONSE_CODE = "response_code";
+constants.API_LOGGER_STATUS = "api_status";
 
 /**
  * exporting the constants.
