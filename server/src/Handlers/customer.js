@@ -2,7 +2,6 @@ const customerHandler = {};
 const constants = require('./../Helpers/constants');
 const validator = require('./../Helpers/validators');
 const printer = require('./../Helpers/printer');
-const generator = require('./../Services/generator');
 const responseGenerator = require('./../Services/responseGenerator');
 const childProcess = require('child_process');
 /**
@@ -44,7 +43,6 @@ customerHandler.customer = (dataObject) => {
                 serviceData[constants.CORE_TYPE] = constants.CORE_CUSTOMER_CREATE;
                 childWorker.send(serviceData);
                 childWorker.on("message", (childReply) => {
-                    const requestKey = generator.generateRandomToken(16);
                     if (childReply[constants.CORE_ERROR]) {
                         resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
                     } else {
@@ -85,6 +83,6 @@ customerHandler.customer = (dataObject) => {
     });
 };
 /**
- * Exporting the mdoule.
+ * Exporting the module.
  */
 module.exports = customerHandler;
