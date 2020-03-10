@@ -35,7 +35,8 @@ function _joinData(data) {
         return "'" + data + "'";
     } else if (validators.validateNumber(data)) {
         return data;
-    }
+    } else if (!data)
+        return "''";
     return "''";
 }
 

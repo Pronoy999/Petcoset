@@ -32,7 +32,7 @@ validator.validatePhone = (phoneNumber) => {
  * @returns {boolean} true if valid, else false.
  */
 validator.validateNumber = (number) => {
-    if (typeof (number) !== 'undefined' && number !== null) {
+    if (typeof (number) !== 'undefined' && number !== null && number) {
         return Number(number) > -1;
     }
     return false;
