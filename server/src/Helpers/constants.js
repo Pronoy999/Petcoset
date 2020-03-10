@@ -127,7 +127,7 @@ constants.CORE_API_LOG = "logAPIStatus";
  * SP Names.
  */
 constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
-constants.SP_GET_CUSTOMER = "sp_getCustomerDetails";
+constants.SP_GET_CUSTOMER = "sp_CustomerSearch";
 constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 

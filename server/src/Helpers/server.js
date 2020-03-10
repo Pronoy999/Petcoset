@@ -102,12 +102,12 @@ server.unifiedServer = function (req, res) {
                     promise.then((responseObject) => {
                         const requestKey = generator.generateRandomToken(16);
                         logger.logApiRequest(requestKey, handlerData.path, responseObject[0], apiKey);
-                        responseObject[1][constants.API_REQUEST_KEY]=requestKey;
+                        responseObject[1][constants.API_REQUEST_KEY] = requestKey;
                         sendResponse(responseObject[1], responseObject[0]);
                     }).catch(err => {
                         const requestKey = generator.generateRandomToken(16);
                         logger.logApiRequest(requestKey, handlerData.path, err[0], apiKey);
-                        err[1][constants.API_REQUEST_KEY]=requestKey;
+                        err[1][constants.API_REQUEST_KEY] = requestKey;
                         sendResponse(err[1], err[0]);
                     });
                 }
@@ -116,7 +116,7 @@ server.unifiedServer = function (req, res) {
                 const response = responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_4);
                 const requestKey = generator.generateRandomToken(16);
                 logger.logApiRequest(requestKey, handlerData.path, err[0], apiKey);
-                err[1][constants.API_REQUEST_KEY]=requestKey;
+                err[1][constants.API_REQUEST_KEY] = requestKey;
                 sendResponse(response[1], response[0]);
             });
         } else {

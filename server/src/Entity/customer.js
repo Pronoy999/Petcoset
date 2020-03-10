@@ -59,8 +59,9 @@ class Customer {
      */
     getCustomerDetails() {
         return new Promise((resolve, reject) => {
-            database.runSp(constants.SP_GET_CUSTOMER, [this._id, this._email, this._phone]).then(_resultSet => {
-                //TODO Get the customer data. 
+            database.runSp(constants.SP_GET_CUSTOMER, [this._email, this._phone, this._id]).then(_resultSet => {
+                const result = _resultSet[0][0];
+                resolve(result);
             }).catch(err => {
                 printer.printError(err);
                 reject(err);

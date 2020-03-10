@@ -16,7 +16,9 @@ process.on("message", (serviceData) => {
             case constants.CORE_CUSTOMER_CREATE:
                 promise = customerService.createCustomer(serviceData[constants.CORE_DATA]);
                 break;
-            //case constants.CORE_CUSTOMER_GET:
+            case constants.CORE_CUSTOMER_GET:
+                promise = customerService.getCustomerData(serviceData[constants.CORE_DATA]);
+                break;
         }
         promise.then((data) => {
             process.send(responseGenerator.generateCoreResponse(data[0], data[1], false, false));
@@ -47,7 +49,6 @@ customerService.createCustomer = (dataObject) => {
         customer.createCustomer(dataObject[constants.CUSTOMER_USED_REFERAL_CODE]).then(customerId => {
             resolve([customerId, constants.RESPONSE_SUCESS_LEVEL_1]);
         }).catch(err => {
-            printer.printError(err);
             reject([err, constants.ERROR_LEVEL_3]);
         });
     });
@@ -61,6 +62,10 @@ customerService.getCustomerData = (dataObject) => {
         const customerEmail = dataObject[constants.CUSTOMER_EMAIL];
         const customerPhone = dataObject[constants.CUSTOMER_PHONE_NUMBER];
         const customer = new Customer(customerId, false, false, customerEmail, customerPhone);
-        //TODO: Get the customer details.
+        customer.getCustomerDetails().then(customerDetails => {
+            resolve([customerDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+        }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+        });
     });
 };
