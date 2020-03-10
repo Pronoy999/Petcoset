@@ -68,6 +68,12 @@ class Customer {
             });
         });
     }
+
+    updateCustomerDetails() {
+        return new Promise((resolve, reject) => {
+            //TODO: Update the customer details.
+        });
+    }
 }
 
 /**
