@@ -13,17 +13,17 @@ BEGIN
             CREATE TABLE tbl_ApiLogger
             (
                 id            INT PRIMARY KEY auto_increment,
-                request_Key   varchar(50) NOT NULL,
-                api_key       varchar(200) NOT NULL,
-                path          varchar(50) NOT NULL,
-                response_code INT         NOT NULL,
-                apiStatus     INT         NOT NULL,
-                created_by    INT         NOT NULL,
+                request_Key   varchar(50)  NOT NULL,
+                api_token     varchar(200) NOT NULL,
+                path          varchar(50)  NOT NULL,
+                response_code INT          NOT NULL,
+                api_status    INT          NOT NULL,
+                created_by    INT          NOT NULL,
                 created       timestamp DEFAULT CURRENT_TIMESTAMP(),
                 updated_by    INT,
                 updated       timestamp,
-                constraint FOREIGN KEY (apiStatus) REFERENCES tbl_StatusMaster (id),
-                constraint FOREIGN KEY (api_key) REFERENCES tbl_ApiToken (apiKey)
+                constraint FOREIGN KEY (api_status) REFERENCES tbl_StatusMaster (id),
+                constraint FOREIGN KEY (api_token) REFERENCES tbl_ApiToken (apiToken)
             );
         end;
     end if;

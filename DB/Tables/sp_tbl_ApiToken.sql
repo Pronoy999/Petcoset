@@ -19,9 +19,9 @@ BEGIN
                 created_by INT                     NOT NULL,
                 created    TIMESTAMP DEFAULT NOW() NOT NULL,
                 updated_by INT,
-                updated    TIMESTAMP
+                updated    TIMESTAMP,
+                UNIQUE INDEX IDX_apiToken (apiToken)
             );
-            CREATE UNIQUE INDEX IDX_apiKey ON tbl_ApiToken (apiKey);
         end;
     end if;
 end;
