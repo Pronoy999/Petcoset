@@ -21,6 +21,7 @@ BEGIN
                 updated_by INT,
                 updated    TIMESTAMP
             );
+            CREATE UNIQUE INDEX IDX_apiKey ON tbl_ApiToken (apiKey);
         end;
     end if;
 end;

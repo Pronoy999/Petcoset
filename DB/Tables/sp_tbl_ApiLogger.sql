@@ -14,6 +14,7 @@ BEGIN
             (
                 id            INT PRIMARY KEY auto_increment,
                 request_Key   varchar(50) NOT NULL,
+                api_key       varchar(200) NOT NULL,
                 path          varchar(50) NOT NULL,
                 response_code INT         NOT NULL,
                 apiStatus     INT         NOT NULL,
@@ -21,7 +22,8 @@ BEGIN
                 created       timestamp DEFAULT CURRENT_TIMESTAMP(),
                 updated_by    INT,
                 updated       timestamp,
-                constraint FOREIGN KEY (apiStatus) REFERENCES tbl_StatusMaster (id)
+                constraint FOREIGN KEY (apiStatus) REFERENCES tbl_StatusMaster (id),
+                constraint FOREIGN KEY (api_key) REFERENCES tbl_ApiToken (apiKey)
             );
         end;
     end if;
