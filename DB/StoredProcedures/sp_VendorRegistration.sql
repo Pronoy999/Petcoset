@@ -8,18 +8,22 @@ create procedure sp_VendorRegistration(par_firstName varchar(255),
                                        par_address1 varchar(255),
                                        par_address2 varchar(255),
                                        par_city int,
-                                       par_state int,
-                                       par_country int,
-                                       par_pinCode int)
+                                       par_pincode int,
+                                       par_documentType varchar(255),
+                                       par_documentId varchar(255))
 BEGIN
-        (select 1 into @EmailId from tbl_VendorMaster where email = par_emailId);
-    (select 1 into @PhoneNo from tbl_VendorMaster where phone_number = par_phoneNo);
+    SET @EmailId = 0;
+    SET @PhoneNo = 0;
+    SET @documentId = 0;
+    select 1 into @EmailId from tbl_VendorMaster where email = par_emailId;
+    select 1 into @PhoneNo from tbl_VendorMaster where phone_number = par_phoneNo;
+    SELECT 1 into @documentId from tbl_IdentificationDocumentMaster WHERE document_id_number = par_documentId;
     SELECT AUTO_INCREMENT
-    INTO @id
+    INTO @vendorId
     FROM information_schema.TABLES
     WHERE TABLE_SCHEMA = (SELECT DATABASE())
       AND TABLE_NAME = 'tbl_VendorMaster';
-    IF (@EmailId <> 1 OR @PhoneNo <> 1)
+    IF (@EmailId = 1 OR @PhoneNo = 1 OR @documentId = 1)
     THEN
         Select -1 as id;
     ELSE
@@ -32,9 +36,8 @@ BEGIN
          address_1,
          address_2,
          city,
-         state,
-         country,
-         pincode)
+         pincode,
+         created_by)
         values (par_firstName,
                 par_lastName,
                 par_emailId,
@@ -43,10 +46,12 @@ BEGIN
                 par_address1,
                 par_address2,
                 par_city,
-                par_state,
-                par_country,
-                par_pinCode);
-        SELECT @id;
+                par_pincode,
+                @vendorId);
+        INSERT INTO tbl_IdentificationDocumentMaster(document_holder_id, document_holder_type, document_type,
+                                                     document_id_number, created_by)
+        VALUES (@vendorId, 'tbl_VendorMaster', par_documentType, par_documentId, @vendorId);
+        SELECT @vendorId as id;
     END IF;
 END$$
 delimiter ;
