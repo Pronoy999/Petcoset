@@ -130,6 +130,7 @@ constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
 constants.SP_GET_CUSTOMER = "sp_CustomerSearch";
 constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
+constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
 
 /**
  * Column Names
@@ -154,6 +155,24 @@ constants.CUSTOMER_PINCODE = "pincode";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
 constants.IS_VALID = "isValid";
+
+constants.VENDOR_ID = "vendor_id";
+constants.VENDOR_FIRST_NAME = "first_name";
+constants.VENDOR_LAST_NAME = "last_name";
+constants.VENDOR_EMAIL = "email";
+constants.VENDOR_PHONE_NUMBER = "phone_number";
+constants.VENDOR_GENDER = "gender";
+constants.VENDOR_ADDRESS_1 = "address_1";
+constants.VENDOR_ADDRESS_2 = "address_2";
+constants.VENDOR_CITY = "city";
+constants.VENDOR_STATE = "state";
+constants.VENDOR_COUNTRY = "country";
+constants.VENDOR_PINCODE = "pincode";
+
+constants.DOCUMENT_HOLDER_ID = "document_holder_id";
+constants.DOCUMENT_HOLDER_TYPE = "document_holder_type";
+constants.DOCUMENT_TYPE = "document_type";
+constants.DOCUMENT_ID_NUMBER = "document_id_number";
 
 constants.API_PATH = "path";
 constants.API_LOGGER_TOKEN = "api_token";

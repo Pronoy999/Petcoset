@@ -43,9 +43,27 @@ class Vendor {
         this._gender = validators.validateCharacter(gender) ? gender : false;
     }
 
+    /**
+     * Method to register the vendor.
+     * @param documentIdentificationNumber: The identification document number.
+     * @param documentType: The identification Document Type.
+     * @returns {Promise<unknown>}
+     */
     createVendor(documentIdentificationNumber, documentType) {
         return new Promise((resolve, reject) => {
-            //TODO: Register the Vendor.
+            database.runSp(constants.SP_CREATE_VENDOR, [this._firstName, this._lastName, this._email,
+                this._phone, this._gender, this._address1, this._address2, this._city, this._country, this._pincode,
+                documentType, documentIdentificationNumber])
+                .then(_resultSet => {
+                    const result = _resultSet[0][0];
+                    if (validators.validateUndefined(result)) {
+                        resolve(result);
+                    } else {
+                        resolve({"id": -1});
+                    }
+                }).catch(err => {
+                printer.printError(err);
+            });
         });
     }
 }
