@@ -49,8 +49,8 @@ BEGIN
                 par_pincode,
                 @vendorId);
         INSERT INTO tbl_IdentificationDocumentMaster(document_holder_id, document_holder_type, document_type,
-                                                     document_id_number, created_by)
-        VALUES (@vendorId, 'tbl_VendorMaster', par_documentType, par_documentId, @vendorId);
+                                                     document_id_number, is_active, created_by)
+        VALUES (@vendorId, 'tbl_VendorMaster', par_documentType, par_documentId, 1, @vendorId);
         SELECT @vendorId as id;
     END IF;
 END$$
