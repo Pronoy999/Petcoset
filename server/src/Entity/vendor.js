@@ -14,7 +14,6 @@ class Vendor {
      * _address2
      * _pincode
      * _city
-     * _country
      * _gender
      * @param vendorId
      * @param firstName
@@ -25,11 +24,9 @@ class Vendor {
      * @param address2
      * @param pincode
      * @param city
-     * @param country
      * @param gender
      */
-    constructor(vendorId, firstName, lastName, email, phone, address1, address2, pincode, city,
-                country, gender) {
+    constructor(vendorId, firstName, lastName, email, phone, address1, address2, pincode, city, gender) {
         this._vendorId = validators.validateNumber(vendorId) ? vendorId : false;
         this._firstName = validators.validateString(firstName) ? firstName : false;
         this._lastName = validators.validateString(lastName) ? lastName : false;
@@ -39,7 +36,6 @@ class Vendor {
         this._address2 = validators.validateString(address2) ? address2 : false;
         this._pincode = validators.validateNumber(pincode) ? pincode : false;
         this._city = validators.validateNumber(city) ? city : false;
-        this._country = validators.validateNumber(country) ? country : false;
         this._gender = validators.validateCharacter(gender) ? gender : false;
     }
 
@@ -52,7 +48,7 @@ class Vendor {
     createVendor(documentIdentificationNumber, documentType) {
         return new Promise((resolve, reject) => {
             database.runSp(constants.SP_CREATE_VENDOR, [this._firstName, this._lastName, this._email,
-                this._phone, this._gender, this._address1, this._address2, this._city, this._country, this._pincode,
+                this._phone, this._gender, this._address1, this._address2, this._city, this._pincode,
                 documentType, documentIdentificationNumber])
                 .then(_resultSet => {
                     const result = _resultSet[0][0];
@@ -63,6 +59,7 @@ class Vendor {
                     }
                 }).catch(err => {
                 printer.printError(err);
+                reject(err);
             });
         });
     }

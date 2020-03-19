@@ -123,6 +123,8 @@ constants.CORE_CUSTOMER_GET = "getCustomer";
 constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
 constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
+constants.CORE_VENDOR_CREATE = "createVendor";
+constants.CORE_VENDOR_GET = "getVendor";
 /**
  * SP Names.
  */
