@@ -58,7 +58,7 @@ customerHandler.customer = (dataObject) => {
             const phoneNumber = validator.validateNumber(dataObject.queryString[constants.CUSTOMER_PHONE_NUMBER]) ?
                 dataObject.queryString[constants.CUSTOMER_PHONE_NUMBER] : false;
             const id = validator.validateNumber(dataObject.queryString[constants.CUSTOMER_ID]) ?
-                dataObject.queryString[constants.CUSTOMER_ID] : false;
+                dataObject.queryString[constants.CUSTOMER_ID] : -1;
             if (email || phoneNumber || id) {
                 const childWorker = childProcess.fork(`${__dirname}/../CoreServices/customer.js`);
                 let serviceData = {};

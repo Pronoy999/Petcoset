@@ -21,7 +21,7 @@ process.on("message", (serviceData) => {
                 break;
         }
         promise.then((data) => {
-            process.send(responseGenerator.generateCoreResponse(data[0], data[1], false, false));
+            process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
             process.exit(0);
         }).catch(err => {
             process.send(responseGenerator.generateCoreResponse(false, false, err[0], err[1]));
@@ -36,7 +36,7 @@ process.on("message", (serviceData) => {
 /**
  * Method to create the Customer.
  * @param dataObject: The customer data.
- * @returns {Promise<Any>} customerId if success, else ERROR.
+ * @returns {Promise<Array>} customerId if success, else ERROR.
  */
 customerService.createCustomer = (dataObject) => {
     return new Promise((resolve, reject) => {

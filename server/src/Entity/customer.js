@@ -61,11 +61,21 @@ class Customer {
         return new Promise((resolve, reject) => {
             database.runSp(constants.SP_GET_CUSTOMER, [this._email, this._phone, this._id]).then(_resultSet => {
                 const result = _resultSet[0][0];
-                resolve(result);
+                if (validators.validateUndefined(result)) {
+                    resolve(result);
+                } else {
+                    resolve({"id": -1});
+                }
             }).catch(err => {
                 printer.printError(err);
                 reject(err);
             });
+        });
+    }
+
+    updateCustomerDetails() {
+        return new Promise((resolve, reject) => {
+            //TODO: Update the customer details.
         });
     }
 }

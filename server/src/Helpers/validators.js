@@ -92,7 +92,7 @@ validator.validateToken = (token) => {
             if (serviceReply[constants.CORE_RESPONSE]) {
                 resolve(true);
             } else {
-                reject(false);
+                reject([constants.FORBIDDEN_REQUEST_CODE,constants.FORBIDDEN_MESSAGE]);
             }
         });
     });
