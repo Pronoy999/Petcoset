@@ -63,6 +63,27 @@ class Vendor {
             });
         });
     }
+
+    /**
+     * Method to get the vendor details.
+     * @returns {Promise<unknown>}
+     */
+    getVendor() {
+        return new Promise((resolve, reject) => {
+            database.runSp(constants.SP_GET_VENDOR, [this._email, this._phone, this._vendorId])
+                .then(_resultSet => {
+                    const result = _resultSet[0][0];
+                    if (validators.validateUndefined(result)) {
+                        resolve(result);
+                    } else {
+                        resolve({"id": -1});
+                    }
+                }).catch(err => {
+                printer.printError(err);
+                reject(err);
+            });
+        });
+    }
 }
 
 /**

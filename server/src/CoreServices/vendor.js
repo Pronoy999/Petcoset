@@ -58,6 +58,12 @@ vendorService.createVendor = (dataObject) => {
  */
 vendorService.getVendor = (dataObject) => {
     return new Promise((resolve, reject) => {
-
+        const vendor = new Vendor(dataObject[constants.VENDOR_ID], false, false,
+            dataObject[constants.VENDOR_EMAIL], dataObject[constants.VENDOR_PINCODE]);
+        vendor.getVendor().then(vendorDetails => {
+            resolve([vendorDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+        }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+        });
     });
 };

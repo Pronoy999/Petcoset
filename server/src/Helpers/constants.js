@@ -133,6 +133,7 @@ constants.SP_GET_CUSTOMER = "sp_CustomerSearch";
 constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
+constants.SP_GET_VENDOR = "sp_VendorSearch";
 
 /**
  * Column Names

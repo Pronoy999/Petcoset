@@ -53,6 +53,31 @@ vendorHandler.vendor = (dataObject) => {
             } else {
                 reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
             }
+        } else if (method === constants.HTTP_GET) {
+            const email = validator.validateEmail(dataObject.queryString[constants.VENDOR_EMAIL]) ?
+                dataObject.queryString[constants.VENDOR_EMAIL] : false;
+            const phoneNumber = validator.validatePhone(dataObject.queryString[constants.VENDOR_PHONE_NUMBER]) ?
+                dataObject.queryString[constants.VENDOR_PHONE_NUMBER] : false;
+            const vendorId = validator.validateNumber(dataObject.queryString[constants.VENDOR_ID]) ?
+                dataObject.queryString[constants.VENDOR_ID] : false;
+            if (email || phoneNumber || vendorId) {
+                let serviceData = {};
+                serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+                serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+                serviceData[constants.CORE_DATA] = dataObject.queryString;
+                serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_GET;
+                const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+                childWorker.send(serviceData);
+                childWorker.on("message", (childReply) => {
+                    if (childReply[constants.CORE_ERROR]) {
+                        resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+                    } else {
+                        resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+                    }
+                });
+            } else {
+                reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+            }
         } else {
             reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
         }
