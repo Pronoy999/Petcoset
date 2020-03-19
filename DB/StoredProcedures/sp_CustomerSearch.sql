@@ -7,7 +7,7 @@ BEGIN
         SELECT -1 as id;
     else
         SELECT concat(
-                       'SELECT C.id, first_name, last_name, email, phone_number, gender, address_1, address_2, CM.city_name, state, country, pincode,
+                       'SELECT C.id, first_name, last_name, email, phone_number, gender, address_1, address_2, CM.city_name, pincode,
                       referral_code, used_referral_code
                FROM tbl_CustomerMaster C,tbl_CityMaster CM
                WHERE CM.id=C.city ',
