@@ -12,10 +12,10 @@ BEGIN
         ) THEN
         CREATE TABLE IF NOT EXISTS `tbl_EmployeeServiceMapping` 
 		(
-		   `id` int(11) NOT NULL AUTO_INCREMENT,
-		   `employee_id` int(11) DEFAULT NULL,
-		   `service_id` int(11) DEFAULT NULL,
-		   PRIMARY KEY (`id`)
+			`id` int(11) NOT NULL AUTO_INCREMENT,
+			`employee_id` int(11) DEFAULT NULL,
+			`service_id` int(11) DEFAULT NULL,
+			PRIMARY KEY (`id`)
 		);
     end if;
 end$$
