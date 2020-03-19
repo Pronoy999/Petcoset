@@ -1,5 +1,6 @@
 const constants = require('./../Helpers/constants');
 const customer = require('./customer');
+const vendor = require('./vendor');
 const responseGenerator = require('./../Services/responseGenerator');
 const handlerObj = {};
 /**
@@ -21,6 +22,28 @@ handlerObj.customers = (dataObject) => {
         switch (dataObject.path) {
             case "customers":
                 promise = customer.customer(dataObject);
+                break;
+            default:
+                reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
+        }
+        promise.then(data => {
+            resolve(data);
+        }).catch(err => {
+            reject(err);
+        });
+    });
+};
+/**
+ * Method to handle the vendor requests.
+ * @param dataObject: The request obejct.
+ * @returns {Promise<Array.>}
+ */
+handlerObj.vendor = (dataObject) => {
+    return new Promise((resolve, reject) => {
+        let promise;
+        switch (dataObject.path) {
+            case "vendors":
+                promise = vendor.vendor(dataObject);
                 break;
             default:
                 reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));

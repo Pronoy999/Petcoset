@@ -10,7 +10,8 @@ BEGIN
             WHERE TABLE_SCHEMA = currentSchema
               AND TABLE_NAME = 'tbl_IdentificationDocumentMaster'
         ) THEN
-        CREATE TABLE IF EXISTS `tbl_IdentificationDocumentMaster` (
+
+        CREATE TABLE IF NOT EXISTS `tbl_IdentificationDocumentMaster` (
 		  `id` int(11) NOT NULL AUTO_INCREMENT,
 		  `document_holder_id` int(11) DEFAULT NULL,
 		  `document_holder_type` varchar(250) DEFAULT NULL,
