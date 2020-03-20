@@ -125,6 +125,8 @@ constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
+constants.CORE_CREATE_SERVICE = "createService";
+constants.CORE_GET_SERVICE = "getService";
 /**
  * SP Names.
  */
@@ -142,6 +144,7 @@ constants.COLUMN_CREATED_BY = "created_by";
 constants.COLUMN_CREATED = "created";
 constants.COLUMN_MODIFIED_BY = "modified_by";
 constants.COLUMN_MODIFIED = "modified";
+constants.EMPLOYEE_ID = "employee_id";
 
 constants.CUSTOMER_ID = "customer_id";
 constants.CUSTOMER_FIRST_NAME = "first_name";
@@ -181,6 +184,10 @@ constants.API_PATH = "path";
 constants.API_LOGGER_TOKEN = "api_token";
 constants.API_LOGGER_RESPONSE_CODE = "response_code";
 constants.API_LOGGER_STATUS = "api_status";
+
+constants.SERVICE_NAME = "";
+constants.SERVICE_ID = "service_id";
+
 
 /**
  * exporting the constants.
