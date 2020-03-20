@@ -2,7 +2,8 @@ const handlers = require('./../Handlers');
 const validator = require('./validators');
 const routes = {
     "customers": handlers.customers,
-    "vendors": handlers.vendor
+    "vendors": handlers.vendor,
+    "services": handlers.service
 };
 
 const path = {};
