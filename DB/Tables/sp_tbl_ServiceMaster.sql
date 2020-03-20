@@ -15,7 +15,7 @@ BEGIN
 		  `id` int(11) NOT NULL AUTO_INCREMENT,
 		  `service_name` varchar(100) NOT NULL,
 		  `service_type` varchar(100) NOT NULL,
-		  `is_active` tinyint(4) DEFAULT NULL,
+		  `is_active` tinyint(4) DEFAULT '1',
 		  `created_by` int(11) NOT NULL,
 		  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
 		  `modified_by` int(11) DEFAULT NULL,
