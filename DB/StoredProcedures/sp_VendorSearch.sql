@@ -1,6 +1,5 @@
 drop procedure if exists sp_VendorSearch;
-delimiter $$
-create procedure sp_VendorSearch(in par_email varchar(100),in par_phno varchar(100),in par_id int)
+create procedure sp_VendorSearch(IN par_email varchar(100), IN par_phno varchar(100), IN par_id int)
 BEGIN
 	 if (length(par_email) < 5 and length(par_phno) < 10 and par_id < 1)
     then
@@ -27,5 +26,5 @@ BEGIN
 		DEALLOCATE PREPARE stmt_Growth;
 	end if;
         
-END$$
-Delimiter ;
+END;
+
