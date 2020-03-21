@@ -23,9 +23,9 @@ constants.TIME_ZONE = "Asia/Kolkata";
  * Validation strings.
  */
 constants.EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+   + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 constants.PASSWORD_REGEX = "(?=^.{6,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])" +
-    "(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$";
+   "(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$";
 constants.PHONE_NUMBER_PREFIX = "+91";
 constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
@@ -33,10 +33,10 @@ constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
  * Header Data.
  */
 constants.HEADERS = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
-    'Access-Control-Max-Age': 2592000,
-    'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
+   'Access-Control-Allow-Origin': '*',
+   'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
+   'Access-Control-Max-Age': 2592000,
+   'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
 };
 constants.CONTENT_TYPE_TEXT = "Content-Type";
 constants.CONTENT_TYPE_JSON = "application/json";
@@ -127,15 +127,17 @@ constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
+constants.CORE_AUTH_CHECK = "authCheck";
 /**
  * SP Names.
  */
-constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
+constants.SP_CREATE_CUSTOMER = "sp_CustomerRegistration";
 constants.SP_GET_CUSTOMER = "sp_CustomerSearch";
 constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
 constants.SP_GET_VENDOR = "sp_VendorSearch";
+constants.SP_LOGIN = "";
 
 /**
  * Column Names
@@ -150,6 +152,7 @@ constants.CUSTOMER_ID = "customer_id";
 constants.CUSTOMER_FIRST_NAME = "first_name";
 constants.CUSTOMER_LAST_NAME = "last_name";
 constants.CUSTOMER_EMAIL = "email";
+constants.CUSTOMER_PASSWORD = "password";
 constants.CUSTOMER_PHONE_NUMBER = "phone_number";
 constants.CUSTOMER_GENDER = "gender";
 constants.CUSTOMER_ADDRESS_1 = "address_1";
@@ -187,6 +190,9 @@ constants.API_LOGGER_STATUS = "api_status";
 
 constants.SERVICE_NAME = "";
 constants.SERVICE_ID = "service_id";
+
+constants.AUTH_EMAIL = "email_id";
+constants.AUTH_PASSWORD = "password";
 
 
 /**
