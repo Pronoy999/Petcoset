@@ -1,6 +1,6 @@
-DROP PROCEDURE IF EXISTS sp_insertCustomer;
+DROP PROCEDURE IF EXISTS sp_CustomerRegistration;
 DELIMITER $$
-CREATE PROCEDURE `sp_insertCustomer`(IN firstName varchar(255), IN lastName varchar(255),
+CREATE PROCEDURE `sp_CustomerRegistration`(IN firstName varchar(255), IN lastName varchar(255),
                                      in emailId varchar(255), in phoneNumber varchar(13), in customerGender varchar(1),
                                      in address1 varchar(255),
                                      in address2 varchar(255), in cityId INT, in stateId INT, in countryId int,
