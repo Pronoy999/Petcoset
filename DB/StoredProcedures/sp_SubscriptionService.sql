@@ -27,7 +27,7 @@ begin
 		                select L.StrVal as ServiceName,
 		                        C.StrVal as ServiceCount
 		                from Temp_tblSubscriptionList L
-		                    right join Temp_tblServiceCount C
+		                    inner join Temp_tblServiceCount C
 		                    ON L.ID = C.ID
 		            )
                     ;
