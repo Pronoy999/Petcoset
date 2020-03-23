@@ -15,6 +15,8 @@ BEGIN
 		  `id` int(11) NOT NULL AUTO_INCREMENT,
 		  `subscription_name` varchar(200) NOT NULL,
 		  `subscription_amount` decimal(18,2) DEFAULT NULL,
+          `start_date` date DEFAULT NULL,
+          `end_date` date DEFAULT NULL,
 		  `is_active` tinyint(4) DEFAULT '1',
 		  `created_by` int(11) NOT NULL,
 		  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
