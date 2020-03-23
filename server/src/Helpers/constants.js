@@ -131,6 +131,7 @@ constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
+constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
 /**
  * SP Names.
  */
