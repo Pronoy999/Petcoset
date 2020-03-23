@@ -44,17 +44,19 @@ class Service {
     */
    getServiceDetails() {
       return new Promise((resolve, reject) => {
-         //TODO: Get the service details.
-      });
-   }
-
-   /**
-    * Method to update the service name.
-    * @returns {Promise<unknown>}
-    */
-   updateServiceName() {
-      return new Promise((resolve, reject) => {
-         //TODO: Update the service name.
+         database.runSp(constants.SP_SERVICE_SEARCH, [this._serviceName, this._serviceType, this._serviceId])
+            .then(_resultSet => {
+               const result = _resultSet[0];
+               //If empty array is returned then blank array is returned.
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  resolve([]);
+               }
+            }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
       });
    }
 }

@@ -141,8 +141,8 @@ constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
 constants.SP_GET_VENDOR = "sp_VendorSearch";
 constants.SP_SERVICE_REGISTRATION = "sp_ServicesRegistration";
-constants.SP_LOGIN = "";
-//TODO: Insert the SP name.
+constants.SP_SERVICE_SEARCH = "sp_SearchServices";
+constants.SP_LOGIN = "sp_LoginGeneric";
 
 /**
  * Column Names
