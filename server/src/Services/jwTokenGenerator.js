@@ -9,14 +9,7 @@ const tokenGenerator = {};
  */
 tokenGenerator.getToken = (data) => {
    const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/first.pem"), "utf8");
-   let tokenObj = {};
-   const keys = Object.keys(data);
-   for (let oneKey in keys) {
-      tokenObj[keys[oneKey]] = data[keys[oneKey]];
-   }
-   const token = jwt.sign(tokenObj, keyFile, {algorithm: 'RS256', expiresIn: "4h"});
-   console.log(token);
-   return token;
+   return jwt.sign(data, keyFile, {algorithm: 'RS256', expiresIn: "4h"});
 };
 /**
  * Method to verify the JWtoken.

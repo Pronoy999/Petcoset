@@ -37,9 +37,9 @@ authentication.checkAuthentication = (dataObject) => {
    return new Promise((resolve, reject) => {
       const authentication = new Authentication(dataObject[constants.AUTH_EMAIL], dataObject[constants.AUTH_PASSWORD]);
       authentication.checkValidity().then(userData => {
-         resolve(userData);
+         resolve([userData, constants.RESPONSE_SUCESS_LEVEL_1]);
       }).catch(err => {
-         reject(err);
+         reject([err, constants.ERROR_LEVEL_3]);
       });
    });
 };

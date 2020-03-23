@@ -2,6 +2,7 @@ const database = require('./../Services/databaseService');
 const constants = require('./../Helpers/constants');
 const validators = require('./../Helpers/validators');
 const printer = require('./../Helpers/printer');
+const tokenGenerator = require('./../Services/jwTokenGenerator');
 
 class Authentication {
    /**
@@ -27,7 +28,10 @@ class Authentication {
          database.runSp(constants.SP_LOGIN, [this._emailId, this._password])
             .then(_resultSet => {
                const result = _resultSet[0][0];
-               resolve(result);
+               const authObj = {};
+               authObj[constants.JW_TOKEN] = tokenGenerator.getToken(result);
+               authObj[constants.USER_DATA] = result;
+               resolve(authObj);
             }).catch(err => {
             printer.printError(err);
             reject(err);
