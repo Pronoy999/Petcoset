@@ -80,6 +80,8 @@ constants.HTTP_UNAUTHORIZED_CODE = 401;
 
 constants.RESPONSE_KEY = "res";
 constants.ERROR_MESSAGE = "Error";
+constants.USER_DATA = "user_data";
+constants.JW_TOKEN = "jw_token";
 constants.BAD_REQUEST_MESSAGE = "Incorrect Request";
 constants.FORBIDDEN_MESSAGE = "Incorrect Token or token expired.";
 constants.INSUFFICIENT_DATA_MESSAGE = "Insufficient Data";
@@ -138,6 +140,7 @@ constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
 constants.SP_GET_VENDOR = "sp_VendorSearch";
 constants.SP_LOGIN = "";
+//TODO: Insert the SP name.
 
 /**
  * Column Names
