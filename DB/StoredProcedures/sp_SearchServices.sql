@@ -4,9 +4,10 @@ create procedure sp_SearchServices(in par_serviceName varchar(200),
                                    in par_serviceId int)
 BEGIN
 
-    select SM.id,SM.service_name,SM.service_type,SM.is_active
+    select SM.id, SM.service_name, SM.service_type, SM.is_active
     from tbl_ServiceMaster SM
-    where CASE
+    where SM.is_active = '1'
+      AND CASE
               WHEN
                   length(par_serviceName) > 1
                   THEN SM.service_name = par_serviceName
@@ -16,6 +17,7 @@ BEGIN
               WHEN
                   par_serviceId > -1
                   THEN SM.id = par_serviceId
-        END
-      AND SM.is_active = '1';
+              ELSE
+                  1 = 1
+        END;
 end;
