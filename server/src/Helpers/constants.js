@@ -116,6 +116,7 @@ constants.CORE_ERROR_LEVEL = "errorLevel";
 constants.CORE_SUCCESS_LEVEL = "successLevel";
 constants.CORE_TYPE = "type";
 constants.CORE_DATA = "data";
+constants.CORE_TOKEN = "jwToken_auth";
 
 /**
  * Core services Module Keys
@@ -139,6 +140,7 @@ constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
 constants.SP_GET_VENDOR = "sp_VendorSearch";
+constants.SP_SERVICE_REGISTRATION = "sp_ServicesRegistration";
 constants.SP_LOGIN = "";
 //TODO: Insert the SP name.
 
@@ -191,8 +193,9 @@ constants.API_LOGGER_TOKEN = "api_token";
 constants.API_LOGGER_RESPONSE_CODE = "response_code";
 constants.API_LOGGER_STATUS = "api_status";
 
-constants.SERVICE_NAME = "";
+constants.SERVICE_NAME = "service_name";
 constants.SERVICE_ID = "service_id";
+constants.SERVICE_TYPE = "service_type";
 
 constants.AUTH_EMAIL = "email_id";
 constants.AUTH_PASSWORD = "password";

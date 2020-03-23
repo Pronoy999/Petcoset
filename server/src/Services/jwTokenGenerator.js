@@ -8,8 +8,12 @@ const tokenGenerator = {};
  * @returns {String}: jwToken.
  */
 tokenGenerator.getToken = (data) => {
-   const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/first.pem"), "utf8");
-   return jwt.sign(data, keyFile, {algorithm: 'RS256', expiresIn: "4h"});
+   try {
+      const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/first.pem"), "utf8");
+      return jwt.sign(data, keyFile, {algorithm: 'RS256', expiresIn: "4h"});
+   } catch (e) {
+      return null;
+   }
 };
 /**
  * Method to verify the JWtoken.
@@ -17,8 +21,12 @@ tokenGenerator.getToken = (data) => {
  * @returns {*}
  */
 tokenGenerator.validateToken = (token) => {
-   const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/second.crt"), "utf8");
-   return jwt.verify(token, keyFile);
+   try {
+      const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/second.crt"), "utf8");
+      return jwt.verify(token, keyFile);
+   } catch (e) {
+      return null;
+   }
 };
 /**
  * Exporting the module.

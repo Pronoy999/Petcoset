@@ -5,48 +5,58 @@ const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
 
 class Service {
-    /**
-     * _serviceId
-     * _serviceName
-     * @param serviceId
-     * @param serviceName
-     */
-    constructor(serviceId, serviceName) {
-        this._serviceId = validators.validateNumber(serviceId) ? serviceId : false;
-        this._serviceName = validators.validateString(serviceName) ? serviceName : false;
-    }
+   /**
+    * _serviceId
+    * _serviceName
+    * _serviceType
+    * @param serviceId
+    * @param serviceName
+    * @param serviceType
+    */
+   constructor(serviceId, serviceName, serviceType) {
+      this._serviceId = validators.validateNumber(serviceId) ? serviceId : false;
+      this._serviceName = validators.validateString(serviceName) ? serviceName : false;
+      this._serviceType = validators.validateString(serviceType) ? serviceType : false;
+   }
 
-    /**
-     * Method to create a service.
-     * @param empId: The Employee who is taking the action.
-     * @returns {Promise<unknown>}
-     */
-    createService(empId) {
-        return new Promise((resolve, reject) => {
-            //TODO: Create the Service.
-        });
-    }
+   /**
+    * Method to create a service.
+    * @param empId: The Employee who is taking the action.
+    * @returns {Promise<unknown>}
+    */
+   createService(empId) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_SERVICE_REGISTRATION, [this._serviceName, this._serviceType, empId])
+            .then(_resultSet => {
+               const result = _resultSet[0][0];
+               resolve(result);
+            }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
 
-    /**
-     * Method to get the service details.
-     * You can either get the service by a service id or by a service name or all the services.
-     * @returns {Promise<Array>}: The service details.
-     */
-    getServiceDetails() {
-        return new Promise((resolve, reject) => {
-            //TODO: Get the service details.
-        });
-    }
+   /**
+    * Method to get the service details.
+    * You can either get the service by a service id or by a service name or all the services.
+    * @returns {Promise<Array>}: The service details.
+    */
+   getServiceDetails() {
+      return new Promise((resolve, reject) => {
+         //TODO: Get the service details.
+      });
+   }
 
-    /**
-     * Method to update the service name.
-     * @returns {Promise<unknown>}
-     */
-    updateServiceName() {
-        return new Promise((resolve, reject) => {
-            //TODO: Update the service name.
-        });
-    }
+   /**
+    * Method to update the service name.
+    * @returns {Promise<unknown>}
+    */
+   updateServiceName() {
+      return new Promise((resolve, reject) => {
+         //TODO: Update the service name.
+      });
+   }
 }
 
 /**

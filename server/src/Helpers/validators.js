@@ -56,7 +56,7 @@ validator.validateDate = (date) => {
  * @returns {boolean} true if not undefined, else false.
  */
 validator.validateUndefined = (data) => {
-   return (typeof (data) !== 'undefined');
+   return (typeof (data) !== 'undefined' && data !== null);
 };
 /**
  * Method to check whether the data is an Array or not.
