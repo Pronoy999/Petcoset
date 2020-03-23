@@ -1,23 +1,16 @@
 drop procedure if exists sp_EmployeeRegistration;
-delimiter $$
-create procedure sp_EmployeeRegistration(par_firstName varchar(255),
-                                       par_lastName varchar(255),
-                                       par_emailId varchar(255),
-                                       par_password varchar(200),
-                                       par_phoneNo varchar(13),
-                                       par_role varchar(50),
-                                       par_gender enum ('M','F'),
-                                       par_address1 varchar(255),
-                                       par_address2 varchar(255),
-                                       par_city int,
-                                       par_state int,
-                                       par_country int,
-                                       par_pincode int,
-                                       par_modAccess enum('1','0'),
-                                       par_documentType varchar(255),
-                                       par_documentId varchar(255),
-                                       par_empId int
-                                       )
+create  procedure sp_EmployeeRegistration(IN par_firstName varchar(255),
+                                                                IN par_lastName varchar(255),
+                                                                IN par_emailId varchar(255),
+                                                                IN par_password varchar(200),
+                                                                IN par_phoneNo varchar(13), IN par_role varchar(50),
+                                                                IN par_gender enum ('M', 'F'),
+                                                                IN par_address1 varchar(255),
+                                                                IN par_address2 varchar(255), IN par_city int,
+                                                                IN par_state int, IN par_country int,
+                                                                IN par_pincode int, IN par_modAccess enum ('1', '0'),
+                                                                IN par_documentType varchar(255),
+                                                                IN par_documentId varchar(255), IN par_empId int)
 BEGIN
     SET @EmailId = 0;
     SET @PhoneNo = 0;
@@ -55,6 +48,7 @@ BEGIN
                 ,country
                 ,pincode
                 ,modify_access
+                ,created_by
             )
             values
             (
@@ -70,7 +64,8 @@ BEGIN
                 par_state,
                 par_country,
                 par_pincode,
-                par_modAccess
+                par_modAccess,
+                par_empId
             );
             INSERT INTO tbl_IdentificationDocumentMaster(document_holder_id, document_holder_type, document_type,
                                                          document_id_number, is_active, created_by)
@@ -83,5 +78,5 @@ BEGIN
             select -1 as id;
         end if;
     END IF;
-END$$
-delimiter ;
+END;
+
