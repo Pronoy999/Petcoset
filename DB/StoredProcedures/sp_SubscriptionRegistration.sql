@@ -12,15 +12,16 @@ begin
     SELECT id into @SubscriptionId FROM tbl_SubscriptionMaster where subscription_name = par_subscriptionName;
 
     drop temporary table if exists Temp_tblSubscriptionList;
-    call spSplitString(par_services, ',', 'Temp_tblSubscriptionList');
+    call spSplitString(par_services, '', '', ''Temp_tblSubscriptionList'');
 
     drop temporary table if exists Temp_tblServiceCount;
-    call spSplitString(par_serviceCount, ',', 'Temp_tblServiceCount');
+    call spSplitString(par_serviceCount, '', '', ''Temp_tblServiceCount'');
 
-    IF (@modify_access = '1')
+    IF (@modify_access = 1)
     THEN
-        IF (@SubscriptionId > -1) #IF Subscription not exists
+        IF (@SubscriptionId IS NULL) #IF Subscription not exists
         THEN
+
             insert into tbl_SubscriptionMaster
             (subscription_name,
              subscription_amount,
@@ -34,7 +35,7 @@ begin
                     par_empId);
 
             SELECT id into @subscriptionId from tbl_SubscriptionMaster where subscription_name = par_subscriptionName;
-            -- select * from Temp_tblServiceCount;
+
             DROP TABLE IF EXISTS temp_tblServiceCountMapping;
             CREATE TEMPORARY TABLE temp_tblServiceCountMapping
             AS
@@ -58,12 +59,12 @@ begin
             from temp_tblServiceCountMapping temp
                      inner join tbl_ServiceMaster SM
                                 on SM.service_name = temp.ServiceName;
+            select 1 as id; #inserted successfully
         ELSE
-            SELECT 1 as id;
+            SELECT -1 as id; #subscription already exists
         end if;
 
     ELSE
-        SELECT -1 as modify_access;
+        SELECT -1 as modify_access; #employee does not have the access to perform the operation
     end if;
 end;
-
