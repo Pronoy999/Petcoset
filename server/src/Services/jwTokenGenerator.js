@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const printer = require('./../Helpers/printer');
 const tokenGenerator = {};
 /**
  * Method to generate the token.
@@ -12,6 +13,7 @@ tokenGenerator.getToken = (data) => {
       const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/first.pem"), "utf8");
       return jwt.sign(data, keyFile, {algorithm: 'RS256', expiresIn: "4h"});
    } catch (e) {
+      printer.printError(e);
       return null;
    }
 };
@@ -25,6 +27,7 @@ tokenGenerator.validateToken = (token) => {
       const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/second.crt"), "utf8");
       return jwt.verify(token, keyFile);
    } catch (e) {
+      printer.printError(e);
       return null;
    }
 };

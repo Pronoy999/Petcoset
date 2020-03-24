@@ -4,7 +4,8 @@ const routes = {
    "customers": handlers.customers,
    "vendors": handlers.vendor,
    "services": handlers.service,
-   "auth": handlers.auth
+   "auth": handlers.auth,
+   "subscription": handlers.subscription
 };
 
 const path = {};

@@ -144,6 +144,7 @@ constants.SP_GET_VENDOR = "sp_VendorSearch";
 constants.SP_SERVICE_REGISTRATION = "sp_ServicesRegistration";
 constants.SP_SERVICE_SEARCH = "sp_SearchServices";
 constants.SP_LOGIN = "sp_LoginGeneric";
+constants.SP_SUBSCRIPTION_REGISTRATION = "sp_SubscriptionRegistration";
 
 /**
  * Column Names
@@ -201,6 +202,11 @@ constants.SERVICE_TYPE = "service_type";
 constants.AUTH_EMAIL = "email_id";
 constants.AUTH_PASSWORD = "password";
 
+constants.SUBSCRIPTION_NAME = "subscription_name";
+constants.SUBSCRIPTION_AMOUNT = "subscription_amount";
+constants.SUBSCRIPTION_START_DATE = "start_date";
+constants.SUBSCRIPTION_END_DATE = "end_date";
+constants.SUBSCRIPTION_SERVICE_DETAILS = "service_details";
 
 /**
  * exporting the constants.

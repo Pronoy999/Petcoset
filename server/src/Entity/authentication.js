@@ -2,6 +2,7 @@ const database = require('./../Services/databaseService');
 const constants = require('./../Helpers/constants');
 const validators = require('./../Helpers/validators');
 const printer = require('./../Helpers/printer');
+const generator = require('./../Services/generator');
 const tokenGenerator = require('./../Services/jwTokenGenerator');
 
 class Authentication {
@@ -29,7 +30,7 @@ class Authentication {
             .then(_resultSet => {
                const result = _resultSet[0][0];
                const authObj = {};
-               authObj[constants.JW_TOKEN] = tokenGenerator.getToken(result);
+               authObj[constants.JW_TOKEN] = tokenGenerator.getToken(generator.generateParsedJSON(result));
                authObj[constants.USER_DATA] = result;
                resolve(authObj);
             }).catch(err => {

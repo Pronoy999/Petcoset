@@ -8,3 +8,6 @@ test("Should validate Numbers when undefined", () => {
 test("Should validate Null in undefined check", () => {
    expect(validators.validateUndefined(null)).toBe(false);
 });
+test("Should validate decimal numbers", () => {
+   expect(validators.validateNumber(100.23)).toBe(true);
+});
