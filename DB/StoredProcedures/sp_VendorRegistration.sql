@@ -3,6 +3,7 @@ delimiter $$
 create procedure sp_VendorRegistration(par_firstName varchar(255),
                                        par_lastName varchar(255),
                                        par_emailId varchar(255),
+                                       par_password varchar(200),
                                        par_phoneNo varchar(13),
                                        par_gender enum ('M','F'),
                                        par_address1 varchar(255),
@@ -52,6 +53,9 @@ BEGIN
                                                      document_id_number, is_active, created_by)
         VALUES (@vendorId, 'tbl_VendorMaster', par_documentType, par_documentId, 1, @vendorId);
         SELECT @vendorId as id;
+
+        INSERT INTO tbl_LoginMaster(email_id, password, role, created_by)
+        VALUES (par_emailId,par_password,'tbl_VendorMaster',@vendorId);
     END IF;
 END$$
 delimiter ;
