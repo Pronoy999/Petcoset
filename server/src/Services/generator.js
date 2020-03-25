@@ -1,7 +1,7 @@
 const validator = require('./../Helpers/validators');
 const constants = require('./../Helpers/constants');
 const moment = require('moment');
-const tz=require('moment-timezone');
+const tz = require('moment-timezone');
 const generator = {};
 /**
  * Method to parse any data to JSON.
@@ -107,6 +107,17 @@ generator.generateDaysInMonth = (year, month) => {
  */
 generator.generateCurrentYear = () => {
     return moment().year();
+};
+/**
+ * Method to generate the difference between 2 dates.
+ * @param startDate: The start date.
+ * @param endDate: The end date.
+ * @returns {number}: The difference in days.
+ */
+generator.generateDateDifference = (startDate, endDate) => {
+    const start = moment(startDate, constants.DATE_FORMAT);
+    const end = moment(endDate, constants.DATE_FORMAT);
+    return Math.abs(start.diff(end, 'days'));
 };
 /**
  * Method to generate the SP params.
