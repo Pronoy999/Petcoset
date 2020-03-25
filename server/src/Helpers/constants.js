@@ -80,6 +80,8 @@ constants.HTTP_UNAUTHORIZED_CODE = 401;
 
 constants.RESPONSE_KEY = "res";
 constants.ERROR_MESSAGE = "Error";
+constants.USER_DATA = "user_data";
+constants.JW_TOKEN = "jw_token";
 constants.BAD_REQUEST_MESSAGE = "Incorrect Request";
 constants.FORBIDDEN_MESSAGE = "Incorrect Token or token expired.";
 constants.INSUFFICIENT_DATA_MESSAGE = "Insufficient Data";
@@ -114,6 +116,7 @@ constants.CORE_ERROR_LEVEL = "errorLevel";
 constants.CORE_SUCCESS_LEVEL = "successLevel";
 constants.CORE_TYPE = "type";
 constants.CORE_DATA = "data";
+constants.CORE_TOKEN = "jwToken_auth";
 
 /**
  * Core services Module Keys
@@ -127,15 +130,23 @@ constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
+constants.CORE_AUTH_CHECK = "authCheck";
+constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
+constants.CORE_SUBCRIPTION_SEARCH = "subscriptionSearch";
 /**
  * SP Names.
  */
-constants.SP_CREATE_CUSTOMER = "sp_insertCustomer";
+constants.SP_CREATE_CUSTOMER = "sp_CustomerRegistration";
 constants.SP_GET_CUSTOMER = "sp_CustomerSearch";
 constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
 constants.SP_GET_VENDOR = "sp_VendorSearch";
+constants.SP_SERVICE_REGISTRATION = "sp_ServicesRegistration";
+constants.SP_SERVICE_SEARCH = "sp_SearchServices";
+constants.SP_LOGIN = "sp_LoginGeneric";
+constants.SP_SUBSCRIPTION_REGISTRATION = "sp_SubscriptionRegistration";
+constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
 
 /**
  * Column Names
@@ -150,6 +161,7 @@ constants.CUSTOMER_ID = "customer_id";
 constants.CUSTOMER_FIRST_NAME = "first_name";
 constants.CUSTOMER_LAST_NAME = "last_name";
 constants.CUSTOMER_EMAIL = "email";
+constants.CUSTOMER_PASSWORD = "password";
 constants.CUSTOMER_PHONE_NUMBER = "phone_number";
 constants.CUSTOMER_GENDER = "gender";
 constants.CUSTOMER_ADDRESS_1 = "address_1";
@@ -185,9 +197,20 @@ constants.API_LOGGER_TOKEN = "api_token";
 constants.API_LOGGER_RESPONSE_CODE = "response_code";
 constants.API_LOGGER_STATUS = "api_status";
 
-constants.SERVICE_NAME = "";
+constants.SERVICE_NAME = "service_name";
 constants.SERVICE_ID = "service_id";
+constants.SERVICE_TYPE = "service_type";
 
+constants.AUTH_EMAIL = "email_id";
+constants.AUTH_PASSWORD = "password";
+
+constants.SUBSCRIPTION_NAME = "subscription_name";
+constants.SUBSCRIPTION_AMOUNT = "subscription_amount";
+constants.SUBSCRIPTION_START_DATE = "start_date";
+constants.SUBSCRIPTION_END_DATE = "end_date";
+constants.SUBSCRIPTION_SERVICE_DETAILS = "service_details";
+constants.SUBSCRIPTION_PRICE_START="price_start";
+constants.SUBSCRIPTION_PRICE_END="price_end";
 
 /**
  * exporting the constants.
