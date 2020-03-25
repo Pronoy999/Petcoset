@@ -23,9 +23,9 @@ constants.TIME_ZONE = "Asia/Kolkata";
  * Validation strings.
  */
 constants.EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-   + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 constants.PASSWORD_REGEX = "(?=^.{6,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])" +
-   "(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$";
+    "(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$";
 constants.PHONE_NUMBER_PREFIX = "+91";
 constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
@@ -33,10 +33,10 @@ constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
  * Header Data.
  */
 constants.HEADERS = {
-   'Access-Control-Allow-Origin': '*',
-   'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
-   'Access-Control-Max-Age': 2592000,
-   'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
+    'Access-Control-Max-Age': 2592000,
+    'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
 };
 constants.CONTENT_TYPE_TEXT = "Content-Type";
 constants.CONTENT_TYPE_JSON = "application/json";
@@ -132,6 +132,7 @@ constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
+constants.CORE_SUBCRIPTION_SEARCH = "subscriptionSearch";
 /**
  * SP Names.
  */
@@ -145,6 +146,7 @@ constants.SP_SERVICE_REGISTRATION = "sp_ServicesRegistration";
 constants.SP_SERVICE_SEARCH = "sp_SearchServices";
 constants.SP_LOGIN = "sp_LoginGeneric";
 constants.SP_SUBSCRIPTION_REGISTRATION = "sp_SubscriptionRegistration";
+constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
 
 /**
  * Column Names
@@ -207,6 +209,8 @@ constants.SUBSCRIPTION_AMOUNT = "subscription_amount";
 constants.SUBSCRIPTION_START_DATE = "start_date";
 constants.SUBSCRIPTION_END_DATE = "end_date";
 constants.SUBSCRIPTION_SERVICE_DETAILS = "service_details";
+constants.SUBSCRIPTION_PRICE_START="price_start";
+constants.SUBSCRIPTION_PRICE_END="price_end";
 
 /**
  * exporting the constants.
