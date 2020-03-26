@@ -11,7 +11,7 @@ const tokenGenerator = {};
 tokenGenerator.getToken = (data) => {
    try {
       const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/first.pem"), "utf8");
-      return jwt.sign(data, keyFile, {algorithm: 'RS256', expiresIn: "4h"});
+      return jwt.sign(data, keyFile, {algorithm: 'RS256', expiresIn: '4h'});
    } catch (e) {
       printer.printError(e);
       return null;
