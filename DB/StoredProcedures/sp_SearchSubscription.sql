@@ -13,6 +13,7 @@ BEGIN
     select concat('
         select SM.id,
             SM.subscription_name,
+            TSM.id as service_id,
             TSM.service_name,
             SM.subscription_amount,
             SM.start_date,
@@ -20,29 +21,29 @@ BEGIN
             DATEDIFF(SM.end_date, SM.start_date) as Validity
         from tbl_SubscriptionMaster SM
             inner join tbl_SubscriptionServiceMapping SSM
-                on SSM.subscription_id = SM.id ' ,
-            CASE
-                WHEN
-                    @serviceLength > 0
-                    THEN concat('
+                on SSM.subscription_id = SM.id ',
+                  CASE
+                      WHEN
+                          @serviceLength > 0
+                          THEN concat('
                     inner join temp_tblServiceList temp
                             on temp.StrVal = SSM.service_id
                     inner join tbl_ServiceMaster TSM
                             ON TSM.id = temp.StrVal')
-                ELSE
-                '
-                    inner join tbl_ServiceMaster TSM
-                        on TSM.id = SSM.service_id
-                '
-            END,
-            '
-                WHERE SM.is_active = ''1''
-                    AND SM.subscription_name like ''%', par_subscriptionName, '%''
+                      ELSE
+                          '
+                              inner join tbl_ServiceMaster TSM
+                                  on TSM.id = SSM.service_id
+                          '
+                      END,
+                  '
+                      WHERE SM.is_active = ''1''
+                          AND SM.subscription_name like ''%', par_subscriptionName, '%''
 ;
             ')
     into @dySQL;
-        #select @dySQL;
+    #select @dySQL;
     PREPARE stmt_Growth FROM @dySQL;
-	EXECUTE stmt_Growth;
-	DEALLOCATE PREPARE stmt_Growth;
+    EXECUTE stmt_Growth;
+    DEALLOCATE PREPARE stmt_Growth;
 end;
