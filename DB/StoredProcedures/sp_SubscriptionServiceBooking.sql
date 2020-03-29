@@ -4,13 +4,14 @@ create procedure sp_SubscriptionServiceBooking(par_bookingType enum ('service_bo
                                                par_subscriptionId varchar(50),
                                                par_serviceId int,
                                                par_employeeId int,
-                                               par_vendorId int)
+                                               par_vendorId int,
+                                               par_amount decimal(18,2))
 begin
     SELECT AUTO_INCREMENT
-    INTO @subscriptionId
-    FROM information_schema.TABLES
-    WHERE TABLE_SCHEMA = (SELECT DATABASE())
-      AND TABLE_NAME = 'tbl_SubscriptionServiceBooking';
+            INTO @subscriptionId
+            FROM information_schema.TABLES
+            WHERE TABLE_SCHEMA = (SELECT DATABASE())
+              AND TABLE_NAME = 'tbl_SubscriptionServiceBooking';
 
     if (par_bookingType = 'subscription_booking')
     then
@@ -21,13 +22,13 @@ begin
          subscription_id,
          service_id,
          employee_id,
-         created_by)
+         total_amount)
         values (par_bookingType,
                 par_customerId,
                 par_subscriptionId,
                 par_serviceId,
                 par_employeeId,
-                par_customerId);
+                par_amount);
 
         SELECT @subscriptionId as id;
     else
@@ -37,13 +38,13 @@ begin
          subscription_id,
          service_id,
          vendor_id,
-         created_by)
+         total_amount)
         values (par_bookingType,
                 par_customerId,
                 par_subscriptionId,
                 par_serviceId,
                 par_vendorId,
-                par_customerId);
+                par_amount);
 
         SELECT @subscriptionId as id;
     end if;
