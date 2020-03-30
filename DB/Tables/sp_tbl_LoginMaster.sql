@@ -27,5 +27,5 @@ BEGIN
 end$$
 
 DELIMITER ;
-CALL sp_tbl_ServiceMaster();
-DROP PROCEDURE IF EXISTS sp_tbl_ServiceMaster;
+CALL sp_tbl_LoginMaster();
+DROP PROCEDURE IF EXISTS sp_tbl_LoginMaster;
