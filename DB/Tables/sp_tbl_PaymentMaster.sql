@@ -22,7 +22,8 @@ BEGIN
             `created`           timestamp NULL      DEFAULT CURRENT_TIMESTAMP,
             `modified_by`       int(11)             DEFAULT NULL,
             `modified`          timestamp NULL      DEFAULT NULL,
-            PRIMARY KEY (`id`)
+            PRIMARY KEY (`id`),
+            UNIQUE KEY (`transaction_id`)
         );
     end if;
 end$$
