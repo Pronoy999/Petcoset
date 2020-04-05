@@ -24,9 +24,42 @@ class Booking {
       this._serviceId = validators.validateNumber(serviceId) ? serviceId : false;
    }
 
-   createBooking(subscriptionId, employeeId, vendorId, amount) {
+   /**
+    * Method to create a Subscription service booking.
+    * It books a service from an active subscription.
+    * @param subscriptionId: The Subscription that the user is buying.
+    * @param amount: The amount to be paid.
+    * @returns {Promise<unknown>}
+    */
+   createSubscriptionServiceBooking(subscriptionId, amount) {
       return new Promise((resolve, reject) => {
          //TODO: Create the booking.
+      });
+   }
+
+   /**
+    * Method to create a booking for the subscription plan.
+    * @param subscriptionID: The subscription plan id.
+    * @param amount: The total amount for the subscription.
+    * @param transactionId: The transaction id.
+    * @returns {Promise<Number|Object>}: The booking id, else error.
+    */
+   createSubscriptionBooking(subscriptionID, amount, transactionId) {
+      return new Promise((resolve, reject) => {
+         //TODO:Create the subscription booking. Book the subscription plan.
+      });
+   }
+
+   /**
+    * Method to create the booking for the service without subscription.
+    * @param vendorID: The vendorID
+    * @param amount: The amount of booking.
+    * @param transactionId: The transaction id for the payment.
+    * @returns {Promise<unknown>}
+    */
+   createServiceBooking(vendorID, amount, transactionId) {
+      return new Promise((resolve, reject) => {
+         //TODO: Create the booking for the service without the subscription.
       });
    }
 

@@ -15,9 +15,10 @@ process.on("message", (serviceData) => {
    if (userName === process.env[constants.CORE_SERVICE_USER_NAME] && password === process.env[constants.CORE_SERVICE_PASSWORD]) {
       let promise;
       switch (serviceData[constants.CORE_TYPE]) {
-         case constants.CORE_BOOKING_CREATE:
-            promise = bookingServices.createBooking(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+         case constants.CORE_BOOKING_CREATE_SUBS_SERVICE:
+            promise = bookingServices.createSubsServiceBooking(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_SUBCRIPTION_CREATE:
       }
    } else {
       process.send(responseGenerator.generateCoreResponse(false, false,
@@ -26,21 +27,64 @@ process.on("message", (serviceData) => {
    }
 });
 /**
- * Method to handle the booking create request
+ * Method to handle the booking request for a service from an active subscription.
  * @param dataObject: The service data.
  * @param jwToken: The user token.
  * @returns {Promise<unknown>}
  */
-bookingServices.createBooking = (dataObject, jwToken) => {
+bookingServices.createSubsServiceBooking = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
       if (validator.validateUndefined(tokenGenerator.validateToken(jwToken))) {
-         const booking = new Booking(false, dataObject[constants.BOOKING_TYPE], dataObject[constants.BOOKING_CUSTOMER_ID],
+         const booking = new Booking(false, constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, dataObject[constants.BOOKING_CUSTOMER_ID],
             dataObject[constants.BOOKING_SERVICE_ID]);
-         booking.createBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID], dataObject[constants.EMPLOYEE_ID],
-            dataObject[constants.BOOKING_VENDOR_ID], dataObject[constants.BOOKING_TOTAL_AMOUNT])
+         booking.createSubscriptionServiceBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID], dataObject[constants.BOOKING_TOTAL_AMOUNT])
             .then(bookingId => {
                resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
             }).catch(err => {
+            reject([constants.ERROR_MESSAGE, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to book a subscription plan.
+ * @param dataObject: The required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<unknown>}
+ */
+bookingServices.createSubscription = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (validator.validateUndefined(tokenGenerator.validateToken(jwToken))) {
+         const booking = new Booking(false, constants.BOOKING_TYPE_SUBSCRIPTION, dataObject[constants.BOOKING_CUSTOMER_ID]);
+         booking.createSubscriptionBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID], dataObject[constants.BOOKING_TOTAL_AMOUNT],
+            dataObject[constants.PAYMENT_TRANSACTION_ID])
+            .then(bookingID => {
+               resolve([bookingID, constants.RESPONSE_SUCESS_LEVEL_1]);
+            }).catch(err => {
+            reject([constants.ERROR_MESSAGE, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to create a booking for a service from a vendor without any active subscription.
+ * @param dataObject: The require data.
+ * @param jwToken: The JwToken of the user.
+ * @returns {Promise<unknown>}
+ */
+bookingServices.createServiceBooking = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (validator.validateUndefined(tokenGenerator.validateToken(jwToken))) {
+         const booking = new Booking(false, constants.BOOKING_TYPE_SERVICE, dataObject[constants.BOOKING_CUSTOMER_ID],
+            dataObject[constants.BOOKING_SERVICE_ID]);
+         booking.createServiceBooking(dataObject[constants.BOOKING_VENDOR_ID], dataObject[constants.BOOKING_TOTAL_AMOUNT],
+            dataObject[constants.PAYMENT_TRANSACTION_ID]).then(bookingId => {
+            resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
             reject([constants.ERROR_MESSAGE, constants.ERROR_LEVEL_3]);
          });
       } else {

@@ -133,7 +133,9 @@ constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
 constants.CORE_SUBCRIPTION_SEARCH = "subscriptionSearch";
-constants.CORE_BOOKING_CREATE = "createBooking";
+constants.CORE_BOOKING_CREATE_SUBS_SERVICE = "createBooking";
+constants.CORE_BOOKING_SUBSCRIPTION = "createSubscription";
+constants.CORE_BOOKING_SERVICE = "createServiceBooking";
 constants.CORE_BOOKING_SEARCH = "searchBooking";
 /**
  * SP Names.
@@ -224,6 +226,7 @@ constants.SUBSCRIPTION_PRICE_END = "price_end";
 constants.BOOKING_ID = "booking_id";
 constants.BOOKING_TYPE_SERVICE = "service_booking";
 constants.BOOKING_TYPE_SUBSCRIPTION = "subscription_booking";
+constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE = "subscription_service_booking";
 constants.BOOKING_TYPE = "booking_type";
 constants.BOOKING_CUSTOMER_ID = "customer_id";
 constants.BOOKING_SUBSCRIPTION_ID = "subscription_id";
