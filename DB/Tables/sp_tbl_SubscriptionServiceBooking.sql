@@ -25,15 +25,15 @@ BEGIN
             `booking_time`      time                                                                           DEFAULT NULL,
             `address1`          varchar(50)                                                                    DEFAULT NULL,
             `address2`          varchar(50)                                                                    DEFAULT NULL,
-            `city_id`           int                                                                            DEFAULT NULL,
-            `pincode`           int                                                                            DEFAULT NULL,
+            `city_id`           int(11)                                                                        DEFAULT NULL,
+            `pincode`           int(11)                                                                        DEFAULT NULL,
             `is_active`         int(11)   NOT NULL                                                             DEFAULT '1',
-            `created_by`        int(11)   NOT NULL,
+            `created_by`        int(11)   NOT NULL                                                             DEFAULT 1,
             `modified_by`       int(11)                                                                        DEFAULT NULL,
             `created`           timestamp NOT NULL                                                             DEFAULT CURRENT_TIMESTAMP,
             `modified`          timestamp NULL                                                                 DEFAULT NULL,
             PRIMARY KEY (`id`)
-        ) ;
+        );
     end if;
 end$$
 
