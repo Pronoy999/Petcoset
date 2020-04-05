@@ -152,6 +152,12 @@ constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
 constants.SP_BOOKING = "sp_SubscriptionServiceBooking";
 
 /**
+ * General Keys
+ */
+constants.RAZOR_PAY_ID = "key_id";
+constants.RAZOR_PAY_SECRET = "key_secret";
+
+/**
  * Column Names
  */
 constants.COLUMN_CREATED_BY = "created_by";
@@ -225,6 +231,11 @@ constants.BOOKING_SERVICE_ID = "service_id";
 constants.BOOKING_EMPLOYEE_ID = "employee_id";
 constants.BOOKING_VENDOR_ID = "vendor_id";
 constants.BOOKING_TOTAL_AMOUNT = "total_amount";
+
+constants.PAYMENT_BOOKING_ID = "booking_id";
+constants.PAYMENT_TRANSACTION_ID = "transaction_id";
+constants.PAYMENT_AMOUNT = "payment_amount";
+constants.PAYMENT_STATUS_ID = "payment_status_id";
 
 
 /**
