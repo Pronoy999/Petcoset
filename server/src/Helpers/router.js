@@ -5,7 +5,8 @@ const routes = {
    "vendors": handlers.vendor,
    "services": handlers.service,
    "auth": handlers.auth,
-   "subscription": handlers.subscription
+   "subscription": handlers.subscription,
+   "booking": handlers.booking
 };
 
 const path = {};

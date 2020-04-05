@@ -41,14 +41,14 @@ class Subscription {
             });
             database.runSp(constants.SP_SUBSCRIPTION_REGISTRATION, [empId, this._subscriptionName,
                 this._subscriptionAmount, serviceIds.join(","), serviceCount.join(","), this._startDate, this._endDate])
-                .then(_resultSet => {
-                    const result = _resultSet[0][0];
-                    if (validators.validateUndefined(result)) {
-                        resolve(result);
-                    } else {
-                        resolve({"id": -1});
-                    }
-                }).catch(err => {
+               .then(_resultSet => {
+                   const result = _resultSet[0][0];
+                   if (validators.validateUndefined(result)) {
+                       resolve(result);
+                   } else {
+                       resolve({"id": -1});
+                   }
+               }).catch(err => {
                 printer.printError(err);
                 reject(err);
             });
@@ -64,18 +64,22 @@ class Subscription {
      */
     getSubscription(serviceDetails, priceStart, priceEnd) {
         return new Promise((resolve, reject) => {
-            let serviceList = serviceDetails.join(",");
+            let serviceList;
+            serviceList = validators.validateUndefined(serviceDetails) ? serviceDetails.join(",") : "";
             serviceList = validators.validateUndefined(serviceList) ? serviceList : "";
-            const validity = generator.generateDateDifference(this._startDate, this._endDate);
+            let validity = generator.generateDateDifference(this._startDate, this._endDate);
+            validity = validators.validateNumber(validity) ? validity : 0;
+            priceStart = validators.validateNumber(priceStart) ? priceStart : 0;
+            priceEnd = validators.validateNumber(priceEnd) ? priceEnd : 0;
             database.runSp(constants.SP_SUBSCRIPTION_SEARCH, [priceStart, priceEnd, serviceList, this._subscriptionName, validity])
-                .then(_resultSet => {
-                    const result = _resultSet[0];
-                    if (validators.validateUndefined(result)) {
-                        resolve(result);
-                    } else {
-                        resolve({"id": -1});
-                    }
-                }).catch(err => {
+               .then(_resultSet => {
+                   const result = _resultSet[0];
+                   if (validators.validateUndefined(result)) {
+                       resolve(result);
+                   } else {
+                       resolve({"id": -1});
+                   }
+               }).catch(err => {
                 printer.printError(err);
                 reject(err);
             });

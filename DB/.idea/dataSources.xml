@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://petcoset-db.cs8wq03retni.ap-south-1.rds.amazonaws.com:3306</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="PRIMS" uuid="3fd9bed7-9067-4052-8a85-3a4b52109f29">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://primsdemo-rds.cluster-c2fwixw9kkhe.ap-south-1.rds.amazonaws.com:3306</jdbc-url>
+    </data-source>
   </component>
 </project>

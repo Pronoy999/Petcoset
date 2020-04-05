@@ -9,18 +9,23 @@ create procedure sp_SubscriptionRegistration(IN par_empId int,
 begin
     #SP to Create New Subscription with ServiceCount
     SELECT modify_access into @modify_access from tbl_EmployeeMaster where id = par_empId;
-    SELECT id into @SubscriptionId FROM tbl_SubscriptionMaster where subscription_name = par_subscriptionName;
+    -- SELECT id into @SubscriptionId FROM tbl_SubscriptionMaster where subscription_name = par_subscriptionName;
 
     drop temporary table if exists Temp_tblSubscriptionList;
-    call spSplitString(par_services, '', '', ''Temp_tblSubscriptionList'');
+    call spSplitString(par_services, ',', 'Temp_tblSubscriptionList');
 
     drop temporary table if exists Temp_tblServiceCount;
-    call spSplitString(par_serviceCount, '', '', ''Temp_tblServiceCount'');
+    call spSplitString(par_serviceCount, ',', 'Temp_tblServiceCount');
 
     IF (@modify_access = 1)
     THEN
-        IF (@SubscriptionId IS NULL) #IF Subscription not exists
+        IF NOT EXISTS (SELECT id FROM tbl_SubscriptionMaster where subscription_name = par_subscriptionName) #IF Subscription not exists
         THEN
+            SELECT AUTO_INCREMENT
+            INTO @subscriptionId
+            FROM information_schema.TABLES
+            WHERE TABLE_SCHEMA = (SELECT DATABASE())
+              AND TABLE_NAME = 'tbl_SubscriptionMaster';
 
             insert into tbl_SubscriptionMaster
             (subscription_name,
@@ -34,13 +39,12 @@ begin
                     par_endDate,
                     par_empId);
 
-            SELECT id into @subscriptionId from tbl_SubscriptionMaster where subscription_name = par_subscriptionName;
 
             DROP TABLE IF EXISTS temp_tblServiceCountMapping;
             CREATE TEMPORARY TABLE temp_tblServiceCountMapping
             AS
                 (
-                    select L.StrVal as ServiceName,
+                    select L.StrVal as ServiceId,
                            C.StrVal as ServiceCount
                     from Temp_tblSubscriptionList L
                              inner join Temp_tblServiceCount C
@@ -58,8 +62,8 @@ begin
                    par_empId
             from temp_tblServiceCountMapping temp
                      inner join tbl_ServiceMaster SM
-                                on SM.service_name = temp.ServiceName;
-            select 1 as id; #inserted successfully
+                                on SM.id = temp.ServiceId;
+            select @subscriptionId as id; #inserted successfully
         ELSE
             SELECT -1 as id; #subscription already exists
         end if;
@@ -68,3 +72,4 @@ begin
         SELECT -1 as modify_access; #employee does not have the access to perform the operation
     end if;
 end;
+
