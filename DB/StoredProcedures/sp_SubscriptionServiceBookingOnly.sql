@@ -93,7 +93,7 @@ begin
                     par_pincode,
                     par_customerId);
 
-            SELECT @subscriptionId as id;
+            SELECT last_insert_id() as id;
 
         end if;
 
@@ -142,3 +142,4 @@ begin
         end if;
     end if;
 end;
+
