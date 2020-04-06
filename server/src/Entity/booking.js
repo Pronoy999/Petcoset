@@ -3,6 +3,7 @@ const constants = require('./../Helpers/constants');
 const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
+const Payment = require('./payment');
 
 class Booking {
    /**
@@ -22,6 +23,22 @@ class Booking {
          bookingType : false;
       this._customerId = validators.validateNumber(customerId) ? customerId : false;
       this._serviceId = validators.validateNumber(serviceId) ? serviceId : false;
+   }
+
+   /**
+    * Method to create and capture the payment for the booking.
+    * @param transactionId: the transaction id of the booking.
+    * @param amount: The amount of the booking.
+    * @private
+    */
+   _createPaymentForBooking(transactionId, amount) {
+      const payment = new Payment(this._bookingId, transactionId, amount);
+      payment.createPayment(this._customerId).then(paymentId => {
+         printer.printHighlightedLog("Payment Created for booking: " + this._bookingId);
+      }).catch(err => {
+         printer.printError(err);
+         printer.printError("Payment not created for booking ID: " + this._bookingId);
+      });
    }
 
    /**
@@ -48,8 +65,9 @@ class Booking {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_SUBSCRIPTION_BOOKING, [this._bookingType,
             this._customerId, subscriptionID, 0, 0, amount, "", "", 0, 0, 0]).then(_resultSet => {
-            const result = _resultSet[0];
+            const result = _resultSet[0][0];
             if (validators.validateUndefined(result)) {
+               this._bookingId = result.id;
                resolve(result);
             } else {
                reject(false);

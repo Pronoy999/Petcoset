@@ -67,6 +67,7 @@ bookingHandler.bookingSubscription = (dataObject) => {
          if (subscriptionID && amount && transactionID && customerId && jwToken) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
             serviceData[constants.CORE_TOKEN] = jwToken;
             serviceData[constants.CORE_DATA] = dataObject.postData;
             serviceData[constants.CORE_TYPE] = constants.CORE_BOOKING_SUBSCRIPTION;

@@ -141,7 +141,7 @@ handlerObj.booking = (dataObject) => {
             promise = booking.booking(dataObject);
             break;
          case "subscription":
-            booking.bookingSubscription(dataObject);
+            promise = booking.bookingSubscription(dataObject);
             break;
          case "service":
             promise = booking.bookingService(dataObject);

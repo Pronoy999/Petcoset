@@ -59,6 +59,14 @@ constants.REQUEST_TYPE = "type";
 constants.STATUS_PROCESSING = 1;
 constants.STATUS_COMPLETED = 2;
 constants.STATUS_ERROR = 3;
+constants.STATUS_PENDING = 4;
+constants.STATUS_CONFIRM = 6;
+constants.STATUS_REJECTED = 7;
+constants.STATUS_AUTHORIZED = 8;
+constants.STATUS_CAPTURED = 9;
+constants.STAUTS_REFUNDED = 10;
+constants.STATUS_CANCEL = 11;
+
 /**
  * API Methods.
  */
@@ -153,6 +161,7 @@ constants.SP_SUBSCRIPTION_REGISTRATION = "sp_SubscriptionRegistration";
 constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
 constants.SP_BOOKING = "sp_SubscriptionServiceBooking";
 constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
+constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 
 /**
  * General Keys
