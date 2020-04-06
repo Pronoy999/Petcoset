@@ -69,7 +69,7 @@ class Booking {
     */
    getBookingDetails() {
       return new Promise((resolve, reject) => {
-
+         
       });
    }
 }

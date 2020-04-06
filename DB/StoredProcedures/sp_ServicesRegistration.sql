@@ -18,13 +18,11 @@ begin
           and service_name = par_serviceName;
         IF (@serviceType = 1)
         THEN
-
             select -1 as id;
         ELSE
             UPDATE tbl_ServiceMaster
             SET service_type = par_serviceType
             WHERE service_name = par_serviceName;
-
             select @serviceID as id;
         end if;
     ELSE
