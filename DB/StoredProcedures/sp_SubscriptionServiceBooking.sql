@@ -1,9 +1,12 @@
 drop procedure if exists sp_SubscriptionServiceBooking;
 create procedure sp_SubscriptionServiceBooking(IN par_customerId int,
-                                                                      IN par_subscriptionId varchar(50),
-                                                                      IN par_serviceId int, IN par_address1 varchar(50),
-                                                                      IN par_address2 varchar(50), IN par_cityId int,
-                                                                      IN par_pincode int, IN par_isCancel tinyint(1))
+                                               IN par_subscriptionId varchar(50),
+                                               IN par_serviceId int,
+                                               IN par_address1 varchar(50),
+                                               IN par_address2 varchar(50),
+                                               IN par_cityId int,
+                                               IN par_pincode int,
+                                               IN par_isCancel tinyint(1))
 begin
     #in case of taking a service from existing subscription
     select is_active
@@ -26,13 +29,16 @@ begin
         update tbl_CustomerSubscriptionServiceMapping CSM
             inner join tbl_CustomerSubscriptionMapping tCSM
             on CSM.customer_subscription_mapping_id = tCSM.id
-        SET CSM.service_count = CSM.service_count + 1
+        SET CSM.service_count = CSM.service_count + 1,
+            CSM.modified=now()
         WHERE tCSM.customer_id = par_customerId
           AND tCSM.subscription_id = par_subscriptionId
           AND CSM.service_id = par_serviceId;
 
         UPDATE tbl_SubscriptionServiceBooking
-        SET is_active=0
+        SET is_active=0,
+            booking_status_id=11,
+            modified=now()
         WHERE customer_id = par_customerId
           and subscription_id = par_subscriptionId
           and service_id = par_serviceId
@@ -85,4 +91,3 @@ begin
 
 
 end;
-

@@ -1,13 +1,15 @@
 drop procedure if exists sp_SubscriptionServiceBookingOnly;
-create procedure sp_SubscriptionServiceBookingOnly(IN par_bookingType enum ('service_booking', 'subscription_booking'),
-                                                   IN par_customerId int,
-                                                   IN par_subscriptionId varchar(50),
-                                                   IN par_serviceId int, IN par_vendorId int,
-                                                   IN par_amount decimal(18, 2),
-                                                   IN par_address1 varchar(50),
-                                                   IN par_address2 varchar(50),
-                                                   IN par_cityId int, IN par_pincode int,
-                                                   IN par_isCancel tinyint(1))
+create procedure sp_SubscriptionServiceBookingOnly(par_bookingType enum ('service_booking','subscription_booking'),
+                                                   par_customerId int,
+                                                   par_subscriptionId varchar(50),
+                                                   par_serviceId int,
+                                                   par_vendorId int,
+                                                   par_amount decimal(18, 2),
+                                                   par_address1 varchar(50),
+                                                   par_address2 varchar(50),
+                                                   par_cityId int,
+                                                   par_pincode int,
+                                                   par_isCancel bool)
 begin
     SELECT AUTO_INCREMENT
     INTO @subscriptionId
@@ -24,7 +26,8 @@ begin
         if par_isCancel = 1
         then
             update tbl_SubscriptionServiceBooking SSB
-            set is_active=0
+            set is_active         = 0,
+                booking_status_id = 11
             where customer_id = par_customerId
               and subscription_id = par_subscriptionId;
 
@@ -100,7 +103,8 @@ begin
         if par_isCancel = 1
         then
             update tbl_SubscriptionServiceBooking SSB
-            set is_active=0
+            set is_active=0,
+                booking_status_id = 11
             where customer_id = par_customerId
               and subscription_id = par_subscriptionId;
         else
@@ -111,6 +115,7 @@ begin
              service_id,
              vendor_id,
              total_amount,
+             booking_status_id,
              booking_date,
              booking_time,
              address1,
@@ -124,6 +129,7 @@ begin
                     par_serviceId,
                     par_vendorId,
                     par_amount,
+                    6,
                     date(now()),
                     time(now()),
                     par_address1,
@@ -136,4 +142,3 @@ begin
         end if;
     end if;
 end;
-
