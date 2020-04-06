@@ -46,7 +46,18 @@ class Booking {
     */
    createSubscriptionBooking(subscriptionID, amount, transactionId) {
       return new Promise((resolve, reject) => {
-         //TODO:Create the subscription booking. Book the subscription plan.
+         database.runSp(constants.SP_SUBSCRIPTION_BOOKING, [this._bookingType,
+            this._customerId, subscriptionID, 0, 0, amount, "", "", 0, 0, 0]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               reject(false);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
       });
    }
 
@@ -69,7 +80,7 @@ class Booking {
     */
    getBookingDetails() {
       return new Promise((resolve, reject) => {
-         
+
       });
    }
 }

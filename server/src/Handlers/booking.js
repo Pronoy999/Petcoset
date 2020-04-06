@@ -2,6 +2,7 @@ const bookingHandler = {};
 const constants = require('./../Helpers/constants');
 const validator = require('./../Helpers/validators');
 const responseGenerator = require('./../Services/responseGenerator');
+const printer = require('./../Helpers/printer');
 const childProcess = require('child_process');
 /**
  * Method to handle the booking for a service from a subscription.

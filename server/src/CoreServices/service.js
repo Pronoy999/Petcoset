@@ -48,7 +48,7 @@ serviceObj.createService = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
       const tokenData = tokenGenerator.validateToken(jwToken);
       if (validator.validateUndefined(tokenData)) {
-         const service = new Service(false, dataObject[constants.SERVICE_NAME]);
+         const service = new Service(false, dataObject[constants.SERVICE_NAME], dataObject[constants.SERVICE_TYPE]);
          service.createService(dataObject[constants.EMPLOYEE_ID]).then(serviceId => {
             resolve([serviceId, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {

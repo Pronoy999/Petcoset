@@ -152,6 +152,7 @@ constants.SP_LOGIN = "sp_LoginGeneric";
 constants.SP_SUBSCRIPTION_REGISTRATION = "sp_SubscriptionRegistration";
 constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
 constants.SP_BOOKING = "sp_SubscriptionServiceBooking";
+constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 
 /**
  * General Keys

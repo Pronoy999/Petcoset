@@ -18,8 +18,17 @@ process.on("message", (serviceData) => {
          case constants.CORE_BOOKING_CREATE_SUBS_SERVICE:
             promise = bookingServices.createSubsServiceBooking(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
-         case constants.CORE_SUBCRIPTION_CREATE:
+         case constants.CORE_BOOKING_SUBSCRIPTION:
+            promise = bookingServices.createSubscription(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
       }
+      promise.then((data) => {
+         process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
+         process.exit(0);
+      }).catch(err => {
+         process.send(responseGenerator.generateCoreResponse(false, false, err[0], err[1]));
+         process.exit(1);
+      });
    } else {
       process.send(responseGenerator.generateCoreResponse(false, false,
          constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4));
@@ -63,9 +72,10 @@ bookingServices.createSubscription = (dataObject, jwToken) => {
             .then(bookingID => {
                resolve([bookingID, constants.RESPONSE_SUCESS_LEVEL_1]);
             }).catch(err => {
-            reject([constants.ERROR_MESSAGE, constants.ERROR_LEVEL_3]);
+            reject([err, constants.ERROR_LEVEL_3]);
          });
       } else {
+         printer.printError("Invalid JwToken");
          reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
       }
    });
@@ -85,7 +95,7 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
             dataObject[constants.PAYMENT_TRANSACTION_ID]).then(bookingId => {
             resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
-            reject([constants.ERROR_MESSAGE, constants.ERROR_LEVEL_3]);
+            reject([err, constants.ERROR_LEVEL_3]);
          });
       } else {
          reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);

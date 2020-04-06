@@ -14,7 +14,7 @@ class Service {
     * @param serviceType
     */
    constructor(serviceId, serviceName, serviceType) {
-      this._serviceId = validators.validateNumber(serviceId) ? serviceId : false;
+      this._serviceId = validators.validateNumber(serviceId) ? serviceId : 0;
       this._serviceName = validators.validateString(serviceName) ? serviceName : false;
       this._serviceType = validators.validateString(serviceType) ? serviceType : false;
    }

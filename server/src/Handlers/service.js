@@ -1,6 +1,5 @@
 const constants = require('./../Helpers/constants');
 const validator = require('./../Helpers/validators');
-const printer = require('./../Helpers/printer');
 const responseGenerator = require('./../Services/responseGenerator');
 const childProcess = require('child_process');
 const serviceHandler = {};
@@ -19,14 +18,15 @@ serviceHandler.services = (dataObject) => {
             dataObject.postData[constants.EMPLOYEE_ID] : false;
          const serviceType = validator.validateString(dataObject.postData[constants.SERVICE_TYPE]) ?
             dataObject.postData[constants.SERVICE_TYPE] : false;
-         if (serviceName && employeeId && serviceType) {
+         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
+         if (serviceName && employeeId && serviceType && jwToken) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
             serviceData[constants.CORE_DATA] = dataObject.postData;
             serviceData[constants.CORE_TYPE] = constants.CORE_CREATE_SERVICE;
-            serviceData[constants.CORE_TOKEN] = dataObject[constants.JW_TOKEN];
-            const childWorker = childProcess.fork(`${__dirname}/../CoreService/service.js`);
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/service.js`);
             childWorker.send(serviceData);
             childWorker.on("message", (childReply) => {
                if (childReply[constants.CORE_ERROR]) {
@@ -43,12 +43,14 @@ serviceHandler.services = (dataObject) => {
             dataObject.queryString[constants.SERVICE_ID] : false;
          const serviceName = validator.validateString(dataObject.queryString[constants.SERVICE_NAME]) ?
             dataObject.queryString[constants.SERVICE_NAME] : false;
-         if (serviceId || serviceName) {
+         const jwToken = dataObject[constants.JW_TOKEN];
+         if (jwToken) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
             serviceData[constants.CORE_TYPE] = constants.CORE_GET_SERVICE;
             serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
             const childWorker = childProcess.fork(`${__dirname}/../CoreServices/service.js`);
             childWorker.send(serviceData);
             childWorker.on("message", (childReply) => {
