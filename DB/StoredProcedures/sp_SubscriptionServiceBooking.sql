@@ -86,6 +86,8 @@ begin
                     par_customerId);
 
             SELECT LAST_INSERT_ID() as id;
+        else
+            select -1 as id;
         end if;
     end if;
 
