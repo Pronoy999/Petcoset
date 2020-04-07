@@ -93,6 +93,9 @@ handlerObj.auth = (dataObject) => {
          case "auth":
             promise = authentication.authenticate(dataObject);
             break;
+         case "otp":
+            promise = authentication.otp(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }

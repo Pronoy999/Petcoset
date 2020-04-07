@@ -108,6 +108,7 @@ constants.ERROR_LEVEL_4 = "4";
  * Messages.
  */
 constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
+constants.OTP_MESSAGE = "Your Petcoset OTP is: ";
 
 /**
  * Core-Service Keys
@@ -139,6 +140,8 @@ constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
+constants.CORE_AUTH_OTP_REQEUST = "reqOTP";
+constants.CORE_AUTH_OTP_VALIDATE = "checkOTP";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
 constants.CORE_SUBCRIPTION_SEARCH = "subscriptionSearch";
 constants.CORE_BOOKING_CREATE_SUBS_SERVICE = "createBooking";
@@ -162,12 +165,15 @@ constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
 constants.SP_BOOKING_SUBS_SERVICE = "sp_SubscriptionServiceBooking";
 constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
+constants.SP_OTP = "sp_OtpCreateCheck";
 
 /**
  * General Keys
  */
 constants.RAZOR_PAY_ID = "key_id";
 constants.RAZOR_PAY_SECRET = "key_secret";
+constants.AWS_KEY_ID = "accessKeyId";
+constants.AWS_SECRET_KEY = "secretAccessKey";
 
 /**
  * Column Names
@@ -194,6 +200,7 @@ constants.CUSTOMER_PINCODE = "pincode";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
 constants.IS_VALID = "isValid";
+constants.OTP = "otp";
 
 constants.VENDOR_ID = "vendor_id";
 constants.VENDOR_FIRST_NAME = "first_name";
