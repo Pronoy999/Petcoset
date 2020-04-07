@@ -45,12 +45,27 @@ class Booking {
     * Method to create a Subscription service booking.
     * It books a service from an active subscription.
     * @param subscriptionId: The Subscription that the user is buying.
-    * @param amount: The amount to be paid.
-    * @returns {Promise<unknown>}
+    * @param address1: the customer booking address1.
+    * @param address2: The customer booking address 2.
+    * @param cityId: The city Id.
+    * @param pincode: The pincode.
+    * @returns {Promise<Number>}: The booking id.
     */
-   createSubscriptionServiceBooking(subscriptionId, amount) {
+   createSubscriptionServiceBooking(subscriptionId, address1, address2, cityId, pincode) {
       return new Promise((resolve, reject) => {
-         //TODO: Create the booking.
+         database.runSp(constants.SP_BOOKING_SUBS_SERVICE, [this._customerId, subscriptionId, this._serviceId,
+            address1, address2, cityId, pincode, 0]).then(_resultSet => {
+            const result = _resultSet[0][0];
+            if (validators.validateUndefined(result)) {
+               this._bookingId = result.id;
+               resolve(this._bookingId);
+            } else {
+               resolve(false);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
       });
    }
 

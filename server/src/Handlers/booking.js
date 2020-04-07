@@ -20,14 +20,22 @@ bookingHandler.booking = (dataObject) => {
             dataObject.postData[constants.BOOKING_SERVICE_ID] : false;
          const subscriptionId = validator.validateNumber(dataObject.postData[constants.BOOKING_SUBSCRIPTION_ID]) ?
             dataObject.postData[constants.BOOKING_SUBSCRIPTION_ID] : false;
-         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject.postData[constants.JW_TOKEN] : false;
+         const address1 = validator.validateString(dataObject.postData[constants.CUSTOMER_ADDRESS_1]) ?
+            dataObject.postData[constants.CUSTOMER_ADDRESS_1] : false;
+         const address2 = validator.validateString(dataObject.postData[constants.CUSTOMER_ADDRESS_2]) ?
+            dataObject.postData[constants.CUSTOMER_ADDRESS_2] : false;
+         const cityId = validator.validateNumber(dataObject.postData[constants.CUSTOMER_CITY]) ?
+            dataObject.postData[constants.CUSTOMER_CITY] : false;
+         const pincode = validator.validateNumber(dataObject.postData[constants.CUSTOMER_PINCODE]) ?
+            dataObject.postData[constants.CUSTOMER_PINCODE] : false;
+         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
          if (customerId && jwToken && subscriptionId && serviceID) {
             let serviceData = {};
             serviceData[constants.CORE_TOKEN] = jwToken;
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
             serviceData[constants.CORE_DATA] = dataObject.postData;
-            serviceData[constants.CORE_TYPE] = constants.CORE_BOOKING_SERVICE;
+            serviceData[constants.CORE_TYPE] = constants.CORE_BOOKING_CREATE_SUBS_SERVICE;
             let childWorker = childProcess.fork(`${__dirname}/../CoreServices/booking.js`);
             childWorker.send(serviceData);
             childWorker.on("message", (childReply) => {

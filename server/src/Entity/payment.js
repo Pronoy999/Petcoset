@@ -57,6 +57,7 @@ class Payment {
             .then(async _resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
+                  this._paymentID = result.id;
                   resolve(result);
                   await this._capturePayment();
                } else {

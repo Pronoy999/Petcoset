@@ -159,7 +159,7 @@ constants.SP_SERVICE_SEARCH = "sp_SearchServices";
 constants.SP_LOGIN = "sp_LoginGeneric";
 constants.SP_SUBSCRIPTION_REGISTRATION = "sp_SubscriptionRegistration";
 constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
-constants.SP_BOOKING = "sp_SubscriptionServiceBooking";
+constants.SP_BOOKING_SUBS_SERVICE = "sp_SubscriptionServiceBooking";
 constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 

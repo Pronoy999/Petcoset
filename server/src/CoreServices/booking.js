@@ -21,6 +21,7 @@ process.on("message", (serviceData) => {
          case constants.CORE_BOOKING_SUBSCRIPTION:
             promise = bookingServices.createSubscription(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -46,7 +47,8 @@ bookingServices.createSubsServiceBooking = (dataObject, jwToken) => {
       if (validator.validateUndefined(tokenGenerator.validateToken(jwToken))) {
          const booking = new Booking(false, constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, dataObject[constants.BOOKING_CUSTOMER_ID],
             dataObject[constants.BOOKING_SERVICE_ID]);
-         booking.createSubscriptionServiceBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID], dataObject[constants.BOOKING_TOTAL_AMOUNT])
+         booking.createSubscriptionServiceBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID], dataObject[constants.CUSTOMER_ADDRESS_1],
+            dataObject[constants.CUSTOMER_ADDRESS_2], dataObject[constants.CUSTOMER_CITY], dataObject[constants.CUSTOMER_PINCODE])
             .then(bookingId => {
                resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
             }).catch(err => {
