@@ -48,6 +48,10 @@ bookingHandler.booking = (dataObject) => {
          } else {
             reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
          }
+      } else if (method === constants.HTTP_PUT) {
+         const bookingId = validator.validateNumber(dataObject.postData[constants.BOOKING_ID]) ?
+            dataObject.postData[constants.BOOKING_ID] : false;
+         //TODO: Cancel a booking.
       } else {
          reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
       }
