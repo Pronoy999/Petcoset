@@ -13,6 +13,7 @@ BEGIN
         create table tbl_OTPMaster
         (
             id            int primary key auto_increment,
+            phone_number  varchar(13)  NOT NULL,
             OTP           varchar(200) NOT NULL,
             is_active     tinyint               default 1,
             `created_by`  int(11)      NOT NULL DEFAULT 1,
