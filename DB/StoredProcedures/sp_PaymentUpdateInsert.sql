@@ -8,7 +8,8 @@ begin
     select 1
     into @paymentFlag
     from tbl_PaymentMaster
-    where transaction_id = par_transactionId OR booking_id = par_bookingId;
+    where transaction_id = par_transactionId
+       OR booking_id = par_bookingId;
 
     if (@paymentFlag = 1) #if transaction exists
     then
@@ -18,6 +19,7 @@ begin
             modified_by       = par_customerId
         where transaction_id = par_transactionId
            OR booking_id = par_bookingId;
+        select LAST_INSERT_ID() as id;
     else
         insert into tbl_PaymentMaster
         ( booking_id

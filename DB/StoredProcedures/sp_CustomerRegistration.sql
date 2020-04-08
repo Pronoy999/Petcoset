@@ -9,8 +9,6 @@ CREATE PROCEDURE `sp_CustomerRegistration`(IN par_firstName varchar(255),
                                            in par_address1 varchar(255),
                                            in par_address2 varchar(255),
                                            in par_cityId INT,
-                                           in par_stateId INT,
-                                           in par_countryId int,
                                            in pin int,
                                            in ownReferralCode varchar(50),
                                            in referralCode varchar(50))

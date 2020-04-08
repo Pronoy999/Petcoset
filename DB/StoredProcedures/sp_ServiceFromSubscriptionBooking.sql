@@ -1,12 +1,11 @@
-drop procedure if exists sp_SubscriptionServiceBooking;
-create procedure sp_SubscriptionServiceBooking(IN par_customerId int,
-                                               IN par_subscriptionId varchar(50),
-                                               IN par_serviceId int,
-                                               IN par_address1 varchar(50),
-                                               IN par_address2 varchar(50),
-                                               IN par_cityId int,
-                                               IN par_pincode int,
-                                               IN par_isCancel tinyint(1))
+drop procedure if exists sp_ServiceFromSubscriptionBooking;
+create procedure sp_ServiceFromSubscriptionBooking(IN par_customerId int,
+                                                   IN par_subscriptionId varchar(50),
+                                                   IN par_serviceId int,
+                                                   in par_address_id int,
+                                                   in bookingDate date,
+                                                   in bookingTime time,
+                                                   IN par_isCancel tinyint(1))
 begin
     #in case of taking a service from existing subscription
     select is_active
@@ -68,21 +67,17 @@ begin
              service_id,
              booking_date,
              booking_time,
-             address1,
-             address2,
-             city_id,
-             pincode,
+             booking_status_id,
+             address_id,
              created_by)
             values ('subscription_service_booking',
                     par_customerId,
                     par_subscriptionId,
                     par_serviceId,
-                    date(now()),
-                    time(now()),
-                    par_address1,
-                    par_address2,
-                    par_cityId,
-                    par_pincode,
+                    bookingDate,
+                    bookingTime,
+                    4,
+                    par_address_id,
                     par_customerId);
 
             SELECT LAST_INSERT_ID() as id;

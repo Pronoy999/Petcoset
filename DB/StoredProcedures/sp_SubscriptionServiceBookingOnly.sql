@@ -5,10 +5,9 @@ create procedure sp_SubscriptionServiceBookingOnly(par_bookingType enum ('servic
                                                    par_serviceId int,
                                                    par_vendorId int,
                                                    par_amount decimal(18, 2),
-                                                   par_address1 varchar(50),
-                                                   par_address2 varchar(50),
-                                                   par_cityId int,
-                                                   par_pincode int,
+                                                   par_address_id int,
+                                                   parBookingDate date,
+                                                   parBookingTime time,
                                                    par_isCancel bool)
 begin
     SELECT AUTO_INCREMENT
@@ -71,26 +70,18 @@ begin
             (booking_type,
              customer_id,
              subscription_id,
-             service_id,
              total_amount,
              booking_date,
              booking_time,
-             address1,
-             address2,
-             city_id,
-             pincode,
+             booking_status_id,
              created_by)
             values (par_bookingType,
                     par_customerId,
                     par_subscriptionId,
-                    par_serviceId,
                     par_amount,
                     date(now()),
                     time(now()),
-                    par_address1,
-                    par_address2,
-                    par_cityId,
-                    par_pincode,
+                    6,
                     par_customerId);
 
             SELECT last_insert_id() as id;
@@ -99,7 +90,6 @@ begin
 
     else
         #in case of purchasing only service
-
         if par_isCancel = 1
         then
             update tbl_SubscriptionServiceBooking SSB
@@ -118,10 +108,7 @@ begin
              booking_status_id,
              booking_date,
              booking_time,
-             address1,
-             address2,
-             city_id,
-             pincode,
+             address_id,
              created_by)
             values (par_bookingType,
                     par_customerId,
@@ -130,15 +117,12 @@ begin
                     par_vendorId,
                     par_amount,
                     6,
-                    date(now()),
-                    time(now()),
-                    par_address1,
-                    par_address2,
-                    par_cityId,
-                    par_pincode,
+                    parBookingDate,
+                    parBookingTime,
+                    par_address_id,
                     par_customerId);
 
-            SELECT @subscriptionId as id;
+            SELECT last_insert_id() as id;
         end if;
     end if;
 end;
