@@ -3,6 +3,7 @@ const constants = require('./../Helpers/constants');
 const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
+const Payment = require('./payment');
 
 class Booking {
    /**
@@ -25,15 +26,50 @@ class Booking {
    }
 
    /**
-    * Method to create a Subscription service booking.
+    * Method to create and capture the payment for the booking.
+    * @param transactionId: the transaction id of the booking.
+    * @param amount: The amount of the booking.
+    * @returns {Promise<unknown>}
+    * @private
+    */
+   _createPaymentForBooking(transactionId, amount) {
+      return new Promise((resolve, reject) => {
+         const payment = new Payment(this._bookingId, transactionId, amount);
+         payment.createPayment(this._customerId).then(paymentId => {
+            printer.printHighlightedLog("Payment Created for booking: " + this._bookingId);
+            resolve(paymentId);
+         }).catch(err => {
+            printer.printError(err);
+            printer.printError("Payment not created for booking ID: " + this._bookingId);
+            reject(err);
+         });
+      });
+   }
+
+   /**
+    * Method to create a Subscription's service booking.
     * It books a service from an active subscription.
     * @param subscriptionId: The Subscription that the user is buying.
-    * @param amount: The amount to be paid.
-    * @returns {Promise<unknown>}
+    * @param addressId: The address id of the customer.
+    * @param bookingTime: The booking date.
+    * @param bookingDate: The booking time.
+    * @returns {Promise<Number>}: The booking id.
     */
-   createSubscriptionServiceBooking(subscriptionId, amount) {
+   createSubscriptionServiceBooking(subscriptionId, addressId, bookingTime, bookingDate) {
       return new Promise((resolve, reject) => {
-         //TODO: Create the booking.
+         database.runSp(constants.SP_BOOKING_SERVICE_FROM_SUBS, [this._customerId, subscriptionId, this._serviceId,
+            addressId, bookingDate, bookingTime, 0]).then(_resultSet => {
+            const result = _resultSet[0][0];
+            if (validators.validateUndefined(result)) {
+               this._bookingId = result.id;
+               resolve(this._bookingId);
+            } else {
+               resolve(false);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
       });
    }
 
@@ -46,7 +82,20 @@ class Booking {
     */
    createSubscriptionBooking(subscriptionID, amount, transactionId) {
       return new Promise((resolve, reject) => {
-         //TODO:Create the subscription booking. Book the subscription plan.
+         database.runSp(constants.SP_SUBSCRIPTION_BOOKING, [this._bookingType,
+            this._customerId, subscriptionID, 0, 0, amount, 0, "", "", 0]).then(async _resultSet => {
+            const result = _resultSet[0][0];
+            if (validators.validateUndefined(result)) {
+               this._bookingId = result.id;
+               await this._createPaymentForBooking(transactionId, amount);
+               resolve(result);
+            } else {
+               reject(false);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
       });
    }
 
@@ -55,11 +104,27 @@ class Booking {
     * @param vendorID: The vendorID
     * @param amount: The amount of booking.
     * @param transactionId: The transaction id for the payment.
+    * @param bookingDate: The booking date.
+    * @param bookingTime: The booking time.
+    * @param addressId: The address of the customer.
     * @returns {Promise<unknown>}
     */
-   createServiceBooking(vendorID, amount, transactionId) {
+   createServiceBooking(vendorID, amount, transactionId, bookingDate, bookingTime, addressId) {
       return new Promise((resolve, reject) => {
-         //TODO: Create the booking for the service without the subscription.
+         database.runSp(constants.SP_SUBSCRIPTION_BOOKING, [this._bookingType, this._customerId, "0", this._serviceId,
+            vendorID, amount, addressId, bookingDate, bookingTime, 0]).then(async _resultSet => {
+            const result = _resultSet[0][0];
+            if (validators.validateUndefined(result)) {
+               this._bookingId = result.id;
+               await this._createPaymentForBooking(transactionId, amount);
+               resolve(result);
+            } else {
+               reject(false);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
       });
    }
 
@@ -69,7 +134,7 @@ class Booking {
     */
    getBookingDetails() {
       return new Promise((resolve, reject) => {
-
+         //TODO: search for booking.
       });
    }
 }

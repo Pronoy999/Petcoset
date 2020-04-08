@@ -25,26 +25,6 @@ class Payment {
    }
 
    /**
-    * Method to create or update the payment status.
-    * @returns {Promise<Number>}: The paymentID
-    */
-   createPayment() {
-      return new Promise((resolve, reject) => {
-         //TODO: Create the payment details.
-      });
-   }
-
-   /**
-    * Method to search for payment details.
-    * @returns {Promise<unknown>}
-    */
-   getPayment() {
-      return new Promise((resolve, reject) => {
-         //TODO: Get the payment details.
-      });
-   }
-
-   /**
     * Method to capture the RazorPay payment.
     * @returns {Promise<unknown>}
     * @private
@@ -60,8 +40,43 @@ class Payment {
             resolve(true);
          }).catch(err => {
             printer.printError(err);
+            resolve(false);
+         });
+      });
+   }
+
+   /**
+    * Method to create or update the payment status.
+    * @param customerId: The customer id for the payment.
+    * @returns {Promise<unknown>}
+    */
+   createPayment(customerId) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_PAYMENT_CREATE, [this._bookingID, this._transactionID,
+            constants.STATUS_AUTHORIZED, customerId, this._amount])
+            .then(async _resultSet => {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result)) {
+                  this._paymentID = result.id;
+                  await this._capturePayment();
+                  resolve(result);
+               } else {
+                  reject(false);
+               }
+            }).catch(err => {
+            printer.printError(err);
             reject(err);
          });
+      });
+   }
+
+   /**
+    * Method to search for payment details.
+    * @returns {Promise<unknown>}
+    */
+   getPayment() {
+      return new Promise((resolve, reject) => {
+         //TODO: Get the payment details.
       });
    }
 }

@@ -45,7 +45,6 @@ customerService.createCustomer = (dataObject) => {
          dataObject[constants.CUSTOMER_PASSWORD], dataObject[constants.CUSTOMER_PHONE_NUMBER],
          dataObject[constants.CUSTOMER_GENDER], dataObject[constants.CUSTOMER_ADDRESS_1],
          dataObject[constants.CUSTOMER_ADDRESS_2], dataObject[constants.CUSTOMER_CITY],
-         dataObject[constants.CUSTOMER_STATE], dataObject[constants.CUSTOMER_COUNTRY],
          dataObject[constants.CUSTOMER_PINCODE]);
       customer.createCustomer(dataObject[constants.CUSTOMER_USED_REFERAL_CODE]).then(customerId => {
          resolve([customerId, constants.RESPONSE_SUCESS_LEVEL_1]);

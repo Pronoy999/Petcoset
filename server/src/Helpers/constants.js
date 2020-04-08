@@ -59,6 +59,14 @@ constants.REQUEST_TYPE = "type";
 constants.STATUS_PROCESSING = 1;
 constants.STATUS_COMPLETED = 2;
 constants.STATUS_ERROR = 3;
+constants.STATUS_PENDING = 4;
+constants.STATUS_CONFIRM = 6;
+constants.STATUS_REJECTED = 7;
+constants.STATUS_AUTHORIZED = 8;
+constants.STATUS_CAPTURED = 9;
+constants.STAUTS_REFUNDED = 10;
+constants.STATUS_CANCEL = 11;
+
 /**
  * API Methods.
  */
@@ -100,6 +108,7 @@ constants.ERROR_LEVEL_4 = "4";
  * Messages.
  */
 constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
+constants.OTP_MESSAGE = "Your Petcoset OTP is: ";
 
 /**
  * Core-Service Keys
@@ -131,6 +140,8 @@ constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
+constants.CORE_AUTH_OTP_REQEUST = "reqOTP";
+constants.CORE_AUTH_OTP_VALIDATE = "checkOTP";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
 constants.CORE_SUBCRIPTION_SEARCH = "subscriptionSearch";
 constants.CORE_BOOKING_CREATE_SUBS_SERVICE = "createBooking";
@@ -151,13 +162,18 @@ constants.SP_SERVICE_SEARCH = "sp_SearchServices";
 constants.SP_LOGIN = "sp_LoginGeneric";
 constants.SP_SUBSCRIPTION_REGISTRATION = "sp_SubscriptionRegistration";
 constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
-constants.SP_BOOKING = "sp_SubscriptionServiceBooking";
+constants.SP_BOOKING_SERVICE_FROM_SUBS = "sp_ServiceFromSubscriptionBooking";
+constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
+constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
+constants.SP_OTP = "sp_OtpCreateCheck";
 
 /**
  * General Keys
  */
 constants.RAZOR_PAY_ID = "key_id";
 constants.RAZOR_PAY_SECRET = "key_secret";
+constants.AWS_KEY_ID = "accessKeyId";
+constants.AWS_SECRET_KEY = "secretAccessKey";
 
 /**
  * Column Names
@@ -175,6 +191,7 @@ constants.CUSTOMER_EMAIL = "email";
 constants.CUSTOMER_PASSWORD = "password";
 constants.CUSTOMER_PHONE_NUMBER = "phone_number";
 constants.CUSTOMER_GENDER = "gender";
+constants.CUSTOMER_ADDRESS_ID = "address_id";
 constants.CUSTOMER_ADDRESS_1 = "address_1";
 constants.CUSTOMER_ADDRESS_2 = "address_2";
 constants.CUSTOMER_CITY = "city";
@@ -184,6 +201,7 @@ constants.CUSTOMER_PINCODE = "pincode";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
 constants.IS_VALID = "isValid";
+constants.OTP = "otp";
 
 constants.VENDOR_ID = "vendor_id";
 constants.VENDOR_FIRST_NAME = "first_name";
@@ -234,6 +252,8 @@ constants.BOOKING_SERVICE_ID = "service_id";
 constants.BOOKING_EMPLOYEE_ID = "employee_id";
 constants.BOOKING_VENDOR_ID = "vendor_id";
 constants.BOOKING_TOTAL_AMOUNT = "total_amount";
+constants.BOOKING_DATE = "booking_date";
+constants.BOOKING_TIME = "booking_time";
 
 constants.PAYMENT_BOOKING_ID = "booking_id";
 constants.PAYMENT_TRANSACTION_ID = "transaction_id";

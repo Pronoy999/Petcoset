@@ -1,0 +1,129 @@
+drop procedure if exists sp_SubscriptionServiceBookingOnly;
+create procedure sp_SubscriptionServiceBookingOnly(par_bookingType enum ('service_booking','subscription_booking'),
+                                                   par_customerId int,
+                                                   par_subscriptionId varchar(50),
+                                                   par_serviceId int,
+                                                   par_vendorId int,
+                                                   par_amount decimal(18, 2),
+                                                   par_address_id int,
+                                                   parBookingDate date,
+                                                   parBookingTime time,
+                                                   par_isCancel bool)
+begin
+    SELECT AUTO_INCREMENT
+    INTO @subscriptionId
+    FROM information_schema.TABLES
+    WHERE TABLE_SCHEMA = (SELECT DATABASE())
+      AND TABLE_NAME = 'tbl_SubscriptionServiceBooking';
+
+    select id into @bookingId from tbl_BookingType where booking_type = par_bookingType;
+
+    if (par_bookingType = 'subscription_booking')
+    then
+        #in case if purchasing a subscription
+
+        if par_isCancel = 1
+        then
+            update tbl_SubscriptionServiceBooking SSB
+            set is_active         = 0,
+                booking_status_id = 11
+            where customer_id = par_customerId
+              and subscription_id = par_subscriptionId;
+
+            update tbl_CustomerSubscriptionMapping
+            set is_active=0
+            where customer_id = par_customerId
+              and subscription_id = par_subscriptionId;
+            /*
+            update tbl_CustomerSubscriptionServiceMapping
+            set is_active=0
+            where customer_subscription_mapping_id
+            */
+        else
+            insert into tbl_CustomerSubscriptionMapping
+            ( customer_id
+            , subscription_id
+            , subscription_amount
+            , created_by)
+            VALUES ( par_customerId
+                   , par_subscriptionId
+                   , par_amount
+                   , par_customerId);
+
+            insert into tbl_CustomerSubscriptionServiceMapping
+            ( customer_subscription_mapping_id
+            , service_id
+            , service_count
+            , created_by)
+            select CSM.id
+                 , SSM.service_id
+                 , SSM.services_count
+                 , par_customerId
+            FROM tbl_CustomerSubscriptionMapping CSM
+                     INNER JOIN
+                 tbl_SubscriptionServiceMapping SSM
+                 ON SSM.subscription_id = CSM.subscription_id
+            where CSM.customer_id = par_customerId
+              AND CSM.subscription_id = par_subscriptionId;
+
+            insert into tbl_SubscriptionServiceBooking
+            (booking_type,
+             customer_id,
+             subscription_id,
+             total_amount,
+             booking_date,
+             booking_time,
+             booking_status_id,
+             created_by)
+            values (par_bookingType,
+                    par_customerId,
+                    par_subscriptionId,
+                    par_amount,
+                    date(now()),
+                    time(now()),
+                    6,
+                    par_customerId);
+
+            SELECT last_insert_id() as id;
+
+        end if;
+
+    else
+        #in case of purchasing only service
+        if par_isCancel = 1
+        then
+            update tbl_SubscriptionServiceBooking SSB
+            set is_active=0,
+                booking_status_id = 11
+            where customer_id = par_customerId
+              and subscription_id = par_subscriptionId;
+        else
+            insert into tbl_SubscriptionServiceBooking
+            (booking_type,
+             customer_id,
+             subscription_id,
+             service_id,
+             vendor_id,
+             total_amount,
+             booking_status_id,
+             booking_date,
+             booking_time,
+             address_id,
+             created_by)
+            values (par_bookingType,
+                    par_customerId,
+                    par_subscriptionId,
+                    par_serviceId,
+                    par_vendorId,
+                    par_amount,
+                    6,
+                    parBookingDate,
+                    parBookingTime,
+                    par_address_id,
+                    par_customerId);
+
+            SELECT last_insert_id() as id;
+        end if;
+    end if;
+end;
+

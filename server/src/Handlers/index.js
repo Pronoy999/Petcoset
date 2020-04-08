@@ -27,6 +27,9 @@ handlerObj.customers = (dataObject) => {
          case "customers":
             promise = customer.customer(dataObject);
             break;
+         case "address":
+            promise = customer.address(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }
@@ -93,6 +96,9 @@ handlerObj.auth = (dataObject) => {
          case "auth":
             promise = authentication.authenticate(dataObject);
             break;
+         case "otp":
+            promise = authentication.otp(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }
@@ -141,7 +147,7 @@ handlerObj.booking = (dataObject) => {
             promise = booking.booking(dataObject);
             break;
          case "subscription":
-            booking.bookingSubscription(dataObject);
+            promise = booking.bookingSubscription(dataObject);
             break;
          case "service":
             promise = booking.bookingService(dataObject);

@@ -14,6 +14,10 @@ process.on("message", (serviceData) => {
       let promise;
       if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_CHECK) {
          promise = authentication.checkAuthentication(serviceData[constants.CORE_DATA]);
+      } else if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_OTP_REQEUST) {
+         promise = authentication.requestOTP(serviceData[constants.CORE_DATA]);
+      } else if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_OTP_VALIDATE) {
+         promise = authentication.verifyOTP(serviceData[constants.CORE_DATA]);
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -38,6 +42,36 @@ authentication.checkAuthentication = (dataObject) => {
       const authentication = new Authentication(dataObject[constants.AUTH_EMAIL], dataObject[constants.AUTH_PASSWORD]);
       authentication.checkValidity().then(userData => {
          resolve([userData, constants.RESPONSE_SUCESS_LEVEL_1]);
+      }).catch(err => {
+         reject([err, constants.ERROR_LEVEL_3]);
+      });
+   });
+};
+/**
+ * Method to handle the OTP request.
+ * @param dataObject: The required data.
+ * @returns {Promise<unknown>}
+ */
+authentication.requestOTP = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const authentication = new Authentication();
+      authentication.requestOtp(dataObject[constants.CUSTOMER_PHONE_NUMBER]).then(() => {
+         resolve([true, constants.RESPONSE_SUCESS_LEVEL_1]);
+      }).catch(err => {
+         reject([err, constants.ERROR_LEVEL_3]);
+      });
+   });
+};
+/**
+ * Method to handle the OTP verification.
+ * @param dataObject
+ * @returns {Promise<unknown>}
+ */
+authentication.verifyOTP = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const authentication = new Authentication();
+      authentication.verifyOtp(dataObject[constants.CUSTOMER_PHONE_NUMBER], dataObject[constants.OTP]).then((isValid) => {
+         resolve([isValid, constants.RESPONSE_SUCESS_LEVEL_1]);
       }).catch(err => {
          reject([err, constants.ERROR_LEVEL_3]);
       });
