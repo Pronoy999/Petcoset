@@ -40,7 +40,7 @@ class Payment {
             resolve(true);
          }).catch(err => {
             printer.printError(err);
-            reject(err);
+            resolve(false);
          });
       });
    }
@@ -58,8 +58,8 @@ class Payment {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
                   this._paymentID = result.id;
-                  resolve(result);
                   await this._capturePayment();
+                  resolve(result);
                } else {
                   reject(false);
                }

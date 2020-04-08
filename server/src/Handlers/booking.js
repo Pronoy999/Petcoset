@@ -20,16 +20,14 @@ bookingHandler.booking = (dataObject) => {
             dataObject.postData[constants.BOOKING_SERVICE_ID] : false;
          const subscriptionId = validator.validateNumber(dataObject.postData[constants.BOOKING_SUBSCRIPTION_ID]) ?
             dataObject.postData[constants.BOOKING_SUBSCRIPTION_ID] : false;
-         const address1 = validator.validateString(dataObject.postData[constants.CUSTOMER_ADDRESS_1]) ?
-            dataObject.postData[constants.CUSTOMER_ADDRESS_1] : false;
-         const address2 = validator.validateString(dataObject.postData[constants.CUSTOMER_ADDRESS_2]) ?
-            dataObject.postData[constants.CUSTOMER_ADDRESS_2] : false;
-         const cityId = validator.validateNumber(dataObject.postData[constants.CUSTOMER_CITY]) ?
-            dataObject.postData[constants.CUSTOMER_CITY] : false;
-         const pincode = validator.validateNumber(dataObject.postData[constants.CUSTOMER_PINCODE]) ?
-            dataObject.postData[constants.CUSTOMER_PINCODE] : false;
+         const addressID = validator.validateNumber(dataObject.postData[constants.CUSTOMER_ADDRESS_ID]) ?
+            dataObject.postData[constants.CUSTOMER_ADDRESS_ID] : false;
+         const bookingTime = validator.validateString(dataObject.postData[constants.BOOKING_TIME]) ?
+            dataObject.postData[constants.BOOKING_TIME] : false;
+         const bookingDate = validator.validateDate(dataObject.postData[constants.BOOKING_DATE]) ?
+            dataObject.postData[constants.BOOKING_DATE] : false;
          const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
-         if (customerId && jwToken && subscriptionId && serviceID) {
+         if (customerId && jwToken && subscriptionId && addressID && bookingDate && bookingTime && serviceID) {
             let serviceData = {};
             serviceData[constants.CORE_TOKEN] = jwToken;
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
@@ -122,12 +120,19 @@ bookingHandler.bookingService = (dataObject) => {
             dataObject.postData[constants.PAYMENT_TRANSACTION_ID] : false;
          const vendorID = validator.validateNumber(dataObject.postData[constants.BOOKING_VENDOR_ID]) ?
             dataObject.postData[constants.BOOKING_VENDOR_ID] : false;
-         if (serviceID && customerId && jwToken && amount && transactionID && vendorID) {
+         const addressId = validator.validateNumber(dataObject.postData[constants.CUSTOMER_ADDRESS_ID]) ?
+            dataObject.postData[constants.CUSTOMER_ADDRESS_ID] : false;
+         const bookingDate = validator.validateDate(dataObject.postData[constants.BOOKING_DATE]) ?
+            dataObject.postData[constants.BOOKING_DATE] : false;
+         const bookingTime = validator.validateString(dataObject.postData[constants.BOOKING_TIME]) ?
+            dataObject.postData[constants.BOOKING_TIME] : false;
+         if (serviceID && customerId && jwToken && amount && transactionID && vendorID && addressId && bookingTime && bookingDate) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
             serviceData[constants.CORE_TOKEN] = jwToken;
             serviceData[constants.CORE_DATA] = dataObject.postData;
-            serviceData[constants.CORE_TYPE] = constants.CORE_BOOKING_SUBSCRIPTION;
+            serviceData[constants.CORE_TYPE] = constants.CORE_BOOKING_SERVICE;
             let childWorker = childProcess.fork(`${__dirname}/../CoreServices/booking.js`);
             childWorker.send(serviceData);
             childWorker.on("message", (childReply) => {
