@@ -26,6 +26,7 @@ BEGIN
             `pincode`            int(11)             DEFAULT NULL,
             `referral_code`      varchar(50)         DEFAULT NULL,
             `used_referral_code` varchar(50)         DEFAULT NULL,
+            `status_id`          int(11)             DEFAULT NULL,
             `is_active`          tinyint(4)          DEFAULT '1',
             `created_by`         int(11)        NOT NULL,
             `created`            timestamp      NULL DEFAULT CURRENT_TIMESTAMP,
@@ -35,7 +36,7 @@ BEGIN
             UNIQUE KEY `email` (`email`),
             UNIQUE KEY `referral_code` (`referral_code`),
             KEY `Email_customer` (`email`)
-        );
+        ) ;
     end if;
 end$$
 

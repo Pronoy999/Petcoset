@@ -47,6 +47,7 @@ BEGIN
             , country
             , pincode
             , modify_access
+            , status_id
             , created_by)
             values (par_firstName,
                     par_lastName,
@@ -61,6 +62,7 @@ BEGIN
                     par_country,
                     par_pincode,
                     par_modAccess,
+                    12,
                     par_empId);
             INSERT INTO tbl_IdentificationDocumentMaster(document_holder_id, document_holder_type, document_type,
                                                          document_id_number, is_active, created_by)
@@ -74,4 +76,3 @@ BEGIN
         end if;
     END IF;
 END;
-

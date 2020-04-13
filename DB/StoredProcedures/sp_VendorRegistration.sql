@@ -43,6 +43,7 @@ BEGIN
          address_2,
          city,
          pincode,
+         status_id,
          created_by)
         values (par_firstName,
                 par_lastName,
@@ -53,6 +54,7 @@ BEGIN
                 par_address2,
                 par_city,
                 par_pincode,
+                4,
                 @vendorId);
 
         insert into tbl_VendorServiceMapping

@@ -39,6 +39,7 @@ BEGIN
          gender,
          referral_code,
          used_referral_code,
+         status_id,
          created_by)
         VALUES (par_firstName,
                 par_lastName,
@@ -47,8 +48,10 @@ BEGIN
                 par_gender,
                 ownReferralCode,
                 referralCode,
+                12,
                 1);
-        SELECT customer_id;
+        
+        SELECT last_insert_id() as id;
 
         INSERT INTO tbl_CustomerAddressMapping
         (customer_id,
