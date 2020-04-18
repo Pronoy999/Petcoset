@@ -32,8 +32,29 @@ BEGIN
             UNIQUE KEY `email` (`email`),
             KEY `idx_email_vendor` (`email`)
         );
+    END If;
+        IF NOT EXISTS(
+                select 1
+                FROM information_schema.COLUMNS
+                WHERE TABLE_SCHEMA = currentSchema
+                  and TABLE_NAME = 'tbl_VendorMaster'
+                  and COLUMN_NAME = 'profile_image'
+            ) THEN
+            BEGIN
+                ALTER TABLE tbl_VendorMaster
+                    ADD COLUMN profile_image varchar(255) DEFAULT NULL after pincode;
+            end;
+        end if;
+        IF NOT EXISTS(
+            select 1 from information_schema.COLUMNS WHERE TABLE_SCHEMA=currentSchema
+            and TABLE_NAME='tbl_VendorMaster'
+            and COLUMN_NAME='rating'
+            ) THEN
+            BEGIN
+                ALTER TABLE tbl_VendorMaster add column rating double(5,1) default 0.0 after profile_image;
+            end;
     end if;
-end$$
+end $$
 
 DELIMITER ;
 CALL sp_tbl_VendorMaster();
