@@ -137,6 +137,7 @@ constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
+constants.CORE_VENDOR_SERVICE_ADD = "addVendorService";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
@@ -166,6 +167,7 @@ constants.SP_BOOKING_SERVICE_FROM_SUBS = "sp_ServiceFromSubscriptionBooking";
 constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 constants.SP_OTP = "sp_OtpCreateCheck";
+constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
 
 /**
  * General Keys
@@ -215,6 +217,10 @@ constants.VENDOR_CITY = "city";
 constants.VENDOR_STATE = "state";
 constants.VENDOR_COUNTRY = "country";
 constants.VENDOR_PINCODE = "pincode";
+constants.VENDOR_PET_TYPE = "pet_type";
+constants.VENDOR_IS_BATHING_PROVIDED = "is_bathing_provided";
+constants.VENDOR_SERVICE_DURATION = "service_duration_hours";
+constants.VENDOR_SERVICE_CHARGE = "service_charge";
 
 constants.DOCUMENT_HOLDER_ID = "document_holder_id";
 constants.DOCUMENT_HOLDER_TYPE = "document_holder_type";

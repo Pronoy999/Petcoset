@@ -52,6 +52,9 @@ handlerObj.vendor = (dataObject) => {
          case "vendors":
             promise = vendor.vendor(dataObject);
             break;
+         case "service":
+            promise = vendor.vendorService(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }
