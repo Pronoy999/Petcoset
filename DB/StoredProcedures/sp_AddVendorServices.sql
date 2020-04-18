@@ -6,25 +6,29 @@ BEGIN
     select id into @isExists from tbl_VendorServiceMapping where vendor_id = parVendorId and service_id = parServiceID;
     if @isExists > 0 then
         set @whereClaus = ' set ';
-        set @petTypeWhere = '';
+        /*set @petTypeWhere = '';
         set @isBathing = '';
         set @duration = '';
-        set @serviceCharge = '';
+        set @serviceCharge = '';*/
         if parPetType = 'DOG' OR parPetType = 'CAT' THEN
-            set @petTypeWhere = concat(' pet_type = ''', parPetType, '''');
+            set @whereClaus = concat(@whereClaus, ' pet_type = ''', parPetType, ''',');
         end if;
         if parIsBathing > -1 THEN
-            set @isBathing = concat(' ,is_bathing_provided = ', parIsBathing) ;
+            set @whereClaus = concat(@whereClaus, ' is_bathing_provided = ', parIsBathing, ',');
         end if;
-        if parDuration > 0 THEN
-            set @duration = concat(' ,service_duration_hours = ', parDuration);
+        if parDuration > 1 THEN
+            set @whereClaus = concat(@whereClaus, ' service_duration_hours = ', parDuration, ',');
         end if;
         if parServiceCharge > 0 THEN
-            set @serviceCharge = concat(' ,service_charge = ', parServiceCharge);
+            set @whereClaus = concat(@whereClaus, ' service_charge = ', parServiceCharge, ',');
         end if;
-        select concat('update tbl_VendorServiceMapping ', @whereClaus, @petTypeWhere, @isBathing, @duration,
-                      @serviceCharge, ' where vendor_id = ', parVendorId, ' and service_id = ', parServiceID)
+        /*set @len = length(@whereClaus) - 1;
+        set @whereClaus = substring(@whereClaus, 1, @len);*/
+        set @whereClaus = concat(@whereClaus, ' modified_by = ', parVendorId, ', modified = now()');
+        select concat('update tbl_VendorServiceMapping ', @whereClaus, ' where vendor_id = ', parVendorId,
+                      ' and service_id = ', parServiceID)
         into @stmtSQL;
+        #select @stmtSQL;
         PREPARE stmtExec from @stmtSQL;
         EXECUTE stmtExec;
         DEALLOCATE PREPARE stmtExec;
