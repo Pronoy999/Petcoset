@@ -6,10 +6,6 @@ BEGIN
     select id into @isExists from tbl_VendorServiceMapping where vendor_id = parVendorId and service_id = parServiceID;
     if @isExists > 0 then
         set @whereClaus = ' set ';
-        /*set @petTypeWhere = '';
-        set @isBathing = '';
-        set @duration = '';
-        set @serviceCharge = '';*/
         if parPetType = 'DOG' OR parPetType = 'CAT' THEN
             set @whereClaus = concat(@whereClaus, ' pet_type = ''', parPetType, ''',');
         end if;
@@ -22,8 +18,6 @@ BEGIN
         if parServiceCharge > 0 THEN
             set @whereClaus = concat(@whereClaus, ' service_charge = ', parServiceCharge, ',');
         end if;
-        /*set @len = length(@whereClaus) - 1;
-        set @whereClaus = substring(@whereClaus, 1, @len);*/
         set @whereClaus = concat(@whereClaus, ' modified_by = ', parVendorId, ', modified = now()');
         select concat('update tbl_VendorServiceMapping ', @whereClaus, ' where vendor_id = ', parVendorId,
                       ' and service_id = ', parServiceID)
