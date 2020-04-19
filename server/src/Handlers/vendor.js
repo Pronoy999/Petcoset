@@ -159,6 +159,54 @@ vendorHandler.twoFactor = (dataObject) => {
     });
 };
 /**
+ * Method to handle all the bank account details.
+ * @param dataObject: the request object.
+ * @returns {Promise<Array>}: response object and the response code.
+ */
+vendorHandler.details = (dataObject) => {
+    return new Promise((resolve, reject) => {
+        const method = dataObject.method;
+        if (method === constants.HTTP_POST) {
+            const holderId = validator.validateNumber(dataObject.postData[constants.BANK_ACCOUNT_HOLDER_ID]) ?
+                dataObject.postData[constants.BANK_ACCOUNT_HOLDER_ID] : false;
+            const holderName = validator.validateString(dataObject.postData[constants.BANK_ACCOUNT_HOLDER_NAME]) ?
+                dataObject.postData[constants.BANK_ACCOUNT_HOLDER_NAME] : false;
+            const accountNumber = validator.validateNumber(dataObject.postData[constants.BANK_ACCOUNT_ACCOUNT_NUMBER]) ?
+                dataObject.postData[constants.BANK_ACCOUNT_ACCOUNT_NUMBER] : false;
+            const bankName = validator.validateString(dataObject.postData[constants.BANK_ACCOUNT_BANK_NAME]) ?
+                dataObject.postData[constants.BANK_ACCOUNT_BANK_NAME] : false;
+            const ifscCode = validator.validateString(dataObject.postData[constants.BANK_ACCOUNT_IFSC_CODE]) ?
+                dataObject.postData[constants.BANK_ACCOUNT_IFSC_CODE] : false;
+            const contactNumber = validator.validatePhone(dataObject.postData[constants.BANK_ACCOUNT_CONTACT_NUMBER]) ?
+                dataObject.postData[constants.BANK_ACCOUNT_CONTACT_NUMBER] : false;
+            const isUpdate = validator.validateNumber(dataObject.postData[constants.BANK_ACCOUNT_IS_UPDATE]) ?
+                dataObject.postData[constants.BANK_ACCOUNT_IS_UPDATE] : 1;
+            const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
+            if (holderId && holderName && accountNumber && bankName && ifscCode && contactNumber && jwToken) {
+                let serviceData = {};
+                serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+                serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+                serviceData[constants.CORE_DATA] = dataObject.postData;
+                serviceData[constants.CORE_TOKEN] = jwToken;
+                serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_BANK;
+                const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+                childWorker.send(serviceData);
+                childWorker.on("message", (childReply) => {
+                    if (childReply[constants.CORE_ERROR_LEVEL]) {
+                        resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+                    } else {
+                        resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+                    }
+                });
+            } else {
+                reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+            }
+        } else {
+            reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
+        }
+    });
+};
+/**
  * Exporting the vendor module.
  */
 module.exports = vendorHandler;

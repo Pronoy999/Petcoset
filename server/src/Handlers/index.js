@@ -58,6 +58,9 @@ handlerObj.vendor = (dataObject) => {
             case "2f":
                 promise = vendor.twoFactor(dataObject);
                 break;
+            case "details":
+                promise = vendor.details(dataObject);
+                break;
             default:
                 reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
         }

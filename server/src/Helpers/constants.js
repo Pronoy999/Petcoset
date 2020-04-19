@@ -140,6 +140,7 @@ constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_VENDOR_SERVICE_ADD = "addVendorService";
 constants.CORE_VENDOR_2F_VERIFY = "verify2FVendor";
+constants.CORE_VENDOR_BANK = "vendorBank";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
@@ -170,6 +171,7 @@ constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 constants.SP_OTP = "sp_OtpCreateCheck";
 constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
+constants.SP_CREATE_BANK_DETAILS = "sp_BankDetailsUpdateInsert";
 
 /**
  * General Keys
@@ -270,6 +272,15 @@ constants.PAYMENT_TRANSACTION_ID = "transaction_id";
 constants.PAYMENT_AMOUNT = "payment_amount";
 constants.PAYMENT_STATUS_ID = "payment_status_id";
 
+constants.BANK_ACCOUNT_HOLDER_ID = "holder_id";
+constants.BANK_ACCOUNT_HOLDER_TYPE = "holder_type";
+constants.BANK_ACCOUNT_HOLDER_NAME = "holder_name";
+constants.BANK_ACCOUNT_ACCOUNT_NUMBER = "account_number";
+constants.BANK_ACCOUNT_BANK_NAME = "bank_name";
+constants.BANK_ACCOUNT_IFSC_CODE = "ifsc_code";
+constants.BANK_ACCOUNT_CONTACT_NUMBER = "contact_number";
+constants.BANK_ACCOUNT_PAYMENT_GATEWAY_ID = "payment_gateway_account_id";
+constants.BANK_ACCOUNT_IS_UPDATE = "is_update";
 
 /**
  * exporting the constants.

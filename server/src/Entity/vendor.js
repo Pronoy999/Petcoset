@@ -146,6 +146,33 @@ class Vendor {
             }
         });
     }
+
+    /**
+     * Method to create the bank details of the vendor.
+     * @param accountHolderName: The account holder Name.
+     * @param accountNumber: The account holder name.
+     * @param bankName: The name of the bank.
+     * @param ifscCode: The IFSC code.
+     * @param isUpdate: 1 to update the existing value. 0 to create new.
+     * @returns {Promise<unknown>}
+     */
+    createUpdateBankDetails(accountHolderName, accountNumber, bankName, ifscCode, isUpdate) {
+        return new Promise((resolve, reject) => {
+            database.runSp(constants.SP_CREATE_BANK_DETAILS, [this._vendorId, "tbl_VendorMaster", accountHolderName,
+                accountNumber, bankName, ifscCode, this._phone, '', 0, isUpdate])
+                .then(_resultSet => {
+                    const result = _resultSet[0][0];
+                    if (validators.validateUndefined(result)) {
+                        resolve(result);
+                    } else {
+                        resolve({"id": -1});
+                    }
+                }).catch(err => {
+                printer.printError(err);
+                reject(err);
+            });
+        });
+    }
 }
 
 /**

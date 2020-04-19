@@ -26,6 +26,12 @@ process.on("message", (serviceData) => {
             case constants.CORE_VENDOR_2F_VERIFY:
                 promise = vendorService.verify2F(serviceData[constants.CORE_DATA]);
                 break;
+            case constants.CORE_VENDOR_BANK:
+                promise = vendorService.details(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+                break;
+            default:
+                process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
+                process.exit(1);
         }
         promise.then(data => {
             process.send(responseGenerator.generateCoreResponse(data[0], data[1], false, false));
@@ -108,5 +114,28 @@ vendorService.verify2F = (dataObject) => {
         }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
         });
+    });
+};
+/**
+ * Method to handle the bank account details for the vendor.
+ * @param dataObject: The required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}: The response object and the success or error level.
+ */
+vendorService.details = (dataObject, jwToken) => {
+    return new Promise((resolve, reject) => {
+        if (tokenGenerator.validateToken(jwToken)) {
+            const vendor = new Vendor(dataObject[constants.BANK_ACCOUNT_HOLDER_ID], false, false, false, dataObject[constants.BANK_ACCOUNT_CONTACT_NUMBER]);
+            vendor.createUpdateBankDetails(dataObject[constants.BANK_ACCOUNT_HOLDER_NAME], dataObject[constants.BANK_ACCOUNT_ACCOUNT_NUMBER],
+                dataObject[constants.BANK_ACCOUNT_BANK_NAME], dataObject[constants.BANK_ACCOUNT_IFSC_CODE],
+                dataObject[constants.BANK_ACCOUNT_IS_UPDATE])
+                .then(bankDetails => {
+                    resolve([bankDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+                }).catch(err => {
+                reject([err, constants.ERROR_LEVEL_3]);
+            });
+        } else {
+            reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+        }
     });
 };
