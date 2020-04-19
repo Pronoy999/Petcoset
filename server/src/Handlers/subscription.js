@@ -35,7 +35,7 @@ subscriptionHandler.subscription = (dataObject) => {
                 const childWorker = childProcess.fork(`${__dirname}/../CoreServices/subscription.js`);
                 childWorker.send(serviceData);
                 childWorker.on("message", childReply => {
-                    if (childReply[constants.CORE_ERROR]) {
+                    if (childReply[constants.CORE_ERROR_LEVEL]) {
                         resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
                     } else {
                         resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
@@ -81,7 +81,7 @@ subscriptionHandler.searchSubscription = (dataObject) => {
                 const childWorker = childProcess.fork(`${__dirname}/../CoreServices/subscription.js`);
                 childWorker.send(serviceData);
                 childWorker.on("message", childReply => {
-                    if (childReply[constants.CORE_ERROR]) {
+                    if (childReply[constants.CORE_ERROR_LEVEL]) {
                         resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
                     } else {
                         resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
