@@ -23,9 +23,9 @@ constants.TIME_ZONE = "Asia/Kolkata";
  * Validation strings.
  */
 constants.EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-   + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 constants.PASSWORD_REGEX = "(?=^.{6,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])" +
-   "(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$";
+    "(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$";
 constants.PHONE_NUMBER_PREFIX = "+91";
 constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
@@ -33,10 +33,10 @@ constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
  * Header Data.
  */
 constants.HEADERS = {
-   'Access-Control-Allow-Origin': '*',
-   'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
-   'Access-Control-Max-Age': 2592000,
-   'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
+    'Access-Control-Max-Age': 2592000,
+    'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
 };
 constants.CONTENT_TYPE_TEXT = "Content-Type";
 constants.CONTENT_TYPE_JSON = "application/json";
@@ -109,6 +109,7 @@ constants.ERROR_LEVEL_4 = "4";
  */
 constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
 constants.OTP_MESSAGE = "Your Petcoset OTP is: ";
+constants.INCORRECT_OTP = "Incorrect OTP";
 
 /**
  * Core-Service Keys
@@ -137,6 +138,8 @@ constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
+constants.CORE_VENDOR_SERVICE_ADD = "addVendorService";
+constants.CORE_VENDOR_2F_VERIFY = "verify2FVendor";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
@@ -166,6 +169,7 @@ constants.SP_BOOKING_SERVICE_FROM_SUBS = "sp_ServiceFromSubscriptionBooking";
 constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 constants.SP_OTP = "sp_OtpCreateCheck";
+constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
 
 /**
  * General Keys
@@ -174,6 +178,7 @@ constants.RAZOR_PAY_ID = "key_id";
 constants.RAZOR_PAY_SECRET = "key_secret";
 constants.AWS_KEY_ID = "accessKeyId";
 constants.AWS_SECRET_KEY = "secretAccessKey";
+constants.TWO_FACTOR_KEY = "2F";
 
 /**
  * Column Names
@@ -207,6 +212,7 @@ constants.VENDOR_ID = "vendor_id";
 constants.VENDOR_FIRST_NAME = "first_name";
 constants.VENDOR_LAST_NAME = "last_name";
 constants.VENDOR_EMAIL = "email";
+constants.VENDOR_PASSWORD = "password";
 constants.VENDOR_PHONE_NUMBER = "phone_number";
 constants.VENDOR_GENDER = "gender";
 constants.VENDOR_ADDRESS_1 = "address_1";
@@ -215,6 +221,10 @@ constants.VENDOR_CITY = "city";
 constants.VENDOR_STATE = "state";
 constants.VENDOR_COUNTRY = "country";
 constants.VENDOR_PINCODE = "pincode";
+constants.VENDOR_PET_TYPE = "pet_type";
+constants.VENDOR_IS_BATHING_PROVIDED = "is_bathing_provided";
+constants.VENDOR_SERVICE_DURATION = "service_duration_hours";
+constants.VENDOR_SERVICE_CHARGE = "service_charge";
 
 constants.DOCUMENT_HOLDER_ID = "document_holder_id";
 constants.DOCUMENT_HOLDER_TYPE = "document_holder_type";

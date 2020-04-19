@@ -3,6 +3,9 @@ const constants = require('./../Helpers/constants');
 const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
+const tokenGenerator = require('./../Services/jwTokenGenerator');
+
+const Authentication = require('./authentication');
 
 class Vendor {
     /**
@@ -41,15 +44,49 @@ class Vendor {
 
     /**
      * Method to register the vendor.
+     * @param password: the vendor login password.
      * @param documentIdentificationNumber: The identification document number.
      * @param documentType: The identification Document Type.
      * @returns {Promise<unknown>}
      */
-    createVendor(documentIdentificationNumber, documentType) {
+    createVendor(password, documentIdentificationNumber, documentType) {
         return new Promise((resolve, reject) => {
-            database.runSp(constants.SP_CREATE_VENDOR, [this._firstName, this._lastName, this._email,
-                this._phone, this._gender, this._address1, this._address2, this._city, this._pincode,
-                documentType, documentIdentificationNumber])
+            database.runSp(constants.SP_CREATE_VENDOR, [this._firstName, this._lastName, this._email, password,
+                this._phone, this._gender, documentType, documentIdentificationNumber])
+                .then(async _resultSet => {
+                    try {
+                        const result = _resultSet[0][0];
+                        if (validators.validateUndefined(result)) {
+                            result[constants.TWO_FACTOR_KEY] = true;
+                            const authentication = new Authentication();
+                            await authentication.requestOtp(this._phone);
+                            resolve(result);
+                        } else {
+                            resolve({"id": -1});
+                        }
+                    } catch (e) {
+                        printer.printError(e);
+                        reject(e);
+                    }
+                }).catch(err => {
+                printer.printError(err);
+                reject(err);
+            });
+        });
+    }
+
+    /**
+     * Method to add the vendor service.
+     * @param serviceId: The service Id.
+     * @param petType: The type of pet.
+     * @param isBathing: 1 for bathing provided with the service.
+     * @param serviceDuration: The duration of the service.
+     * @param serviceCharge: The charge per service.
+     * @returns {Promise<Array>}: 1 if completed, else -1.
+     */
+    createVendorServices(serviceId, petType, isBathing, serviceDuration, serviceCharge) {
+        return new Promise((resolve, reject) => {
+            database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId, petType, isBathing, serviceDuration, serviceCharge])
                 .then(_resultSet => {
                     const result = _resultSet[0][0];
                     if (validators.validateUndefined(result)) {
@@ -72,8 +109,9 @@ class Vendor {
         return new Promise((resolve, reject) => {
             database.runSp(constants.SP_GET_VENDOR, [this._email, this._phone, this._vendorId])
                 .then(_resultSet => {
-                    const result = _resultSet[0][0];
+                    let result = _resultSet[0][0];
                     if (validators.validateUndefined(result)) {
+                        result = JSON.stringify(result);
                         resolve(result);
                     } else {
                         resolve({"id": -1});
@@ -82,6 +120,30 @@ class Vendor {
                 printer.printError(err);
                 reject(err);
             });
+        });
+    }
+
+    /**
+     * Method to verify the 2F mobile number of the vendor.
+     * @param otp: The OTP entered by the vendor.
+     * @returns {Promise<unknown>}
+     */
+    verify2F(otp) {
+        return new Promise(async (resolve, reject) => {
+            const authentication = new Authentication();
+            try {
+                const vendorDetails = generator.generateParsedJSON(await this.getVendor());
+                this._phone = vendorDetails[constants.VENDOR_PHONE_NUMBER];
+                if (await authentication.verifyOtp(this._phone, otp) > 0) {
+                    vendorDetails[constants.JW_TOKEN] = tokenGenerator.getToken(vendorDetails);
+                    resolve(vendorDetails);
+                } else {
+                    resolve(constants.INCORRECT_OTP);
+                }
+            } catch (e) {
+                printer.printError(e);
+                reject(e);
+            }
         });
     }
 }
