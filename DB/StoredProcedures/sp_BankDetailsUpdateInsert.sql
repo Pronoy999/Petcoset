@@ -58,7 +58,9 @@ begin
     ELSE
         #Deleting the previous record and inserting new one.
         DELETE from tbl_BankDetailsMaster where holder_id = par_holder_id and holder_type = par_holder_type;
-        select concat('UPDATE ', par_holder_type, ' set status_id=4 where id = par_holder_id') into @dySql;
+        select concat('UPDATE ', par_holder_type, ' set status_id=4,modified_by=', par_holder_id,
+                      ',modified=now() where id = ', par_holder_id)
+        into @dySql;
         #select @dySQL;
         PREPARE stmt_Growth FROM @dySQL;
         EXECUTE stmt_Growth;
