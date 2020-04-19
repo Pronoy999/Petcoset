@@ -19,7 +19,7 @@ class Customer {
     * _country
     * _pincode
     */
-   constructor(id, firstName, lastName, email, password, phone, gender, address1, address2, city,pincode) {
+   constructor(id, firstName, lastName, email, password, phone, gender, address1, address2, city, pincode) {
       this._id = validators.validateNumber(id) ? id : false;
       this._firstName = validators.validateString(firstName) ? firstName : false;
       this._lastName = validators.validateString(lastName) ? lastName : false;
