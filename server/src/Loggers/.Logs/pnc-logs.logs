@@ -1,0 +1,20 @@
+2020-04-19 20:24:55 : CALL sp_checkApiToken('5e31eb7b48506f1')
+
+2020-04-19 20:24:57 : CALL sp_BankDetailsUpdateInsert(1,'tbl_VendorMaster','Pronoy Mukherjee',12410105505,'HDFC BANK','HDFC00010','+919874045815','','',1)
+
+2020-04-19 20:24:58 : RETURNING: {"res":"Error","error_level":"3","error":"Internal Server Error","request_Key":"wLGMT5hajkILrZR9"}FOR PATH: details
+
+2020-04-19 20:24:58 : CALL sp_LogApiStatus('wLGMT5hajkILrZR9','details',3,500,'5e31eb7b48506f1')
+
+2020-04-19 20:24:59 : [object Object]
+
+2020-04-19 20:26:29 : CALL sp_checkApiToken('5e31eb7b48506f1')
+
+2020-04-19 20:26:32 : CALL sp_BankDetailsUpdateInsert(1,'tbl_VendorMaster','Pronoy Mukherjee',12410105505,'HDFC BANK','HDFC00010','+919874045815','','',1)
+
+2020-04-19 20:26:32 : RETURNING: {"res":{"id":2},"request_Key":"N70HGfAR3aI9YJAE"}FOR PATH: details
+
+2020-04-19 20:26:32 : CALL sp_LogApiStatus('N70HGfAR3aI9YJAE','details',2,200,'5e31eb7b48506f1')
+
+2020-04-19 20:26:33 : [object Object]
+

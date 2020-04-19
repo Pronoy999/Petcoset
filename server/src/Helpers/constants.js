@@ -23,9 +23,9 @@ constants.TIME_ZONE = "Asia/Kolkata";
  * Validation strings.
  */
 constants.EMAIL_REGEX = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+   + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 constants.PASSWORD_REGEX = "(?=^.{6,16}$)(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])" +
-    "(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$";
+   "(?=.*[!@#$%^&amp;*()_+}{&quot;:;'?&gt;.&lt;,])(?!.*\\s).*$";
 constants.PHONE_NUMBER_PREFIX = "+91";
 constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
 
@@ -33,10 +33,10 @@ constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
  * Header Data.
  */
 constants.HEADERS = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
-    'Access-Control-Max-Age': 2592000,
-    'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
+   'Access-Control-Allow-Origin': '*',
+   'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
+   'Access-Control-Max-Age': 2592000,
+   'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
 };
 constants.CONTENT_TYPE_TEXT = "Content-Type";
 constants.CONTENT_TYPE_JSON = "application/json";
@@ -140,6 +140,7 @@ constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_VENDOR_SERVICE_ADD = "addVendorService";
 constants.CORE_VENDOR_2F_VERIFY = "verify2FVendor";
+constants.CORE_VENDOR_BANK = "vendorBank";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
@@ -151,6 +152,8 @@ constants.CORE_BOOKING_CREATE_SUBS_SERVICE = "createBooking";
 constants.CORE_BOOKING_SUBSCRIPTION = "createSubscription";
 constants.CORE_BOOKING_SERVICE = "createServiceBooking";
 constants.CORE_BOOKING_SEARCH = "searchBooking";
+constants.CORE_CITY_SEARCH = "searchCity";
+constants.CORE_STATE_SEARCH = "searchState";
 /**
  * SP Names.
  */
@@ -170,6 +173,9 @@ constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 constants.SP_OTP = "sp_OtpCreateCheck";
 constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
+constants.SP_CREATE_BANK_DETAILS = "sp_BankDetailsUpdateInsert";
+constants.SP_SEARCH_CITY = "sp_GetCities";
+constants.SP_SEARCH_STATE = "sp_GetState";
 
 /**
  * General Keys
@@ -270,6 +276,19 @@ constants.PAYMENT_TRANSACTION_ID = "transaction_id";
 constants.PAYMENT_AMOUNT = "payment_amount";
 constants.PAYMENT_STATUS_ID = "payment_status_id";
 
+constants.BANK_ACCOUNT_HOLDER_ID = "holder_id";
+constants.BANK_ACCOUNT_HOLDER_TYPE = "holder_type";
+constants.BANK_ACCOUNT_HOLDER_NAME = "holder_name";
+constants.BANK_ACCOUNT_ACCOUNT_NUMBER = "account_number";
+constants.BANK_ACCOUNT_BANK_NAME = "bank_name";
+constants.BANK_ACCOUNT_IFSC_CODE = "ifsc_code";
+constants.BANK_ACCOUNT_CONTACT_NUMBER = "contact_number";
+constants.BANK_ACCOUNT_PAYMENT_GATEWAY_ID = "payment_gateway_account_id";
+constants.BANK_ACCOUNT_IS_UPDATE = "is_update";
+
+constants.CITY_NAME = "city_name";
+constants.CITY_ID = "city_id";
+constants.CITY_STATE_ID = "state_id";
 
 /**
  * exporting the constants.
