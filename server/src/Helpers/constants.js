@@ -152,6 +152,8 @@ constants.CORE_BOOKING_CREATE_SUBS_SERVICE = "createBooking";
 constants.CORE_BOOKING_SUBSCRIPTION = "createSubscription";
 constants.CORE_BOOKING_SERVICE = "createServiceBooking";
 constants.CORE_BOOKING_SEARCH = "searchBooking";
+constants.CORE_CITY_SEARCH = "searchCity";
+constants.CORE_STATE_SEARCH = "searchState";
 /**
  * SP Names.
  */
@@ -172,6 +174,8 @@ constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 constants.SP_OTP = "sp_OtpCreateCheck";
 constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
 constants.SP_CREATE_BANK_DETAILS = "sp_BankDetailsUpdateInsert";
+constants.SP_SEARCH_CITY = "sp_GetCities";
+constants.SP_SEARCH_STATE = "sp_GetState";
 
 /**
  * General Keys
@@ -281,6 +285,10 @@ constants.BANK_ACCOUNT_IFSC_CODE = "ifsc_code";
 constants.BANK_ACCOUNT_CONTACT_NUMBER = "contact_number";
 constants.BANK_ACCOUNT_PAYMENT_GATEWAY_ID = "payment_gateway_account_id";
 constants.BANK_ACCOUNT_IS_UPDATE = "is_update";
+
+constants.CITY_NAME = "city_name";
+constants.CITY_ID = "city_id";
+constants.CITY_STATE_ID = "state_id";
 
 /**
  * exporting the constants.
