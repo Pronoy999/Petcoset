@@ -1,6 +1,6 @@
 drop procedure if exists sp_UpdateVendorDetails;
 create procedure sp_UpdateVendorDetails(parVendorID int, parEmail varchar(255), parPassword varchar(255),
-                                        parPhone varchar(13), parAddress1 varchar(255), parAddress2 varchar(2),
+                                        parPhone varchar(13), parAddress1 varchar(255), parAddress2 varchar(255),
                                         parCityId int, parPincode int)
 BEGIN
     set @setClaus = ' set ';
