@@ -69,7 +69,7 @@ server.unifiedServer = function (req, res) {
          execHandlers(handlerData);
       });
    }
-
+   
    /**
     * Method to send the response back to the client.
     * @param responseData: The response data to be send.
@@ -88,7 +88,7 @@ server.unifiedServer = function (req, res) {
          printer.printError(e);
       }
    }
-
+   
    /**
     * Method to execute the Handlers.
     * @param handlerData: The request object after parsing it.
@@ -113,7 +113,7 @@ server.unifiedServer = function (req, res) {
                err[1][constants.API_REQUEST_KEY] = requestKey;
                sendResponse(err[1], err[0]);
             });
-
+            
          }).catch(err => {
             printer.printError(err);
             const response = responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_4);
@@ -142,7 +142,7 @@ server.init = () => {
     * Method to listen on the port.
     */
    server.httpServer.listen(config.port, () => {
-      printer.printHighlightedLog("Server Listening on Port ", config.port);
+      printer.printHighlightedLog("Server Listening on Port " + config.port);
    });
 };
 /**

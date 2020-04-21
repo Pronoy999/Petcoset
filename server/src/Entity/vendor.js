@@ -9,6 +9,7 @@ const Authentication = require('./authentication');
 
 class Vendor {
    /**
+    * _vendorId
     * _firstName
     * _lastName
     * _email
@@ -41,7 +42,7 @@ class Vendor {
       this._city = validators.validateNumber(city) ? city : false;
       this._gender = validators.validateCharacter(gender) ? gender : false;
    }
-
+   
    /**
     * Method to register the vendor.
     * @param password: the vendor login password.
@@ -52,7 +53,7 @@ class Vendor {
    createVendor(password, documentIdentificationNumber, documentType) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_CREATE_VENDOR, [this._firstName, this._lastName, this._email, password,
-            this._phone, this._gender, documentType, documentIdentificationNumber])
+               this._phone, this._gender, documentType, documentIdentificationNumber])
             .then(async _resultSet => {
                try {
                   const result = _resultSet[0][0];
@@ -74,7 +75,7 @@ class Vendor {
          });
       });
    }
-
+   
    /**
     * Method to add the vendor service.
     * @param serviceId: The service Id.
@@ -100,7 +101,7 @@ class Vendor {
          });
       });
    }
-
+   
    /**
     * Method to get the vendor details.
     * @returns {Promise<unknown>}
@@ -122,7 +123,7 @@ class Vendor {
          });
       });
    }
-
+   
    /**
     * Method to verify the 2F mobile number of the vendor.
     * @param otp: The OTP entered by the vendor.
@@ -146,7 +147,7 @@ class Vendor {
          }
       });
    }
-
+   
    /**
     * Method to create the bank details of the vendor.
     * @param accountHolderName: The account holder Name.
@@ -159,13 +160,37 @@ class Vendor {
    createUpdateBankDetails(accountHolderName, accountNumber, bankName, ifscCode, isUpdate) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_CREATE_BANK_DETAILS, [this._vendorId, "tbl_VendorMaster", accountHolderName,
-            accountNumber, bankName, ifscCode, this._phone, '', 0, isUpdate])
+               accountNumber, bankName, ifscCode, this._phone, '', 0, isUpdate])
             .then(_resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
                   resolve(result);
                } else {
                   resolve({"id": -1});
+               }
+            }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+   
+   /**
+    * Method to update the vendor details.
+    * @param password: The password of the vendor.
+    * @returns {Promise<unknown>}
+    */
+   updateVendorDetails(password) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_UPDATE_VENDOR_DETAILS, [this._vendorId, this._email,
+               validators.validateUndefined(password) ? password : false,
+               this._phone, this._address1, this._address2, this._city, this._pincode])
+            .then(_resultSet => {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  resolve(false);
                }
             }).catch(err => {
             printer.printError(err);

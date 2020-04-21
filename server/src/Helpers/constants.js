@@ -138,6 +138,7 @@ constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
+constants.CORE_VENDOR_UPDATE = "updateVendorDetails";
 constants.CORE_VENDOR_SERVICE_ADD = "addVendorService";
 constants.CORE_VENDOR_2F_VERIFY = "verify2FVendor";
 constants.CORE_VENDOR_BANK = "vendorBank";
@@ -176,6 +177,7 @@ constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
 constants.SP_CREATE_BANK_DETAILS = "sp_BankDetailsUpdateInsert";
 constants.SP_SEARCH_CITY = "sp_GetCities";
 constants.SP_SEARCH_STATE = "sp_GetState";
+constants.SP_UPDATE_VENDOR_DETAILS = "sp_UpdateVendorDetails";
 
 /**
  * General Keys
