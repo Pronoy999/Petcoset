@@ -1,5 +1,5 @@
 drop procedure if exists sp_UpdateVendorDetails;
-create procedure sp_UpdateVendorDetails(parVendorID int, parEmail varchar(255),
+create procedure sp_UpdateVendorDetails(parVendorID int, parEmail varchar(255), parPassword varchar(255),
                                         parPhone varchar(13), parAddress1 varchar(255), parAddress2 varchar(2),
                                         parCityId int, parPincode int)
 BEGIN
@@ -31,11 +31,22 @@ BEGIN
         set @setClaus = concat(@setClaus, ' pincode = ', parPincode, ',');
     end if;
     set @setClaus = concat(@setClaus, ' modified_by = ', parVendorID, ', modified = now()');
-    #If the email id is changed then the login will also change.
-    if @isLoginChanged = 1 THEN
+    #Checking for login information change.
+    if @isLoginChanged = 1 or length(parPassword) > 0 THEN
         select email into @originalEmail from tbl_VendorMaster where id = parVendorID;
-        select concat('update tbl_LoginMaster set email_id= ''', parEmail, ''' where email_id = ''', @originalEmail,
-                      '''')
+        #Checking for Email change.
+        set @emailChange = '';
+        if (length(parEmail) > 0) then
+            set @emailChange = concat(' email_id = ''', parEmail, ''',');
+        end if;
+        #Checking for password change.
+        set @passwordChange = '';
+        if (length(parPassword) > 0) then
+            set @passwordChange = concat(' password = ''', parPassword, ''',');
+        end if;
+        set @loginSetClaus =
+                concat(' set ', @emailChange, @passwordChange, ' modified_by = ', parVendorID, ', modified= now()');
+        select concat('update tbl_LoginMaster ', @loginSetClaus, ' where email_id = ''', @originalEmail, '''')
         into @stmtSQL;
         #select @stmtSQL;
         prepare stmtExec from @stmtSQL;
