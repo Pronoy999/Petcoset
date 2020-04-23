@@ -187,6 +187,11 @@ constants.RAZOR_PAY_SECRET = "key_secret";
 constants.AWS_KEY_ID = "accessKeyId";
 constants.AWS_SECRET_KEY = "secretAccessKey";
 constants.TWO_FACTOR_KEY = "2F";
+constants.AWS_DOCUMENTS_BUCKET = "petcoset-documents";
+constants.AWS_IMAGES_BUCKET = "petcoset-images";
+constants.S3_BUCKET_KEY = "Bucket";
+constants.S3_KEY_KEY = "Key";
+constants.S3_BODY_KEY = "Body";
 
 /**
  * Column Names

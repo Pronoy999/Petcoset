@@ -4,6 +4,7 @@ const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
 const tokenGenerator = require('./../Services/jwTokenGenerator');
+const s3Helper = require('./../Helpers/s3Helper');
 
 const Authentication = require('./authentication');
 
@@ -195,6 +196,16 @@ class Vendor {
             }).catch(err => {
             printer.printError(err);
             reject(err);
+         });
+      });
+   }
+   
+   uploadIdentityDocuments(documentData, documentName) {
+      return new Promise((resolve, reject) => {
+         s3Helper.uploadFile(documentData, documentName, true).then(() => {
+            //TODO:
+         }).catch(err => {
+         
          });
       });
    }
