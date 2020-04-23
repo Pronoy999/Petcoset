@@ -138,7 +138,7 @@ vendorHandler.vendorService = (dataObject) => {
          const serviceCharge = validator.validateNumber(dataObject.postData[constants.VENDOR_SERVICE_CHARGE]) ?
             dataObject.postData[constants.VENDOR_SERVICE_CHARGE] : false;
          const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
-         if (vendorId && serviceId && jwToken && serviceCharge) {
+         if (vendorId && serviceId && jwToken && duration && serviceCharge) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
