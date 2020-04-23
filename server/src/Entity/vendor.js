@@ -88,7 +88,9 @@ class Vendor {
     */
    createVendorServices(serviceId, petType, isBathing, serviceDuration, serviceCharge) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId, petType, isBathing, serviceDuration, serviceCharge])
+         database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId, petType,
+               validators.validateUndefined(isBathing) ? isBathing : false,
+               serviceDuration, serviceCharge])
             .then(_resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
