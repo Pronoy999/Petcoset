@@ -82,15 +82,73 @@ class Vendor {
     * @param serviceId: The service Id.
     * @param petType: The type of pet.
     * @param isBathing: 1 for bathing provided with the service.
+    * @param isMassage
+    * @param isCleaning
+    * @param isFurTrim
+    * @param petSex
+    * @param petAge
+    * @param isPedigreeCert
+    * @param isMedicalCert
+    * @param isImmuneCert
+    * @param isBehaveModification
+    * @param isObedienceTrain
+    * @param isScientificTrain
+    * @param isAgilityTrain
+    * @param isTherapyTrain
+    * @param numOfDogs
+    * @param hasHouse
+    * @param hasFencedGarden
+    * @param isPetOnFurniture
+    * @param isPetOnBed
+    * @param isNoSmoking
+    * @param doesOwnDog
+    * @param doesOwnCat
+    * @param doesOwnCagedAnimals
+    * @param onlyOneBooking
+    * @param petWeight
+    * @param numOfVisits
     * @param serviceDuration: The duration of the service.
+    * @param servicePerWeek
     * @param serviceCharge: The charge per service.
     * @returns {Promise<Array>}: 1 if completed, else -1.
     */
-   createVendorServices(serviceId, petType, isBathing, serviceDuration, serviceCharge) {
+   createVendorServices(serviceId, petType, isBathing, isMassage, isCleaning, isFurTrim, petSex, petAge, isPedigreeCert,
+                        isMedicalCert, isImmuneCert, isBehaveModification, isObedienceTrain, isScientificTrain,
+                        isAgilityTrain, isTherapyTrain, numOfDogs, hasHouse, hasFencedGarden, isPetOnFurniture,
+                        isPetOnBed, isNoSmoking, doesOwnDog, doesOwnCat, doesOwnCagedAnimals,
+                        onlyOneBooking, petWeight, numOfVisits, serviceDuration, servicePerWeek, serviceCharge) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId, petType,
                validators.validateUndefined(isBathing) ? isBathing : false,
-               serviceDuration, serviceCharge])
+               validators.validateUndefined(isMassage) ? isMassage : false,
+               validators.validateUndefined(isCleaning) ? isCleaning : false,
+               validators.validateUndefined(isFurTrim) ? isFurTrim : false,
+               validators.validateUndefined(petSex) ? petSex : false,
+               validators.validateUndefined(petAge) ? petAge : false,
+               validators.validateUndefined(isPedigreeCert) ? isPedigreeCert : false,
+               validators.validateUndefined(isMedicalCert) ? isMedicalCert : false,
+               validators.validateUndefined(isImmuneCert) ? isImmuneCert : false,
+               validators.validateUndefined(isBehaveModification) ? isBehaveModification : false,
+               validators.validateUndefined(isObedienceTrain) ? isObedienceTrain : false,
+               validators.validateUndefined(isScientificTrain) ? isObedienceTrain : false,
+               validators.validateUndefined(isAgilityTrain) ? isAgilityTrain : false,
+               validators.validateUndefined(isTherapyTrain) ? isTherapyTrain : false,
+               validators.validateUndefined(numOfDogs) ? numOfDogs : false,
+               validators.validateUndefined(hasHouse) ? hasHouse : false,
+               validators.validateUndefined(hasFencedGarden) ? hasFencedGarden : false,
+               validators.validateUndefined(isPetOnFurniture) ? isPetOnFurniture : false,
+               validators.validateUndefined(isPetOnBed) ? isPetOnBed : false,
+               validators.validateUndefined(isNoSmoking) ? isNoSmoking : false,
+               validators.validateUndefined(doesOwnDog) ? doesOwnDog : false,
+               validators.validateUndefined(doesOwnCat) ? doesOwnCat : false,
+               validators.validateUndefined(doesOwnCagedAnimals) ? doesOwnCagedAnimals : false,
+               validators.validateUndefined(onlyOneBooking) ? onlyOneBooking : false,
+               validators.validateUndefined(petWeight) ? petWeight : false,
+               validators.validateUndefined(numOfVisits) ? numOfVisits : false,
+               serviceDuration,
+               validators.validateUndefined(servicePerWeek) ? servicePerWeek : false,
+               serviceCharge
+            ])
             .then(_resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {

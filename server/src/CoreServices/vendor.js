@@ -93,10 +93,25 @@ vendorService.addVendorService = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
       if (tokenGenerator.validateToken(jwToken)) {
          const vendor = new Vendor(dataObject[constants.VENDOR_ID]);
-         vendor.createVendorServices(dataObject[constants.SERVICE_ID], dataObject[constants.VENDOR_PET_TYPE], dataObject[constants.VENDOR_IS_BATHING_PROVIDED],
-            dataObject[constants.VENDOR_SERVICE_DURATION], dataObject[constants.VENDOR_SERVICE_CHARGE]).then(vendorServiceId => {
-            resolve([vendorServiceId, constants.RESPONSE_SUCESS_LEVEL_1]);
-         }).catch(err => {
+         vendor.createVendorServices(dataObject[constants.SERVICE_ID], dataObject[constants.VENDOR_PET_TYPE],
+            dataObject[constants.VENDOR_IS_BATHING_PROVIDED], dataObject[constants.VENDOR_IS_MASSAGE_PROVIDED],
+            dataObject[constants.VENDOR_IS_CLEANING_PROVIDED], dataObject[constants.VENDOR_IS_FUR_TRIMMING_PROVIDED],
+            dataObject[constants.VENDOR_PET_SEX], dataObject[constants.VENDOR_PET_AGE],
+            dataObject[constants.VENDOR_IS_PEDIGREE_CERTIFICATE], dataObject[constants.VENDOR_IS_MEDICAL_CERTIFICATE],
+            dataObject[constants.VENDOR_IS_IMMUNIZATION_CERTIFICATE], dataObject[constants.VENDOR_IS_BEHAVIOURAL_MODIFICATION],
+            dataObject[constants.VENDOR_IS_OBIDIENCE_TRAINING], dataObject[constants.VENDOR_IS_SCIENTIFIC_TRANING],
+            dataObject[constants.VENDOR_IS_AGILITY_TRAINING], dataObject[constants.VENDOR_IS_THERAPY_TRAINING],
+            dataObject[constants.VENDOR_NUM_DOGS_TRAINED_AT_A_TIME], dataObject[constants.VENDOR_HAS_HOUSE],
+            dataObject[constants.VENDOR_HAS_FENCED_GARDEN], dataObject[constants.VENDOR_IS_PETS_ALLOWED_FURNITURE],
+            dataObject[constants.VENDOR_IS_PETS_ON_BED], dataObject[constants.VENDOR_IS_NO_SMOKING],
+            dataObject[constants.VENDOR_DOES_OWN_DOG], dataObject[constants.VENDOR_DOES_OWN_CAT],
+            dataObject[constants.VENDOR_DOES_OWN_CAGED_ANIMALS], dataObject[constants.VENDOR_ONLY_ONE_BOOKING],
+            dataObject[constants.VENDOR_PET_WEIGHT], dataObject[constants.VENDOR_NUMBER_VISITS],
+            dataObject[constants.VENDOR_SERVICE_DURATION], dataObject[constants.VENDOR_SERVICE_PER_WEEK],
+            dataObject[constants.VENDOR_SERVICE_CHARGE])
+            .then(vendorServiceId => {
+               resolve([vendorServiceId, constants.RESPONSE_SUCESS_LEVEL_1]);
+            }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });
       } else {
