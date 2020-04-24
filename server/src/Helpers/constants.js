@@ -110,6 +110,7 @@ constants.ERROR_LEVEL_4 = "4";
 constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
 constants.OTP_MESSAGE = "Your Petcoset OTP is: ";
 constants.INCORRECT_OTP = "Incorrect OTP";
+constants.NO_BOOKING_FOUND = "No booking found";
 
 /**
  * Core-Service Keys
@@ -139,6 +140,7 @@ constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_VENDOR_UPDATE = "updateVendorDetails";
+constants.CORE_VENDOR_GET_BOOKINGS = "getVendorBookings";
 constants.CORE_VENDOR_SERVICE_ADD = "addVendorService";
 constants.CORE_VENDOR_2F_VERIFY = "verify2FVendor";
 constants.CORE_VENDOR_BANK = "vendorBank";
@@ -163,6 +165,7 @@ constants.SP_GET_CUSTOMER = "sp_CustomerSearch";
 constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
+constants.SP_GET_VENDOR_BOOKING = "sp_GetVendorBooking";
 constants.SP_GET_VENDOR = "sp_VendorSearch";
 constants.SP_SERVICE_REGISTRATION = "sp_ServicesRegistration";
 constants.SP_SERVICE_SEARCH = "sp_SearchServices";

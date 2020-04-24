@@ -260,12 +260,27 @@ class Vendor {
       });
    }
    
-   uploadIdentityDocuments(documentData, documentName) {
+   /**
+    * Method to get the booking for a vendor.
+    * @param dateFilter: The date filter.
+    * @param timeFilter: The time filter
+    * @returns {Promise<Array>}: The list of bookings.
+    */
+   getVendorBooking(dateFilter, timeFilter) {
       return new Promise((resolve, reject) => {
-         s3Helper.uploadFile(documentData, documentName, true).then(() => {
-            //TODO:
-         }).catch(err => {
-         
+         database.runSp(constants.SP_GET_VENDOR_BOOKING, [this._vendorId,
+               validators.validateUndefined(dateFilter) ? dateFilter : false,
+               validators.validateUndefined(timeFilter) ? timeFilter : false])
+            .then(_resultSet => {
+               const result = _resultSet[0];
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  reject(constants.NO_BOOKING_FOUND);
+               }
+            }).catch(err => {
+            printer.printError(err);
+            reject(err);
          });
       });
    }

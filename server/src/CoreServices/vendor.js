@@ -32,6 +32,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_VENDOR_UPDATE:
             promise = vendorService.update(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_VENDOR_GET_BOOKINGS:
+            promise = vendorService.getVendorBooking(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
             process.exit(1);
@@ -174,6 +177,27 @@ vendorService.update = (dataObject, jwToken) => {
          vendor.updateVendorDetails(dataObject[constants.VENDOR_PASSWORD]).then(updateDetails => {
             resolve([updateDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to handle the booking details for vendor.
+ * @param dataObject: The required data.
+ * @param jwToken: The user token.
+ * @returns {Promise<Array>}
+ */
+vendorService.getVendorBooking = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const vendor = new Vendor(dataObject[constants.VENDOR_ID]);
+         vendor.getVendorBooking(dataObject[constants.BOOKING_DATE], dataObject[constants.BOOKING_TIME])
+            .then(bookingDetails => {
+               resolve([bookingDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+            }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });
       } else {

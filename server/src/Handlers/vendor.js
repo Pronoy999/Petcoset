@@ -246,6 +246,43 @@ vendorHandler.details = (dataObject) => {
    });
 };
 /**
+ * Method to handle the vendor booking related requests.
+ * @param dataObject: The request object.
+ * @returns {Promise<Array>}: the response object and the code.
+ */
+vendorHandler.booking = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const method = dataObject.method;
+      if (method === constants.HTTP_GET) {
+         const vendorId = validator.validateNumber(dataObject.queryString[constants.VENDOR_ID]) ?
+            dataObject.queryString[constants.VENDOR_ID] : false;
+         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (vendorId && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_GET_BOOKINGS;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else {
+         reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
+      }
+   });
+};
+/**
  * Exporting the vendor module.
  */
 module.exports = vendorHandler;
