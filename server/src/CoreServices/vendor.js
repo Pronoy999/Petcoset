@@ -23,11 +23,20 @@ process.on("message", (serviceData) => {
          case constants.CORE_VENDOR_SERVICE_ADD:
             promise = vendorService.addVendorService(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_VENDOR_SERVICE_GET:
+            promise = vendorService.getVendorService(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          case constants.CORE_VENDOR_2F_VERIFY:
             promise = vendorService.verify2F(serviceData[constants.CORE_DATA]);
             break;
          case constants.CORE_VENDOR_BANK:
             promise = vendorService.details(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
+         case constants.CORE_VENDOR_BANK_UPDATE:
+            promise = vendorService.updatePaymentGatewayDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
+         case constants.CORE_VENDOR_BANK_GET:
+            promise = vendorService.getBankDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
          case constants.CORE_VENDOR_UPDATE:
             promise = vendorService.update(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
@@ -123,6 +132,26 @@ vendorService.addVendorService = (dataObject, jwToken) => {
    });
 };
 /**
+ * Method to handle request for vendors service search.
+ * @param dataObject: The required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}
+ */
+vendorService.getVendorService = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const vendor = new Vendor(dataObject[constants.VENDOR_ID]);
+         vendor.getVendorService().then(serviceList => {
+            resolve([serviceList, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
  * Method to handle the OTP verification during vendor registration.
  * @param dataObject: The required data.
  * @returns {Promise<Array>}: The response and the success level.
@@ -154,6 +183,47 @@ vendorService.details = (dataObject, jwToken) => {
                resolve([bankDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
             }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to handle the bank details search.
+ * @param dataObject: The required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<unknown>}
+ */
+vendorService.getBankDetails = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const vendor = new Vendor(dataObject[constants.VENDOR_ID]);
+         vendor.getBankDetails().then(bankDetails => {
+            resolve([bankDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to update the payment gateway details.
+ * @param dataObject: The required data.
+ * @param jwToken: The user token.
+ * @returns {Promise<Array>}
+ */
+vendorService.updatePaymentGatewayDetails = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const vendor = new Vendor(dataObject[constants.VENDOR_ID]);
+         vendor.updateBankDetails(dataObject[constants.BANK_ACCOUNT_ACCOUNT_NUMBER], dataObject[constants.BANK_ACCOUNT_PAYMENT_GATEWAY_ID])
+            .then(updateDetails => {
+               resolve([updateDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+            }).catch(err => {
+            reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
          });
       } else {
          reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);

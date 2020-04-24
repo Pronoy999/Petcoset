@@ -124,7 +124,31 @@ vendorHandler.vendor = (dataObject) => {
 vendorHandler.vendorService = (dataObject) => {
    return new Promise((resolve, reject) => {
       const method = dataObject.method;
-      if (method === constants.HTTP_POST) {
+      if (method === constants.HTTP_GET) {
+         const vendorId = validator.validateNumber(dataObject.queryString[constants.VENDOR_ID]) ?
+            dataObject.queryString[constants.VENDOR_ID] : false;
+         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (vendorId && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_SERVICE_GET;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else if (method === constants.HTTP_POST) {
          const vendorId = validator.validateNumber(dataObject.postData[constants.VENDOR_ID]) ?
             dataObject.postData[constants.VENDOR_ID] : false;
          const serviceId = validator.validateNumber(dataObject.postData[constants.SERVICE_ID]) ?
@@ -199,13 +223,37 @@ vendorHandler.twoFactor = (dataObject) => {
 };
 /**
  * Method to handle all the bank account details.
+ * Search, create and update bank account details.
  * @param dataObject: the request object.
  * @returns {Promise<Array>}: response object and the response code.
  */
 vendorHandler.details = (dataObject) => {
    return new Promise((resolve, reject) => {
       const method = dataObject.method;
-      if (method === constants.HTTP_POST) {
+      if (method === constants.HTTP_GET) {
+         const vendorId = validator.validateNumber(dataObject.queryString[constants.VENDOR_ID]) ?
+            dataObject.queryString[constants.VENDOR_ID] : false;
+         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
+         if (vendorId && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_BANK_GET;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else if (method === constants.HTTP_POST) {
          const holderId = validator.validateNumber(dataObject.postData[constants.BANK_ACCOUNT_HOLDER_ID]) ?
             dataObject.postData[constants.BANK_ACCOUNT_HOLDER_ID] : false;
          const holderName = validator.validateString(dataObject.postData[constants.BANK_ACCOUNT_HOLDER_NAME]) ?
@@ -228,6 +276,33 @@ vendorHandler.details = (dataObject) => {
             serviceData[constants.CORE_DATA] = dataObject.postData;
             serviceData[constants.CORE_TOKEN] = jwToken;
             serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_BANK;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else if (method === constants.HTTP_PUT) {
+         const paymentGatewayAccountId = validator.validateString(dataObject.postData[constants.BANK_ACCOUNT_PAYMENT_GATEWAY_ID]) ?
+            dataObject.postData[constants.BANK_ACCOUNT_PAYMENT_GATEWAY_ID] : false;
+         const accountNumber = validator.validateNumber(dataObject.postData[constants.BANK_ACCOUNT_ACCOUNT_NUMBER]) ?
+            dataObject.postData[constants.BANK_ACCOUNT_ACCOUNT_NUMBER] : false;
+         const vendorId = validator.validateNumber(dataObject.postData[constants.VENDOR_ID]) ?
+            dataObject.postData[constants.VENDOR_ID] : false;
+         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
+         if (paymentGatewayAccountId && accountNumber && vendorId && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.postData;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_BANK_UPDATE;
             const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
             childWorker.send(serviceData);
             childWorker.on("message", (childReply) => {

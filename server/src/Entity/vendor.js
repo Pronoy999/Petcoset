@@ -164,6 +164,27 @@ class Vendor {
    }
    
    /**
+    * Method to get the vendor services.
+    * @returns {Promise<Array>}: The list of services provided.
+    */
+   getVendorService() {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GET_VENDOR_SERVICE, [this._vendorId])
+            .then(_resultSet => {
+               const result = _resultSet[0];
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  resolve(constants.NO_SERVICES_FOUND);
+               }
+            }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+   
+   /**
     * Method to get the vendor details.
     * @returns {Promise<unknown>}
     */
@@ -173,7 +194,6 @@ class Vendor {
             .then(_resultSet => {
                let result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
-                  result = JSON.stringify(result);
                   resolve(result);
                } else {
                   resolve({"id": -1});
@@ -228,6 +248,51 @@ class Vendor {
                   resolve(result);
                } else {
                   resolve({"id": -1});
+               }
+            }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+   
+   /**
+    * Method to update the vendor payment gateway account id.
+    * @param accountNumber: The account number of the bank.
+    * @param paymentGatewayAccountId: The payment gateway account id.
+    * @returns {Promise<unknown>}
+    */
+   updateBankDetails(accountNumber, paymentGatewayAccountId) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_CREATE_BANK_DETAILS, [this._vendorId, "tbl_VendorMaster", '', accountNumber,
+               '', '', '', paymentGatewayAccountId, 1, 0])
+            .then(_resultSet => {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  resolve(false);
+               }
+            }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+   
+   /**
+    * Method to get the bank details of the vendor.
+    * @returns {Promise<Array>}: The bank details.
+    */
+   getBankDetails() {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GET_BANK_DETAILS, [this._vendorId, "tbl_VendorMaster"])
+            .then(_resultSet => {
+               const result = _resultSet[0];
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  resolve(constants.NO_BANK_DETAILS);
                }
             }).catch(err => {
             printer.printError(err);

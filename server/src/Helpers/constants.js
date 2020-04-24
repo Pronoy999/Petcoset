@@ -111,6 +111,8 @@ constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
 constants.OTP_MESSAGE = "Your Petcoset OTP is: ";
 constants.INCORRECT_OTP = "Incorrect OTP";
 constants.NO_BOOKING_FOUND = "No booking found";
+constants.NO_SERVICES_FOUND = "No services found.";
+constants.NO_BANK_DETAILS = "No bank details found.";
 
 /**
  * Core-Service Keys
@@ -142,8 +144,11 @@ constants.CORE_VENDOR_GET = "getVendor";
 constants.CORE_VENDOR_UPDATE = "updateVendorDetails";
 constants.CORE_VENDOR_GET_BOOKINGS = "getVendorBookings";
 constants.CORE_VENDOR_SERVICE_ADD = "addVendorService";
+constants.CORE_VENDOR_SERVICE_GET = "getVendorService";
 constants.CORE_VENDOR_2F_VERIFY = "verify2FVendor";
 constants.CORE_VENDOR_BANK = "vendorBank";
+constants.CORE_VENDOR_BANK_UPDATE = "updateVendorBank";
+constants.CORE_VENDOR_BANK_GET = "getVendorBank";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
@@ -177,10 +182,12 @@ constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 constants.SP_OTP = "sp_OtpCreateCheck";
 constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
+constants.SP_GET_VENDOR_SERVICE = "sp_GetVendorServices";
 constants.SP_CREATE_BANK_DETAILS = "sp_BankDetailsUpdateInsert";
 constants.SP_SEARCH_CITY = "sp_GetCities";
 constants.SP_SEARCH_STATE = "sp_GetState";
 constants.SP_UPDATE_VENDOR_DETAILS = "sp_UpdateVendorDetails";
+constants.SP_GET_BANK_DETAILS = "sp_GetBankDetails";
 
 /**
  * General Keys
