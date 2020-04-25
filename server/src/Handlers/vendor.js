@@ -55,7 +55,9 @@ vendorHandler.vendor = (dataObject) => {
             dataObject.queryString[constants.VENDOR_PHONE_NUMBER] : false;
          const vendorId = validator.validateNumber(dataObject.queryString[constants.VENDOR_ID]) ?
             dataObject.queryString[constants.VENDOR_ID] : false;
-         if (email || phoneNumber || vendorId) {
+         const vendorStatus = validator.validateString(dataObject.queryString[constants.VENDOR_STATUS]) ?
+            dataObject.queryString[constants.VENDOR_STATUS] : false;
+         if (email || phoneNumber || vendorId || vendorStatus) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];

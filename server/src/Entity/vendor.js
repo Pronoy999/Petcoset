@@ -186,13 +186,14 @@ class Vendor {
    
    /**
     * Method to get the vendor details.
+    * @param vendorStatus: The status of the vendor.
     * @returns {Promise<unknown>}
     */
-   getVendor() {
+   getVendor(vendorStatus) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_GET_VENDOR, [this._email, this._phone, this._vendorId])
+         database.runSp(constants.SP_GET_VENDOR, [this._email, this._phone, this._vendorId, vendorStatus])
             .then(_resultSet => {
-               let result = _resultSet[0][0];
+               let result = _resultSet[0];
                if (validators.validateUndefined(result)) {
                   resolve(result);
                } else {

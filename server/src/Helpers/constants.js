@@ -66,6 +66,7 @@ constants.STATUS_AUTHORIZED = 8;
 constants.STATUS_CAPTURED = 9;
 constants.STAUTS_REFUNDED = 10;
 constants.STATUS_CANCEL = 11;
+constants.STATUS_VERIFIED = 12;
 
 /**
  * API Methods.
@@ -244,6 +245,7 @@ constants.VENDOR_CITY = "city";
 constants.VENDOR_STATE = "state";
 constants.VENDOR_COUNTRY = "country";
 constants.VENDOR_PINCODE = "pincode";
+constants.VENDOR_STATUS = "status_id";
 constants.VENDOR_PET_TYPE = "pet_type";
 constants.VENDOR_IS_BATHING_PROVIDED = "is_bathing_provided";
 constants.VENDOR_IS_MASSAGE_PROVIDED = "is_massage_provided";
