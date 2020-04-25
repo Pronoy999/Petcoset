@@ -110,6 +110,7 @@ constants.ERROR_LEVEL_4 = "4";
  */
 constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
 constants.OTP_MESSAGE = "Your Petcoset OTP is: ";
+constants.ADMIN_VENDOR_REGISTRATION_MESSAGE="Hi, you have a new vendor in pending state. \nRegards,\n Petcoset Admin.";
 constants.INCORRECT_OTP = "Incorrect OTP";
 constants.NO_BOOKING_FOUND = "No booking found";
 constants.NO_SERVICES_FOUND = "No services found.";

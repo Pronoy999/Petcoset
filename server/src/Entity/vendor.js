@@ -4,6 +4,7 @@ const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
 const tokenGenerator = require('./../Services/jwTokenGenerator');
+const notificationHelper = require('./../Helpers/notificationManager');
 const s3Helper = require('./../Helpers/s3Helper');
 
 const Authentication = require('./authentication');
@@ -42,6 +43,23 @@ class Vendor {
       this._pincode = validators.validateNumber(pincode) ? pincode : false;
       this._city = validators.validateNumber(city) ? city : false;
       this._gender = validators.validateCharacter(gender) ? gender : false;
+   }
+   
+   /**
+    * Method to notify the Admin of a new Vendor.
+    * @returns {Promise<Boolean>}true, if SMS is send, else ERROR.
+    * @private
+    */
+   _notifyAdmin() {
+      return new Promise((resolve, reject) => {
+         const message = constants.ADMIN_VENDOR_REGISTRATION_MESSAGE;
+         notificationHelper.sendSMS(message, "+917908717077").then(() => {
+            resolve(true);
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         })
+      });
    }
    
    /**
@@ -221,6 +239,7 @@ class Vendor {
             if (await authentication.verifyOtp(this._phone, otp) > 0) {
                let responseObj = vendorDetails[0];
                responseObj[constants.JW_TOKEN] = tokenGenerator.getToken(vendorDetails[0]);
+               await this._notifyAdmin();
                resolve(responseObj);
             } else {
                resolve(constants.INCORRECT_OTP);
