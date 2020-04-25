@@ -69,7 +69,7 @@ server.unifiedServer = function (req, res) {
          execHandlers(handlerData);
       });
    }
-
+   
    /**
     * Method to send the response back to the client.
     * @param responseData: The response data to be send.
@@ -83,12 +83,12 @@ server.unifiedServer = function (req, res) {
          res.setHeader(constants.CONTENT_TYPE_TEXT, constants.CONTENT_TYPE_JSON);
          res.writeHead(statusCode, constants.HEADERS);
          res.end(responseData);
-         printer.printHighlightedLog("RETURNING: " + responseData + "FOR PATH: " + handlerData.path);
+         printer.printHighlightedLog("RETURNING: " + responseData + "FOR PATH: " + handlerData.path + " with: " + statusCode);
       } catch (e) {
          printer.printError(e);
       }
    }
-
+   
    /**
     * Method to execute the Handlers.
     * @param handlerData: The request object after parsing it.
@@ -96,25 +96,24 @@ server.unifiedServer = function (req, res) {
    function execHandlers(handlerData) {
       const apiKey = handlerData[constants.API_TOKEN_KEY];
       delete handlerData[constants.API_TOKEN_KEY];
-      if (handlerData.path !== 'ping') {
+      if (handlerData.method === constants.HTTP_OPTIONS) {
+         sendResponse({}, constants.HTTP_SUCCESS);
+      } else if (handlerData.path !== 'ping') {
          validator.validateToken(apiKey).then(() => {
             delete handlerData[constants.API_TOKEN_KEY];
-            if (handlerData.method === constants.HTTP_OPTIONS) {
-               sendResponse({}, constants.HTTP_SUCCESS);
-            } else {
-               let promise = chosenHandler(handlerData);
-               promise.then((responseObject) => {
-                  const requestKey = generator.generateRandomToken(16);
-                  logger.logApiRequest(requestKey, handlerData.path, responseObject[0], apiKey);
-                  responseObject[1][constants.API_REQUEST_KEY] = requestKey;
-                  sendResponse(responseObject[1], responseObject[0]);
-               }).catch(err => {
-                  const requestKey = generator.generateRandomToken(16);
-                  logger.logApiRequest(requestKey, handlerData.path, err[0], apiKey);
-                  err[1][constants.API_REQUEST_KEY] = requestKey;
-                  sendResponse(err[1], err[0]);
-               });
-            }
+            let promise = chosenHandler(handlerData);
+            promise.then((responseObject) => {
+               const requestKey = generator.generateRandomToken(16);
+               logger.logApiRequest(requestKey, handlerData.path, responseObject[0], apiKey);
+               responseObject[1][constants.API_REQUEST_KEY] = requestKey;
+               sendResponse(responseObject[1], responseObject[0]);
+            }).catch(err => {
+               const requestKey = generator.generateRandomToken(16);
+               logger.logApiRequest(requestKey, handlerData.path, err[0], apiKey);
+               err[1][constants.API_REQUEST_KEY] = requestKey;
+               sendResponse(err[1], err[0]);
+            });
+            
          }).catch(err => {
             printer.printError(err);
             const response = responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_4);
@@ -143,7 +142,7 @@ server.init = () => {
     * Method to listen on the port.
     */
    server.httpServer.listen(config.port, () => {
-      console.log("Server Listening on Port ", config.port);
+      printer.printHighlightedLog("Server Listening on Port " + config.port);
    });
 };
 /**

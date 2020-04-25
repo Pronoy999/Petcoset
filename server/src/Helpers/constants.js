@@ -36,7 +36,7 @@ constants.HEADERS = {
    'Access-Control-Allow-Origin': '*',
    'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
    'Access-Control-Max-Age': 2592000,
-   'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With'
+   'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With,key,jw_token'
 };
 constants.CONTENT_TYPE_TEXT = "Content-Type";
 constants.CONTENT_TYPE_JSON = "application/json";
@@ -66,6 +66,7 @@ constants.STATUS_AUTHORIZED = 8;
 constants.STATUS_CAPTURED = 9;
 constants.STAUTS_REFUNDED = 10;
 constants.STATUS_CANCEL = 11;
+constants.STATUS_VERIFIED = 12;
 
 /**
  * API Methods.
@@ -109,7 +110,11 @@ constants.ERROR_LEVEL_4 = "4";
  */
 constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
 constants.OTP_MESSAGE = "Your Petcoset OTP is: ";
+constants.ADMIN_VENDOR_REGISTRATION_MESSAGE="Hi, you have a new vendor in pending state. \nRegards,\n Petcoset Admin.";
 constants.INCORRECT_OTP = "Incorrect OTP";
+constants.NO_BOOKING_FOUND = "No booking found";
+constants.NO_SERVICES_FOUND = "No services found.";
+constants.NO_BANK_DETAILS = "No bank details found.";
 
 /**
  * Core-Service Keys
@@ -138,9 +143,14 @@ constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";
 constants.CORE_VENDOR_GET = "getVendor";
+constants.CORE_VENDOR_UPDATE = "updateVendorDetails";
+constants.CORE_VENDOR_GET_BOOKINGS = "getVendorBookings";
 constants.CORE_VENDOR_SERVICE_ADD = "addVendorService";
+constants.CORE_VENDOR_SERVICE_GET = "getVendorService";
 constants.CORE_VENDOR_2F_VERIFY = "verify2FVendor";
 constants.CORE_VENDOR_BANK = "vendorBank";
+constants.CORE_VENDOR_BANK_UPDATE = "updateVendorBank";
+constants.CORE_VENDOR_BANK_GET = "getVendorBank";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
@@ -162,6 +172,7 @@ constants.SP_GET_CUSTOMER = "sp_CustomerSearch";
 constants.SP_CHECK_API_TOKEN = "sp_checkApiToken";
 constants.SP_LOG_API_STATUS = "sp_LogApiStatus";
 constants.SP_CREATE_VENDOR = "sp_VendorRegistration";
+constants.SP_GET_VENDOR_BOOKING = "sp_GetVendorBooking";
 constants.SP_GET_VENDOR = "sp_VendorSearch";
 constants.SP_SERVICE_REGISTRATION = "sp_ServicesRegistration";
 constants.SP_SERVICE_SEARCH = "sp_SearchServices";
@@ -173,9 +184,12 @@ constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 constants.SP_OTP = "sp_OtpCreateCheck";
 constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
+constants.SP_GET_VENDOR_SERVICE = "sp_GetVendorServices";
 constants.SP_CREATE_BANK_DETAILS = "sp_BankDetailsUpdateInsert";
 constants.SP_SEARCH_CITY = "sp_GetCities";
 constants.SP_SEARCH_STATE = "sp_GetState";
+constants.SP_UPDATE_VENDOR_DETAILS = "sp_UpdateVendorDetails";
+constants.SP_GET_BANK_DETAILS = "sp_GetBankDetails";
 
 /**
  * General Keys
@@ -185,6 +199,11 @@ constants.RAZOR_PAY_SECRET = "key_secret";
 constants.AWS_KEY_ID = "accessKeyId";
 constants.AWS_SECRET_KEY = "secretAccessKey";
 constants.TWO_FACTOR_KEY = "2F";
+constants.AWS_DOCUMENTS_BUCKET = "petcoset-documents";
+constants.AWS_IMAGES_BUCKET = "petcoset-images";
+constants.S3_BUCKET_KEY = "Bucket";
+constants.S3_KEY_KEY = "Key";
+constants.S3_BODY_KEY = "Body";
 
 /**
  * Column Names
@@ -227,9 +246,36 @@ constants.VENDOR_CITY = "city";
 constants.VENDOR_STATE = "state";
 constants.VENDOR_COUNTRY = "country";
 constants.VENDOR_PINCODE = "pincode";
+constants.VENDOR_STATUS = "status_id";
 constants.VENDOR_PET_TYPE = "pet_type";
 constants.VENDOR_IS_BATHING_PROVIDED = "is_bathing_provided";
+constants.VENDOR_IS_MASSAGE_PROVIDED = "is_massage_provided";
+constants.VENDOR_IS_CLEANING_PROVIDED = "is_cleaning_provided";
+constants.VENDOR_IS_FUR_TRIMMING_PROVIDED = "is_fur_trimming_provided";
+constants.VENDOR_PET_SEX = "pet_sex";
+constants.VENDOR_PET_AGE = "pet_age";
+constants.VENDOR_IS_PEDIGREE_CERTIFICATE = "is_pedigree_certificate";
+constants.VENDOR_IS_MEDICAL_CERTIFICATE = "is_written_medical_certificate";
+constants.VENDOR_IS_IMMUNIZATION_CERTIFICATE = "is_immunization_certificate";
+constants.VENDOR_IS_BEHAVIOURAL_MODIFICATION = "is_behavioural_modification";
+constants.VENDOR_IS_OBIDIENCE_TRAINING = "is_obedience_training";
+constants.VENDOR_IS_SCIENTIFIC_TRANING = "is_scientific_training";
+constants.VENDOR_IS_AGILITY_TRAINING = "is_agility_training";
+constants.VENDOR_IS_THERAPY_TRAINING = "is_therapy_training";
+constants.VENDOR_NUM_DOGS_TRAINED_AT_A_TIME = "number_dogs_trained_at_a_time";
+constants.VENDOR_HAS_HOUSE = "has_house";
+constants.VENDOR_HAS_FENCED_GARDEN = "has_fenced_garden";
+constants.VENDOR_IS_PETS_ALLOWED_FURNITURE = "is_pets_allowed_on_furniture";
+constants.VENDOR_IS_PETS_ON_BED = "is_pets_allowed_on_bed";
+constants.VENDOR_IS_NO_SMOKING = "is_non_smoking";
+constants.VENDOR_DOES_OWN_DOG = "does_own_dog";
+constants.VENDOR_DOES_OWN_CAT = "does_own_cat";
+constants.VENDOR_DOES_OWN_CAGED_ANIMALS = "does_own_caged_animals";
+constants.VENDOR_ONLY_ONE_BOOKING = "only_one_booking";
+constants.VENDOR_PET_WEIGHT = "pet_weight";
+constants.VENDOR_NUMBER_VISITS = "number_of_visits";
 constants.VENDOR_SERVICE_DURATION = "service_duration_hours";
+constants.VENDOR_SERVICE_PER_WEEK = "service_per_week";
 constants.VENDOR_SERVICE_CHARGE = "service_charge";
 
 constants.DOCUMENT_HOLDER_ID = "document_holder_id";

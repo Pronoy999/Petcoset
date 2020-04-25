@@ -14,16 +14,16 @@ begin
         if par_is_update = 1
         then
             update tbl_BankDetailsMaster
-            set payment_gateway_account_id = par_payment_gateway_account_id
-            where id = par_holder_id
+            set payment_gateway_account_id = par_payment_gateway_account_id,
+                modified_by=par_holder_id,
+                modified=now()
+            where holder_id = par_holder_id
               and holder_type = par_holder_type
               and account_number = par_account_number;
             select concat
                        ('
             update ', par_holder_type, '
-            set status_id = 12         #12 for Verified
-                where id = ', par_holder_id, '
-        ')
+            set status_id = 12 ,modified_by=', par_holder_id, ' , modified=now() where id = ', par_holder_id, '')
             into @dySql;
 
             #select @dySQL;
@@ -57,7 +57,7 @@ begin
         end if;
     ELSE
         #Deleting the previous record and inserting new one.
-        DELETE from tbl_BankDetailsMaster where holder_id = par_holder_id and holder_type = par_holder_type;
+        update tbl_BankDetailsMaster set is_active=0 where holder_id = par_holder_id and holder_type = par_holder_type;
         select concat('UPDATE ', par_holder_type, ' set status_id=4,modified_by=', par_holder_id,
                       ',modified=now() where id = ', par_holder_id)
         into @dySql;

@@ -34,7 +34,7 @@ BEGIN
                 par_phoneNo,
                 par_gender,
                 4,
-                0);
+                1);
 
         select last_insert_id() into @vendorId;
         INSERT INTO tbl_IdentificationDocumentMaster(document_holder_id, document_holder_type, document_type,
