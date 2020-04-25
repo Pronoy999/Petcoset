@@ -114,6 +114,18 @@ validator.validateCharacter = (data) => {
    return typeof (data) === 'string' && data.length === 1;
 };
 /**
+ * Method to validate an object as JSON.
+ * @param data: the data to be validated.
+ * @returns {boolean}: true if JSON, else false.
+ */
+validator.validateJSON = (data) => {
+   try {
+      JSON.parse(data);
+   } catch (e) {
+      return false;
+   }
+};
+/**
  * exporting validator.
  */
 module.exports = validator;

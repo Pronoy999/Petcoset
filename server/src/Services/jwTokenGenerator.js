@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
+const validators = require('./../Helpers/validators');
 const printer = require('./../Helpers/printer');
 const tokenGenerator = {};
 /**
@@ -10,6 +11,9 @@ const tokenGenerator = {};
  */
 tokenGenerator.getToken = (data) => {
    try {
+      if (!validators.validateJSON(data)) {
+         data = JSON.parse(JSON.stringify(data));
+      }
       const keyFile = fs.readFileSync(path.resolve(__dirname + "/../KeyFiles/first.pem"), "utf8");
       return jwt.sign(data, keyFile, {algorithm: 'RS256', expiresIn: '4h'});
    } catch (e) {

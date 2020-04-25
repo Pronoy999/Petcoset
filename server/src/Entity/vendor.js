@@ -191,7 +191,8 @@ class Vendor {
     */
    getVendor(vendorStatus) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_GET_VENDOR, [this._email, this._phone, this._vendorId, vendorStatus])
+         database.runSp(constants.SP_GET_VENDOR, [this._email, this._phone, this._vendorId,
+               validators.validateUndefined(vendorStatus) ? vendorStatus : false])
             .then(_resultSet => {
                let result = _resultSet[0];
                if (validators.validateUndefined(result)) {
@@ -215,11 +216,12 @@ class Vendor {
       return new Promise(async (resolve, reject) => {
          const authentication = new Authentication();
          try {
-            const vendorDetails = generator.generateParsedJSON(await this.getVendor());
-            this._phone = vendorDetails[constants.VENDOR_PHONE_NUMBER];
+            const vendorDetails = await this.getVendor();
+            this._phone = vendorDetails[0][constants.VENDOR_PHONE_NUMBER];
             if (await authentication.verifyOtp(this._phone, otp) > 0) {
-               vendorDetails[constants.JW_TOKEN] = tokenGenerator.getToken(vendorDetails);
-               resolve(vendorDetails);
+               let responseObj = vendorDetails[0];
+               responseObj[constants.JW_TOKEN] = tokenGenerator.getToken(vendorDetails[0]);
+               resolve(responseObj);
             } else {
                resolve(constants.INCORRECT_OTP);
             }
