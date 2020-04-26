@@ -125,6 +125,7 @@ class Vendor {
     * @param onlyOneBooking
     * @param petWeight
     * @param numOfVisits
+    * @param breed
     * @param serviceDuration: The duration of the service.
     * @param servicePerWeek
     * @param serviceCharge: The charge per service.
@@ -134,7 +135,7 @@ class Vendor {
                         isMedicalCert, isImmuneCert, isBehaveModification, isObedienceTrain, isScientificTrain,
                         isAgilityTrain, isTherapyTrain, numOfDogs, hasHouse, hasFencedGarden, isPetOnFurniture,
                         isPetOnBed, isNoSmoking, doesOwnDog, doesOwnCat, doesOwnCagedAnimals,
-                        onlyOneBooking, petWeight, numOfVisits, serviceDuration, servicePerWeek, serviceCharge) {
+                        onlyOneBooking, petWeight, numOfVisits, breed, serviceDuration, servicePerWeek, serviceCharge) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId, petType,
                validators.validateUndefined(isBathing) ? isBathing : false,
@@ -163,6 +164,7 @@ class Vendor {
                validators.validateUndefined(onlyOneBooking) ? onlyOneBooking : false,
                validators.validateUndefined(petWeight) ? petWeight : false,
                validators.validateUndefined(numOfVisits) ? numOfVisits : false,
+               validators.validateUndefined(breed) ? breed : false,
                serviceDuration,
                validators.validateUndefined(servicePerWeek) ? servicePerWeek : false,
                serviceCharge

@@ -274,6 +274,7 @@ constants.VENDOR_DOES_OWN_CAGED_ANIMALS = "does_own_caged_animals";
 constants.VENDOR_ONLY_ONE_BOOKING = "only_one_booking";
 constants.VENDOR_PET_WEIGHT = "pet_weight";
 constants.VENDOR_NUMBER_VISITS = "number_of_visits";
+constants.VENDOR_BREED="breed";
 constants.VENDOR_SERVICE_DURATION = "service_duration_hours";
 constants.VENDOR_SERVICE_PER_WEEK = "service_per_week";
 constants.VENDOR_SERVICE_CHARGE = "service_charge";
