@@ -343,6 +343,15 @@ BEGIN
         alter table tbl_VendorServiceMapping
             add column number_of_visits int default null after pet_weight;
     end if;
+    if not exists(
+        select 1 from information_schema.COLUMNS WHERE TABLE_NAME=currentSchema
+        and TABLE_NAME='tbl_VendorServiceMapping' and COLUMN_NAME = 'breed'
+        ) then
+        begin
+            alter table tbl_VendorServiceMapping
+            add column breed varchar(255) default null after number_of_visits;
+        end;
+    end if;
 end;
 
 CALL sp_tbl_VendorServiceMapping();

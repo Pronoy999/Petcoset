@@ -1,5 +1,5 @@
 drop procedure if exists sp_GetBankDetails;
-create procedure sp_GetBankDetails(parVendorId int, parHolderType varchar(50))
+create procedure sp_GetBankDetails(parholderId int, parHolderType varchar(50))
 begin
     select bm.id,
            bm.holder_id,
@@ -19,6 +19,6 @@ begin
              left join tbl_StatusMaster sm
                        on sm.id = vm.status_id
     where holder_type = parHolderType
-      and holder_id = parVendorId
+      and holder_id = parholderId
       and bm.is_active = 1;
 end;
