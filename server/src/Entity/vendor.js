@@ -137,7 +137,8 @@ class Vendor {
                         isPetOnBed, isNoSmoking, doesOwnDog, doesOwnCat, doesOwnCagedAnimals,
                         onlyOneBooking, petWeight, numOfVisits, breed, serviceDuration, servicePerWeek, serviceCharge) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId, petType,
+         database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId,
+               validators.validateUndefined(petType) ? petType : "",
                validators.validateUndefined(isBathing) ? isBathing : false,
                validators.validateUndefined(isMassage) ? isMassage : false,
                validators.validateUndefined(isCleaning) ? isCleaning : false,
