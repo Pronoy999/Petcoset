@@ -32,6 +32,7 @@ begin
            s.only_one_booking,
            s.pet_weight,
            s.number_of_visits,
+           s.breed,
            s.service_duration_hours,
            s.service_per_week,
            s.service_charge

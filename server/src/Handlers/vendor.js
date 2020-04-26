@@ -155,10 +155,6 @@ vendorHandler.vendorService = (dataObject) => {
             dataObject.postData[constants.VENDOR_ID] : false;
          const serviceId = validator.validateNumber(dataObject.postData[constants.SERVICE_ID]) ?
             dataObject.postData[constants.SERVICE_ID] : false;
-         const petType = validator.validateString(dataObject.postData[constants.VENDOR_PET_TYPE]) ?
-            dataObject.postData[constants.VENDOR_PET_TYPE] : false;
-         const isBathing = validator.validateNumber(dataObject.postData[constants.VENDOR_IS_BATHING_PROVIDED]) ?
-            dataObject.postData[constants.VENDOR_IS_BATHING_PROVIDED] : false;
          const duration = validator.validateNumber(dataObject.postData[constants.VENDOR_SERVICE_DURATION]) ?
             dataObject.postData[constants.VENDOR_SERVICE_DURATION] : false;
          const serviceCharge = validator.validateNumber(dataObject.postData[constants.VENDOR_SERVICE_CHARGE]) ?
