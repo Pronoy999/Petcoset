@@ -34,7 +34,12 @@ create procedure sp_AddVendorServices(parVendorId int,
                                       parServiceCharge decimal(5, 2))
 BEGIN
     set @isExists = 0;
-    select id into @isExists from tbl_VendorServiceMapping where vendor_id = parVendorId and service_id = parServiceID;
+    select id
+    into @isExists
+    from tbl_VendorServiceMapping
+    where vendor_id = parVendorId
+      and service_id = parServiceID
+      and is_active = 1;
     if @isExists > 0 then
         update tbl_VendorServiceMapping set is_active=0 where vendor_id = parVendorId and service_id = parServiceID;
         INSERT into tbl_VendorServiceMapping (vendor_id,
@@ -106,30 +111,6 @@ BEGIN
                    parServiceCharge,
                    parVendorId, parVendorId, now());
         select last_insert_id() as id;
-        /*set @whereClaus = ' set ';
-        if parPetType = 'DOG' OR parPetType = 'CAT' THEN
-            set @whereClaus = concat(@whereClaus, ' pet_type = ''', parPetType, ''',');
-        end if;
-        if parIsBathing > -1 THEN
-            set @whereClaus = concat(@whereClaus, ' is_bathing_provided = ', parIsBathing, ',');
-        end if;
-        if parDuration > 1 THEN
-            set @whereClaus = concat(@whereClaus, ' service_duration_hours = ', parDuration, ',');
-        end if;
-        if parServiceCharge > 0 THEN
-            set @whereClaus = concat(@whereClaus, ' service_charge = ', parServiceCharge, ',');
-        end if;
-        #Adding the default change columns.
-        set @whereClaus = concat(@whereClaus, ' modified_by = ', parVendorId, ', modified = now()');
-        select concat('update tbl_VendorServiceMapping ', @whereClaus, ' where vendor_id = ', parVendorId,
-                      ' and service_id = ', parServiceID)
-        into @stmtSQL;
-        #select @stmtSQL;
-        PREPARE stmtExec from @stmtSQL;
-        EXECUTE stmtExec;
-        DEALLOCATE PREPARE stmtExec;
-        select 1 as id;*/
-
     else
         INSERT into tbl_VendorServiceMapping (vendor_id,
                                               service_id,
