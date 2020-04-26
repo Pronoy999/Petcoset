@@ -31,7 +31,7 @@ create procedure sp_AddVendorServices(parVendorId int,
                                       parBreed varchar(255),
                                       parDuration int,
                                       parServicePerWeek int,
-                                      parServiceCharge decimal(5, 2))
+                                      parServiceCharge decimal(18, 2))
 BEGIN
     set @isExists = 0;
     select id
