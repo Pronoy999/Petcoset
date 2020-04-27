@@ -76,7 +76,7 @@ class Vendor {
             .then(async _resultSet => {
                try {
                   const result = _resultSet[0][0];
-                  if (validators.validateUndefined(result)) {
+                  if (validators.validateUndefined(result) && result.id > 0) {
                      result[constants.TWO_FACTOR_KEY] = true;
                      const authentication = new Authentication();
                      await authentication.requestOtp(this._phone);
