@@ -26,8 +26,7 @@ BEGIN
             `created`                    timestamp NULL DEFAULT CURRENT_TIMESTAMP,
             `modified_by`                int(11)        DEFAULT NULL,
             `modified`                   timestamp NULL DEFAULT NULL,
-            PRIMARY KEY (`id`),
-            UNIQUE KEY `uq_holder_id_holder_type` (`holder_id`, `holder_type`)
+            PRIMARY KEY (`id`)
         ) ;
     end if;
 end$$

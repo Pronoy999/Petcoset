@@ -66,9 +66,9 @@ begin
         EXECUTE stmt_Growth;
         DEALLOCATE PREPARE stmt_Growth;
         insert into tbl_BankDetailsMaster(holder_id, holder_type, holder_name, account_number,
-                                          bank_name, ifsc_code, contact_number, created_by)
+                                          bank_name, ifsc_code, contact_number, created_by,modified_by,modified)
             VALUE (par_holder_id, par_holder_type, par_holder_name, par_account_number, par_bank_name, par_ifsc_code,
-                   par_contact_number, par_holder_id);
+                   par_contact_number, par_holder_id,par_holder_id,now());
         select last_insert_id() as id;
     end if;
 end;
