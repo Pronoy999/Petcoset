@@ -67,7 +67,7 @@ BEGIN
         ) then
         begin
             alter table tbl_VendorServiceMapping
-                add column service_charge decimal(5, 2) default 0.0 after service_duration_hours;
+                add column service_charge decimal(18, 2) default 0.0 after service_duration_hours;
         end;
     end if;
     if not exists(
@@ -346,14 +346,42 @@ BEGIN
     if not exists(
             select 1
             from information_schema.COLUMNS
-            WHERE TABLE_NAME = currentSchema
+            WHERE TABLE_SCHEMA = currentSchema
               and TABLE_NAME = 'tbl_VendorServiceMapping'
               and COLUMN_NAME = 'breed'
         ) then
-        begin
-            alter table tbl_VendorServiceMapping
-                add column breed varchar(255) default null after number_of_visits;
-        end;
+        alter table tbl_VendorServiceMapping
+            add column breed varchar(255) default null after number_of_visits;
+    end if;
+    if not exists(
+            select 1
+            from information_schema.COLUMNS
+            WHERE TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_VendorServiceMapping'
+              and COLUMN_NAME = 'child_age'
+        ) then
+        alter table tbl_VendorServiceMapping
+            add column child_age int default null after breed;
+    end if;
+    if not exists(
+            select 1
+            from information_schema.COLUMNS
+            WHERE TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_VendorServiceMapping'
+              and COLUMN_NAME = 'is_full_time'
+        ) then
+        alter table tbl_VendorServiceMapping
+            add column is_full_time tinyint default null after child_age;
+    end if;
+    if not exists(
+            select 1
+            from information_schema.COLUMNS
+            WHERE TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_VendorServiceMapping'
+              and COLUMN_NAME = 'is_first_aid'
+        ) then
+        alter table tbl_VendorServiceMapping
+            add column is_first_aid tinyint default null after is_full_time;
     end if;
 end;
 

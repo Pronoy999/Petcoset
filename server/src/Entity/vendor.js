@@ -76,7 +76,7 @@ class Vendor {
             .then(async _resultSet => {
                try {
                   const result = _resultSet[0][0];
-                  if (validators.validateUndefined(result)) {
+                  if (validators.validateUndefined(result) && result.id > 0) {
                      result[constants.TWO_FACTOR_KEY] = true;
                      const authentication = new Authentication();
                      await authentication.requestOtp(this._phone);
@@ -126,6 +126,9 @@ class Vendor {
     * @param petWeight
     * @param numOfVisits
     * @param breed
+    * @param childAge
+    * @param fullTime
+    * @param firstAid
     * @param serviceDuration: The duration of the service.
     * @param servicePerWeek
     * @param serviceCharge: The charge per service.
@@ -135,7 +138,7 @@ class Vendor {
                         isMedicalCert, isImmuneCert, isBehaveModification, isObedienceTrain, isScientificTrain,
                         isAgilityTrain, isTherapyTrain, numOfDogs, hasHouse, hasFencedGarden, isPetOnFurniture,
                         isPetOnBed, isNoSmoking, doesOwnDog, doesOwnCat, doesOwnCagedAnimals,
-                        onlyOneBooking, petWeight, numOfVisits, breed, serviceDuration, servicePerWeek, serviceCharge) {
+                        onlyOneBooking, petWeight, numOfVisits, breed, childAge, fullTime, firstAid, serviceDuration, servicePerWeek, serviceCharge) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId,
                validators.validateUndefined(petType) ? petType : "",
@@ -166,6 +169,9 @@ class Vendor {
                validators.validateUndefined(petWeight) ? petWeight : false,
                validators.validateUndefined(numOfVisits) ? numOfVisits : false,
                validators.validateUndefined(breed) ? breed : false,
+               validators.validateUndefined(childAge) ? childAge : false,
+               validators.validateUndefined(fullTime) ? fullTime : false,
+               validators.validateUndefined(firstAid) ? firstAid : false,
                serviceDuration,
                validators.validateUndefined(servicePerWeek) ? servicePerWeek : false,
                serviceCharge

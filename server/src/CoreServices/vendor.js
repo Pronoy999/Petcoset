@@ -119,7 +119,8 @@ vendorService.addVendorService = (dataObject, jwToken) => {
             dataObject[constants.VENDOR_DOES_OWN_DOG], dataObject[constants.VENDOR_DOES_OWN_CAT],
             dataObject[constants.VENDOR_DOES_OWN_CAGED_ANIMALS], dataObject[constants.VENDOR_ONLY_ONE_BOOKING],
             dataObject[constants.VENDOR_PET_WEIGHT], dataObject[constants.VENDOR_NUMBER_VISITS],
-            dataObject[constants.VENDOR_BREED],
+            dataObject[constants.VENDOR_BREED],dataObject[constants.VENDOR_CHILD_AGE],
+            dataObject[constants.VENDOR_IS_FULL_TIME],dataObject[constants.VENDOR_IS_FIRST_AID],
             dataObject[constants.VENDOR_SERVICE_DURATION], dataObject[constants.VENDOR_SERVICE_PER_WEEK],
             dataObject[constants.VENDOR_SERVICE_CHARGE])
             .then(vendorServiceId => {
