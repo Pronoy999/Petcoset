@@ -164,6 +164,7 @@ constants.CORE_BOOKING_SERVICE = "createServiceBooking";
 constants.CORE_BOOKING_SEARCH = "searchBooking";
 constants.CORE_CITY_SEARCH = "searchCity";
 constants.CORE_STATE_SEARCH = "searchState";
+constants.CORE_BREED_SEARCH = "searchBreed";
 /**
  * SP Names.
  */
@@ -190,6 +191,7 @@ constants.SP_SEARCH_CITY = "sp_GetCities";
 constants.SP_SEARCH_STATE = "sp_GetState";
 constants.SP_UPDATE_VENDOR_DETAILS = "sp_UpdateVendorDetails";
 constants.SP_GET_BANK_DETAILS = "sp_GetBankDetails";
+constants.SP_GET_BREED_DETAILS = "sp_GetBreedDetails";
 
 /**
  * General Keys
@@ -339,6 +341,8 @@ constants.BANK_ACCOUNT_IS_UPDATE = "is_update";
 constants.CITY_NAME = "city_name";
 constants.CITY_ID = "city_id";
 constants.CITY_STATE_ID = "state_id";
+
+constants.BREED_PET_TYPE = "pet_type";
 
 /**
  * exporting the constants.

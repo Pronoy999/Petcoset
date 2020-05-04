@@ -6,6 +6,7 @@ const authentication = require('./authentication');
 const subscription = require('./subscription');
 const booking = require('./booking');
 const city = require('./city');
+const breed = require('./breed');
 const responseGenerator = require('./../Services/responseGenerator');
 const handlerObj = {};
 /**
@@ -189,6 +190,28 @@ handlerObj.city = (dataObject) => {
             break;
          case "state":
             promise = city.state(dataObject);
+            break;
+         default:
+            reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
+      }
+      promise.then(data => {
+         resolve(data);
+      }).catch(err => {
+         reject(err);
+      });
+   });
+};
+/**
+ * Method to handle the breed requests.
+ * @param dataObject: The request object.
+ * @returns {Promise<Array>}
+ */
+handlerObj.breed = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      let promise;
+      switch (dataObject.path) {
+         case "breed":
+            promise = breed.breed(dataObject);
             break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
