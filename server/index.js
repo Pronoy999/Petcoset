@@ -6,12 +6,12 @@ require('dotenv').config();
 const app = {};
 app.init = () => {
    const cpuLength = os.cpus().length;
-   for (let i = 0; i < cpuLength; i++) {
-      if (cluster.isMaster) {
+   if (cluster.isMaster) {
+      for (let i = 0; i < cpuLength; i++) {
          cluster.fork();
-      } else {
-         server.init();
       }
+   } else {
+      server.init();
    }
 };
 //Starting the App.

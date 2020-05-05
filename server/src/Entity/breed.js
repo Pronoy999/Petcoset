@@ -14,7 +14,7 @@ class Breed {
     */
    constructor(breedID, petType) {
       this._breedID = validators.validateNumber(breedID) ? breedID : false;
-      this._petType = validators.validateNumber(petType) ? petType : false;
+      this._petType = validators.validateString(petType) ? petType : false;
    }
    
    /**
