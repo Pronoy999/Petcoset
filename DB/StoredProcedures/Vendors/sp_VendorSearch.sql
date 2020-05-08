@@ -13,7 +13,7 @@ BEGIN
         #select @statusId;
         SELECT concat(
                        'SELECT C.id, first_name, last_name, email, phone_number, gender, address_1, address_2,
-                        CM.city_name,sm.state_name, pincode,C.status_id,s.status_name
+                        CM.city_name,sm.state_name, pincode,C.status_id,s.status_name,C.profile_image
                FROM tbl_VendorMaster C
                 left join tbl_CityMaster CM
                     on CM.id=C.city

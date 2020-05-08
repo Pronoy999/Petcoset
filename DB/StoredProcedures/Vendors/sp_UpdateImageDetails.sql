@@ -8,7 +8,7 @@ begin
         select id into @isValid from tbl_VendorMaster where id = parVendorId and is_active = 1;
         if @isValid > 0 then
             update tbl_VendorMaster
-            set profile_image= parImageKey,
+            set profile_image= parBaseUrl,
                 modified=now(),
                 modified_by=parVendorId
             where id = parVendorId;
