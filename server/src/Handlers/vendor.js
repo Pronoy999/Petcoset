@@ -356,6 +356,74 @@ vendorHandler.booking = (dataObject) => {
    });
 };
 /**
+ * Method to handle all the image requests for the vendor.
+ * @param dataObject: The request object.
+ * @returns {Promise<Array>}: the response object and the response code.
+ */
+vendorHandler.images = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const method = dataObject.method;
+      if (method === constants.HTTP_GET) {
+         const vendorId = validator.validateNumber(dataObject.queryString[constants.VENDOR_ID]) ?
+            dataObject.queryString[constants.VENDOR_ID] : false;
+         const imageType = validator.validateString(dataObject.queryString[constants.VENDOR_IMAGES_IMAGE_TYPE]) ?
+            dataObject.queryString[constants.VENDOR_IMAGES_IMAGE_TYPE] : false;
+         const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (vendorId && imageType && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_GET_IMAGES;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else if (method === constants.HTTP_POST) {
+         const vendorId = validator.validateNumber(dataObject.postData[constants.VENDOR_ID]) ?
+            dataObject.postData[constants.VENDOR_ID] : false;
+         const imageType = validator.validateString(dataObject.postData[constants.VENDOR_IMAGES_IMAGE_TYPE]) ?
+            dataObject.postData[constants.VENDOR_IMAGES_IMAGE_TYPE] : false;
+         const imageData = validator.validateUndefined(dataObject.postData[constants.VENDOR_IMAGE_DATA]) ?
+            dataObject.postData[constants.VENDOR_IMAGE_DATA] : false;
+         const fileExtension = validator.validateString(dataObject.postData[constants.FILE_EXTENSION]) ?
+            dataObject.postData[constants.FILE_EXTENSION] : false;
+         const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
+         if (vendorId && imageType && imageData && fileExtension && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.postData;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_UPLOAD_IMAGE;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else {
+         reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
+      }
+   });
+};
+/**
  * Exporting the vendor module.
  */
 module.exports = vendorHandler;

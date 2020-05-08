@@ -380,6 +380,55 @@ class Vendor {
          });
       });
    }
+   
+   /**
+    * Method to upload the images for vendor.
+    * This method is used to upload the profile picture
+    * and other images for the vendor.
+    * @param imageData: The image data.
+    * @param imageType: The type of the images.
+    * @param fileExtension: the extension of the file.
+    * @returns {Promise<URL>}: The url of the profile picture.
+    */
+   uploadPictures(imageData, imageType, fileExtension) {
+      return new Promise((resolve, reject) => {
+         const imageKey = generator.generateRandomToken(16) + "." + fileExtension;
+         const isSecure = (imageType === constants.IMAGE_TYPE_DOCUMENT);
+         const baseUrl = (isSecure) ? constants.DOCUMENTS_BASE_URL : constants.IMAGES_BASE_URL;
+         const imageUrl = baseUrl + imageKey;
+         let promises = [];
+         promises.push(s3Helper.uploadFile(imageData, imageKey, isSecure));
+         promises.push(database.runSp(constants.SP_UPLOAD_VENDOR_IMAGES,
+            [imageType, imageKey, imageUrl, this._vendorId]));
+         Promise.all(promises).then(results => {
+            resolve(imageUrl);
+         }).catch(errs => {
+            printer.printError(errs);
+            reject(constants.ERROR_MESSAGE);
+         });
+      });
+   }
+   
+   /**
+    * Method to get the images of the vendor.
+    * @param imageType: the type of images to be searched.
+    * @returns {Promise<Array>}: An Array of image's url.
+    */
+   getImages(imageType) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GET_VENDOR_IMAGES, [imageType, this._vendorId]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve(false);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
 }
 
 /**

@@ -1,7 +1,7 @@
 drop procedure if exists sp_GetVendorServices;
 create procedure sp_GetVendorServices(parVendorId int)
 begin
-    select v.id as vendor_id,
+    select v.id  as vendor_id,
            s.service_id,
            sm.service_name,
            sm.service_type,
@@ -32,7 +32,10 @@ begin
            s.only_one_booking,
            s.pet_weight,
            s.number_of_visits,
-           s.breed,
+           BM.id as breed_id,
+           BM.breed_name,
+           BM.breed_description,
+           BM.pet_type,
            s.service_duration_hours,
            s.service_per_week,
            s.service_charge
@@ -41,6 +44,8 @@ begin
                         on s.vendor_id = v.id
              inner join tbl_ServiceMaster sm
                         on sm.id = s.service_id
+             left join tbl_PetBreedMaster BM
+                       on BM.id = s.breed
     WHERE v.id = parVendorId
       and s.is_active = 1;
 end;

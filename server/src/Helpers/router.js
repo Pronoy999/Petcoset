@@ -7,7 +7,8 @@ const routes = {
    "auth": handlers.auth,
    "subscription": handlers.subscription,
    "booking": handlers.booking,
-   "city": handlers.city
+   "city": handlers.city,
+   "breed": handlers.breed
 };
 
 const path = {};
