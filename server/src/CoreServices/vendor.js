@@ -47,6 +47,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_VENDOR_UPLOAD_IMAGE:
             promise = vendorService.uploadImage(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_VENDOR_GET_IMAGES:
+            promise = vendorService.getImages(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
             process.exit(1);
@@ -293,6 +296,26 @@ vendorService.uploadImage = (dataObject, jwToken) => {
          vendor.uploadPictures(dataObject[constants.VENDOR_IMAGE_DATA],
             dataObject[constants.VENDOR_IMAGES_IMAGE_TYPE], dataObject[constants.FILE_EXTENSION]).then(imageUrl => {
             resolve([imageUrl, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to get the images of the vendor.
+ * @param dataObject: The required data
+ * @param jwToken: The user token.
+ * @returns {Promise<Array>}: An array of image urls.
+ */
+vendorService.getImages = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const vendor = new Vendor(dataObject[constants.VENDOR_ID]);
+         vendor.getImages(dataObject[constants.VENDOR_IMAGES_IMAGE_TYPE]).then(images => {
+            resolve([images, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });

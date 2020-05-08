@@ -363,7 +363,33 @@ vendorHandler.booking = (dataObject) => {
 vendorHandler.images = (dataObject) => {
    return new Promise((resolve, reject) => {
       const method = dataObject.method;
-      if (method === constants.HTTP_POST) {
+      if (method === constants.HTTP_GET) {
+         const vendorId = validator.validateNumber(dataObject.queryString[constants.VENDOR_ID]) ?
+            dataObject.queryString[constants.VENDOR_ID] : false;
+         const imageType = validator.validateString(dataObject.queryString[constants.VENDOR_IMAGES_IMAGE_TYPE]) ?
+            dataObject.queryString[constants.VENDOR_IMAGES_IMAGE_TYPE] : false;
+         const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (vendorId && imageType && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_VENDOR_GET_IMAGES;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/vendor.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else if (method === constants.HTTP_POST) {
          const vendorId = validator.validateNumber(dataObject.postData[constants.VENDOR_ID]) ?
             dataObject.postData[constants.VENDOR_ID] : false;
          const imageType = validator.validateString(dataObject.postData[constants.VENDOR_IMAGES_IMAGE_TYPE]) ?

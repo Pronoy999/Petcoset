@@ -157,6 +157,7 @@ constants.CORE_VENDOR_BANK = "vendorBank";
 constants.CORE_VENDOR_BANK_UPDATE = "updateVendorBank";
 constants.CORE_VENDOR_BANK_GET = "getVendorBank";
 constants.CORE_VENDOR_UPLOAD_IMAGE = "uploadImage";
+constants.CORE_VENDOR_GET_IMAGES = "getImages";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
@@ -199,6 +200,7 @@ constants.SP_UPDATE_VENDOR_DETAILS = "sp_UpdateVendorDetails";
 constants.SP_GET_BANK_DETAILS = "sp_GetBankDetails";
 constants.SP_GET_BREED_DETAILS = "sp_GetBreedDetails";
 constants.SP_UPLOAD_VENDOR_IMAGES = "sp_UpdateImageDetails";
+constants.SP_GET_VENDOR_IMAGES = "sp_GetVendorImages";
 
 /**
  * General Keys

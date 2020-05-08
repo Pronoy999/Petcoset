@@ -408,6 +408,27 @@ class Vendor {
          });
       });
    }
+   
+   /**
+    * Method to get the images of the vendor.
+    * @param imageType: the type of images to be searched.
+    * @returns {Promise<Array>}: An Array of image's url.
+    */
+   getImages(imageType) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GET_VENDOR_IMAGES, [imageType, this._vendorId]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve(false);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
 }
 
 /**
