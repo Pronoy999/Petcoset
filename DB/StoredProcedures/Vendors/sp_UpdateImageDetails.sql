@@ -18,7 +18,7 @@ begin
         end if;
     else
         #Inserting the image into the pet images table.
-        insert into tbl_VendorPetImages (vendor_id, image_type, image_key, base_url, created_by)
+        insert into tbl_VendorImages (vendor_id, image_type, image_key, base_url, created_by)
             value (parVendorId, parImageType, parImageKey, parBaseUrl, parVendorId);
         select last_insert_id() as id;
     end if;
