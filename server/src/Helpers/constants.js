@@ -106,6 +106,11 @@ constants.ERROR_LEVEL_2 = "2";
 constants.ERROR_LEVEL_3 = "3";
 constants.ERROR_LEVEL_4 = "4";
 /**
+ * S3 URLs
+ */
+constants.IMAGES_BASE_URL = "https://petcoset-images.s3.ap-south-1.amazonaws.com/";
+constants.DOCUMENTS_BASE_URL = "https://petcoset-documents.s3.ap-south-1.amazonaws.com/";
+/**
  * Messages.
  */
 constants.WELCOME_MESSAGE = "Welcome to Petcoset API.";
@@ -151,6 +156,7 @@ constants.CORE_VENDOR_2F_VERIFY = "verify2FVendor";
 constants.CORE_VENDOR_BANK = "vendorBank";
 constants.CORE_VENDOR_BANK_UPDATE = "updateVendorBank";
 constants.CORE_VENDOR_BANK_GET = "getVendorBank";
+constants.CORE_VENDOR_UPLOAD_IMAGE = "uploadImage";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
@@ -192,6 +198,7 @@ constants.SP_SEARCH_STATE = "sp_GetState";
 constants.SP_UPDATE_VENDOR_DETAILS = "sp_UpdateVendorDetails";
 constants.SP_GET_BANK_DETAILS = "sp_GetBankDetails";
 constants.SP_GET_BREED_DETAILS = "sp_GetBreedDetails";
+constants.SP_UPLOAD_VENDOR_IMAGES = "sp_UpdateImageDetails";
 
 /**
  * General Keys
@@ -248,6 +255,7 @@ constants.VENDOR_CITY = "city";
 constants.VENDOR_STATE = "state";
 constants.VENDOR_COUNTRY = "country";
 constants.VENDOR_PINCODE = "pincode";
+constants.VENDOR_PROFILE_IMAGE = "profile_image";
 constants.VENDOR_STATUS = "status_id";
 constants.VENDOR_PET_TYPE = "pet_type";
 constants.VENDOR_IS_BATHING_PROVIDED = "is_bathing_provided";
@@ -344,6 +352,15 @@ constants.CITY_STATE_ID = "state_id";
 
 constants.BREED_PET_TYPE = "pet_type";
 
+constants.VENDOR_IMAGES_VENDOR_ID = "vendor_id";
+constants.VENDOR_IMAGES_IMAGE_TYPE = "image_type";
+constants.VENDOR_IMAGE_DATA = "image_data";
+constants.VENDOR_IMAGES_IMAGE_KEY = "image_key";
+constants.VENDOR_IMAGES_BASE_URL = "base_url";
+constants.IMAGE_TYPE_DP = "DP";
+constants.IMAGE_TYPE_DOCUMENT = "DOCUMENT";
+constants.IMAGE_TYPE_PET = "PET";
+constants.FILE_EXTENSION = "file_extension";
 /**
  * exporting the constants.
  */

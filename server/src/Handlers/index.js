@@ -66,6 +66,9 @@ handlerObj.vendor = (dataObject) => {
          case "booking":
             promise = vendor.booking(dataObject);
             break;
+         case "images":
+            promise = vendor.images(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }

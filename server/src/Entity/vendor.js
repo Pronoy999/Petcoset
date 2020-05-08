@@ -380,6 +380,34 @@ class Vendor {
          });
       });
    }
+   
+   /**
+    * Method to upload the images for vendor.
+    * This method is used to upload the profile picture
+    * and other images for the vendor.
+    * @param imageData: The image data.
+    * @param imageType: The type of the images.
+    * @param fileExtension: the extension of the file.
+    * @returns {Promise<URL>}: The url of the profile picture.
+    */
+   uploadPictures(imageData, imageType, fileExtension) {
+      return new Promise((resolve, reject) => {
+         const imageKey = generator.generateRandomToken(16) + "." + fileExtension;
+         const isSecure = (imageType === constants.IMAGE_TYPE_DOCUMENT);
+         const baseUrl = (isSecure) ? constants.DOCUMENTS_BASE_URL : constants.IMAGES_BASE_URL;
+         const imageUrl = baseUrl + imageKey;
+         let promises = [];
+         promises.push(s3Helper.uploadFile(imageData, imageKey, isSecure));
+         promises.push(database.runSp(constants.SP_UPLOAD_VENDOR_IMAGES,
+            [imageType, imageKey, imageUrl, this._vendorId]));
+         Promise.all(promises).then(results => {
+            resolve(imageUrl);
+         }).catch(errs => {
+            printer.printError(errs);
+            reject(constants.ERROR_MESSAGE);
+         });
+      });
+   }
 }
 
 /**
