@@ -20,6 +20,7 @@ begin
     truncate tbl_SubscriptionMaster;
     truncate tbl_SubscriptionServiceBooking;
     truncate tbl_SubscriptionServiceMapping;
+    truncate tbl_VendorImages;
     insert into tbl_EmployeeMaster(first_name, last_name,
                                    employee_role, email,
                                    phone_number, gender,
