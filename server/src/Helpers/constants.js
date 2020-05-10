@@ -359,6 +359,7 @@ constants.VENDOR_IMAGES_IMAGE_TYPE = "image_type";
 constants.VENDOR_IMAGE_DATA = "image_data";
 constants.VENDOR_IMAGES_IMAGE_KEY = "image_key";
 constants.VENDOR_IMAGES_BASE_URL = "base_url";
+constants.VENDOR_IMAGE_POSITION = "position";
 constants.IMAGE_TYPE_DP = "DP";
 constants.IMAGE_TYPE_DOCUMENT = "DOCUMENT";
 constants.IMAGE_TYPE_PET = "PET";

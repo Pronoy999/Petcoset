@@ -294,7 +294,8 @@ vendorService.uploadImage = (dataObject, jwToken) => {
       if (tokenGenerator.validateToken(jwToken)) {
          const vendor = new Vendor(dataObject[constants.VENDOR_ID]);
          vendor.uploadPictures(dataObject[constants.VENDOR_IMAGE_DATA],
-            dataObject[constants.VENDOR_IMAGES_IMAGE_TYPE], dataObject[constants.FILE_EXTENSION]).then(imageUrl => {
+            dataObject[constants.VENDOR_IMAGES_IMAGE_TYPE], dataObject[constants.FILE_EXTENSION],
+            dataObject[constants.VENDOR_IMAGE_POSITION]).then(imageUrl => {
             resolve([imageUrl, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);

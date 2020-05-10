@@ -396,6 +396,8 @@ vendorHandler.images = (dataObject) => {
             dataObject.postData[constants.VENDOR_IMAGES_IMAGE_TYPE] : false;
          const imageData = validator.validateUndefined(dataObject.postData[constants.VENDOR_IMAGE_DATA]) ?
             dataObject.postData[constants.VENDOR_IMAGE_DATA] : false;
+         const position = validator.validateNumber(dataObject.postData[constants.VENDOR_IMAGE_POSITION]) ?
+            dataObject.postData[constants.VENDOR_IMAGE_POSITION] : false;
          const fileExtension = validator.validateString(dataObject.postData[constants.FILE_EXTENSION]) ?
             dataObject.postData[constants.FILE_EXTENSION] : false;
          const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
