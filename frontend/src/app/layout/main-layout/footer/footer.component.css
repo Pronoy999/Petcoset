@@ -1,0 +1,94 @@
+.topnav-element {
+    overflow: hidden;
+}
+
+.topnav-element a {
+    color: #888;
+    text-align: center;
+    text-decoration: none;
+}
+
+.topnav-element a:hover {
+    color: #4CAF50;
+}
+
+.footer-title {
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.footer-title li a {
+    text-decoration: none;
+    color: #0d519c;
+}
+
+.li-element {
+    text-decoration: none;
+    color: #0d519c;
+}
+
+.footer-list {
+    text-decoration: none;
+    list-style: none;
+}
+
+.social-icons {
+    font-size: 30px;
+    color: #888;
+}
+
+.custom-input {
+    width: 82%;
+    height: 45px;
+    padding: 10px;
+    border: 1px solid #0d519c;
+}
+
+.custom-input-mobile {
+    width: 65%;
+    height: 34px;
+    padding: 10px;
+    border: 1px solid #0d519c;
+}
+
+.custom-buttom {
+    height: 45px;
+    width: 48px;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    color: white;
+}
+
+.custom-buttom-mobile {
+    height: 34px;
+    width: 35px;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    color: white;
+}
+
+.footer-text-color {
+    color: #888;
+}
+
+.text-color {
+    color: #0d519c;
+}
+
+.footer-text {
+    font-size: 15px;
+}
+
+.list-text a {
+    color: #0d519c;
+    text-decoration: none;
+}
+
+.footer-text-mobile {
+    font-size: 10px;
+}
+
+.hr {
+    border-width: 4px;
+    border-color: #0d519c;
+}

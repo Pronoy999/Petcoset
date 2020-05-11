@@ -1,0 +1,32 @@
+<!-- <div class="mt-5">
+  <div class="p-font" *ngFor="let lable of lableList" style="color: #ffffff;">
+    <div style="height: 70px; font-size: 20px;">
+      <i class="fa fa-dot-circle-o" aria-hidden="true"></i> {{lable}}
+    </div>
+  </div>
+</div> -->
+
+<div class="step p-font mt-5" *ngFor="let lable of lableList">
+    <div style="color: #ffffff;">
+        <div><i class="fa fa-dot-circle-o" aria-hidden="true"></i></div>
+    </div>
+    <div style="color: #ffffff;">
+        <div class="title">{{lable}}</div>
+    </div>
+</div>
+<!-- <div class="step step-active">
+    <div>
+        <div class="circle">2</div>
+    </div>
+    <div>
+        <div class="title">Second Step</div>
+    </div>
+</div>
+<div class="step">
+    <div>
+        <div class="circle">3</div>
+    </div>
+    <div>
+        <div class="title">Third Step</div>
+    </div>
+</div> -->

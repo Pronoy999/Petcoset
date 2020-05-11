@@ -1,0 +1,11 @@
+<label>
+  <ng-content></ng-content><span class="required-icon" *ngIf="required"> *</span>
+</label>
+
+<div class="form_warpper">
+    <span class="inputfield_icon"></span>
+    <input id="{{identifier}}" [formControl]="form.controls[name]" name="{{name}}" type="{{type}}" [placeholder]="readonly ? '' : placeholder" [autofocus]="autofocus ? 'autofocus' : null" required="{{required}}" [ngModel]="defaultValue" (ngModelChange)="ngModelChange($event)"
+        [readonly]="readonly" />
+
+    <app-input-validation *ngIf="validation" [formInput]="form.controls[name]" [name]="name"></app-input-validation>
+</div>

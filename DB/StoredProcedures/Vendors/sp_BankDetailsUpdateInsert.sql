@@ -23,7 +23,8 @@ begin
             select concat
                        ('
             update ', par_holder_type, '
-            set status_id = 12 ,modified_by=', par_holder_id, ' , modified=now() where id = ', par_holder_id, '')
+            set status_id = 12 ,modified_by=', par_holder_id, ' , modified=now() where id = ', par_holder_id,
+                        ' and status_id = 6')
             into @dySql;
 
             #select @dySQL;
@@ -66,9 +67,9 @@ begin
         EXECUTE stmt_Growth;
         DEALLOCATE PREPARE stmt_Growth;
         insert into tbl_BankDetailsMaster(holder_id, holder_type, holder_name, account_number,
-                                          bank_name, ifsc_code, contact_number, created_by,modified_by,modified)
+                                          bank_name, ifsc_code, contact_number, created_by, modified_by, modified)
             VALUE (par_holder_id, par_holder_type, par_holder_name, par_account_number, par_bank_name, par_ifsc_code,
-                   par_contact_number, par_holder_id,par_holder_id,now());
+                   par_contact_number, par_holder_id, par_holder_id, now());
         select last_insert_id() as id;
     end if;
 end;

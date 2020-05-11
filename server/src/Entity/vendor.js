@@ -388,9 +388,10 @@ class Vendor {
     * @param imageData: The image data.
     * @param imageType: The type of the images.
     * @param fileExtension: the extension of the file.
+    * @param position: the image position.
     * @returns {Promise<URL>}: The url of the profile picture.
     */
-   uploadPictures(imageData, imageType, fileExtension) {
+   uploadPictures(imageData, imageType, fileExtension, position) {
       return new Promise((resolve, reject) => {
          const imageKey = generator.generateRandomToken(16) + "." + fileExtension;
          const isSecure = (imageType === constants.IMAGE_TYPE_DOCUMENT);
@@ -399,7 +400,7 @@ class Vendor {
          let promises = [];
          promises.push(s3Helper.uploadFile(imageData, imageKey, isSecure));
          promises.push(database.runSp(constants.SP_UPLOAD_VENDOR_IMAGES,
-            [imageType, imageKey, imageUrl, this._vendorId]));
+            [imageType, imageKey, imageUrl, position, this._vendorId]));
          Promise.all(promises).then(results => {
             resolve(imageUrl);
          }).catch(errs => {

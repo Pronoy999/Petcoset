@@ -1,0 +1,31 @@
+<div class="container-fluid p-font pt-5 pb-5">
+    <div class="card border shadow-sm">
+        <div class="table-responsive table-design">
+            <table class="table text-center">
+                <thead class="thead-dark ces-list-thead">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Phone Number</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="ces-list-tbody">
+                    <ng-container *ngIf="verifiedVendorList && verifiedVendorList.length; else noDataFound">
+                        <tr *ngFor="let entry of verifiedVendorList">
+                            <td>{{entry.first_name}} {{entry.last_name}}</td>
+                            <td>{{entry.email}}</td>
+                            <td>{{entry.phone_number}}</td>
+                            <td class="text-center text-white"><button class="btn btn-sm btn-info" [routerLink]="['/admin/vendor/vendor-details', entry.id]"><i class="fa fa-eye" aria-hidden="true"></i></button></td>
+                        </tr>
+                    </ng-container>
+                    <ng-template #noDataFound>
+                        <tr>
+                            <td colspan="12">No Entries</td>
+                        </tr>
+                    </ng-template>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

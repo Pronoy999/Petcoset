@@ -1,0 +1,157 @@
+.topnav {
+    overflow: hidden;
+}
+
+.topnav a {
+    float: left;
+    color: black;
+    text-align: center;
+    padding: 6px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.topnav a:hover {
+    color: #4CAF50;
+}
+
+.topnav-element {
+    overflow: hidden;
+}
+
+.topnav-element a {
+    color: black;
+    text-decoration: none;
+    font-size: 19px;
+}
+
+.topnav-element a:hover {
+    color: #4CAF50;
+}
+
+.call-widget {
+    background: #c61132;
+    color: #fff;
+    font-size: 16px;
+    height: 22px;
+    line-height: 22px;
+    margin-right: 5px;
+    margin-left: 5px;
+    text-align: center;
+    width: 22px;
+    display: inline-block;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fontNav a {
+    font-size: 18px;
+}
+
+.link-style {
+    padding-right: 30px;
+    border-right: 2px solid #007bff;
+    height: 19px;
+    color: red;
+}
+
+.subscription-design {
+    background: #f66531;
+    height: 27px;
+    border-radius: 9px;
+    color: white;
+    width: 18%;
+    padding: 4px;
+    margin-top: 3.3%;
+    cursor: pointer;
+}
+
+.subscription-design a {
+    color: #f7f7f7;
+    text-decoration: none;
+}
+
+.vl {
+    border-left: 2px solid blue;
+    height: 24px;
+    position: absolute;
+    left: 50%;
+    margin-left: 30px;
+    top: 0;
+}
+
+.element {
+    color: rgba(0, 0, 0, 0.5);
+    background: #f7f7f7;
+    margin: 0px 7px;
+}
+
+.logout-button {
+    font-size: 25px;
+    color: #0d519c;
+}
+
+.logout-button i :hover {
+    color: #4CAF50;
+}
+
+.logout-circle {
+    cursor: pointer;
+    margin-top: 9%;
+}
+
+.profile_dropdown {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    left: 2px;
+    background: #fff;
+    padding: 10px;
+    min-width: 255px;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    transition: 0.5s;
+}
+
+.close_menu {
+    transform: scale(0);
+    opacity: 0;
+    visibility: hidden;
+    transform-origin: top left;
+}
+
+.open_menu {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+    transform-origin: top left;
+}
+
+.scroll-navbar {
+    background: #FFFFFF;
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+    /* animation: mymove 5s infinite; */
+}
+
+@media only screen and (min-width: 415px) {
+    .mobile-navbar-view-none {
+        display: none;
+    }
+    .tab-navbar-view-block {
+        display: block;
+    }
+    .desktop-navbar-view-block {
+        display: block;
+    }
+}
+
+.menu-li {
+    list-style: none;
+    border-bottom: 1px solid lightgray;
+    line-height: 2;
+    padding: 10px;
+}

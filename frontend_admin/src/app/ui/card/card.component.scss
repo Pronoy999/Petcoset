@@ -1,0 +1,31 @@
+.card-font {
+    font-size: 20px;
+}
+
+.primary-card {
+    background: linear-gradient(45deg, #31b3e0 0%, #1d97c2 100%)!important;
+    border-color: #1d97c2 !important;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.warning-card {
+    background: linear-gradient(45deg, #ffc721 0%, #edb100 100%)!important;
+    border-color: #edb100!important;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.danger-card {
+    background: linear-gradient(45deg, #f98483 0%, #f75453 100%)!important;
+    border-color: #f75453!important;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.info-card {
+    background: linear-gradient(45deg, #78cae2 0%, #4ebada 100%)!important;
+    border-color: #4ebada!important;
+    color: #ffffff;
+    cursor: pointer;
+}

@@ -1,0 +1,183 @@
+<div [style.display]="displayCount === 1 ? 'block': 'none'">
+    <article class="p-font">
+        <div class="container-fluid border-top border-bottom" style="background: #fff;">
+            <div class="container">
+                <form [formGroup]="parentForm" (ngSubmit)="submitPartnar()">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 text-center banner">
+                            <img src="../../../assets/images/become-a-partner/sign in.png" class="img-fluid" alt="">
+                            <p class="banner-text">Loves Pets? Get paid for it!</p>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 " style="background: #fff;">
+                            <div class="pt-5 pl-5 content-hide content-block">
+                                <p class="banner-text font-weight-bold">Become your partner</p>
+                            </div>
+                            <div class="padding-left">
+                                <div class="alert alert-danger form-div" *ngIf="phoneNoRegisterMessage">
+                                    {{phoneNoRegisterMessage}}
+                                </div>
+                                <div class="form-div">
+                                    <input type="text" placeholder="First name" formControlName="first_name">
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.first_name.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.first_name.errors.required">First Name is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-div">
+                                    <input type="text" placeholder="Last name" formControlName="last_name">
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.last_name.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.last_name.errors.required">Last Name is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-div">
+                                    <select id="cars" formControlName="gender">
+                                        <option value="" selected> Select gender</option>
+                                        <option value="f">Female</option>
+                                        <option value="m">Male</option>
+                                        <option value="0">Other</option>
+                                    </select>
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.gender.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.gender.errors.required">Gender is required</div>
+                                    </div>
+                                </div>
+                                <div class="form-div">
+                                    <input type="number" placeholder="Enter mobile number" formControlName="mobileNo">
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.mobileNo.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.mobileNo.errors.required">Mobile number is required
+                                        </div>
+                                        <div *ngIf="parentForm.controls.mobileNo.errors.pattern">Mobile number length must be 10 digits number</div>
+                                    </div>
+                                </div>
+                                <div class="form-div">
+                                    <input type="email" placeholder="Email-id " formControlName="email">
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.email.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.email.errors.required">Email Id is required
+                                        </div>
+                                        <div *ngIf="parentForm.controls.email.errors.email">Email must be a valid email id
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-div">
+                                    <input type="password" placeholder="Password" formControlName="password">
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.password.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.password.errors.required">Password is required
+                                        </div>
+                                        <div *ngIf="parentForm.controls.password.errors.pattern">
+                                            Password validator Requires 6-16 characters including at least 1 upper and 1 lower alpha, and 1 digit and 1 special character.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-div">
+                                    <input type="password" placeholder="Confirm password" formControlName="confirmPassword">
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.confirmPassword.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.confirmPassword.errors.required">Confirm password is required</div>
+                                        <div *ngIf="parentForm.controls.confirmPassword.errors.mustMatch">Didn't match with password</div>
+                                    </div>
+                                </div>
+                                <div class="form-div">
+                                    <select id="cars" formControlName="identity">
+                                        <option value="" selected>Identity proof</option>
+                                        <option value="Aadhar Card">Aadhar card</option>
+                                        <option value="Pan Card">Pan card</option>
+                                        <option value="Passport">Passport</option>
+                                        <option value="Voter Card">Voter card</option>
+                                    </select>
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.identity.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.identity.errors.required">Identity proof is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-div">
+                                    <div class="image-upload">
+                                        <label for="file-input">
+                                            <img src="../../../assets/images/become-a-partner/add_a_photo-24px.png"
+                                                class="file-icon" />
+                                        </label>
+                                        <input id="file-input" type="file" (change)="uploadedFile($event)" />
+                                    </div>
+                                    <small [ngClass]="{'invalid-text' : fileUploadErrorMessage==='Please Uplaod PDF file only!', 'text-success': fileUploadErrorMessage === 'File uploaded Successfully!'}">{{fileUploadErrorMessage}}</small>
+                                </div> -->
+                                <div class="form-div">
+                                    <input type="text" placeholder="Identity proof number" formControlName="idProofNumber">
+                                    <div *ngIf="isParentFormSubmitted && parentForm.controls.idProofNumber.errors" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.idProofNumber.errors.required">Identity proof number is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  <p class="padding-left">Image of you and your pet</p>
+                            <div class="padding-left d-flex justify-content-between form-div">
+                                <div class="image-upload">
+                                    <label for="file-input">
+                                        <img src="../../../assets/images/become-a-partner/add_a_photo-24px.png" class="file-icon" />
+                                    </label>
+                                    <input id="file-input" type="file" (change)="uploadImages($event)" />
+                                </div>
+                                <div class="image-upload">
+                                    <label for="file-input">
+                                        <img src="../../../assets/images/become-a-partner/add_a_photo-24px.png" class="file-icon" />
+                                    </label>
+                                    <input id="file-input" type="file" (change)="uploadImages($event)" />
+                                </div>
+                                <div class="image-upload">
+                                    <label for="file-input">
+                                        <img src="../../../assets/images/become-a-partner/add_a_photo-24px.png" class="file-icon"/>
+                                    </label>
+                                    <input id="file-input" type="file" />
+                                </div>
+                                <div class="image-upload">
+                                    <label for="file-input">
+                                        <img src="../../../assets/images/become-a-partner/add_a_photo-24px.png" class="file-icon"/>
+                                    </label>
+                                    <input id="file-input" type="file" />
+                                </div>
+                            </div> -->
+                            <div class="padding-left form-div mt-3">
+                                <p style="font-size: 12px;">
+                                    <span>By clicking apply now, I agree to Petcoset's Terms(including a mandatory
+                                        arbitration
+                                    </span><span>clause) and Privacy Policy </span>
+                                </p>
+                            </div>
+                            <div class=" pl-5 form-div">
+                                <button type="submit" class="btn-project">Apply now</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </article>
+</div>
+
+<div [style.display]="displayCount === 2 ? 'block': 'none'" style="background: #fff;">
+    <article class="p-font">
+        <div class="container-fluid border-top border-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 text-center banner">
+                        <img src="../../../assets/images/become-a-partner/otp-verification.png" class="img-fluid" alt="">
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12" style="background: #fff;">
+                        <div class="alert alert-success mt-5" *ngIf="confirmationText">
+                            {{confirmationText}}
+                        </div>
+                        <div class="otp-lable text-center" *ngIf="!confirmationText">
+                            <p class="banner-text font-weight-bold">Verify Account</p>
+                        </div>
+                        <div class="pb-5 pt-2 otp-text text-center banner-text" *ngIf="!confirmationText">
+                            <p><span>Please enter the verification code we sent</span><br>
+                                <span>to you mobile {{userMobileNumber}}</span></p>
+                        </div>
+                        <div class="text-center" *ngIf="!confirmationText">
+                            <ng-otp-input [config]="config" (onInputChange)="onOtpChange($event)"></ng-otp-input>
+                        </div>
+                        <div class="mt-5 form-div text-center middle-x" *ngIf="!confirmationText">
+                            <button type="submit" class="btn-project" (click)="createAccount()" [disabled]="userOtpValue.length !== 4">Verify & Create account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>

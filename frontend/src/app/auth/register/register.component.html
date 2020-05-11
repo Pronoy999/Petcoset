@@ -1,0 +1,120 @@
+<article class="mobileDisplay-None-Content desktopDisplay-Block-Content">
+    <div class="login-bg p-font">
+        <div class="d-flex justify-content-center border-danger w-100" style="height: inherit;">
+            <div class="text-center mr-5 middle-y" style="margin-top: 17%;">
+                <i class="fa fa-quote-left quote-style" aria-hidden="true"></i>
+                <p class="login-text">
+                    <span>Pets are such agreeable friends,</span><br>
+                    <span>They ask no questinos; </span><br>
+                    <span>They pass no criticisms...</span>
+                </p>
+                <i class="fa fa-quote-right quote-style" aria-hidden="true"></i>
+            </div>
+            <div class="login-box" style="margin-top: 2%;margin-left: -2%;">
+                <div class="card middle-x p-3" style="height: auto; border-radius: 30px;">
+                    <img src="../../../../assets/logo-main.png" class="middle-x" alt="" height="70" width="90">
+                    <a href="#" class="skip-text">Skip</a>
+                    <p class="p-text-color mt-2 login-box-text text-center">Welcome to petcoset</p>
+                    <form [formGroup]="registerForm" class="padding-both-x">
+                        <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true">
+                        </app-input-field>
+                        <app-input-field [placeholder]="'Enter valid email address'" [form]="registerForm" [name]="'email'" [type]="'email'" [validation]="true"></app-input-field>
+                        <app-input-field [placeholder]="'Password(min 8 character)'" [form]="registerForm" [name]="'password'" [type]="'password'" [validation]="true"></app-input-field>
+                        <div class="form-row">
+                            <div class="col-md-6 col-lg-6 mt-3 text-left"></div>
+                            <div class="col-md-6 col-lg-6 mt-2 text-right">
+                                <button type="button" class="login-button" (mousedown)="register()">Sign Up</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="padding-both-x">
+                        <h1 class="line">OR</h1>
+                    </div>
+                    <div class="padding-both-x">
+                        <a><img src="../../../assets/images/social-icon/facebook-button.png" alt="" style="width: 100%; cursor: pointer;"></a>
+                        <a><img src="../../../assets/images/social-icon/google-button.png" alt="" style="width: 100%; margin-top: 3%; cursor: pointer;"></a>
+                    </div>
+                    <div class="checkbox text-center" style="width: 95%;">
+                        <input type="checkbox" id="checkbox" name="" value="">
+                        <label for="checkbox"><span style="margin-left: 3%; font-size: 13px; color: #0d519c;">Accepting means you are ok with our <b>Term of
+                  Services</b> and <b>Privacy policy</b></span></label>
+                    </div>
+                    <div class="w-100 text-center">
+                        <button type="button" class="sign-up-button">Already here ? Sign in</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- mobile version developed by koustav -->
+
+<article class="mobileDisplay-Block-Content desktopDisplay-None-Content">
+    <div class="login-bg-mobile p-font">
+        <div class="container-fluid" style="height: inherit; width: inherit;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="login-box-mobile middle-x">
+                        <div class="card p-3" style="border-radius: 25px; margin-top: 22%;">
+                            <div class="">
+                                <div class="text-center">
+                                    <img src="../../../../assets/logo-main.png" class="middle-x" alt="" height="50" width="65" style="margin-left: auto; margin-right: auto;">
+                                </div>
+                                <a href="#" class="skip-text-mobile">Skip</a>
+                                <p class="p-font p-text-color mt-3 text-center" style="font-size: 15px;">Its great to see you again!
+                                </p>
+                                <form [formGroup]="registerForm" class="w-100">
+                                    <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true"></app-input-field>
+                                    <app-input-field [placeholder]="'Enter valid email address'" [form]="registerForm" [name]="'email'" [type]="'email'" [validation]="true"></app-input-field>
+                                    <app-input-field [placeholder]="'Password(min 8 character)'" [form]="registerForm" [name]="'password'" [type]="'password'" [validation]="true"></app-input-field>
+                                    <div class="form-row">
+                                        <div class="col-md-6 col-lg-6 mt-3 text-left">
+                                            <!-- <div class="checkbox">
+                                                <input type="checkbox" id="checkbox" name="" value="">
+                                                <label for="checkbox" style="width: 71%;"><span style="margin-left: 10%;">Remember
+                                                    me</span></label>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-md-6 col-lg-6 mt-2 text-right">
+                                            <button type="button" class="login-button-mobile" (mousedown)="register()">Sign Up</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="">
+                                    <h1 class="line">OR</h1>
+                                </div>
+                                <div class="">
+                                    <a><img src="../../../assets/images/social-icon/facebook-button.png" alt="" style="width: 100%; cursor: pointer;"></a>
+                                    <a><img src="../../../assets/images/social-icon/google-button.png" alt="" style="width: 100%; margin-top: 3%; cursor: pointer;"></a>
+                                    <!-- <button type="button" class="facebook-button"><img
+                                          src="../../../assets/images/login/facebook.svg" width="20" height="20"
+                                          class="mr-3"> Continue with Facebook</button>
+                                  <button type="button" class="google-button mt-2"><img
+                                          src="../../../assets/images/login/brands-and-logotypes.svg" width="20"
+                                          height="20" class="mr-4"> Continue with Google</button> -->
+                                    <div class="checkbox" style="width: 95%;">
+                                        <input type="checkbox" id="checkbox" name="" value="">
+                                        <label for="checkbox"><span style="margin-left: 3%; font-size: 13px; color: #0d519c;">Accepting means you are ok with our <b>Term of
+                                      Services</b> and <b>Privacy policy</b></span></label>
+                                    </div>
+                                    <div class="w-100 text-center">
+                                        <button type="button" class="sign-up-button-mobile">Already here ? Sign in</button>
+                                    </div>
+                                    <!--  <button type="button" class="sign-up-button" style="font-size: 12px;">New here ? Sign up</button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12 mt-5">
+                    <p class="login-text-mobile text-center ">
+                        <span>Pets are such agreeable friends,</span>
+                        <span>They ask no questinos; </span><br>
+                        <span>They pass no criticisms...</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
