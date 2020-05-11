@@ -1,0 +1,36 @@
+.lable-design {
+    height: 90vh;
+    background: #0d519c;
+}
+
+.form-design {
+    height: 90vh;
+    background: #ffffff;
+}
+
+.lable-image {
+    border: 1px solid white;
+    background: white;
+    width: 26%;
+    height: 19%;
+    border-radius: 66px;
+    text-align: center;
+    padding-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+
+.lable-text {
+    border: 1px solid #ffffff;
+    padding: 6px;
+    margin-top: 4%;
+    width: 31%;
+    height: 6%;
+    background: #ffffff;
+    text-align: center;
+    border-radius: 30px;
+    font-weight: 600;
+    margin-left: auto;
+    margin-right: auto;
+}

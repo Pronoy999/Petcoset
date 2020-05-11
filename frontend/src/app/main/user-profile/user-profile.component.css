@@ -1,0 +1,129 @@
+.main-top {
+    width: 100%;
+    height: 35vh;
+    background: #0062cc;
+}
+
+.user-img {
+    vertical-align: middle;
+    width: 45px;
+    height: 45px;
+    border: 1px solid;
+    padding: 5px;
+}
+
+.card-design {
+    background-color: #fff;
+    border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .08);
+}
+
+.M6fKa7 .e1sGxS {
+    padding-top: 3px;
+    font-size: 16px;
+    font-weight: 500;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-transform: capitalize;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+input[type=text] {
+    height: 40px;
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 6px;
+    outline: none;
+    border: 1px solid lightgray;
+    font-size: 13px;
+}
+
+input[type=number] {
+    height: 40px;
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 6px;
+    border: 1px solid lightgray;
+    outline: none;
+    -moz-appearance: textfield;
+    font-size: 12px;
+}
+
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: black;
+    opacity: 1;
+    font-weight: 500;
+    font-size: 12px;
+    /* Firefox */
+}
+
+select {
+    height: 40px;
+    width: 100%;
+    border-radius: 6px;
+    outline: none;
+    padding-left: 11px;
+    background: #fff;
+    font-size: 12px;
+}
+
+select option {
+    font-size: 12px;
+}
+
+.btn-project {
+    height: 40px;
+    width: 50%;
+    border-radius: 12px;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    color: #fff;
+    margin-bottom: 7%;
+    outline: none;
+    padding: 12px;
+    font-size: 13px;
+}
+
+.close-btn-project {
+    height: 40px;
+    width: 50%;
+    border-radius: 12px;
+    background: #f66531;
+    border: 1px solid #f66531;
+    color: #fff;
+    margin-bottom: 7%;
+    outline: none;
+    padding: 12px;
+    font-size: 13px;
+}
+
+.uploadContainer {
+    position: absolute;
+    font-size: 0;
+    top: 0;
+    left: 0;
+    height: 40px;
+    width: 100%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.user-font-size-10 {
+    font-size: 10px;
+}
+
+.user-font-size-14 {
+    font-size: 14px;
+}
+
+.selected-option {
+    color: #0d519c;
+    font-weight: 900;
+}

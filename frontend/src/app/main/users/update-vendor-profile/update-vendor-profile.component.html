@@ -1,0 +1,71 @@
+<article class="p-font" style="min-height: 75vh;">
+    <div class="container pt-3">
+        <div class="card e1sGxS p-3  mb-3">
+            <form [formGroup]="vendorFreelancerForm">
+                Personal Information
+                <hr class="mt-0">
+                <div class="row">
+                    <div class="col-md-12 mt-3">
+                        <div class="form-div">
+                            <input type="text" placeholder="Address line 1" formControlName="address_1" [style.border]="isSubmitted && vendorFreelancerForm.controls.address_1.errors ? '1px solid red' : ''">
+                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.address_1.errors">
+                                <div *ngIf="vendorFreelancerForm.controls.address_1.errors.required">
+                                    Address line one is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <div class="form-div">
+                            <input type="text" placeholder="Address line 2" formControlName="address_2" [style.border]="isSubmitted && vendorFreelancerForm.controls.address_2.errors ? '1px solid red' : ''">
+                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.address_2.errors">
+                                <div *ngIf="vendorFreelancerForm.controls.address_2.errors.required">
+                                    Address line two is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="form-div">
+                            <div class="form-div">
+                                <select id="cars" formControlName="state" (change)="selectedState($event.target.value)" [style.border]="isSubmitted && vendorFreelancerForm.controls.state.errors ? '1px solid red' : ''">
+                                  <option value="" selected>State</option>
+                                  <option *ngFor="let state of stateList" value="{{state.code}}">
+                                      {{state.value}}</option>
+                              </select>
+                            </div>
+                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.state.errors">
+                                <div *ngIf="vendorFreelancerForm.controls.state.errors.required">State is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="form-div">
+                            <div class="form-div">
+                                <select id="cars" formControlName="city" [style.border]="isSubmitted && vendorFreelancerForm.controls.city.errors ? '1px solid red' : ''">
+                                  <option value="" selected>City</option>
+                                  <option *ngFor="let city of cityList" value="{{city.code}}">
+                                      {{city.value}}</option>
+                              </select>
+                            </div>
+                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.city.errors">
+                                <div *ngIf="vendorFreelancerForm.controls.city.errors.required">City is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="form-div">
+                            <input type="text" placeholder="Pincode" formControlName="pincode" [style.border]="isSubmitted && vendorFreelancerForm.controls.pincode.errors ? '1px solid red' : ''">
+                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.pincode.errors">
+                                <div *ngIf="vendorFreelancerForm.controls.pincode.errors.required">
+                                    Pincode is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mt-3 p-4">
+                        <button type="submit" class="btn-project" (mousedown)="updateVendor()">UPDATE PROFILE</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</article>

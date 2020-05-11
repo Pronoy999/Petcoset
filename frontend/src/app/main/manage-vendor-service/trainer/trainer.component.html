@@ -1,0 +1,93 @@
+<article class="p-font border-top border-bottom" style="min-height: 75vh;background: #fff;">
+    <div class="container">
+        <form [formGroup]="parentForm">
+            <div class="row mt-3">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="p-3">
+                        <div class="form-div">
+                            <label class="font-weight-normal">Selected Service</label>
+                            <input type="text" placeholder="Trainer" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="mt-4">
+                        <span class="custom-font-weight">Select weight of pet I look after</span>
+                        <div class="d-flex justify-content-center">
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-10 border" (mousedown)="lookAfterClicked('1')" [ngClass]="{'selection-border' : isLookAfterOneClicked}">0-7 kg</div>
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-10 border" (mousedown)="lookAfterClicked('8')" [ngClass]="{'selection-border' : isLookAfterTwoClicked}">8-18 kg</div>
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-10 border" (mousedown)="lookAfterClicked('19')" [ngClass]="{'selection-border' : isLookAfterThreeClicked}">19-45 kg</div>
+                            <div class="card p-3 w-100 shadow-sm pointer text-center user-font-size-10 border" (mousedown)="lookAfterClicked('45')" [ngClass]="{'selection-border' : isLookAfterFourClicked}">45+ kg</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="custom-font-weight" style="line-height: 3;">Type of service I provide</span><br>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_behavioural_modification" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Behavioural Modification</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_obedience_training" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Obedience training</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_scientific_training" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Scientific training</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_agility_training" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Agility training</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_therapy_training" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Therapy dog training</span>
+                            </div>
+                        </div>
+                    </div><br><br>
+
+                    <span class="custom-font-weight mt-4">training time duration</span>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('1')" [ngClass]="{'selection-border' : isDogSelected}">
+                                1 hour
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('2')" [ngClass]="{'selection-border' : isCatSelected}">
+                                2 hours
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="row">
+                            <div class="col-12 mt-4">
+                                <div class="form-div">
+                                    <input type="text" placeholder="How many times a week I give service" formControlName="service_per_week">
+                                    <div *ngIf="parentForm.controls.service_per_week.errors && isSubmit" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.service_per_week.errors.required">This field is required
+                                        </div>
+                                        <div *ngIf="parentForm.controls.service_per_week.errors.pattern">Field conatins only number</div>
+                                    </div>
+                                </div>
+                                <div class="form-div mt-4">
+                                    <input type="text" placeholder="Per visit I will charge" formControlName="service_charge">
+                                    <div *ngIf="parentForm.controls.service_charge.errors && isSubmit" class="invalid-text">
+                                        <div *ngIf="parentForm.controls.service_charge.errors.required">This field is required
+                                        </div>
+                                        <div *ngIf="parentForm.controls.service_charge.errors.pattern">Field conatins only number</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4 text-center">
+                                <button type="submit" class="btn-project" (mousedown)="submitTraing()">SAVE DETAILS</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</article>

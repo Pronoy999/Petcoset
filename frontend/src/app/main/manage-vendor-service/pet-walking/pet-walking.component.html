@@ -1,0 +1,51 @@
+<article class="p-font border-top border-bottom" style="min-height: 75vh;background: #fff;">
+    <div class="container">
+        <form [formGroup]="parentForm">
+            <div class="row mt-3">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="p-3">
+                        <div class="form-div">
+                            <label class="font-weight-normal">Selected Service</label>
+                            <input type="text" placeholder="Pet Walking" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <div class="p-3 mt-5">
+                        <span class="custom-font-weight">How long is my walk</span>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('1')" [ngClass]="{'selection-border' : isDogSelected}">
+                                    1 hour
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('2')" [ngClass]="{'selection-border' : isCatSelected}">
+                                    2 hours
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="row">
+                                <div class="col-12 mt-4">
+                                    <div class="form-div">
+                                        <input type="text" placeholder="Per visit I will charge" formControlName="service_charge">
+                                        <div *ngIf="parentForm.controls.service_charge.errors && isSubmit" class="invalid-text">
+                                            <div *ngIf="parentForm.controls.service_charge.errors.required">This field is required
+                                            </div>
+                                            <div *ngIf="parentForm.controls.service_charge.errors.pattern">Field conatins only number</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-4 text-center">
+                                    <button type="submit" class="btn-project" (mousedown)="submitMatting()">SAVE DETAILS</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</article>

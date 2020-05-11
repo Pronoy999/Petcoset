@@ -1,0 +1,260 @@
+<article class="p-font mt-3" style="min-height: 75vh;">
+    <div class="container">
+        <div class="row mb-3">
+            <div class="col-lg-4 col-md-4">
+                <div class="card e1sGxS p-3 mt-3">
+                    <div class="d-flex justify-content-start">
+                        <div class="mr-3">
+                            <img src="../../../assets/images/become-a-partner/dog.png" alt="" class="user-img rounded-circle">
+                        </div>
+                        <div>
+                            <p><span style="font-size: 13px;">Hello,</span><br>
+                                <span class="text-uppercase font-weight-bold">Koustav Banerjee</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card e1sGxS p-3 mt-3 mb-3">
+                    <div class="p-3 text-uppercase border-bottom pointer user-font-size-14" (mousedown)="selectProfileType('details')" [ngClass]="{'selected-option': detailsSelected}">My Details</div>
+                    <div class="p-3 text-uppercase border-bottom pointer user-font-size-14" (mousedown)="selectProfileType('profile')" [ngClass]="{'selected-option': profileSelected}">My Profile</div>
+                    <div class="p-3 text-uppercase border-bottom pointer user-font-size-14" (mousedown)="selectProfileType('service')" [ngClass]="{'selected-option': serviceSelected}">Services</div>
+                    <div class="p-3 text-uppercase pointer user-font-size-14" (mousedown)="selectProfileType('pervious-case')" [ngClass]="{'selected-option': previousCaesSelected}">My previous cases</div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <div [style.display]="selectProfileTypeCount === 1 ? 'block' : 'none'">
+                    <form [formGroup]="vendorFreelancerForm">
+                        <div class="card e1sGxS p-3 mt-3 mb-4">
+                            <p class=" text-uppercase font-weight-bold" style="font-size: 14px;">Personal Information</p>
+                            <hr class="mt-0 mb-0">
+                            <div class="p-4" [style.display]="selectedFormType === 0 ? 'block' : 'none'">
+                                <p class=" text-uppercase pt-3" style="font-size: 14px;">Please select your type</p>
+                                <div class="d-flex justify-content-start">
+                                    <div class="card p-3 w-50 mr-3 shadow-sm pointer text-center text-uppercase user-font-size-10 border" (mousedown)="selectType(2)" [ngClass]="{'border-success' : isFreelancerSelected === true}">Freelancer</div>
+                                    <div class="card p-3 w-50 shadow-sm pointer text-center text-uppercase user-font-size-10 border" (mousedown)="selectType(3)" [ngClass]="{'border-success' : isCompanySelected === true}">
+                                        Company</div>
+                                </div>
+                            </div>
+                            <div class="p-4" [style.display]="isSelected ? 'block' : 'none'">
+                                <div class="row">
+                                    <div class="col-md-12 pt-1 pb-4" style="font-size: 12px;">
+                                        <div class="alert alert-danger" *ngIf="isGenderSelected">
+                                            Please select gender!
+                                        </div>
+                                        <div class="d-flex justify-content-start">
+                                            <div class="card p-3 w-50 mr-3 text-center shadow-sm pointer text-uppercase user-font-size-10 border" (mousedown)="selectedGender('male')" [ngClass]="{'border-success' : isMaleSelected === true}">Male</div>
+                                            <div class="card p-3 w-50 text-center shadow-sm pointer text-uppercase user-font-size-10 border" (mousedown)="selectedGender('female')" [ngClass]="{'border-success' : isFemaleSelected === true}"> Female</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Phone Number (can't change)" readonly formControlName="phoneNo">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Email (can't change)" readonly formControlName="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Other phone number" formControlName="otherNumber">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Location/Current Location" formControlName="location" [style.border]="isSubmitted && vendorFreelancerForm.controls.location.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.location.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.location.errors.required">Location is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Address line 1" formControlName="addressLineOne" [style.border]="isSubmitted && vendorFreelancerForm.controls.addressLineOne.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.addressLineOne.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.addressLineOne.errors.required">Address line one is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Address line 2" formControlName="addressLineTwo" [style.border]="isSubmitted && vendorFreelancerForm.controls.addressLineTwo.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.addressLineTwo.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.addressLineTwo.errors.required">Address line two is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="City" formControlName="city" [style.border]="isSubmitted && vendorFreelancerForm.controls.city.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.city.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.city.errors.required">City is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="State" formControlName="state" [style.border]="isSubmitted && vendorFreelancerForm.controls.state.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.state.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.state.errors.required">State is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Pincode" formControlName="pincode" [style.border]="isSubmitted && vendorFreelancerForm.controls.pincode.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.pincode.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.pincode.errors.required">Pincode is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Company name/Brand name" formControlName="companyBrand" [style.border]="isSubmitted && vendorFreelancerForm.controls.companyBrand.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.companyBrand.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.companyBrand.errors.required">Company/Brand is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div [style.display]="selectedFormType === 3 ? 'block' : 'none'">
+                                    <p class=" text-uppercase font-weight-bold mt-3" style="font-size: 14px;">GST Details</p>
+                                    <hr class="mt-0 mb-0">
+                                    <div class="row">
+                                        <div class="col-md-12 mt-3">
+                                            <div class="form-div">
+                                                <input type="text" placeholder="Enter GST Number" formControlName="gstNumber">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p class=" text-uppercase font-weight-bold mt-3" style="font-size: 14px;">Pan card Details
+                                    </p>
+                                    <hr class="mt-0 mb-0">
+                                    <div class="row">
+                                        <div class="input-group p-4 w-50" style="font-size: 12px;">
+                                            <div class="custom-file" style=" outline: none;">
+                                                <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                                <label class="custom-file-label" for="inputGroupFile01">Upload PAN card</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 mt-3 p-4" style="font-size: 12px;">
+                                            <input type="file" class="uploadContainer">
+                                            <label>Upload PAN CARD</label>
+                                        </div>
+
+                                    </div>
+                                    <p class=" text-uppercase font-weight-bold  mt-3" style="font-size: 14px;">Trade Licence/CIN
+                                    </p>
+                                    <hr class="mt-0 mb-0">
+                                    <div class="row p-4">
+                                        <div class="col-md-12" style="font-size: 12px;">
+                                            <label>Upload Trade Licence/ CIN </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class=" text-uppercase font-weight-bold mt-3" style="font-size: 14px;">Personal Doc</p>
+                                <hr class="mt-0 mb-0">
+                                <div class="p-4">
+                                    <div class="row">
+                                        <div class="col-md-12" style="font-size: 12px;">
+                                            <label>Upload your voter/aadhar card </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <p class=" text-uppercase font-weight-bold" style="font-size: 14px;">Bank Information</p>
+                                <hr class="mt-0 mb-0">
+                                <div class="row">
+                                    <div class="col-md-12 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Enter bank account number" formControlName="bankAccountNo" [style.border]="isSubmitted && vendorFreelancerForm.controls.bankAccountNo.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.bankAccountNo.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.bankAccountNo.errors.required">Bank account number is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <select id="cars" formControlName="accountType" [style.border]="isSubmitted && vendorFreelancerForm.controls.accountType.errors ? '1px solid red' : ''">
+                                            <option value="" selected>Account type</option>
+                                            <option value="saab">Saving</option>
+                                            <option value="mercedes">Current</option>
+                                        </select>
+                                        <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.accountType.errors">
+                                            <div *ngIf="vendorFreelancerForm.controls.accountType.errors.required">Account type is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Enter IFSC code" formControlName="IFCSCode" [style.border]="isSubmitted && vendorFreelancerForm.controls.IFCSCode.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.IFCSCode.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.IFCSCode.errors.required">IFSC Code is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mt-3">
+                                        <div class="form-div">
+                                            <input type="text" placeholder="Beneficiary name" formControlName="beneficiary" [style.border]="isSubmitted && vendorFreelancerForm.controls.beneficiary.errors ? '1px solid red' : ''">
+                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.beneficiary.errors">
+                                                <div *ngIf="vendorFreelancerForm.controls.beneficiary.errors.required">Beneficiary is required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mt-3" style="font-size: 12px;">
+                                        <label>Upload your cancel cheque Pdf or jpg upload</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3 p-4" *ngIf="selectedFormType !== 0">
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="close-btn-project mr-2" (mousedown)="backPage()">BACK</button>
+                                    <button type="submit" class="btn-project" (mousedown)="submitVendor()">SUBMIT</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div [style.display]="selectProfileTypeCount === 2 ? 'block' : 'none'">
+                    <div class="card e1sGxS p-3 mt-3 mb-4">
+                        <p class=" text-uppercase font-weight-bold user-font-size-14">yOUR Profile</p>
+                        <hr class="mt-0 mb-0">
+
+                        <div class="p-4">
+                            <h5>My chosen Service</h5>
+                            Service Details come here
+                        </div>
+
+                        <div class="p-4">
+                            <span class="user-font-size-14">Choose more service</span>
+                            <form [formGroup]="myProfileServiceForm">
+                                <div class="form-div">
+                                    <select id="cars" formControlName="service" (change)="selectedService($event.target.value)" [style.border]="isProfileFormSubmitted && myProfileServiceForm.controls.service.errors ? '1px solid red' : ''">
+                                        <option value="" selected>Select service</option>
+                                        <option value="boarding">Boarding</option>
+                                        <option value="drop-in">Drop in</option>
+                                        <option value="home-sitting">Home sitting</option>
+                                        <option value="pet-walking">Pet walking</option>
+                                        <option value="grooming">Grooming</option>
+                                        <option value="adoption">Adoption</option>
+                                    </select>
+                                </div>
+                                <div class="invalid-text" *ngIf="isProfileFormSubmitted && myProfileServiceForm.controls.service.errors">
+                                    <div *ngIf="myProfileServiceForm.controls.service.errors.required">Please Select service</div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn-project mt-4" (mousedown)="serviceSubmit()">ADD SERVICE</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+                <div [style.display]="selectProfileTypeCount === 3 ? 'block' : 'none'">service</div>
+                <div [style.display]="selectProfileTypeCount === 4 ? 'block' : 'none'">pervious case</div>
+            </div>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,222 @@
+.login-bg {
+    background-image: url("../../../assets/images/login/WebBg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.login-box {
+    height: 400px;
+    width: 33%;
+    border-radius: 30px;
+}
+
+.quote-style {
+    font-size: 35px;
+    color: white;
+}
+
+.login-text {
+    color: white;
+    font-size: 30px;
+}
+
+.login-box-text {
+    font-weight: 600;
+}
+
+
+/* form {
+    padding-left: 13%;
+    padding-right: 13%;
+} */
+
+.line {
+    margin: 0 0 1em;
+    line-height: 2em;
+    padding: 0;
+    color: #0d519c;
+    font-size: 1em;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding-left: 13%;
+    padding-right: 13%;
+}
+
+.line:before,
+.line:after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    margin-left: -999em;
+    height: 2px;
+    width: 998em;
+    border-top: 1px solid #0d519c;
+    /* background: rgba(0, 0, 0, 0.2); */
+}
+
+.line:after {
+    left: auto;
+    width: 999em;
+    margin: 0 0 0 1em;
+}
+
+.login-button {
+    background: #0d519c;
+    width: 71%;
+    height: 34px;
+    border-radius: 30px;
+    border: 1px solid #0d519c;
+    color: white;
+    outline: none;
+}
+
+.padding-both-x {
+    padding-left: 13%;
+    padding-right: 13%;
+}
+
+.facebook-button {
+    background: #0d519c;
+    width: 100%;
+    height: 34px;
+    border-radius: 30px;
+    border: 1px solid #0d519c;
+    color: white;
+    outline: none;
+}
+
+.google-button {
+    background: #2196F3;
+    width: 100%;
+    height: 34px;
+    border-radius: 30px;
+    border: 1px solid #2196F3;
+    color: white;
+    outline: none;
+}
+
+.sign-up-button {
+    background: white;
+    width: 39%;
+    height: 34px;
+    border-radius: 30px;
+    border: 1px solid #0d519c;
+    color: black;
+    outline: none;
+    font-size: 13px;
+    margin-bottom: 2%;
+}
+
+input[type="checkbox"] {
+    visibility: hidden;
+}
+
+label {
+    cursor: pointer;
+    font-size: 14px;
+}
+
+input[type="checkbox"]+label:before {
+    border: 1px solid #333;
+    content: "\00a0";
+    display: inline-block;
+    font: 16px/1em Josefin Sans;
+    height: 16px;
+    /* margin: 0 .25em 0 0; */
+    padding: 0;
+    vertical-align: top;
+    width: 16px;
+    border-radius: 5px;
+}
+
+input[type="checkbox"]:checked+label:before {
+    background: #fff;
+    color: #333;
+    content: "\2713";
+    text-align: left;
+}
+
+input[type="checkbox"]:checked+label:after {
+    font-weight: bold;
+}
+
+input[type="checkbox"]:focus+label::before {
+    outline: rgb(59, 153, 252) auto 5px;
+}
+
+.login-bg-mobile {
+    background-image: url("../../../assets/images/login/Mobilebg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.login-box-mobile {
+    width: 95%;
+    border-radius: 30px;
+}
+
+.login-button-mobile {
+    background: #0d519c;
+    width: 42%;
+    height: 34px;
+    border-radius: 30px;
+    border: 1px solid #0d519c;
+    color: white;
+    outline: none;
+}
+
+.sign-up-button {
+    background: white;
+    width: 50%;
+    height: 34px;
+    border-radius: 30px;
+    border: 1px solid #0d519c;
+    color: black;
+    outline: none;
+    font-size: 13px;
+    margin-bottom: 2%;
+}
+
+.sign-up-button-mobile {
+    background: white;
+    width: 60%;
+    height: 34px;
+    border-radius: 30px;
+    border: 1px solid #0d519c;
+    color: black;
+    outline: none;
+    font-size: 13px;
+    margin-bottom: 2%;
+}
+
+.login-text-mobile {
+    font-size: 13px;
+    color: white;
+}
+
+.skip-text {
+    position: absolute;
+    right: 34px;
+    top: 23px;
+    z-index: 999;
+    font-size: 11px;
+    color: #0d519c;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.skip-text-mobile {
+    position: absolute;
+    right: 26px;
+    top: 23px;
+    z-index: 999;
+    font-size: 11px;
+    color: #0d519c;
+    font-weight: 600;
+    text-decoration: none;
+}

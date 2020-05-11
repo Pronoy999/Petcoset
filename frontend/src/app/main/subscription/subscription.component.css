@@ -1,0 +1,137 @@
+.upper-part {
+    background: #0d519c;
+    min-height: 50vh;
+    width: 100%;
+}
+
+.upper-part {
+    background: #0d519c;
+    min-height: 50vh;
+    width: 100%;
+}
+
+.upper-part-mobile {
+    background: #0d519c;
+    min-height: 20vh;
+    width: 100%;
+}
+
+.lower-part {
+    background: #ffffff;
+    min-height: 50vh;
+    width: 100%;
+}
+
+.sub-title {
+    line-height: 0.5;
+    font-size: 25px;
+}
+
+.sub-title-mobile {
+    line-height: 0.5;
+    font-size: 13px;
+}
+
+.subscription-card {
+    position: relative;
+    height: 85vh;
+    width: 28%;
+    top: -32vh;
+    background: #ffffff;
+    border-radius: 30px;
+    box-shadow: 10px 4px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.subscription-card-mobile {
+    height: 190px;
+    width: 90%;
+    border-radius: 20px;
+}
+
+.subscription-text {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 0.9;
+}
+
+.subscription-text-mobile {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 0.3;
+}
+
+.subscribe-blue-button {
+    color: #fff;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    width: 55%;
+    height: 48px;
+    border-radius: 30px;
+    font-size: 20px;
+    outline: none;
+}
+
+.subscribe-blue-button-mobile {
+    color: #fff;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    width: 68%;
+    height: 34px;
+    border-radius: 30px;
+    font-size: 15px;
+    outline: none;
+}
+
+.subscribe-white-button {
+    color: #0d519c;
+    background: #fff;
+    border: 1px solid #fff;
+    width: 55%;
+    height: 48px;
+    border-radius: 30px;
+    font-size: 20px;
+    outline: none;
+}
+
+.subscribe-white-button-mobile {
+    color: #0d519c;
+    background: #fff;
+    border: 1px solid #fff;
+    width: 68%;
+    height: 34px;
+    border-radius: 30px;
+    font-size: 15px;
+    outline: none;
+}
+
+.subscribe-training-button {
+    color: #fff;
+    background: #1C90DD;
+    border: 1px solid #1C90DD;
+    width: 55%;
+    height: 48px;
+    border-radius: 30px;
+    font-size: 20px;
+    outline: none;
+}
+
+.subscribe-training-button-mobile {
+    color: #fff;
+    background: #1C90DD;
+    border: 1px solid #1C90DD;
+    width: 68%;
+    height: 34px;
+    border-radius: 30px;
+    font-size: 15px;
+    outline: none;
+}
+
+.vertical-line {
+    border-right: 2px dashed #0d519c;
+    height: 15vh;
+}
+
+.vertical-line-white {
+    border-right: 2px dashed #fff;
+    height: 15vh;
+}
