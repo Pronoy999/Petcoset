@@ -1,0 +1,17 @@
+@mixin transition_time($total-time){
+    -webkit-transition:all $total-time;
+    transition:all $total-time;
+}
+@mixin border_radius($border-radius){
+    -webkit-border-radius:$border-radius;
+    -moz-border-radius: $border-radius;
+    border-radius: $border-radius; 
+}
+@mixin border_top_left_radius($border-top-left-radius){
+    -webkit-border-top-left-radius:$border-top-left-radius;
+    -moz-border-top-left-radius: $border-top-left-radius;
+    border-top-left-radius: $border-top-left-radius; 
+}
+@mixin opacity($opacity){
+    opacity:$opacity;
+}

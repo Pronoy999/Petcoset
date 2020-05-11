@@ -1,0 +1,26 @@
+@import "../../../assets/variable";
+.project-background {
+    //background-color: $main-background-color;
+    min-height: 85vh;
+}
+
+.sidebar {
+    width: 18%;
+    max-height: 100%;
+    @media screen and (max-width: 414px) {
+        width: 0;
+    }
+}
+
+.main {
+    width: 82%;
+    max-height: 100vh;
+    @media screen and (max-width: 414px) {
+        width: 100%;
+    }
+}
+
+.bar {
+    zoom: 1.5;
+    color: lightblue;
+}

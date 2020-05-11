@@ -1,0 +1,17 @@
+<nav class="navbar navbar-light navbar-expand-lg bg-light shadow-sm p-font border-bottom" style="height: 60px;">
+    <p class="header-text">{{header.headerStrong}}</p>
+    <!-- <img src="../../../../assets/image/interface.png" alt="" srcset="" class="logout-iocn" (mousedown)="toggleProfile()"> -->
+    <div class="btn-group dropleft menu-button p-font">
+        <img src="../../../../assets/image/interface.png" alt="" srcset="" class="logout-iocn" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="dropdown-menu menu-list" aria-labelledby="dropdownMenuButton">
+            <!-- <a class="dropdown-item border-bottom p-2" href="#"><img src="../../../../assets/image/avatar.png" alt="" srcset="" style="width: 20px;" class="mr-3">Profile</a> -->
+            <a class="dropdown-item p-2" href="#" (mousedown)="logout()"><img src="../../../../assets/image/signs.png" alt="" srcset="" style="width: 20px;" class="mr-3">Logout</a>
+            <!-- <a class="dropdown-item" href="#">Something else here</a> -->
+        </div>
+    </div>
+</nav>
+
+<div class="logout-panel shadow border rounded" [ngClass]="{'open-panel': status === true, 'close-panel': status === false}">
+    <img src="../../../../assets/image/signs.png" alt="" srcset="" style="width: 20px;" class="mr-2">
+    <span style="line-height: 1; cursor: pointer;">Logout</span>
+</div>

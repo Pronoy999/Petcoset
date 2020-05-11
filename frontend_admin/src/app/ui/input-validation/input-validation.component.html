@@ -1,0 +1,36 @@
+<section *ngIf="formInput && !formInput.valid" id="{{identifier}}">
+
+    <div *ngIf="formInput.touched && formInput.errors && formInput.errors.email">
+        <p class="forminput forminput__error">{{email}}</p>
+    </div>
+
+    <div *ngIf="formInput.touched && formInput.errors && formInput.errors.minlength">
+        <p class="forminput forminput__error">{{formInput.errors.minlength.requiredLength}} character minimum required.</p>
+    </div>
+
+    <div *ngIf="formInput.touched && formInput.errors && formInput.errors.maxlength">
+        <p class="forminput forminput__error">Maximum {{formInput.errors.maxlength.requiredLength}} character allowed.</p>
+    </div>
+
+    <div *ngIf="formInput.touched && formInput.errors && !formInput.errors.required && formInput.errors.password?.number">
+        <p class="forminput forminput__error">{{formInput.errors.password.number}}</p>
+    </div>
+    <div *ngIf="formInput.touched && formInput.errors && !formInput.errors.required && formInput.errors.password?.capsletter">
+        <p class="forminput forminput__error">{{formInput.errors.password.capsletter}}</p>
+    </div>
+    <div *ngIf="formInput.touched && formInput.errors && !formInput.errors.required && formInput.errors.password?.smallletter">
+        <p class="forminput forminput__error">{{formInput.errors.password.smallletter}}</p>
+    </div>
+    <div *ngIf="formInput.touched && formInput.errors && !formInput.errors.required && formInput.errors.password?.spacialcharacter">
+        <p class="forminput forminput__error">{{formInput.errors.password.spacialcharacter}}</p>
+    </div>
+    <div *ngIf="formInput.touched && formInput.errors && !formInput.errors.required && formInput.errors.password?.length">
+        <p class="forminput forminput__error">{{formInput.errors.password.length}}</p>
+    </div>
+    <div *ngIf="formInput.touched && formInput.errors && !formInput.errors.required && formInput.errors.onlyinteger">
+        <p class="forminput forminput__error">{{formInput.errors.onlyinteger.errorMessage}}</p>
+    </div>
+    <div *ngIf="formInput.touched && formInput.errors && formInput.errors.crequired">
+        <p class="forminput forminput__error">{{formInput.errors.crequired.errorMessage}}</p>
+    </div>
+</section>

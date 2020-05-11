@@ -1,0 +1,20 @@
+<div class="container-fluid p-font">
+    <div class="row p-2">
+        <div class="col-md-3 col-lg-3 col-sm-12 mt-2">
+            <div (mousedown)="getpath('vendor')">
+                <app-card [bgcolor]="'primary'" [count]="vendorCount" [bodyLable]="'Vendor (Pending)'"></app-card>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-12 mt-2">
+            <div (mousedown)="getpath('vendor-verified')">
+                <app-card [bgcolor]="'warning'" [count]="verifiedVendorCount" [bodyLable]="'Vendor (Verified)'"></app-card>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-12 mt-2">
+            <app-card [bgcolor]="'danger'" [count]="0" [bodyLable]="''"></app-card>
+        </div>
+        <div class="col-md-3 col-lg-3 col-sm-12 mt-2">
+            <app-card [bgcolor]="'success'" [count]="0" [bodyLable]="''"></app-card>
+        </div>
+    </div>
+</div>
