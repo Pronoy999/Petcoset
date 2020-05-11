@@ -17,7 +17,7 @@ const s3Helper = {};
 s3Helper.uploadFile = (fileData, fileName, isUploadToSecure) => {
    return new Promise((resolve, reject) => {
       try {
-         fs.writeFileSync(fileName, fileData, {encoding: 'base64'});
+         fs.writeFileSync(path.join(__dirname + "/files/" + fileName), fileData, {encoding: 'base64'});
          let s3Params = {};
          if (isUploadToSecure) {
             s3Params[constants.S3_BUCKET_KEY] = constants.AWS_DOCUMENTS_BUCKET;
@@ -25,7 +25,7 @@ s3Helper.uploadFile = (fileData, fileName, isUploadToSecure) => {
             s3Params[constants.S3_BUCKET_KEY] = constants.AWS_IMAGES_BUCKET;
          }
          s3Params[constants.S3_KEY_KEY] = fileName;
-         s3Params[constants.S3_BODY_KEY] = fs.createReadStream(path.join('./' + fileName));
+         s3Params[constants.S3_BODY_KEY] = fs.createReadStream(path.join(__dirname + "/files/" + fileName));
          awsHelper.s3.upload(s3Params, (err, data) => {
             if (err) {
                printer.printError(err);
@@ -33,7 +33,7 @@ s3Helper.uploadFile = (fileData, fileName, isUploadToSecure) => {
             } else {
                printer.printHighlightedLog(data);
                //deleting the file from local storage.
-               fs.unlinkSync(fileName);
+               fs.unlinkSync(path.join(__dirname + "/files/" + fileName));
                resolve(true);
             }
          });
