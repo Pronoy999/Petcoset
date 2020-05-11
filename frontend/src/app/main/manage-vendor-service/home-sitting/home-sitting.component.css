@@ -1,0 +1,50 @@
+.service-img {
+    height: 40px;
+    width: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+}
+
+.user-font-size-10 {
+    font-size: 10px;
+}
+
+.user-font-size-14 {
+    font-size: 14px;
+}
+
+input[type=text] {
+    height: 40px;
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 6px;
+    outline: none;
+    border: 1px solid lightgray;
+    font-size: 13px;
+}
+
+.btn-project {
+    height: 40px;
+    width: 60%;
+    border-radius: 12px;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    color: #fff;
+    margin-bottom: 7%;
+    outline: none;
+    padding: 12px;
+    font-size: 13px;
+}
+
+.w-70 {
+    width: 70%;
+}
+
+.custom-font-weight {
+    font-weight: 500;
+}
+
+.selection-border {
+    border: 1px solid #0d519c !important;
+}

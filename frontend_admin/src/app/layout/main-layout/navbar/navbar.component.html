@@ -1,0 +1,36 @@
+<div class="side-bar">
+    <div class="text-center mt-5 p-font">
+        <img src="../../../../assets/image/logo-main.png" alt="company_logo" class="img-fluid" style="height: 80px; width: 100px;">
+    </div>
+    <div class="p-3 p-font text-center">
+        <h5 class="mb-0 font-weight-bold">{{userDetails.first_name}} {{userDetails.last_name}}</h5>
+        <small>Admin</small>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item" style="cursor: pointer; outline: none;" routerLink="/admin/dashboard">Dashboard</li>
+        <li class="list-group-item" style="cursor: pointer; outline: none;" routerLink="/admin/vendor/vendor-list">Pending Vendor List</li>
+        <li class="list-group-item" style="cursor: pointer; outline: none;" routerLink="/admin/vendor/vendor-verified-list">Verified Vendor List</li>
+        <li class="list-group-item" style="cursor: pointer; outline: none;">Customer List</li>
+    </ul>
+</div>
+
+<div class="mobile">
+    <button class="navbar-buttons" type="submit" (mousedown)="sidebarToggle()"><i class="fa fa-bars" aria-hidden="true" style="color: lightblue; zoom: 1.5;"></i></button>
+</div>
+
+<div class="mobile-sidebar shadow" [ngClass]="{'open-sidebar': status === true, 'close-sidebar': status === false}">
+    <div (mousedown)="closeSidebar()" class="close-button"><i class="fa fa-times" aria-hidden="true" style="color: lightblue; zoom: 1.5;"></i></div>
+    <div class="text-center pt-5 p-font">
+        <img src="../../../../assets/image/logo-main.png" alt="company_logo" class="img-fluid" style="height: 60px; width: 80px;">
+    </div>
+    <div class="p-3 p-font text-center">
+        <h5 class="mb-0 font-weight-bold">{{userDetails.first_name}} {{userDetails.last_name}}</h5>
+        <small>Admin</small>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item" style="cursor: pointer; outline: none;" routerLink="/admin/dashboard">Dashboard</li>
+        <li class="list-group-item" style="cursor: pointer; outline: none;" routerLink="/admin/vendor/vendor-list">Pending Vendor List</li>
+        <li class="list-group-item" style="cursor: pointer; outline: none;" routerLink="/admin/vendor/vendor-verified-list">Verified Vendor List</li>
+        <li class="list-group-item" style="cursor: pointer; outline: none;">Customer List</li>
+    </ul>
+</div>

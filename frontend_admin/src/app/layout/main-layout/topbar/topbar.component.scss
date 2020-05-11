@@ -1,0 +1,64 @@
+.menu {
+    margin-left: 80%;
+    @media screen and (max-width: 414px) {
+        margin-left: 0;
+    }
+}
+
+.navbar-buttons {
+    background: #f8f9fa;
+    border: 1px solid #ebeced;
+    width: 3.7em;
+    height: 3.2em;
+    border-radius: 7px;
+}
+
+.logout-iocn {
+    width: 40px;
+    cursor: pointer;
+}
+
+.menu-button {
+    position: absolute;
+    right: 6%;
+}
+
+.menu-list {
+    position: absolute;
+    top: 44px;
+    right: -3px
+}
+
+.logout-panel {
+    width: 180px;
+    height: auto;
+    position: absolute;
+    right: 5%;
+    z-index: 999;
+    top: 7%;
+    background: #fff;
+    padding: 15px;
+    @media screen and (max-width: 414px) {
+        top: 9%;
+    }
+}
+
+.open-panel {
+    display: block;
+}
+
+.close-panel {
+    display: none;
+}
+
+.header-text {
+    font-weight: 500;
+    font-size: 25px;
+    margin-left: 0;
+    padding-top: 1%;
+    @media screen and (max-width: 414px) {
+        margin-left: 17%;
+        font-size: 20px;
+        padding-top: 2%;
+    }
+}

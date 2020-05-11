@@ -1,0 +1,68 @@
+<article class="p-font border-top border-bottom" style="min-height: 75vh;background: #fff;">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="p-3">
+                    <div class="form-div">
+                        <label class="font-weight-normal">Selected Service</label>
+                        <input type="text" placeholder="Drop in" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="p-3">
+                    <span class="custom-font-weight">Service provided to</span>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('dog')" [ngClass]="{'selection-border' : isDogSelected}">
+                                <img src="../../../../assets/images/become-a-partner/dog.png" class="service-img" alt=""> Dog
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('cat')" [ngClass]="{'selection-border' : isCatSelected}">
+                                <img src="../../../../assets/images/become-a-partner/cat.png" class="service-img" alt=""> Cat
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="custom-font-weight">Select weight of pet you look after</span>
+                        <div class="d-flex justify-content-center">
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-10 border" (mousedown)="lookAfterClicked(1)" [ngClass]="{'selection-border' : isLookAfterOneClicked}">0-7 kg</div>
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-10 border" (mousedown)="lookAfterClicked(2)" [ngClass]="{'selection-border' : isLookAfterTwoClicked}">
+                                8-18 kg</div>
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-10 border" (mousedown)="lookAfterClicked(3)" [ngClass]="{'selection-border' : isLookAfterThreeClicked}">19-45 kg
+                            </div>
+                            <div class="card p-3 w-100 shadow-sm pointer text-center user-font-size-10 border" (mousedown)="lookAfterClicked(4)" [ngClass]="{'selection-border' : isLookAfterFourClicked}">
+                                45+ kg</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="custom-font-weight">Maximum visits I can provide per day</span>
+                        <div class="d-flex justify-content-center">
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-14 border" (mousedown)="visitProvide(1)" [ngClass]="{'selection-border' : isOneVisitClicked}">1 visit</div>
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-14 border" (mousedown)="visitProvide(2)" [ngClass]="{'selection-border' : isTwoVisitClicked}">
+                                2 visits</div>
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-14 border" (mousedown)="visitProvide(3)" [ngClass]="{'selection-border' : isThreeVisitClicked}">3+ visits
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mt-4">
+                        <div class="row">
+                            <div class="col-12 mt-4">
+                                <div class="form-div">
+                                    <input type="text" placeholder="Per visit I will charge">
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4 text-center">
+                                <button type="submit" class="btn-project">SAVE DETAILS</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
