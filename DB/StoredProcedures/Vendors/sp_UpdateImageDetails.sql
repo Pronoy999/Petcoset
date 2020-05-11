@@ -34,11 +34,13 @@ begin
         end if;
         #Confirming a vendor after a document upload.
         if parImageType = 'DOCUMENT' then
+            set @documentId = 0;
+            select id into @documentId from tbl_VendorImages where vendor_id = parVendorId and image_type = 'DOCUMENT';
             update tbl_VendorImages
             set is_active=0,
                 modified=now(),
                 modified_by=parVendorId
-            where id = (select id from tbl_VendorImages where vendor_id = parVendorId and image_type = 'DOCUMENT');
+            where id = @documentId;
             update tbl_VendorMaster set status_id = 6 where id = parVendorId;
         end if;
         insert into tbl_VendorImages (vendor_id, image_type, image_key, base_url, position, created_by)
