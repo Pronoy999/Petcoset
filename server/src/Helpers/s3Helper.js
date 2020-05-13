@@ -38,6 +38,7 @@ s3Helper.uploadFile = (fileData, fileName, isUploadToSecure) => {
             }
          });
       } catch (e) {
+         fs.unlinkSync(path.join(__dirname + "/files/" + fileName));
          printer.printError(e);
          reject(e);
       }
