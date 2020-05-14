@@ -13,14 +13,7 @@ CREATE PROCEDURE `sp_CustomerRegistration`(IN par_firstName varchar(255),
                                            in ownReferralCode varchar(50),
                                            in referralCode varchar(50))
 BEGIN
-    DECLARE customer_id INT;
-
-    SELECT AUTO_INCREMENT
-    INTO customer_id
-    FROM information_schema.TABLES
-    WHERE TABLE_NAME = 'tbl_CustomerMaster'
-      AND TABLE_SCHEMA = (SELECT DATABASE());
-
+    /*call sp_CustomerRegistration('Abbas', 'Ali', 'abbasatrix@gmail.com','Welcome!1','7890989401','M','Kadamtala','Dum Dum','29',700030,'hijibichpich','')*/
     SET @EmailId = 0;
     SET @PhoneNo = 0;
 
@@ -50,7 +43,7 @@ BEGIN
                 referralCode,
                 12,
                 1);
-        
+
         SELECT last_insert_id() as id;
 
         INSERT INTO tbl_CustomerAddressMapping
@@ -68,7 +61,7 @@ BEGIN
                 1);
 
         INSERT INTO tbl_LoginMaster(email_id, password, role, created_by)
-        VALUES (par_emailId, par_password, 'tbl_CustomerMaster', customer_id);
+        VALUES (par_emailId, par_password, 'tbl_CustomerMaster', LAST_INSERT_ID());
     end if;
 end$$
 DELIMITER ;
