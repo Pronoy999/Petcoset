@@ -81,6 +81,10 @@ class Customer {
          //TODO: Update the customer details.
       });
    }
+
+   getCustomerServiceDetails(serviceId, address, date_from, date_to, time_from, time_to, service_no, day) {
+      
+   }
 }
 
 /**

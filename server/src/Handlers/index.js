@@ -32,6 +32,9 @@ handlerObj.customers = (dataObject) => {
          case "address":
             promise = customer.address(dataObject);
             break;
+         case "service":
+            promise = customer.customerService(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }

@@ -19,6 +19,8 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_GET:
             promise = customerService.getCustomerData(serviceData[constants.CORE_DATA]);
             break;
+         case constants.CORE_CUSTOMER_SERVICE_ADD:
+            break;
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -69,3 +71,12 @@ customerService.getCustomerData = (dataObject) => {
       });
    });
 };
+
+customerService.addCustomerService = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if(tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.addCustomerService()
+      }
+   })
+}

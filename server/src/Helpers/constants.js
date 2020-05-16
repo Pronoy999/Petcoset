@@ -144,6 +144,7 @@ constants.CORE_TOKEN = "jwToken_auth";
 constants.CORE_CUSTOMER_CREATE = "createCustomer";
 constants.CORE_CUSTOMER_GET = "getCustomer";
 constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
+constants.CORE_CUSTOMER_SERVICE_ADD = 'addCustomerService';
 constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";

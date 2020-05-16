@@ -29,9 +29,11 @@ customerHandler.customer = (dataObject) => {
             dataObject.postData[constants.CUSTOMER_CITY] : false;
          const pincode = validator.validateNumber(dataObject.postData[constants.CUSTOMER_PINCODE]) ?
             dataObject.postData[constants.CUSTOMER_PINCODE] : false;
+         const password = validator.validateString(dataObject.postData[constants.CUSTOMER_PASSWORD]) ?
+             dataObject.postData[constants.CUSTOMER_PASSWORD] : false;
          const usedCode = validator.validateString(dataObject.postData[constants.CUSTOMER_USED_REFERAL_CODE]) ?
             dataObject.postData[constants.CUSTOMER_USED_REFERAL_CODE] : null;
-         if (firstName && lastName && email && phoneNumber && gender && address1 && address2 && city && pincode) {
+         if (firstName && lastName && email && phoneNumber && gender && address1 && address2 && city && pincode && password) {
             const childWorker = childProcess.fork(`${__dirname}/../CoreServices/customer.js`);
             let serviceData = {};
             dataObject.postData[constants.CUSTOMER_USED_REFERAL_CODE] = usedCode;
@@ -90,6 +92,47 @@ customerHandler.address = (dataObject) => {
       //TODO: handle customer address requests.
    });
 };
+/**
+ * Method to handle the customer requested service.
+ * @param dataObject
+ * @returns {Promise<unknown>}
+ */
+customerHandler.customerService = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const method = dataObject.method;
+      if(method === constants.HTTP_GET) {
+         //TODO: method will return customer registered services.
+      } else if(method === dataObject.method) {
+         const customerId = validator.validateNumber(dataObject.postData[constants.CUSTOMER_ID]) ?
+             dataObject.postData[constants.CUSTOMER_ID] : false;
+         const serviceId = validator.validateNumber(dataObject.postData[constants.SERVICE_ID]) ?
+             dataObject.postData[constants.SERVICE_ID] : false;
+         const jwToken = validator.validateString(dataObject.postData[constants.JW_TOKEN]) ?
+             dataObject.postData[constants.JW_TOKEN] : false;
+         if(customerId && serviceId && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.postData;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_CUSTOMER_SERVICE_ADD;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/customer.js`);
+            childWorker.send(serviceData);
+            childWorker.on('message', (childReply)=>{
+               if(childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE), childReply[constants.CORE_ERROR_LEVEL]);
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE,constants.ERROR_LEVEL_1));
+         }
+      } else {
+         reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
+      }
+   });
+}
 /**
  * Exporting the module.
  */
