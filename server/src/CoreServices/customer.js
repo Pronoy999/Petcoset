@@ -21,6 +21,9 @@ process.on("message", (serviceData) => {
             break;
          case constants.CORE_CUSTOMER_SERVICE_ADD:
             break;
+         case constants.CORE_CUSTOMER_PET_DETAILS:
+            promise = customerService.addPetDetails(serviceData[constants.CORE_DATA]);
+            break;
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -76,7 +79,43 @@ customerService.addCustomerService = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
       if(tokenGenerator.validateToken(jwToken)) {
          const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
-         customer.addCustomerService()
+         customer.createCustomerService(dataObject[constants.SERVICE_ID], dataObject[constants.CUSTOMER_PREFERRED_LOACTION],
+             dataObject[constants.CUSTOMER_START_DATE], dataObject[constants.CUSTOMER_END_DATE],
+             dataObject[constants.CUSTOMER_DROP_OFF_TIME], dataObject[constants.CUSTOMER_PICK_UP_TIME],
+             dataObject[constants.CUSTOMER_PET_NAME], dataObject[constants.CUSTOMER_PET_TYPE],
+             dataObject[constants.CUSTOMER_PET_SEX], dataObject[constants.CUSTOMER_PET_BREED],
+             dataObject[constants.CUSTOMER_PET_AGE], dataObject[constants.CUSTOMER_PET_WEIGHT],
+             dataObject[constants.CUSTOMER_HAS_HOUSE], dataObject[constants.CUSTOMER_HAS_FENCED_GARDEN],
+             dataObject[constants.CUSTOMER_IS_PETS_ALLOWED_FURNITURE], dataObject[constants.CUSTOMER_IS_ALLOWED_ON_BED],
+             dataObject[constants.CUSTOMER_IS_NON_SMOKING_HOME], dataObject[constants.CUSTOMER_IS_OWN_CAT],
+             dataObject[constants.CUSTOMER_IS_OWN_DOG], dataObject[constants.CUSTOMER_IS_ONE_BOOKING_AT_A_TIME],
+             dataObject[constants.CUSTOMER_IS_CAGED_PET], dataObject[constants.CUSTOMEER_CHILD_AGE],
+             dataObject[constants.CUSTOMER_BATH_NAIL_CLIPPING], dataObject[constants.CUSTOMER_FIRST_AID_CERTFIED],
+             dataObject[constants.CUSTOMER_NEED_OFTEN], dataObject[constants.CUSTOMER_NO_OF_VISIT],
+             dataObject[constants.CUSTOMER_MATE_PET], dataObject[constants.CUSTOMER_AVAILABLE_MATING],
+             dataObject[constants.CUSTOMER_VISIT_TYPE], dataObject[constants.CUSTOMER_PET_ADOPTION],
+             dataObject[constants.CUSTOMER_ENLIST_ADOPTION], dataObject[constants.CUSTOMER_TRAINING_CATEGORY])
+               .then(result => {
+               resolve([result, constants.RESPONSE_SUCESS_LEVEL_1])
+             }).catch(err => {
+               reject([err, constants.ERROR_LEVEL_3])
+            });
       }
    })
+}
+
+customerService.addPetDetails = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if(tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.AddCustomerPetDetails(dataObject[constants.CUSTOMER_ID], dataObject[constants.CUSTOMER_PET_TYPE],
+          dataObject[constants.CUSTOMER_PET_NAME], dataObject[constants.CUSTOMER_PET_BREED],
+          dataObject[constants.CUSTOMER_PET_AGE], dataObject[constants.CUSTOMER_PET_SEX],
+          dataObject[constants.CUSTOMER_PET_WEIGHT]).then(result =>{
+             resolve([result,constants.RESPONSE_SUCESS_LEVEL_1])
+         }).catch(err => {
+             reject([err, constants.ERROR_LEVEL_3]);
+         });
+      }
+   });
 }

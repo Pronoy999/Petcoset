@@ -82,10 +82,55 @@ class Customer {
       });
    }
 
-   getCustomerServiceDetails(serviceId, address, date_from, date_to, time_from, time_to, service_no, day) {
+   getCustomerServiceDetails(serviceId, address, date_from, date_to, time_from, time_to, service_no) {
       
    }
+
+   /**
+    * method to add customer pet details.
+    * @param customerId
+    * @param petType
+    * @param petName
+    * @param breed
+    * @param age
+    * @param sex
+    * @param weight
+    * @returns {Promise<unknown>}: 1 if complete else -1
+    */
+   AddCustomerPetDetails = (customerId, petType, petName, breed, age, sex, weight) => {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_CREATE_CUSTOMER_PET_DETAILS,
+             [customerId, petType, petName, breed, age, 0,sex, weight]).then(_resultSet => {
+            const result = _resultSet[0][0];
+            if(validators.validateUndefined(result))
+               resolve(result);
+            else
+               resolve({"id": -1})
+         }).catch(err => {
+            reject(err);
+         })
+      });
+   }
 }
+
+   createCustomerService = (serviceId, preferred_location, start_date, end_date, drop_off_time, pick_up_time,
+                            pet_name, pet_type, pet_sex, breed, pet_age, pet_weight, has_house, has_fenced_garden,
+                            pet_allowed_on_furniture, pet_allowed_on_bed, is_non_smoking, own_cat, own_dog,
+                            one_booking_at_a_time, caged_pet, child_age,bath_nail_clipping, first_aid_certified,
+                            need_often, no_of_visit, mate_pet, available_mating, visit_type, pet_adoption,
+                            enlist_adoption, training_category) => {
+      return new Promise((resolve, reject) => {
+         database.runSp('', ).then(_resultSet => {
+            const result = _resultSet[0][0];
+            if(validators.validateUndefined(result))
+               resolve(result);
+            else
+               resolve({"id": -1})
+         }).catch(err => {
+            reject(err);
+         });
+      });
+   }
 
 /**
  * Exporting the module.
