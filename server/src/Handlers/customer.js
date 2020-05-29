@@ -186,7 +186,11 @@ customerHandler.customerService = (dataObject) => {
       }
    });
 };
-
+/**
+ * Method to handle requests for Customer pet.
+ * @param dataObject: The request object.
+ * @returns {Promise<Array>}
+ */
 customerHandler.petDetails = (dataObject) => {
    return new Promise((resolve, reject) => {
       const method = dataObject.method;
@@ -205,7 +209,7 @@ customerHandler.petDetails = (dataObject) => {
             dataObject.postData[constants.CUSTOMER_PET_AGE] : false;
          const pet_sex = validator.validateString(dataObject.postData[constants.CUSTOMER_PET_SEX]) ?
             dataObject.postData[constants.CUSTOMER_PET_SEX] : false;
-         const weight = validator.validateString(dataObject.postData[constants.CUSTOMER_PET_WEIGHT]) ?
+         const weight = validator.validateNumber(dataObject.postData[constants.CUSTOMER_PET_WEIGHT]) ?
             dataObject.postData[constants.CUSTOMER_PET_WEIGHT] : false;
          if (customerId && jwToken && petType && petName && breed && pet_age && pet_sex && weight) {
             let serviceData = {};

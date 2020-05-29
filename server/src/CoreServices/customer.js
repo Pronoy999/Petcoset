@@ -27,6 +27,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_UPDATE:
             promise = customerService.updateDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_CUSTOMER_PET_DETAILS:
+            promise = customerService.addPetDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
             process.exit(1);
@@ -119,6 +122,27 @@ customerService.updateDetails = (dataObject, jwToken) => {
          });
       } else {
          reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Methodd to add the customer pet details.
+ * @param dataObject: the required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<unknown>}
+ */
+customerService.addPetDetails = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.addCustomerPetDetails(dataObject[constants.CUSTOMER_PET_TYPE],
+            dataObject[constants.CUSTOMER_PET_NAME], dataObject[constants.CUSTOMER_PET_BREED],
+            dataObject[constants.CUSTOMER_PET_AGE], dataObject[constants.CUSTOMER_PET_SEX],
+            dataObject[constants.CUSTOMER_PET_WEIGHT]).then(result => {
+            resolve([result, constants.RESPONSE_SUCESS_LEVEL_1])
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
       }
    });
 };
