@@ -66,7 +66,7 @@ class Customer {
     */
    getCustomerDetails() {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_GET_CUSTOMER, [this._email, this._password, this._phone, this._id])
+         database.runSp(constants.SP_GET_CUSTOMER, [this._email, this._phone, this._id])
             .then(_resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
@@ -97,6 +97,22 @@ class Customer {
             .then(_resultSet => {
                resolve(_resultSet[0][0]);
             }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+   
+   /**
+    * Method to update the customer details.
+    * @returns {Promise<unknown>}
+    */
+   updateCustomerDetails() {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_UPDATE_CUSTOMER_DETAILS,
+            [this._id, this._password, this._phone]).then(_resultSet => {
+            resolve(_resultSet[0][0]);
+         }).catch(err => {
             printer.printError(err);
             reject(err);
          });

@@ -206,6 +206,7 @@ constants.SP_UPLOAD_VENDOR_IMAGES = "sp_UpdateImageDetails";
 constants.SP_GET_VENDOR_IMAGES = "sp_GetVendorImages";
 constants.SP_CREATE_CUSTOMER_PET_DETAILS = "sp_InsertCustomerPetDetails";
 constants.SP_UPDATE_CUSTOMER_ADDRESS = "sp_UpdateCustomerAddress";
+constants.SP_UPDATE_CUSTOMER_DETAILS = "sp_UpdateCustomerDetails";
 
 /**
  * General Keys
@@ -244,7 +245,7 @@ constants.CUSTOMER_CITY = "city";
 constants.CUSTOMER_STATE = "state";
 constants.CUSTOMER_COUNTRY = "country";
 constants.CUSTOMER_PINCODE = "pincode";
-constants.CUSTOMER_IS_DEFAULT_ADDRESS="is_default";
+constants.CUSTOMER_IS_DEFAULT_ADDRESS = "is_default";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
 constants.CUSTOMER_PET_TYPE = 'pet_type';

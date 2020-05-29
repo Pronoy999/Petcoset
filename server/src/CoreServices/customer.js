@@ -24,11 +24,12 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_ADDRESS_CREATE:
             promise = customerService.address(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
-         case constants.CORE_CUSTOMER_SERVICE_ADD://TODO:
+         case constants.CORE_CUSTOMER_UPDATE:
+            promise = customerService.updateDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
-         case constants.CORE_CUSTOMER_PET_DETAILS:
-            //TODO:
-            break;
+         default:
+            process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
+            process.exit(1);
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -91,6 +92,27 @@ customerService.address = (dataObject, jwToken) => {
             dataObject[constants.CUSTOMER_ADDRESS_2], dataObject[constants.CUSTOMER_CITY],
             dataObject[constants.CUSTOMER_PINCODE],
             dataObject[constants.CUSTOMER_IS_DEFAULT_ADDRESS]).then(details => {
+            resolve([details, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to update the customer details.
+ * @param dataObject: the required data.
+ * @param jwToken: The token of the customer.
+ * @returns {Promise<Array>}
+ */
+customerService.updateDetails = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID], false, false, false,
+            dataObject[constants.CUSTOMER_PASSWORD], dataObject[constants.CUSTOMER_PHONE_NUMBER]);
+         customer.updateCustomerDetails().then(details => {
             resolve([details, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
