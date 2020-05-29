@@ -37,6 +37,5 @@ tokenGenerator.validateToken = (token) => {
 };
 /**
  * Exporting the module.
- * @type {{}}
  */
 module.exports = tokenGenerator;

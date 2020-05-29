@@ -144,6 +144,7 @@ constants.CORE_TOKEN = "jwToken_auth";
 constants.CORE_CUSTOMER_CREATE = "createCustomer";
 constants.CORE_CUSTOMER_GET = "getCustomer";
 constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
+constants.CORE_CUSTOMER_ADDRESS_CREATE = "addAddressCustomer";
 constants.CORE_CUSTOMER_SERVICE_ADD = 'addCustomerService';
 constants.CORE_CUSTOMER_PET_DETAILS = 'petDetails';
 constants.CORE_API_TOKEN_CHECK = "checkApiToken";
@@ -203,7 +204,8 @@ constants.SP_GET_BANK_DETAILS = "sp_GetBankDetails";
 constants.SP_GET_BREED_DETAILS = "sp_GetBreedDetails";
 constants.SP_UPLOAD_VENDOR_IMAGES = "sp_UpdateImageDetails";
 constants.SP_GET_VENDOR_IMAGES = "sp_GetVendorImages";
-constants.SP_CREATE_CUSTOMER_PET_DETAILS = 'sp_InsertCustomerPetDetails'
+constants.SP_CREATE_CUSTOMER_PET_DETAILS = "sp_InsertCustomerPetDetails";
+constants.SP_UPDATE_CUSTOMER_ADDRESS = "sp_UpdateCustomerAddress";
 
 /**
  * General Keys
@@ -242,6 +244,7 @@ constants.CUSTOMER_CITY = "city";
 constants.CUSTOMER_STATE = "state";
 constants.CUSTOMER_COUNTRY = "country";
 constants.CUSTOMER_PINCODE = "pincode";
+constants.CUSTOMER_IS_DEFAULT_ADDRESS="is_default";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
 constants.CUSTOMER_PET_TYPE = 'pet_type';

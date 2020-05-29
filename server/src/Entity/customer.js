@@ -3,6 +3,7 @@ const constants = require('./../Helpers/constants');
 const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
+const tokenGenerator = require('./../Services/jwTokenGenerator');
 
 class Customer {
    /**
@@ -15,11 +16,9 @@ class Customer {
     * _address1
     * _address2
     * _city
-    * _state
-    * _country
     * _pincode
     */
-   constructor(id, firstName, lastName, email, password, phone, gender, address1, address2, city, pincode) {
+   constructor(id, firstName, lastName, email, password, phone, gender) {
       this._id = validators.validateNumber(id) ? id : false;
       this._firstName = validators.validateString(firstName) ? firstName : false;
       this._lastName = validators.validateString(lastName) ? lastName : false;
@@ -27,14 +26,8 @@ class Customer {
       this._password = validators.validateString(password) ? password : false;
       this._phone = validators.validatePhone(phone) ? phone : false;
       this._gender = validators.validateCharacter(gender) ? gender : false;
-      this._address1 = validators.validateString(address1) ? address1 : false;
-      this._address2 = validators.validateString(address2) ? address2 : false;
-      this._city = validators.validateNumber(city) ? city : false;
-      this._state = validators.validateNumber(state) ? state : false;
-      this._country = validators.validateNumber(country) ? country : false;
-      this._pincode = validators.validateNumber(pincode) ? pincode : false;
    }
-
+   
    /**
     * Method to create the customer.
     * @param {String} usedReferralCode
@@ -43,19 +36,31 @@ class Customer {
       return new Promise((resolve, reject) => {
          this._ownReferalCode = generator.generateRandomToken(6);
          database.runSp(constants.SP_CREATE_CUSTOMER, [this._firstName, this._lastName, this._email,
-            this._phone, this._gender, this._address1, this._address2, this._city, this._pincode,
-            this._ownReferalCode, usedReferralCode]).then(_resultSet => {
-            printer.printHighlightedLog(_resultSet);
+            this._password, this._phone, this._gender, this._ownReferalCode,
+            validators.validateUndefined(usedReferralCode) ? usedReferralCode : false
+         ]).then(_resultSet => {
             const result = _resultSet[0][0];
-            this._id = result[constants.CUSTOMER_ID];
-            resolve(this._id);
+            let response = {};
+            if (validators.validateUndefined(result) && result.id > 0) {
+               this._id = result.id;
+               let customerData = {};
+               customerData[constants.CUSTOMER_FIRST_NAME] = this._firstName;
+               customerData[constants.CUSTOMER_LAST_NAME] = this._lastName;
+               customerData[constants.CUSTOMER_EMAIL] = this._email;
+               customerData[constants.CUSTOMER_ID] = this._id;
+               response[constants.JW_TOKEN] = tokenGenerator.getToken(customerData);
+               response[constants.CUSTOMER_ID] = this._id;
+               resolve(response);
+            } else {
+               resolve({id: -1});
+            }
          }).catch(err => {
             printer.printError(err);
             reject(err);
          });
       });
    }
-
+   
    /**
     * Method to get the customer data.
     */
@@ -75,62 +80,29 @@ class Customer {
          });
       });
    }
-
-   updateCustomerDetails() {
-      return new Promise((resolve, reject) => {
-         //TODO: Update the customer details.
-      });
-   }
-
-   getCustomerServiceDetails(serviceId, address, date_from, date_to, time_from, time_to, service_no) {
-      
-   }
-
+   
    /**
-    * method to add customer pet details.
-    * @param customerId
-    * @param petType
-    * @param petName
-    * @param breed
-    * @param age
-    * @param sex
-    * @param weight
-    * @returns {Promise<unknown>}: 1 if complete else -1
+    * Method to add address for a customer.
+    * @param address1: The address 1
+    * @param address2: The address 2.
+    * @param cityId: The city id.
+    * @param pincode: The pincode.
+    * @param isDefault: 1 for default address, else 0.
+    * @returns {Promise<Array>}
     */
-   AddCustomerPetDetails = (customerId, petType, petName, breed, age, sex, weight) => {
+   addCustomerAddress(address1, address2, cityId, pincode, isDefault) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_CREATE_CUSTOMER_PET_DETAILS,
-             [customerId, petType, petName, breed, age, 0,sex, weight]).then(_resultSet => {
-            const result = _resultSet[0][0];
-            if(validators.validateUndefined(result))
-               resolve(result);
-            else
-               resolve({"id": -1})
-         }).catch(err => {
-            reject(err);
-         })
-      });
-   }
-}
-
-   createCustomerService = (serviceId, preferred_location, start_date, end_date, drop_off_time, pick_up_time,
-                            pet_name, pet_type, pet_sex, breed, pet_age, pet_weight, has_house, has_fenced_garden,
-                            pet_allowed_on_furniture, pet_allowed_on_bed, is_non_smoking, own_cat, own_dog,
-                            one_booking_at_a_time, caged_pet, child_age,bath_nail_clipping, first_aid_certified,
-                            need_often, no_of_visit, mate_pet, available_mating, visit_type, pet_adoption,
-                            enlist_adoption, training_category) => {
-      return new Promise((resolve, reject) => {
-         database.runSp('', ).then(_resultSet => {
-            const result = _resultSet[0][0];
-            if(validators.validateUndefined(result))
-               resolve(result);
-            else
-               resolve({"id": -1})
-         }).catch(err => {
+         database.runSp(constants.SP_UPDATE_CUSTOMER_ADDRESS, [this._id, address1, address2, cityId, pincode,
+               validators.validateUndefined(isDefault) ? isDefault : 0])
+            .then(_resultSet => {
+               resolve(_resultSet[0][0]);
+            }).catch(err => {
+            printer.printError(err);
             reject(err);
          });
       });
    }
+}
 
 /**
  * Exporting the module.
