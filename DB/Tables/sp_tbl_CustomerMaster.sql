@@ -1,5 +1,4 @@
 DROP PROCEDURE IF EXISTS sp_tbl_CustomerMaster;
-DELIMITER $$
 CREATE PROCEDURE sp_tbl_CustomerMaster()
 BEGIN
     DECLARE currentSchema varchar(100);
@@ -18,12 +17,6 @@ BEGIN
             `email`              varchar(255)   NOT NULL,
             `phone_number`       varchar(13)    NOT NULL,
             `gender`             enum ('M','F') NOT NULL,
-            `address_1`          varchar(255)        DEFAULT NULL,
-            `address_2`          varchar(255)        DEFAULT NULL,
-            `city`               int(11)             DEFAULT NULL,
-            `state`              int(11)             DEFAULT NULL,
-            `country`            int(11)             DEFAULT NULL,
-            `pincode`            int(11)             DEFAULT NULL,
             `referral_code`      varchar(50)         DEFAULT NULL,
             `used_referral_code` varchar(50)         DEFAULT NULL,
             `status_id`          int(11)             DEFAULT NULL,
@@ -38,8 +31,55 @@ BEGIN
             KEY `Email_customer` (`email`)
         ) ;
     end if;
-end$$
+    if exists(
+            select 1
+            from information_schema.COLUMNS
+            where TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_CustomerMaster'
+              and COLUMN_NAME = 'address_1'
+        ) then
+        begin
+            alter table tbl_CustomerMaster
+                drop column address_1;
+        end;
+    end if;
+    if exists(
+            select 1
+            from information_schema.COLUMNS
+            where TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_CustomerMaster'
+              and COLUMN_NAME = 'address_2'
+        ) then
+        begin
+            alter table tbl_CustomerMaster
+                drop column address_2;
+        end;
+    end if;
+    if exists(
+            select 1
+            from information_schema.COLUMNS
+            where TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_CustomerMaster'
+              and COLUMN_NAME = 'city'
+        ) then
+        begin
+            alter table tbl_CustomerMaster
+                drop column city;
+        end;
+    end if;
+    if exists(
+            select 1
+            from information_schema.COLUMNS
+            where TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_CustomerMaster'
+              and COLUMN_NAME = 'pincode'
+        ) then
+        begin
+            alter table tbl_CustomerMaster
+                drop column pincode;
+        end;
+    end if;
+end;
 
-DELIMITER ;
 CALL sp_tbl_CustomerMaster();
 DROP PROCEDURE IF EXISTS sp_tbl_CustomerMaster;

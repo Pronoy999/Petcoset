@@ -7,10 +7,10 @@ BEGIN
         SELECT -1 as id;
     else
         SELECT concat(
-                       'SELECT C.id, first_name, last_name, email, phone_number, gender, address_1, address_2, CM.city_name, pincode,
+                       'SELECT C.id, first_name, last_name, email, phone_number, gender,
                       referral_code, used_referral_code
-               FROM tbl_CustomerMaster C,tbl_CityMaster CM
-               WHERE CM.id=C.city ',
+               FROM tbl_CustomerMaster C
+               WHERE C.is_active=1 ',
                        CASE
                            WHEN length(par_email) > 5 THEN concat(' and C.email = ''', par_email, '''')
                            ELSE ''
