@@ -13,19 +13,12 @@ BEGIN
                        R.email,
                        R.gender,
                        R.phone_number,
-                       R.address_1,
-                       R.address_2,
-                       C.city_name,
-                       R.pincode,
                        S.status_name,
                     L.role
                    from ', @role,
                        ' as R
-
                            inner join tbl_LoginMaster L
                                on L.email_id = R.email
-                           left join tbl_CityMaster C
-                               on C.id = R.city
                             left join tbl_StatusMaster S
                                 on S.id=R.status_id
                            where R.email = ''', par_emailId, '''
