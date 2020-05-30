@@ -38,6 +38,9 @@ handlerObj.customers = (dataObject) => {
          case "pet":
             promise = customer.petDetails(dataObject);
             break;
+         case "image":
+            promise = customer.images(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }

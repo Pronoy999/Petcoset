@@ -17,6 +17,7 @@ BEGIN
             `email`              varchar(255)   NOT NULL,
             `phone_number`       varchar(13)    NOT NULL,
             `gender`             enum ('M','F') NOT NULL,
+            `profile_image`      varchar(255)        default null,
             `referral_code`      varchar(50)         DEFAULT NULL,
             `used_referral_code` varchar(50)         DEFAULT NULL,
             `status_id`          int(11)             DEFAULT NULL,

@@ -146,6 +146,7 @@ constants.CORE_CUSTOMER_GET = "getCustomer";
 constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
 constants.CORE_CUSTOMER_ADDRESS_CREATE = "addAddressCustomer";
 constants.CORE_CUSTOMER_SERVICE_ADD = 'addCustomerService';
+constants.CORE_CUSTOMER_IMAGE_ADD = "customerImageAdd";
 constants.CORE_CUSTOMER_PET_DETAILS = 'petDetails';
 constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
@@ -207,6 +208,7 @@ constants.SP_GET_VENDOR_IMAGES = "sp_GetVendorImages";
 constants.SP_CREATE_CUSTOMER_PET_DETAILS = "sp_InsertCustomerPetDetails";
 constants.SP_UPDATE_CUSTOMER_ADDRESS = "sp_UpdateCustomerAddress";
 constants.SP_UPDATE_CUSTOMER_DETAILS = "sp_UpdateCustomerDetails";
+constants.SP_UPDATE_CUSTOMER_IMAGES = "sp_UpdateCustomerImages";
 
 /**
  * General Keys

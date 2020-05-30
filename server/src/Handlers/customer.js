@@ -236,6 +236,51 @@ customerHandler.petDetails = (dataObject) => {
    })
 };
 /**
+ * Method to handle the requests for images.
+ * @param dataObject: The request object.
+ * @returns {Promise<unknown>}
+ */
+customerHandler.images = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const method = dataObject.method;
+      if (method === constants.HTTP_POST) {
+         const customerId = validator.validateNumber(dataObject.postData[constants.CUSTOMER_ID]) ?
+            dataObject.postData[constants.CUSTOMER_ID] : false;
+         const imageType = validator.validateString(dataObject.postData[constants.VENDOR_IMAGES_IMAGE_TYPE]) ?
+            dataObject.postData[constants.VENDOR_IMAGES_IMAGE_TYPE] : false;
+         const imageData = validator.validateUndefined(dataObject.postData[constants.VENDOR_IMAGE_DATA]) ?
+            dataObject.postData[constants.VENDOR_IMAGE_DATA] : false;
+         const position = validator.validateNumber(dataObject.postData[constants.VENDOR_IMAGE_POSITION]) ?
+            dataObject.postData[constants.VENDOR_IMAGE_POSITION] : false;
+         const fileExtension = validator.validateString(dataObject.postData[constants.FILE_EXTENSION]) ?
+            dataObject.postData[constants.FILE_EXTENSION] : false;
+         const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (customerId && imageType && imageData && fileExtension && jwToken && position) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.postData;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_CUSTOMER_IMAGE_ADD;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/customer.js`);
+            childWorker.send(serviceData);
+            childWorker.on('message', childReply => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE), childReply[constants.CORE_ERROR_LEVEL]);
+               } else {
+                  reject(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else {
+         reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
+      }
+   });
+};
+/**
  * Exporting the module.
  */
 module.exports = customerHandler;

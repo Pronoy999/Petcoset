@@ -30,6 +30,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_PET_DETAILS:
             promise = customerService.addPetDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_CUSTOMER_IMAGE_ADD:
+            promise = customerService.addImages(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
             process.exit(1);
@@ -139,10 +142,33 @@ customerService.addPetDetails = (dataObject, jwToken) => {
             dataObject[constants.CUSTOMER_PET_NAME], dataObject[constants.CUSTOMER_PET_BREED],
             dataObject[constants.CUSTOMER_PET_AGE], dataObject[constants.CUSTOMER_PET_SEX],
             dataObject[constants.CUSTOMER_PET_WEIGHT]).then(result => {
-            resolve([result, constants.RESPONSE_SUCESS_LEVEL_1])
+            resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to handle customer images.
+ * @param dataObject: The data object.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}
+ */
+customerService.addImages = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.addImages(dataObject[constants.VENDOR_IMAGE_DATA], dataObject[constants.VENDOR_IMAGES_IMAGE_TYPE],
+            dataObject[constants.FILE_EXTENSION], dataObject[constants.VENDOR_IMAGE_POSITION]).then(result => {
+            resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
       }
    });
 };

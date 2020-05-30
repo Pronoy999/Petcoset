@@ -4,6 +4,7 @@ const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
 const tokenGenerator = require('./../Services/jwTokenGenerator');
+const s3Helper = require('./../Helpers/s3Helper');
 
 class Customer {
    /**
@@ -129,7 +130,7 @@ class Customer {
     * @param weight
     * @returns {Promise<unknown>}: 1 if complete else -1
     */
-   addCustomerPetDetails = (petType, petName, breed, age, sex, weight) => {
+   addCustomerPetDetails(petType, petName, breed, age, sex, weight) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_CREATE_CUSTOMER_PET_DETAILS,
             [this._id, petType, petName, breed, age, 0, sex, weight]).then(_resultSet => {
@@ -142,6 +143,33 @@ class Customer {
             printer.printError(err);
             reject(err);
          })
+      });
+   }
+   
+   /**
+    * Method to add images to s3 bucket.
+    * @param imageData
+    * @param imageType
+    * @param fileExtension
+    * @param position
+    * @returns {Promise<unknown>}
+    */
+   addImages(imageData, imageType, fileExtension, position) {
+      return new Promise((resolve, reject) => {
+         const imageKey = generator.generateRandomToken(16) + "." + fileExtension;
+         const isSecure = (imageType === constants.IMAGE_TYPE_DOCUMENT);
+         const baseUrl = (isSecure) ? constants.DOCUMENTS_BASE_URL : constants.IMAGES_BASE_URL;
+         const imageUrl = baseUrl + imageKey;
+         let promises = [];
+         promises.push(s3Helper.uploadFile(imageData, imageKey, isSecure));
+         promises.push(database.runSp(constants.SP_UPDATE_CUSTOMER_IMAGES,
+            [imageType, imageKey, imageUrl, position, this._id]));
+         Promise.all(promises).then(results => {
+            resolve(imageUrl);
+         }).catch(errs => {
+            printer.printError(errs);
+            reject(constants.ERROR_MESSAGE);
+         });
       });
    }
 }
