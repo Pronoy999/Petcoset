@@ -28,7 +28,7 @@ class Customer {
       this._phone = validators.validatePhone(phone) ? phone : false;
       this._gender = validators.validateCharacter(gender) ? gender : false;
    }
-   
+
    /**
     * Method to create the customer.
     * @param {String} usedReferralCode
@@ -61,7 +61,7 @@ class Customer {
          });
       });
    }
-   
+
    /**
     * Method to get the customer data.
     */
@@ -81,7 +81,7 @@ class Customer {
          });
       });
    }
-   
+
    /**
     * Method to add address for a customer.
     * @param address1: The address 1
@@ -94,7 +94,7 @@ class Customer {
    addCustomerAddress(address1, address2, cityId, pincode, isDefault) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_UPDATE_CUSTOMER_ADDRESS, [this._id, address1, address2, cityId, pincode,
-               validators.validateUndefined(isDefault) ? isDefault : 0])
+            validators.validateUndefined(isDefault) ? isDefault : 0])
             .then(_resultSet => {
                resolve(_resultSet[0][0]);
             }).catch(err => {
@@ -103,7 +103,7 @@ class Customer {
          });
       });
    }
-   
+
    /**
     * Method to update the customer details.
     * @returns {Promise<unknown>}
@@ -119,7 +119,7 @@ class Customer {
          });
       });
    }
-   
+
    /**
     * method to add customer pet details.
     * @param petType
@@ -145,7 +145,7 @@ class Customer {
          })
       });
    }
-   
+
    /**
     * Method to add images to s3 bucket.
     * @param imageData
@@ -169,6 +169,27 @@ class Customer {
          }).catch(errs => {
             printer.printError(errs);
             reject(constants.ERROR_MESSAGE);
+         });
+      });
+   }
+
+   /**
+    * Method to get the images of the vendor.
+    * @param imageType: The image type to be searched.
+    * @returns {Promise<Array>}: an array of images.
+    */
+   getImages(imageType) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GET_CUSTOMER_IMAGES, [this._id, imageType]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve([]);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
          });
       });
    }

@@ -33,6 +33,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_IMAGE_ADD:
             promise = customerService.addImages(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_CUSTOMER_IMAGE_GET:
+            promise = customerService.getImages(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
             process.exit(1);
@@ -164,6 +167,26 @@ customerService.addImages = (dataObject, jwToken) => {
          customer.addImages(dataObject[constants.VENDOR_IMAGE_DATA], dataObject[constants.VENDOR_IMAGES_IMAGE_TYPE],
             dataObject[constants.FILE_EXTENSION], dataObject[constants.VENDOR_IMAGE_POSITION]).then(result => {
             resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to return the images.
+ * @param dataObject: The required data.
+ * @param jwToken: The token.
+ * @returns {Promise<Array>}
+ */
+customerService.getImages = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.getImages(dataObject[constants.VENDOR_IMAGES_IMAGE_TYPE]).then(imageDetails => {
+            resolve([imageDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });
