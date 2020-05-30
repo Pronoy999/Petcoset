@@ -6,65 +6,17 @@ create procedure sp_UpdateCustomerAddress(par_customerId int,
                                           par_pincode int,
                                           par_isDefault bool)
 begin
-    IF EXISTS
-        (
-            select 1 from tbl_CustomerAddressMapping where customer_id = par_customerId
-        )
-    THEN
-        IF par_isDefault = 1
-        THEN
-            #if a customer already has default address then make previous address default==0
-            UPDATE tbl_CustomerAddressMapping
-            SET is_default=0,
-                modified_by = par_customerId,
-                modified = current_timestamp()
-            where customer_id = par_customerId;
-
-            #insert the new customer address with default value
-            insert into tbl_CustomerAddressMapping
-            (customer_id,
-             address1,
-             address2,
-             city_id,
-             pincode,
-             is_default,
-             created_by,
-             created)
-            values (par_customerId,
-                    par_Address1,
-                    par_Address2,
-                    par_cityId,
-                    par_pincode,
-                    par_isDefault,
-                    par_customerId,
-                    current_timestamp());
-
-            select last_insert_id();
-
-        ELSE
-
-            #insert the new customer address with default value
-            insert into tbl_CustomerAddressMapping
-            (customer_id,
-             address1,
-             address2,
-             city_id,
-             pincode,
-             is_default,
-             created_by,
-             created)
-            values (par_customerId,
-                    par_Address1,
-                    par_Address2,
-                    par_cityId,
-                    par_pincode,
-                    par_isDefault,
-                    par_customerId,
-                    current_timestamp());
-
-            select last_insert_id();
+    set @isExists = 0;
+    select id into @isExists from tbl_CustomerMaster where id = par_customerId and is_active = 1;
+    if @isExists > 0 then
+        if par_isDefault = 1 then
+            update tbl_CustomerAddressMapping set is_default=0 where customer_id = par_customerId and is_active = 1;
         end if;
-    ELSE
-        select -1 as customer_id;
-    END IF;
+        insert into tbl_CustomerAddressMapping(customer_id, address1, address2, city_id, pincode, is_default,
+                                               created_by)
+            value (par_customerId, par_Address1, par_Address2, par_cityId, par_pincode, par_isDefault, par_customerId);
+        select 1 as id;
+    else
+        select -1 as id;
+    end if;
 end;

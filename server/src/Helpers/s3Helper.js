@@ -27,17 +27,18 @@ s3Helper.uploadFile = (fileData, fileName, isUploadToSecure) => {
          s3Params[constants.S3_KEY_KEY] = fileName;
          s3Params[constants.S3_BODY_KEY] = fs.createReadStream(path.join(__dirname + "/files/" + fileName));
          awsHelper.s3.upload(s3Params, (err, data) => {
+            //deleting the file from local storage.
+            fs.unlinkSync(path.join(__dirname + "/files/" + fileName));
             if (err) {
                printer.printError(err);
                reject(err);
             } else {
                printer.printHighlightedLog(data);
-               //deleting the file from local storage.
-               fs.unlinkSync(path.join(__dirname + "/files/" + fileName));
                resolve(true);
             }
          });
       } catch (e) {
+         fs.unlinkSync(path.join(__dirname + "/files/" + fileName));
          printer.printError(e);
          reject(e);
       }
@@ -45,6 +46,5 @@ s3Helper.uploadFile = (fileData, fileName, isUploadToSecure) => {
 };
 /**
  * Exporting the s3 helper.
- * @type {{}}
  */
 module.exports = s3Helper;

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="DBE_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <content url="file://E:/OneDrive/Estrello_Projects/Petcoset/DB" />
+    <content url="file://$MODULE_DIR$/DB" />
+    <content url="file://$MODULE_DIR$/../Photocast/Microservices/AuthenticationService/DB" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
