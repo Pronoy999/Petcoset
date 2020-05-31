@@ -105,6 +105,26 @@ class Customer {
    }
 
    /**
+    * Method to get the address details of the users.
+    * @returns {Promise<Array>}: An array of customer address.
+    */
+   getAddress() {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GET_CUSTOMER_ADDRESS, [this._id]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve({id: -1});
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+
+   /**
     * Method to update the customer details.
     * @returns {Promise<unknown>}
     */

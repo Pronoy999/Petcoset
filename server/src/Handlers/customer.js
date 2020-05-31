@@ -110,7 +110,31 @@ customerHandler.customer = (dataObject) => {
 customerHandler.address = (dataObject) => {
    return new Promise((resolve, reject) => {
       const method = dataObject.method;
-      if (method === constants.HTTP_POST) {
+      if (method === constants.HTTP_GET) {
+         const customerId = validator.validateNumber(dataObject.queryString[constants.CUSTOMER_ID]) ?
+            dataObject.queryString[constants.CUSTOMER_ID] : false;
+         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (customerId && jwToken) {
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/customer.js`);
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_TYPE] = constants.CORE_CUSTOMER_ADDRESS_GET;
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else if (method === constants.HTTP_POST) {
          const address1 = validator.validateString(dataObject.postData[constants.CUSTOMER_ADDRESS_1]) ?
             dataObject.postData[constants.CUSTOMER_ADDRESS_1] : false;
          const address2 = validator.validateString(dataObject.postData[constants.CUSTOMER_ADDRESS_2]) ?
@@ -173,7 +197,7 @@ customerHandler.customerService = (dataObject) => {
             childWorker.send(serviceData);
             childWorker.on('message', (childReply) => {
                if (childReply[constants.CORE_ERROR_LEVEL]) {
-                   resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
                } else {
                   resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
                }

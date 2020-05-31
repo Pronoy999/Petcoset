@@ -24,6 +24,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_ADDRESS_CREATE:
             promise = customerService.address(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_CUSTOMER_ADDRESS_GET:
+            promise = customerService.getAddress(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          case constants.CORE_CUSTOMER_UPDATE:
             promise = customerService.updateDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
@@ -102,6 +105,26 @@ customerService.address = (dataObject, jwToken) => {
             dataObject[constants.CUSTOMER_PINCODE],
             dataObject[constants.CUSTOMER_IS_DEFAULT_ADDRESS]).then(details => {
             resolve([details, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to get the customer address.
+ * @param dataObject: The required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}:
+ */
+customerService.getAddress = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.getAddress().then(addressDetails => {
+            resolve([addressDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });
