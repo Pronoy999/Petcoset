@@ -1,0 +1,286 @@
+<link href="https://cdn.syncfusion.com/ej2/ej2-base/styles/material.css" rel="stylesheet" />
+<link href="https://cdn.syncfusion.com/ej2/ej2-buttons/styles/material.css" rel="stylesheet" />
+<link href="https://cdn.syncfusion.com/ej2/ej2-popups/styles/material.css" rel="stylesheet" />
+<link href="https://cdn.syncfusion.com/ej2/ej2-calendars/styles/material.css" rel="stylesheet" />
+
+<article class="p-font border-top border-bottom" style="min-height: 75vh;background: #fff;">
+  <div class="container">
+      <div class="row mt-3">
+          <div class="col-lg-4 col-md-4 col-sm-12">
+              <div class="p-3">
+                  <div class="form-div">
+                      <label class="font-weight-normal">Selected Service</label>
+                      <input type="text" placeholder="Grooming" readonly>
+                  </div>
+                  <div class="card e1sGxS p-3 mt-3 mb-3">
+                    <div class="p-3 text-uppercase border-bottom pointer user-font-size-14" (mousedown)="setNewPetDetails(1)" [ngClass]="{'selected-option': newPetDetails}">Save New Pet Details
+                    </div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12">
+            <div [style.display]="selectProfileTypeCount === 1 ? 'block' : 'none'">
+                <div class="p-3">
+                    <form [formGroup]="parentForm">
+                        <span class="custom-font-weight">Service provided to</span>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" 
+                                            (mousedown)="serviceProvide('Dog')" 
+                                            [ngClass]="{'selection-border' : isDogSelected}">
+                                    <img src="../../../../assets/images/become-a-partner/dog.png" class="service-img" alt=""> Dog
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" 
+                                            (mousedown)="serviceProvide('Cat')" 
+                                            [ngClass]="{'selection-border' : isCatSelected}">
+                                    <img src="../../../../assets/images/become-a-partner/cat.png" class="service-img" alt=""> Cat
+                                </div>
+                            </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-md-6 mt-4">
+                        <span class="custom-font-weight">Pet name</span>
+                        <input type="text" formControlName="pet_name">
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <span class="custom-font-weight">Add images</span>
+                            <div class="row pl-3">
+                                <!-- Image 1-->
+                                <div class="image-upload">
+                                    <label for="file-input-pic1">
+                                        <img src="{{uploadedFileList[0] ? uploadedFileList[0] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}" 
+                                                    [ngClass]="{'img-fluid' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}"
+                                                    class="ml-2 mt-2 w-50"/>
+                                    </label>
+                                        <input id="file-input-pic1" type="file" (change)="uploadImages($event, 'pic-1')"/>
+                                </div>
+                                    <small *ngIf="imageUploadErrorMessage1" 
+                                            [ngClass]="{'invalid-text' : imageUploadErrorMessage1==='PNG/JPGE image file only!', 
+                                                        'text-success': imageUploadErrorMessage1 === 'Image uploaded Successfully!'
+                                                        }">{{imageUploadErrorMessage1}}</small>
+                                <!-- Image 2-->
+                                <div class="image-upload">
+                                    <label for="file-input-pic2">
+                                        <img src="{{uploadedFileList[0] ? uploadedFileList[0] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}" 
+                                                    [ngClass]="{'img-fluid' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}"
+                                                    class="ml-2 mt-2 w-50"/>
+                                    </label>
+                                        <input id="file-input-pic2" type="file" (change)="uploadImages($event, 'pic-2')" />
+                                </div>
+                                    <small *ngIf="imageUploadErrorMessage2" 
+                                            [ngClass]="{'invalid-text' : imageUploadErrorMessage2==='PNG/JPGE image file only!', 
+                                                        'text-success': imageUploadErrorMessage2 === 'Image uploaded Successfully!'
+                                                        }">{{imageUploadErrorMessage2}}</small>
+                                <!-- Image 3-->
+                                <div class="image-upload">
+                                    <label for="file-input-pic3">
+                                        <img src="{{uploadedFileList[0] ? uploadedFileList[0] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}" 
+                                                [ngClass]="{'img-fluid' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}"
+                                                class="ml-2 mt-2 w-50"/>
+                                    </label>
+                                    <input id="file-input-pic3" type="file" (change)="uploadImages($event, 'pic-3')" />
+                                </div>
+                                    <small *ngIf="imageUploadErrorMessage3" 
+                                            [ngClass]="{'invalid-text' : imageUploadErrorMessage3==='PNG/JPGE image file only!', 
+                                                    'text-success': imageUploadErrorMessage3 === 'Image uploaded Successfully!'
+                                                    }">{{imageUploadErrorMessage3}}</small>
+                            </div>
+                        
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- <span class="custom-font-weight">Breed</span> -->
+                        <div class="col-12 mt-4 form-div">
+                            <select id="cars" formControlName="breed">
+                                <option  value="" selected>Select Breed</option>
+                                <option *ngFor="let breed of breedList" value="{{breed.value}}">{{breed.value}}</option>
+                            </select>
+                            <!-- <div *ngIf="parentForm.controls.breed.errors" class="invalid-text">
+                                <div *ngIf="parentForm.controls.breed.errors.required">This field is required</div>
+                            </div> -->
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mt-4">
+                        <span class="custom-font-weight">Age (yr)</span>
+                        <input type="number" formControlName="age_yr">
+                        </div>
+                        <div class="col-md-6 mt-4">
+                        <span class="custom-font-weight">Age (Mo)</span>
+                        <input type="number" formControlName="age_month">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mt-4">
+                        <span class="custom-font-weight">Sex</span>
+                        <div class="d-flex justify-content-center">
+                            <div class="card p-3 w-100 mr-4 shadow-sm pointer text-center user-font-size-100 border" 
+                                (mousedown)="genderSelected('M')"
+                                [ngClass]="{'selection-border' : isMaleSelected}">Male</div>
+                            <div class="card p-3 w-100  shadow-sm pointer text-center user-font-size-100 border"
+                                (mousedown)="genderSelected('F')"
+                                [ngClass]="{'selection-border' : isFemaleSelected}">Female</div>
+                        </div>
+                        
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <span class="custom-font-weight">Weight</span>
+                        <div class="d-flex justify-content-center">
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-100 border" 
+                                    (mousedown)="lookAfterClicked(1)" 
+                                    [ngClass]="{'selection-border' : isLookAfterOneClicked}">0-7 kg</div>
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-100 border" 
+                                    (mousedown)="lookAfterClicked(2)" 
+                                    [ngClass]="{'selection-border' : isLookAfterTwoClicked}">8-18 kg</div>
+                            <div class="card p-3 w-100 mr-3 shadow-sm pointer text-center user-font-size-100 border" 
+                                    (mousedown)="lookAfterClicked(3)" 
+                                    [ngClass]="{'selection-border' : isLookAfterThreeClicked}">19-45 kg</div>
+                            <div class="card p-3 w-100 shadow-sm pointer text-center user-font-size-100 border" 
+                                    (mousedown)="lookAfterClicked(4)" 
+                                    [ngClass]="{'selection-border' : isLookAfterFourClicked}">45+ kg</div>
+                        </div>
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="btn-project" (mousedown)="submitPetDetails()" >Save Pet Details</button>
+                        </div>
+                    </div>
+                    
+                    </form>
+                </div>
+            </div>
+            <div [style.display]="selectProfileTypeCount === 0 ? 'block' : 'none'">
+                
+                    <form [formGroup]="parentForm">
+                        <!-- <div class="col-md-12 mt-3">
+                            <span class="custom-font-weight">How many visits do you want?</span>
+                            <div class="form-div">
+                              <input type="text" formControlName="address_1" [placeholder]="isEditClicked ? '' : 'Saltlake, Kolkata-700091'" [ngClass]="{'border border-info': isEditClicked}" [readonly]="!isEditClicked">
+                            </div>
+                        </div> -->
+                        <div class="col-md-12 mt-3">
+                            <span class="custom-font-weight">Your preferred location</span><a class="edit-button badge badge-light align-right" (mousedown)="changeLocation()">change</a>
+                            <div class="form-div">
+                              <input type="text" formControlName="defaultLocation" [placeholder]="isEditClicked ? '' : 'Saltlake, Kolkata-700091'" [ngClass]="{'border border-info': isEditClicked}" [readonly]="!isEditClicked">
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <span class="custom-font-weight">For what dates?</span>
+                            <div class="row">
+                                <div class="col-6">
+                                    <ejs-calendar id=calendar [values]='dateValue' [isMultiSelection]='multiSelectDate'  > </ejs-calendar >
+                                </div>
+                                <!-- <div class="col-6">
+                                    <input type="text" Datepicker formControlName="start_date" placeholder="Start Date">
+                                </div>
+                                <div class="col-6">
+                                    <input type="text" Datepicker formControlName="end_date" placeholder="End Date">
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <span class="custom-font-weight">Add and select preffered times for your visit</span>
+                            <div class="form-div">
+                                
+                                <div class="card p-3 w-100 shadow-sm pointer  user-font-size-14 border" >
+                                    {{chosenDay | titlecase }}
+                                    <div class="row">
+                                        <div class="col-md-6 p-3">
+                                            <span class="custom-font-weight"> Drop off time</span>
+                                            <input type="time" formControlName="drop_off_time" placeholder="Start Time">
+                                        </div>
+                                           
+                                        <div class="col-md-6 p-3">Pick up time
+                                            <input type="time" formControlName="pick_up_time" placeholder="End Time">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                          <span class="custom-font-weight">Grooming Category</span>
+                          <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_massage_provided" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Home Spa (Massage, Bathing, Aroma Therapy)</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_cleaning_provided" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Eye ear nose cleaning</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_bathing_provided" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Bathing + Drying</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" value="Car" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Nail cliping</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <input type="checkbox" formControlName="is_fur_trimming_provided" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                <span class="user-font-size-14">Fur trimming</span>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="col-md-12 mt-3">
+                          <span class="custom-font-weight">Do you need it often?</span>
+                          <div class="row">
+                              <div class="col-6">
+                                  <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" 
+                                              (mousedown)="serviceSelectionInterval('One Time')" 
+                                              [ngClass]="{'selection-border' : isOneTimeSelected}">
+                                      <img src="../../../../assets/images/become-a-partner/one.png" class="service-img" alt=""> One Time
+                                  </div>
+                              </div>
+                              <div class="col-6">
+                                  <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" 
+                                              (mousedown)="serviceSelectionInterval('Repeat')" 
+                                              [ngClass]="{'selection-border' : isRepeatSelected}">
+                                      <img src="../../../../assets/images/become-a-partner/repeat.png" class="service-img" alt=""> Repeat Weekly
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-12 mt-3">
+                          <span class="custom-font-weight">Preferable Days</span>
+                          <div class="d-flex">
+                            <div class="flex-fill" *ngFor="let day of days">
+                                <div class="card p-3 shadow-sm pointer text-center text-uppercase user-font-size-14 border"
+                                        
+                                        (mousedown)="preferredDaysSelected(day.id, $event)"
+                                        
+                                        >{{day.name}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- <div class="col-md-12 mt-3">
+                            <span class="custom-font-weight" style="line-height: 3;">Additional Services</span>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <input type="checkbox" formControlName="bathing" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;"><span class="user-font-size-14">Bathing/Nail Clipping</span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <input type="checkbox" formControlName="first_aid_certificate" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;"><span class="user-font-size-14">First aid certificated</span>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="col-12 mt-4 text-center">
+                          <button type="submit" class="btn-project" (mousedown)="submitGrooming()" >Submit</button>
+                      </div>
+                    </form>
+                
+            </div>
+          </div>
+      </div>
+  </div>
+</article>
