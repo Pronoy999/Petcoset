@@ -59,7 +59,18 @@ export class AuthenticationService {
             'Access-Control-Allow-Origin': '*',
           }
         });
-      }else {
+      } else if(type === 'customers') {
+        base = this.http.post(`${this.baseurl}/${type}`, data, {
+          headers: {
+            'Content-Type': 'application/json',
+            'key': this.key,
+            'jw_token': this.getToken(),
+            'Access-Control-Allow-Origin': '*',
+          }
+        });
+        console.log(base);
+      }
+      else{
         base = this.http.post(`${this.baseurl}/${type}`, data, {
           headers: {
             'Content-Type': 'application/json',

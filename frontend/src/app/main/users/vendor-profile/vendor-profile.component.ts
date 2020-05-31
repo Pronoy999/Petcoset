@@ -183,8 +183,8 @@ export class VendorProfileComponent implements OnInit {
     this.isSelected = true;
     this.isSubmitted = false;
     this.isGenderSelected = false;
-    this.isCompanySelected = value === 3 ? true : false;
-    this.isFreelancerSelected = value === 2 ? true : false;
+    this.isCompanySelected = value === 3;
+    this.isFreelancerSelected = value === 2;
     switch (value) {
       case 2:
         this.selectedFormType = 2;
@@ -468,9 +468,10 @@ export class VendorProfileComponent implements OnInit {
     this.imgdate = atob(result);
     let data = {};
     data['vendor_id'] = this.userDetails.id;
-    data['image_type'] = 'PET';
+    data['image_type'] = 'DOCUMENT';
     data['image_data'] = result;
-    data['file_extension'] = 'DOCUMENT';
+    data['file_extension'] = 'pdf';
+    data['position'] = 20;
     this._authService.request('post', `vendors/images`, data)
       .subscribe((response) => {
         this.fileUploadErrorMessage = 'File uploaded Successfully!';
@@ -484,11 +485,15 @@ export class VendorProfileComponent implements OnInit {
     setTimeout(() => {
       this._authService.request('get', `vendors/images?vendor_id=${this.userDetails.id}&image_type=PET`)
         .subscribe((response) => {
-          this.uploadedFileList[0] = response.res.filter(x=> x.position === 1)[0].base_url;
-          this.uploadedFileList[1] = response.res.filter(x=> x.position === 2)[0].base_url;
-          this.uploadedFileList[2] = response.res.filter(x=> x.position === 3)[0].base_url;
-          this.uploadedFileList[3] = response.res.filter(x=> x.position === 4)[0].base_url;
-          this.spinner.hide();
+          if(response.res.length > 0) {
+            this.uploadedFileList[0] = response.res.filter(x=> x.position === 1)[0].base_url;
+            this.uploadedFileList[1] = response.res.filter(x=> x.position === 2)[0].base_url;
+            this.uploadedFileList[2] = response.res.filter(x=> x.position === 3)[0].base_url;
+            this.uploadedFileList[3] = response.res.filter(x=> x.position === 4)[0].base_url;
+            this.spinner.hide();
+          } else {
+            this.spinner.hide();
+          }
         });
     }, 1000);
   }

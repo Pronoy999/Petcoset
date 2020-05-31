@@ -15,15 +15,45 @@
                     <img src="../../../../assets/logo-main.png" class="middle-x" alt="" height="70" width="90">
                     <a href="#" class="skip-text">Skip</a>
                     <p class="p-text-color mt-2 login-box-text text-center">Welcome to petcoset</p>
-                    <form [formGroup]="registerForm" class="padding-both-x">
-                        <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true">
-                        </app-input-field>
+                    <form [formGroup]="registerForm" class="padding-both-x" >
+                        <div class="row">
+                            <div class="col-6">
+                                <app-input-field [placeholder]="'First Name'" [form]="registerForm" [name]="'first_name'" [validation]="true"></app-input-field>
+                            </div>
+                            <div class="col-6">
+                                <app-input-field [placeholder]="'Last Name'" [form]="registerForm" [name]="'last_name'" [validation]="true"></app-input-field>
+                            </div>
+                        </div>
+                        
+                            <select id="gender" formControlName="gender">
+                                <option value="" selected> Select gender</option>
+                                <option value="f">Female</option>
+                                <option value="m">Male</option>
+                                <option value="0">Other</option>
+                            </select>
+                            <div *ngIf="registerForm.controls.gender.errors" class="invalid-text">
+                                <div *ngIf="registerForm.controls.gender.errors.required">Gender is required</div>
+                            </div>
+                        
+                        <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true"></app-input-field>
                         <app-input-field [placeholder]="'Enter valid email address'" [form]="registerForm" [name]="'email'" [type]="'email'" [validation]="true"></app-input-field>
-                        <app-input-field [placeholder]="'Password(min 8 character)'" [form]="registerForm" [name]="'password'" [type]="'password'" [validation]="true"></app-input-field>
+                        <app-input-field [type]="'password'" [form]="registerForm" [placeholder]="'Password'" [name]="'password'" [validation]="true"></app-input-field>
+                                    <div *ngIf="registerForm.controls.password.errors" class="invalid-text">
+                                        <div *ngIf="registerForm.controls.password.errors.pattern">
+                                            Password validator Requires 6-16 characters including at least 1 upper and 1 lower alpha, and 1 digit and 1 special character.
+                                        </div>
+                                    </div>
+                                
+                        <app-input-field [type]="'password'" [form]="registerForm" [placeholder]="'Confirm password'" [name]="'confirmPassword'" [validation]="true"></app-input-field>
+                                    <div *ngIf="registerForm.controls.confirmPassword.errors" class="invalid-text">
+                                        <div *ngIf="registerForm.controls.confirmPassword.errors.required">Confirm password is required</div>
+                                        <div *ngIf="registerForm.controls.confirmPassword.errors.mustMatch">Didn't match with password</div>
+                                    </div>
+                                
                         <div class="form-row">
                             <div class="col-md-6 col-lg-6 mt-3 text-left"></div>
                             <div class="col-md-6 col-lg-6 mt-2 text-right">
-                                <button type="button" class="login-button" (mousedown)="register()">Sign Up</button>
+                                <button type="submit" class="login-button" (click)="register()">Sign Up</button>
                             </div>
                         </div>
                     </form>
@@ -68,6 +98,7 @@
                                     <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true"></app-input-field>
                                     <app-input-field [placeholder]="'Enter valid email address'" [form]="registerForm" [name]="'email'" [type]="'email'" [validation]="true"></app-input-field>
                                     <app-input-field [placeholder]="'Password(min 8 character)'" [form]="registerForm" [name]="'password'" [type]="'password'" [validation]="true"></app-input-field>
+                                    
                                     <div class="form-row">
                                         <div class="col-md-6 col-lg-6 mt-3 text-left">
                                             <!-- <div class="checkbox">

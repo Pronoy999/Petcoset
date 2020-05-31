@@ -76,6 +76,7 @@ export class AdoptionComponent implements OnInit {
   }
 
   submitAdoption() {
+    console.log(this.parentForm.value);
     this.isSubimitted = true;
     if(this.parentForm.invalid)
       return;

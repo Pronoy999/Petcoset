@@ -409,8 +409,8 @@
                             </div>
                             <small [ngClass]="{'invalid-text' : fileUploadErrorMessage==='Please Uplaod PDF file only!', 'text-success': fileUploadErrorMessage === 'File uploaded Successfully!'}">{{fileUploadErrorMessage}}</small>
                         </div>
-                        <div class="p-4 alert alert-success" *ngIf="vendorCurrentStatus !== 'Pending'">
-                            <p>Supported Document already uploaded!</p>
+                        <div class="alert alert-success mt-4 p-2" *ngIf="vendorCurrentStatus !== 'Pending'">
+                            Supported Document already uploaded!
                         </div>
                     </div>
                     <div class="card e1sGxS p-3 mt-3 mb-4">

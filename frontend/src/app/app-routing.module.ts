@@ -58,6 +58,17 @@ const routes: Routes = [
         loadChildren: './main/manage-vendor-service/manage-vendor-service.module#ManageVendorServiceModule'
       }
     ]
+  },
+  {
+    path: 'customer',
+    canActivate: [AuthGuard],
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: './main/manage-customer-service/manage-customer-service.module#ManageCustomerServiceModule'
+      }
+    ]
   }
 ];
 
