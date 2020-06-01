@@ -1,16 +1,15 @@
-DROP PROCEDURE IF EXISTS sp_tbl_SubscriptionServiceBooking;
-DELIMITER $$
-CREATE PROCEDURE sp_tbl_SubscriptionServiceBooking()
-BEGIN
+drop procedure if exists sp_tbl_BookingMaster;
+create procedure sp_tbl_BookingMaster()
+begin
     DECLARE currentSchema varchar(100);
     SELECT database() into currentSchema;
     IF NOT EXISTS(
             SELECT 1
             FROM information_schema.TABLES
             WHERE TABLE_SCHEMA = currentSchema
-              AND TABLE_NAME = 'tbl_SubscriptionServiceBooking'
+              AND TABLE_NAME = 'tbl_BookingMaster'
         ) THEN
-        CREATE TABLE `tbl_SubscriptionServiceBooking`
+        CREATE TABLE `tbl_BookingMaster`
         (
             `id`                int(11)   NOT NULL AUTO_INCREMENT,
             `booking_type`      enum ('service_booking','subscription_booking','subscription_service_booking') DEFAULT NULL,
@@ -32,8 +31,6 @@ BEGIN
             PRIMARY KEY (`id`)
         );
     end if;
-end$$
-
-DELIMITER ;
-CALL sp_tbl_SubscriptionServiceBooking();
-DROP PROCEDURE IF EXISTS sp_tbl_SubscriptionServiceBooking;
+end;
+call sp_tbl_BookingMaster();
+drop procedure if exists sp_tbl_BookingMaster;

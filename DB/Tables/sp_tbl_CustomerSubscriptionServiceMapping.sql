@@ -16,7 +16,6 @@ BEGIN
             `customer_subscription_mapping_id` int(11)        DEFAULT NULL,
             `service_id`                       int(11)        DEFAULT NULL,
             `service_count`                    int(11)        DEFAULT NULL,
-            `subscription_validity`            int(11)        DEFAULT NULL,
             `is_active`                        tinyint(1)     DEFAULT '1',
             `created_by`                       int(11)        DEFAULT '1',
             `modified_by`                      int(11)        DEFAULT NULL,
