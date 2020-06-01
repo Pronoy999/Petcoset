@@ -167,6 +167,26 @@ class Customer {
    }
 
    /**
+    * Method to get the Pet details of the customer.
+    * @returns {Promise<Array>}: An array of pet details.
+    */
+   getPetDetails() {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GET_CUSTOMER_PET_DETAILS, [this._id]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve([{id: -1}]);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+
+   /**
     * Method to add images to s3 bucket.
     * @param imageData
     * @param imageType

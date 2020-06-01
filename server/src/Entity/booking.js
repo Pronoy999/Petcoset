@@ -19,7 +19,8 @@ class Booking {
    constructor(bookingId, bookingType, customerId, serviceId) {
       this._bookingId = validators.validateNumber(bookingId) ? bookingId : false;
       this._bookingType = validators.validateString(bookingType) &&
-      (bookingType === constants.BOOKING_TYPE_SERVICE || bookingType === constants.BOOKING_TYPE_SUBSCRIPTION) ?
+      (bookingType === constants.BOOKING_TYPE_SERVICE || bookingType === constants.BOOKING_TYPE_SUBSCRIPTION ||
+         bookingType === constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE) ?
          bookingType : false;
       this._customerId = validators.validateNumber(customerId) ? customerId : false;
       this._serviceId = validators.validateNumber(serviceId) ? serviceId : false;
@@ -57,14 +58,13 @@ class Booking {
     */
    createSubscriptionServiceBooking(subscriptionId, addressId, bookingTime, bookingDate) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_BOOKING_SERVICE_FROM_SUBS, [this._customerId, subscriptionId, this._serviceId,
-            addressId, bookingDate, bookingTime, 0]).then(_resultSet => {
+         database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, this._customerId,
+            subscriptionId, this._serviceId, 0, 0, bookingDate, bookingTime, addressId, 0, 0]).then(_resultSet => {
             const result = _resultSet[0][0];
             if (validators.validateUndefined(result)) {
-               this._bookingId = result.id;
-               resolve(this._bookingId);
+               resolve(result);
             } else {
-               resolve(false);
+               resolve({id: -1});
             }
          }).catch(err => {
             printer.printError(err);
@@ -82,15 +82,19 @@ class Booking {
     */
    createSubscriptionBooking(subscriptionID, amount, transactionId) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_SUBSCRIPTION_BOOKING, [this._bookingType,
-            this._customerId, subscriptionID, 0, 0, amount, 0, "", "", 0]).then(async _resultSet => {
-            const result = _resultSet[0][0];
-            if (validators.validateUndefined(result)) {
-               this._bookingId = result.id;
-               await this._createPaymentForBooking(transactionId, amount);
-               resolve(result);
-            } else {
-               reject(false);
+         database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION, this._customerId, subscriptionID,
+            0, 0, amount, generator.generateCurrentDateOnly(), '', 0, 0, 0]).then(async _resultSet => {
+            try {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result)) {
+                  await this._createPaymentForBooking(transactionId, amount);
+                  resolve(result);
+               } else {
+                  resolve({id: -1});
+               }
+            } catch (e) {
+               printer.printError(e);
+               reject(e);
             }
          }).catch(err => {
             printer.printError(err);
@@ -107,19 +111,23 @@ class Booking {
     * @param bookingDate: The booking date.
     * @param bookingTime: The booking time.
     * @param addressId: The address of the customer.
-    * @returns {Promise<unknown>}
+    * @returns {Promise<Object>}: The booking id.
     */
    createServiceBooking(vendorID, amount, transactionId, bookingDate, bookingTime, addressId) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_SUBSCRIPTION_BOOKING, [this._bookingType, this._customerId, "0", this._serviceId,
-            vendorID, amount, addressId, bookingDate, bookingTime, 0]).then(async _resultSet => {
-            const result = _resultSet[0][0];
-            if (validators.validateUndefined(result)) {
-               this._bookingId = result.id;
-               await this._createPaymentForBooking(transactionId, amount);
-               resolve(result);
-            } else {
-               reject(false);
+         database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
+            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, addressId, 0, 0]).then(async _resultSet => {
+            try {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result)) {
+                  await this._createPaymentForBooking(transactionId, amount);
+                  resolve(result);
+               } else {
+                  resolve({id: -1});
+               }
+            } catch (e) {
+               printer.printError(e);
+               reject(e);
             }
          }).catch(err => {
             printer.printError(err);
@@ -130,11 +138,21 @@ class Booking {
 
    /**
     * Method to get the booking details.
-    * @returns {Promise<unknown>}
+    * @returns {Promise<Array>}: An array of booking details.
     */
    getBookingDetails() {
       return new Promise((resolve, reject) => {
-         //TODO: search for booking.
+         database.runSp(constants.SP_GET_BOOKING_DETAILS, [this._customerId, this._bookingId]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve([{id: -1}]);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
       });
    }
 }

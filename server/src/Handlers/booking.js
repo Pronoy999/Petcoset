@@ -13,7 +13,34 @@ const childProcess = require('child_process');
 bookingHandler.booking = (dataObject) => {
    return new Promise((resolve, reject) => {
       const method = dataObject.method;
-      if (method === constants.HTTP_POST) {
+      if (method === constants.HTTP_GET) {
+         const customerId = validator.validateNumber(dataObject.queryString[constants.CUSTOMER_ID]) ?
+            dataObject.queryString[constants.CUSTOMER_ID] : false;
+         const bookingId = validator.validateNumber(dataObject.queryString[constants.BOOKING_ID]) ?
+            dataObject.queryString[constants.BOOKING_ID] : false;
+         const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if ((customerId || bookingId) && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = dataObject[constants.JW_TOKEN];
+            serviceData[constants.CORE_TYPE] = constants.CORE_BOOKING_SEARCH;
+            let childWorker = childProcess.fork(`${__dirname}/../CoreServices/booking.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else if (method === constants.HTTP_POST) {
          const customerId = validator.validateNumber(dataObject.postData[constants.CUSTOMER_ID]) ?
             dataObject.postData[constants.CUSTOMER_ID] : false;
          const serviceID = validator.validateNumber(dataObject.postData[constants.BOOKING_SERVICE_ID]) ?

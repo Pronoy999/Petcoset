@@ -33,6 +33,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_PET_DETAILS:
             promise = customerService.addPetDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_CUSTOMER_PET_DETAILS_GET :
+            promise = customerService.getPetDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          case constants.CORE_CUSTOMER_IMAGE_ADD:
             promise = customerService.addImages(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
@@ -210,6 +213,26 @@ customerService.getImages = (dataObject, jwToken) => {
          const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
          customer.getImages(dataObject[constants.VENDOR_IMAGES_IMAGE_TYPE]).then(imageDetails => {
             resolve([imageDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to get the pet details of the customer.
+ * @param dataObject: The required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}:
+ */
+customerService.getPetDetails = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.getPetDetails().then(petDetails => {
+            resolve([petDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });

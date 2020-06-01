@@ -25,6 +25,12 @@ process.on("message", (serviceData) => {
             promise = bookingServices.createServiceBooking(serviceData[constants.CORE_DATA],
                serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_BOOKING_SEARCH:
+            promise = bookingServices.getBookingDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
+         default:
+            process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
+            process.exit(1);
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -112,10 +118,20 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
 /**
  * Method to search the booking details.
  * @param dataObject: The service data filter.
+ * @param jwToken: the token of the user.
  * @returns {Promise<Array>}: The response object and the success or error level.
  */
-bookingServices.getBookingDetails = (dataObject) => {
+bookingServices.getBookingDetails = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
-      //TODO: Search the booking.
+      if (tokenGenerator.validateToken(jwToken)) {
+         const booking = new Booking(dataObject[constants.BOOKING_ID], false, dataObject[constants.BOOKING_CUSTOMER_ID]);
+         booking.getBookingDetails().then(bookingDetails => {
+            resolve([bookingDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
    });
 };
