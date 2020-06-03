@@ -70,6 +70,5 @@ serviceHandler.services = (dataObject) => {
 };
 /**
  * Exporting the service Handler.
- * @type {{}}
  */
 module.exports = serviceHandler;

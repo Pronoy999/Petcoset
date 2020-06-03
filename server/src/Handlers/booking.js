@@ -53,6 +53,8 @@ bookingHandler.booking = (dataObject) => {
             dataObject.postData[constants.BOOKING_TIME] : false;
          const bookingDate = validator.validateDate(dataObject.postData[constants.BOOKING_DATE]) ?
             dataObject.postData[constants.BOOKING_DATE] : false;
+         const recurringBooking = validator.validateUndefined(dataObject.postData[constants.RECURRING_BOOKINGS]) ?
+            dataObject.postData[constants.RECURRING_BOOKINGS] : false;
          const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
          if (customerId && jwToken && subscriptionId && addressID && bookingDate && bookingTime && serviceID) {
             let serviceData = {};
@@ -153,7 +155,9 @@ bookingHandler.bookingService = (dataObject) => {
             dataObject.postData[constants.BOOKING_DATE] : false;
          const bookingTime = validator.validateString(dataObject.postData[constants.BOOKING_TIME]) ?
             dataObject.postData[constants.BOOKING_TIME] : false;
-         if (serviceID && customerId && jwToken && amount && transactionID && vendorID && addressId && bookingTime && bookingDate) {
+         const recurringBooking = validator.validateUndefined(dataObject.postData[constants.RECURRING_BOOKINGS]) ?
+            dataObject.postData[constants.RECURRING_BOOKINGS] : false;
+         if (serviceID && customerId && jwToken && amount && transactionID && vendorID && addressId && bookingTime && bookingDate && recurringBooking) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
@@ -179,6 +183,5 @@ bookingHandler.bookingService = (dataObject) => {
 };
 /**
  * Exporting the booking handler.
- * @type {{}}
  */
 module.exports = bookingHandler;

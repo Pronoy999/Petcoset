@@ -57,7 +57,7 @@ bookingServices.createSubsServiceBooking = (dataObject, jwToken) => {
          const booking = new Booking(false, constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, dataObject[constants.BOOKING_CUSTOMER_ID],
             dataObject[constants.BOOKING_SERVICE_ID]);
          booking.createSubscriptionServiceBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID], dataObject[constants.CUSTOMER_ADDRESS_ID],
-            dataObject[constants.BOOKING_TIME], dataObject[constants.BOOKING_DATE])
+            dataObject[constants.BOOKING_TIME], dataObject[constants.BOOKING_DATE], dataObject[constants.RECURRING_BOOKINGS])
             .then(bookingId => {
                resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
             }).catch(err => {
@@ -105,7 +105,7 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
          booking.createServiceBooking(dataObject[constants.BOOKING_VENDOR_ID],
             dataObject[constants.BOOKING_TOTAL_AMOUNT], dataObject[constants.PAYMENT_TRANSACTION_ID],
             dataObject[constants.BOOKING_DATE], dataObject[constants.BOOKING_TIME],
-            dataObject[constants.CUSTOMER_ADDRESS_ID]).then(bookingId => {
+            dataObject[constants.CUSTOMER_ADDRESS_ID], dataObject[constants.RECURRING_BOOKINGS]).then(bookingId => {
             resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);

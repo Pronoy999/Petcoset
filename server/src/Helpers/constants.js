@@ -215,6 +215,7 @@ constants.SP_UPDATE_CUSTOMER_DETAILS = "sp_UpdateCustomerDetails";
 constants.SP_UPDATE_CUSTOMER_IMAGES = "sp_UpdateCustomerImages";
 constants.SP_GET_CUSTOMER_IMAGES = "sp_GetCustomerImages";
 constants.SP_GET_BOOKING_DETAILS = "sp_GetBookingDetails";
+constants.SP_STORE_RECURRING_BOOKING = "sp_StoreRecurringBooking";
 /**
  * General Keys
  */
@@ -377,6 +378,7 @@ constants.BOOKING_VENDOR_ID = "vendor_id";
 constants.BOOKING_TOTAL_AMOUNT = "total_amount";
 constants.BOOKING_DATE = "booking_date";
 constants.BOOKING_TIME = "booking_time";
+constants.RECURRING_BOOKINGS = "recurringBookings";
 
 constants.PAYMENT_BOOKING_ID = "booking_id";
 constants.PAYMENT_TRANSACTION_ID = "transaction_id";
