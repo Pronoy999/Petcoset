@@ -105,7 +105,8 @@ class Booking {
             0, 0, amount, generator.generateCurrentDateOnly(), '', 0, 0, 0]).then(async _resultSet => {
             try {
                const result = _resultSet[0][0];
-               if (validators.validateUndefined(result)) {
+               if (validators.validateUndefined(result) && result.id > 0) {
+                  this._bookingId = result.id;
                   await this._createPaymentForBooking(transactionId, amount);
                   resolve(result);
                } else {
@@ -139,23 +140,27 @@ class Booking {
             0, this._serviceId, vendorID, amount, bookingDate, bookingTime, addressId, 0, 0]).then(async _resultSet => {
             try {
                const result = _resultSet[0][0];
-               if (validators.validateUndefined(result)) {
-                  await this._createPaymentForBooking(transactionId, amount);
+               if (validators.validateUndefined(result) && result.id > 0) {
                   this._bookingId = result.id;
-                  let recurringDates = [];
-                  let recurringTimes = [];
-                  recurringBookings.forEach(oneBooking => {
-                     recurringDates.push(oneBooking[constants.BOOKING_DATE]);
-                     recurringTimes.push(oneBooking[constants.BOOKING_TIME]);
-                  });
-                  database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
-                     recurringTimes.join(","), this._bookingId]).then(_resultSet => {
-                     const result = _resultSet[0][0];
+                  await this._createPaymentForBooking(transactionId, amount);
+                  if (validators.validateUndefined(recurringBookings)) {
+                     let recurringDates = [];
+                     let recurringTimes = [];
+                     recurringBookings.forEach(oneBooking => {
+                        recurringDates.push(oneBooking[constants.BOOKING_DATE]);
+                        recurringTimes.push(oneBooking[constants.BOOKING_TIME]);
+                     });
+                     database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
+                        recurringTimes.join(","), this._bookingId]).then(_resultSet => {
+                        const result = _resultSet[0][0];
+                        resolve(result);
+                     }).catch(err => {
+                        printer.printError(err);
+                        reject(err);
+                     });
+                  } else {
                      resolve(result);
-                  }).catch(err => {
-                     printer.printError(err);
-                     reject(err);
-                  });
+                  }
                } else {
                   resolve({id: -1});
                }

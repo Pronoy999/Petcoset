@@ -157,7 +157,7 @@ bookingHandler.bookingService = (dataObject) => {
             dataObject.postData[constants.BOOKING_TIME] : false;
          const recurringBooking = validator.validateUndefined(dataObject.postData[constants.RECURRING_BOOKINGS]) ?
             dataObject.postData[constants.RECURRING_BOOKINGS] : false;
-         if (serviceID && customerId && jwToken && amount && transactionID && vendorID && addressId && bookingTime && bookingDate && recurringBooking) {
+         if (serviceID && customerId && jwToken && amount && transactionID && vendorID && addressId && bookingTime && bookingDate) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
