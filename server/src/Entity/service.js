@@ -59,6 +59,28 @@ class Service {
          });
       });
    }
+
+   /**
+    * Method to get the vendors who provides the service.
+    * @param bookingDate: The date of the booking.
+    * @param bookingTime: The time of the booking.
+    * @returns {Promise<Array>}: An array of vendors.
+    */
+   getVendors(bookingDate, bookingTime) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_SEARCH_VENDOR_SERVICE, [this._serviceId, bookingDate, bookingTime]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve([{id: -1}]);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
 }
 
 /**

@@ -179,6 +179,7 @@ constants.CORE_BOOKING_SEARCH = "searchBooking";
 constants.CORE_CITY_SEARCH = "searchCity";
 constants.CORE_STATE_SEARCH = "searchState";
 constants.CORE_BREED_SEARCH = "searchBreed";
+constants.CORE_SERVICE_SEARCH_VENDORS = "searchVendorForService";
 /**
  * SP Names.
  */
@@ -216,6 +217,7 @@ constants.SP_UPDATE_CUSTOMER_IMAGES = "sp_UpdateCustomerImages";
 constants.SP_GET_CUSTOMER_IMAGES = "sp_GetCustomerImages";
 constants.SP_GET_BOOKING_DETAILS = "sp_GetBookingDetails";
 constants.SP_STORE_RECURRING_BOOKING = "sp_StoreRecurringBooking";
+constants.SP_SEARCH_VENDOR_SERVICE = "sp_SearchVendorServices";
 /**
  * General Keys
  */
