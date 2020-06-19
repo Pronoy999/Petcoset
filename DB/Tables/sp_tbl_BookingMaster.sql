@@ -31,6 +31,18 @@ begin
             PRIMARY KEY (`id`)
         );
     end if;
+    if not exists(
+            select 1
+            from information_schema.COLUMNS
+            where TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_BookingMaster'
+              and COLUMN_NAME = 'booking_end_time'
+        ) then
+        begin
+            alter table tbl_BookingMaster
+                add column booking_end_time time default null after booking_time;
+        end;
+    end if;
 end;
 call sp_tbl_BookingMaster();
 drop procedure if exists sp_tbl_BookingMaster;
