@@ -53,14 +53,15 @@ class Booking {
     * @param subscriptionId: The Subscription that the user is buying.
     * @param addressId: The address id of the customer.
     * @param bookingTime: The booking date.
+    * @param bookingEndTime: the end time of the booking.
     * @param bookingDate: The booking time.
     * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Number>}: The booking id.
     */
-   createSubscriptionServiceBooking(subscriptionId, addressId, bookingTime, bookingDate, recurringBookings) {
+   createSubscriptionServiceBooking(subscriptionId, addressId, bookingTime, bookingEndTime, bookingDate, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, this._customerId,
-            subscriptionId, this._serviceId, 0, 0, bookingDate, bookingTime, addressId, 0, 0]).then(_resultSet => {
+            subscriptionId, this._serviceId, 0, 0, bookingDate, bookingTime, bookingEndTime, addressId, 0, 0]).then(_resultSet => {
             const result = _resultSet[0][0];
             if (validators.validateUndefined(result) && result.id > 0) {
                this._bookingId = result.id;
@@ -130,14 +131,15 @@ class Booking {
     * @param transactionId: The transaction id for the payment.
     * @param bookingDate: The booking date.
     * @param bookingTime: The booking time.
+    * @param bookingEndTime: The end time of the booking.
     * @param addressId: The address of the customer.
     * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Object>}: The booking id.
     */
-   createServiceBooking(vendorID, amount, transactionId, bookingDate, bookingTime, addressId, recurringBookings) {
+   createServiceBooking(vendorID, amount, transactionId, bookingDate, bookingTime, bookingEndTime, addressId, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
-            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, addressId, 0, 0]).then(async _resultSet => {
+            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId, 0, 0]).then(async _resultSet => {
             try {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result) && result.id > 0) {
@@ -198,6 +200,5 @@ class Booking {
 
 /**
  * Exporting the module Booking.
- * @type {Booking}
  */
 module.exports = Booking;

@@ -71,6 +71,5 @@ cityHandler.state = (dataObject) => {
 };
 /**
  * Exporting the module.
- * @type {{}}
  */
 module.exports = cityHandler;
