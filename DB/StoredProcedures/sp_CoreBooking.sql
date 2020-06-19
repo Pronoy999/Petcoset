@@ -2,7 +2,8 @@ drop procedure if exists sp_CoreBooking;
 create procedure sp_CoreBooking(parBookingType enum ('service_booking','subscription_service_booking'),
                                 parCustomerId int,
                                 parSubscriptionId int, parServiceId int, parVendorId int, parTotalAmount decimal(18, 2),
-                                parDate date, parTime time, parEndTime time, parAddressId int, OUT parBookingId int)
+                                parDate date, parTime time, parEndTime time, parAddressId int,
+                                parRemarks varchar(255), OUT parBookingId int)
 begin
     set @isSubValid = 0;
     set @isCustValid = 0;
@@ -35,9 +36,9 @@ begin
             #Creating the booking with pending status.
             insert into tbl_BookingMaster (booking_type, customer_id, subscription_id, service_id, booking_status_id,
                                            booking_date, booking_time, booking_end_time,
-                                           address_id, created_by)
+                                           address_id, remarks, created_by)
                 value (parBookingType, parCustomerId, parSubscriptionId, parServiceId, 4,
-                       parDate, parTime, parEndTime, parAddressId, parCustomerId);
+                       parDate, parTime, parEndTime, parAddressId, parRemarks, parCustomerId);
             select last_insert_id() into parBookingId;
             #Updating the service count after booking confirmed.
             update tbl_CustomerSubscriptionServiceMapping
@@ -64,9 +65,9 @@ begin
             #Creating the booking with pending status.
             insert into tbl_BookingMaster (booking_type, customer_id, service_id, vendor_id, total_amount,
                                            booking_status_id, booking_date, booking_time, booking_end_time, address_id,
-                                           created_by)
+                                           remarks, created_by)
                 value (parBookingType, parCustomerId, parServiceId, parVendorId, parTotalAmount, 4, parDate, parTime,
-                       parEndTime, parAddressId, parCustomerId);
+                       parEndTime, parAddressId, parRemarks, parCustomerId);
             select last_insert_id() into parBookingId;
         end if;
     end if;

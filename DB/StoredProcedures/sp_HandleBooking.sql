@@ -9,6 +9,7 @@ create procedure sp_HandleBooking(parBookingType enum ('service_booking','subscr
                                   parTime varchar(11),
                                   parEndTime varchar(11),
                                   parAddressId int,
+                                  parRemarks varchar(255),
                                   parIsCancel tinyint,
                                   parBookingId int)
 begin
@@ -75,8 +76,9 @@ begin
         set @bookingId = 0;
         call sp_CoreBooking(parBookingType, parCustomerId,
                             parSubscriptionId, parServiceId, parVendorId,
-                            parTotalAmount,
-                            parDate, parTime, parEndTime, parAddressId, @bookingId);
+                            parTotalAmount, parDate, parTime,
+                            parEndTime, parAddressId, parRemarks,
+                            @bookingId);
         if @bookingId > 0 then
             select @bookingId as id;
         else

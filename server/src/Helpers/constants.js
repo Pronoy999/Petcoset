@@ -381,6 +381,7 @@ constants.BOOKING_TOTAL_AMOUNT = "total_amount";
 constants.BOOKING_DATE = "booking_date";
 constants.BOOKING_TIME = "booking_time";
 constants.BOOKING_END_TIME = "booking_end_time";
+constants.BOOKING_REMARKS = "remarks";
 constants.RECURRING_BOOKINGS = "recurringBookings";
 
 constants.PAYMENT_BOOKING_ID = "booking_id";
