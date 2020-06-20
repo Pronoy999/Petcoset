@@ -29,7 +29,7 @@ class Payment {
     * @returns {Promise<unknown>}
     * @private
     */
-   _capturePayment() {
+   _capturePayment(customerId) {
       return new Promise((resolve, reject) => {
          let razorPayConfig = {};
          razorPayConfig[constants.RAZOR_PAY_ID] = encrypterDecrypter.decrypt(process.env[constants.RAZOR_PAY_ID]);
@@ -37,10 +37,17 @@ class Payment {
          const razorpayInstance = new RazorPay(razorPayConfig);
          razorpayInstance.payments.capture(this._transactionID, this._amount * 100).then(() => {
             printer.printHighlightedLog("Payment Captured for :" + this._transactionID);
-            resolve(true);
+            database.runSp(constants.SP_PAYMENT_CREATE, [this._bookingID, this._transactionID,
+               constants.STATUS_CAPTURED, customerId, this._amount]).then(_resultSet => {
+               resolve(true);
+               printer.printHighlightedLog("Payment status changed to Captured. ");
+            }).catch(err => {
+               printer.printError(err);
+               reject(err);
+            });
          }).catch(err => {
             printer.printError(err);
-            resolve(false);
+            reject(err);
          });
       });
    }
@@ -58,7 +65,7 @@ class Payment {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
                   this._paymentID = result.id;
-                  await this._capturePayment();
+                  await this._capturePayment(customerId);
                   resolve(result);
                } else {
                   reject(false);
@@ -83,6 +90,5 @@ class Payment {
 
 /**
  * Exporting the module payment.
- * @type {Payment}
  */
 module.exports = Payment;

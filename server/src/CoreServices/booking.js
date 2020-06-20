@@ -105,8 +105,8 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
          const booking = new Booking(false, constants.BOOKING_TYPE_SERVICE, dataObject[constants.BOOKING_CUSTOMER_ID],
             dataObject[constants.BOOKING_SERVICE_ID]);
          booking.createServiceBooking(dataObject[constants.BOOKING_VENDOR_ID],
-            dataObject[constants.BOOKING_TOTAL_AMOUNT], dataObject[constants.PAYMENT_TRANSACTION_ID],
-            dataObject[constants.BOOKING_DATE], dataObject[constants.BOOKING_TIME],
+            dataObject[constants.BOOKING_TOTAL_AMOUNT], dataObject[constants.BOOKING_DATE],
+            dataObject[constants.BOOKING_TIME],
             dataObject[constants.BOOKING_END_TIME],
             dataObject[constants.CUSTOMER_ADDRESS_ID],
             dataObject[constants.BOOKING_REMARKS],

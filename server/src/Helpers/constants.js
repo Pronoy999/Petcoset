@@ -180,6 +180,7 @@ constants.CORE_CITY_SEARCH = "searchCity";
 constants.CORE_STATE_SEARCH = "searchState";
 constants.CORE_BREED_SEARCH = "searchBreed";
 constants.CORE_SERVICE_SEARCH_VENDORS = "searchVendorForService";
+constants.CORE_PAYMENT_CREATE = "createPayment";
 /**
  * SP Names.
  */

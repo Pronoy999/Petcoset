@@ -131,7 +131,6 @@ class Booking {
     * Method to create the booking for the service without subscription.
     * @param vendorID: The vendorID
     * @param amount: The amount of booking.
-    * @param transactionId: The transaction id for the payment.
     * @param bookingDate: The booking date.
     * @param bookingTime: The booking time.
     * @param bookingEndTime: The end time of the booking.
@@ -140,7 +139,7 @@ class Booking {
     * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Object>}: The booking id.
     */
-   createServiceBooking(vendorID, amount, transactionId, bookingDate, bookingTime, bookingEndTime, addressId, remarks, recurringBookings) {
+   createServiceBooking(vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId, remarks, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
             0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime,
@@ -150,16 +149,18 @@ class Booking {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result) && result.id > 0) {
                   this._bookingId = result.id;
-                  await this._createPaymentForBooking(transactionId, amount);
+                  //await this._createPaymentForBooking(transactionId, amount);
                   if (validators.validateUndefined(recurringBookings)) {
                      let recurringDates = [];
                      let recurringTimes = [];
+                     let recurringEndTimes = [];
                      recurringBookings.forEach(oneBooking => {
                         recurringDates.push(oneBooking[constants.BOOKING_DATE]);
                         recurringTimes.push(oneBooking[constants.BOOKING_TIME]);
+                        recurringEndTimes.push(oneBooking[constants.BOOKING_END_TIME]);
                      });
                      database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
-                        recurringTimes.join(","), this._bookingId]).then(_resultSet => {
+                        recurringTimes.join(","), recurringEndTimes.join(","), this._bookingId]).then(_resultSet => {
                         const result = _resultSet[0][0];
                         resolve(result);
                      }).catch(err => {
