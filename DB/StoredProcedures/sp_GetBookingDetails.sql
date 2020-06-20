@@ -38,7 +38,11 @@ begin
            city_id,
            cm.city_name,
            ad.pincode,
-           is_default
+           is_default,
+           p.id as payment_id,
+           p.payment_amount,
+           p.transaction_id,
+           p.payment_status_id
     from tbl_BookingMaster b
              left join tbl_CustomerMaster c
                        on b.customer_id = c.id
@@ -54,6 +58,8 @@ begin
                        on sub.id = b.subscription_id
              left join tbl_CustomerAddressMapping ad
                        on b.address_id = ad.id
+            left join tbl_PaymentMaster p
+                on p.booking_id = b.id
              left join tbl_CityMaster cm
                        on ad.city_id = cm.id  where ', @whereClaus)
     into @stmtSQL;
