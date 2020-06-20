@@ -203,6 +203,45 @@ class Booking {
          });
       });
    }
+
+   /**
+    * Method to update the booking details.
+    * @param userId: The user taking the action, either the customer or the employee.
+    * @param vendorId: The vendor id to be updated.
+    * @param employeeId: The employee id to be updated.
+    * @param amount: The amount to be updated.
+    * @param bookingDate: The booking date to be updated.
+    * @param bookingTime: The booking time to be updated.
+    * @param addressId: The address id to be updated.
+    * @param remarks: The remarks to be updated.
+    * @param statusId: The status id to be updated.
+    * @returns {Promise<Array>}:
+    */
+   updateBookingDetails(userId, vendorId, employeeId, amount, bookingDate, bookingTime, addressId, remarks, statusId) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_UPDATE_BOOKING_DETAILS, [
+            this._bookingId, userId,
+            validators.validateNumber(vendorId) ? vendorId : 0,
+            validators.validateNumber(employeeId) ? employeeId : 0,
+            validators.validateNumber(amount) ? amount : 0,
+            validators.validateString(bookingDate) ? bookingDate : "",
+            validators.validateString(bookingTime) ? bookingTime : "",
+            validators.validateNumber(addressId) ? addressId : 0,
+            validators.validateString(remarks) ? remarks : "",
+            validators.validateNumber(statusId) ? statusId : 0
+         ]).then(_resultSet => {
+            const result = _resultSet[0][0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve({id: -1});
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
 }
 
 /**

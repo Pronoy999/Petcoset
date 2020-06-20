@@ -80,7 +80,29 @@ bookingHandler.booking = (dataObject) => {
       } else if (method === constants.HTTP_PUT) {
          const bookingId = validator.validateNumber(dataObject.postData[constants.BOOKING_ID]) ?
             dataObject.postData[constants.BOOKING_ID] : false;
-         //TODO: Cancel a booking.
+         const userId = validator.validateNumber(dataObject.postData[constants.USER_ID]) ?
+            dataObject.postData[constants.USER_ID] : false;
+         const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (bookingId && userId && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.postData;
+            serviceData[constants.CORE_TYPE] = constants.CORE_BOOKING_UPDATE;
+            let childWorker = childProcess.fork(`${__dirname}/../CoreServices/booking.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
       } else {
          reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
       }

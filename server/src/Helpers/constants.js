@@ -172,6 +172,7 @@ constants.CORE_AUTH_OTP_REQEUST = "reqOTP";
 constants.CORE_AUTH_OTP_VALIDATE = "checkOTP";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
 constants.CORE_SUBCRIPTION_SEARCH = "subscriptionSearch";
+constants.CORE_BOOKING_UPDATE = "updateBooking";
 constants.CORE_BOOKING_CREATE_SUBS_SERVICE = "createBooking";
 constants.CORE_BOOKING_SUBSCRIPTION = "createSubscription";
 constants.CORE_BOOKING_SERVICE = "createServiceBooking";
@@ -219,6 +220,7 @@ constants.SP_GET_CUSTOMER_IMAGES = "sp_GetCustomerImages";
 constants.SP_GET_BOOKING_DETAILS = "sp_GetBookingDetails";
 constants.SP_STORE_RECURRING_BOOKING = "sp_StoreRecurringBooking";
 constants.SP_SEARCH_VENDOR_SERVICE = "sp_SearchVendorServices";
+constants.SP_UPDATE_BOOKING_DETAILS = "sp_UpdateBookingDetails";
 /**
  * General Keys
  */
@@ -241,6 +243,7 @@ constants.COLUMN_CREATED = "created";
 constants.COLUMN_MODIFIED_BY = "modified_by";
 constants.COLUMN_MODIFIED = "modified";
 constants.EMPLOYEE_ID = "employee_id";
+constants.USER_ID = "user_id";
 
 constants.CUSTOMER_ID = "customer_id";
 constants.CUSTOMER_FIRST_NAME = "first_name";
@@ -383,6 +386,7 @@ constants.BOOKING_DATE = "booking_date";
 constants.BOOKING_TIME = "booking_time";
 constants.BOOKING_END_TIME = "booking_end_time";
 constants.BOOKING_REMARKS = "remarks";
+constants.BOOKING_STATUS_ID = "booking_status_id";
 constants.RECURRING_BOOKINGS = "recurringBookings";
 
 constants.PAYMENT_BOOKING_ID = "booking_id";

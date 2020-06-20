@@ -28,6 +28,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_BOOKING_SEARCH:
             promise = bookingServices.getBookingDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_BOOKING_UPDATE:
+            promise = bookingServices.updateBooking(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
             process.exit(1);
@@ -132,6 +135,30 @@ bookingServices.getBookingDetails = (dataObject, jwToken) => {
          const booking = new Booking(dataObject[constants.BOOKING_ID], false, dataObject[constants.BOOKING_CUSTOMER_ID]);
          booking.getBookingDetails().then(bookingDetails => {
             resolve([bookingDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to update the booking details.
+ * @param dataObject: the required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}
+ */
+bookingServices.updateBooking = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const booking = new Booking(dataObject[constants.BOOKING_ID]);
+         booking.updateBookingDetails(dataObject[constants.USER_ID], dataObject[constants.VENDOR_ID],
+            dataObject[constants.EMPLOYEE_ID], dataObject[constants.BOOKING_TOTAL_AMOUNT],
+            dataObject[constants.BOOKING_DATE], dataObject[constants.BOOKING_TIME],
+            dataObject[constants.CUSTOMER_ADDRESS_ID], dataObject[constants.BOOKING_REMARKS],
+            dataObject[constants.BOOKING_STATUS_ID]).then(updateDetails => {
+            resolve([updateDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });
