@@ -106,7 +106,7 @@ class Booking {
    createSubscriptionBooking(subscriptionID, amount, transactionId) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION, this._customerId, subscriptionID,
-            0, 0, amount, generator.generateCurrentDateOnly(), '', 0, 0, 0]).then(async _resultSet => {
+            0, 0, amount, generator.generateCurrentDateOnly(), '', '', 0, '', 0, 0]).then(async _resultSet => {
             try {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result) && result.id > 0) {
