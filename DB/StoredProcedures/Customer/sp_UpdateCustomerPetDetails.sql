@@ -3,7 +3,8 @@ create procedure sp_UpdateCustomerPetDetails(parCustomerId int, parPetDetailsId 
                                              parPetName varchar(255), parBreedId int, parPetGender enum ('M','F',''),
                                              parWeight varchar(100),
                                              parPetAgeYr int,
-                                             parPetAgeMonth int)
+                                             parPetAgeMonth int,
+                                             parIsDelete tinyint)
 begin
     set @setClaus = '';
     set @isExists = 0;
@@ -13,12 +14,12 @@ begin
     where id = parPetDetailsId
       and customer_id = parCustomerId
       and is_active = 1;
-    if @isExists > 0 then
+    if @isExists > 0 and parIsDelete = 0 then
         if length(parPetType) > 0 then
             set @setClaus = concat(@setClaus, ' pet_type = ''', parPetType, ''',');
         end if;
         if length(parPetName) > 0 then
-            set @setClaus = concat(@setClaus, ' pet_name = ''',parPetName, ''',');
+            set @setClaus = concat(@setClaus, ' pet_name = ''', parPetName, ''',');
         end if;
         if parBreedId > 0 then
             set @setClaus = concat(@setClaus, ' breed_id = ', parBreedId, ',');
@@ -36,7 +37,7 @@ begin
             set @setClaus = concat(@setClaus, ' pet_age_mo = ', parPetAgeMonth, ',');
         end if;
         if length(@setClaus) > 0 then
-            set @setClaus = concat(@setClaus,' modified_by = ', parCustomerId, ',modified = now()');
+            set @setClaus = concat(@setClaus, ' modified_by = ', parCustomerId, ',modified = now()');
             select concat('update tbl_CustomerPetDetailsMapping set ', @setClaus, ' where id = ', parPetDetailsId,
                           ' and customer_id = ', parCustomerId, ' and is_active = 1')
             into @stmtSQL;
@@ -48,6 +49,15 @@ begin
         else
             select -1 as id;
         end if;
+    elseif @isExists > 0 and parIsDelete = 1 then
+        update tbl_CustomerPetDetailsMapping
+        set is_active=0,
+            modified=now(),
+            modified_by=parCustomerId
+        where id = parPetDetailsId
+          and customer_id = parCustomerId
+          and is_active = 1;
+        select 1 as id;
     else
         select -1 as id;
     end if;
