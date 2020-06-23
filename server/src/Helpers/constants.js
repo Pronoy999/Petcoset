@@ -151,6 +151,7 @@ constants.CORE_CUSTOMER_IMAGE_ADD = "customerImageAdd";
 constants.CORE_CUSTOMER_IMAGE_GET = "customerImageGet";
 constants.CORE_CUSTOMER_PET_DETAILS = "petDetailsAdd";
 constants.CORE_CUSTOMER_PET_DETAILS_GET = "petDetailsGet";
+constants.CORE_CUSTOMER_PET_DETAILS_UPDATE = "petDetailsUpdate";
 constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";
@@ -221,6 +222,7 @@ constants.SP_GET_BOOKING_DETAILS = "sp_GetBookingDetails";
 constants.SP_STORE_RECURRING_BOOKING = "sp_StoreRecurringBooking";
 constants.SP_SEARCH_VENDOR_SERVICE = "sp_SearchVendorServices";
 constants.SP_UPDATE_BOOKING_DETAILS = "sp_UpdateBookingDetails";
+constants.SP_UPDATE_CUSTOMER_PET_DETAILS = "sp_UpdateCustomerPetDetails";
 /**
  * General Keys
  */
@@ -262,6 +264,8 @@ constants.CUSTOMER_PINCODE = "pincode";
 constants.CUSTOMER_IS_DEFAULT_ADDRESS = "is_default";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
+constants.CUSTOMER_PET_DETAILS_ID = "pet_details_id";
+constants.IS_DELETE_PET_DETAILS = "is_delete";
 constants.CUSTOMER_PET_TYPE = "pet_type";
 constants.CUSTOMER_PET_NAME = "pet_name";
 constants.CUSTOMER_PET_BREED = "breed";

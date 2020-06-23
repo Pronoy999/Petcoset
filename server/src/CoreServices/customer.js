@@ -42,6 +42,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_IMAGE_GET:
             promise = customerService.getImages(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_CUSTOMER_PET_DETAILS_UPDATE:
+            promise = customerService.updatePetDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
             process.exit(1);
@@ -234,6 +237,31 @@ customerService.getPetDetails = (dataObject, jwToken) => {
          customer.getPetDetails().then(petDetails => {
             resolve([petDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to update the pet details.
+ * @param dataObject: The required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}
+ */
+customerService.updatePetDetails = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.updatePetDetails(dataObject[constants.CUSTOMER_PET_DETAILS_ID],
+            dataObject[constants.CUSTOMER_PET_TYPE], dataObject[constants.CUSTOMER_PET_NAME],
+            dataObject[constants.CUSTOMER_PET_BREED], dataObject[constants.CUSTOMER_GENDER],
+            dataObject[constants.CUSTOMER_PET_WEIGHT], dataObject[constants.CUSTOMER_PET_AGE], 0,
+            dataObject[constants.IS_DELETE_PET_DETAILS])
+            .then(updateDetails => {
+               resolve([updateDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+            }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });
       } else {

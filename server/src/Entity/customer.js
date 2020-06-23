@@ -233,6 +233,45 @@ class Customer {
          });
       });
    }
+
+   /**
+    * Method to update the customer pet details.
+    * @param petDetailsId: The pet details id.
+    * @param petType: The pet type.
+    * @param petName: The name of the pet.
+    * @param breedId: The breed id.
+    * @param petGender: The Gender id.
+    * @param petWeight: The pet weight.
+    * @param petAgeYr: The pet Age.
+    * @param petAgeMonth: The pet age month.
+    * @param isDelete: 1 to delete the existing data, else 0.
+    * @returns {Promise<JSON>}: The result, 1 if completed, else -1.
+    */
+   updatePetDetails(petDetailsId, petType, petName, breedId, petGender, petWeight, petAgeYr, petAgeMonth, isDelete) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_UPDATE_CUSTOMER_PET_DETAILS, [
+            this._id, petDetailsId,
+            validators.validateUndefined(petType) ? petType : "",
+            validators.validateUndefined(petName) ? petName : "",
+            validators.validateUndefined(breedId) ? breedId : "",
+            validators.validateUndefined(petGender) ? petGender : "",
+            validators.validateUndefined(petWeight) ? petWeight : "",
+            validators.validateUndefined(petAgeYr) ? petAgeYr : "",
+            validators.validateUndefined(petAgeMonth) ? petAgeMonth : "",
+            validators.validateUndefined(isDelete) ? isDelete : 0
+         ]).then(_resultSet => {
+            const result = _resultSet[0][0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve({id: -1});
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
 }
 
 /**
