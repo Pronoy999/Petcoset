@@ -8,7 +8,8 @@ const routes = {
    "subscription": handlers.subscription,
    "booking": handlers.booking,
    "city": handlers.city,
-   "breed": handlers.breed
+   "breed": handlers.breed,
+   "payment": handlers.payment
 };
 
 const path = {};

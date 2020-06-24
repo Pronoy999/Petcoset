@@ -21,6 +21,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_GET_SERVICE:
             promise = serviceObj.getService(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_SERVICE_SEARCH_VENDORS:
+            promise = serviceObj.searchVendors(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4));
             process.exit(1);
@@ -71,6 +74,26 @@ serviceObj.getService = (dataObject, jwToken) => {
          const service = new Service(dataObject[constants.SERVICE_ID], dataObject[constants.SERVICE_NAME]);
          service.getServiceDetails().then(services => {
             resolve([services, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to get the vendor for a service.
+ * @param dataObject: The required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}:
+ */
+serviceObj.searchVendors = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const service = new Service(dataObject[constants.SERVICE_ID]);
+         service.getVendors(dataObject[constants.BOOKING_DATE], dataObject[constants.BOOKING_TIME]).then(vendorDetails => {
+            resolve([vendorDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });

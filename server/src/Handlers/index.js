@@ -7,6 +7,7 @@ const subscription = require('./subscription');
 const booking = require('./booking');
 const city = require('./city');
 const breed = require('./breed');
+const payment = require('./payment');
 const responseGenerator = require('./../Services/responseGenerator');
 const handlerObj = {};
 /**
@@ -99,6 +100,9 @@ handlerObj.service = (dataObject) => {
       switch (dataObject.path) {
          case "services":
             promise = service.services(dataObject);
+            break;
+         case "vendors":
+            promise = service.vendors(dataObject);
             break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
@@ -224,6 +228,28 @@ handlerObj.breed = (dataObject) => {
       switch (dataObject.path) {
          case "breed":
             promise = breed.breed(dataObject);
+            break;
+         default:
+            reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
+      }
+      promise.then(data => {
+         resolve(data);
+      }).catch(err => {
+         reject(err);
+      });
+   });
+};
+/**
+ * Method to handle payment requests.
+ * @param dataObject: The request object.
+ * @returns {Promise<Array>}
+ */
+handlerObj.payment = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      let promise;
+      switch (dataObject.path) {
+         case "payment":
+            promise = payment.payment(dataObject);
             break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));

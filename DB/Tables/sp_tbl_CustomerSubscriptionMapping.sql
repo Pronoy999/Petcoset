@@ -10,19 +10,20 @@ BEGIN
             WHERE TABLE_SCHEMA = currentSchema
               AND TABLE_NAME = 'tbl_CustomerSubscriptionMapping'
         ) THEN
-        CREATE TABLE IF NOT EXISTS `tbl_CustomerSubscriptionMapping` 
-		(
-		  `id` int(11) NOT NULL AUTO_INCREMENT,
-		  `customer_id` int(11) DEFAULT NULL,
-		  `subscription_id` int(11) DEFAULT NULL,
-		  `subscription_amount` decimal(18,2) DEFAULT NULL,
-		  `is_active` tinyint(1) DEFAULT '1',
-		  `created_by` int(11) DEFAULT '1',
-		  `modified_by` int(11) DEFAULT NULL,
-		  `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-		  `modified` timestamp NULL DEFAULT NULL,
-		  PRIMARY KEY (`id`)
-		);
+        CREATE TABLE IF NOT EXISTS `tbl_CustomerSubscriptionMapping`
+        (
+            `id`                  int(11)   NOT NULL AUTO_INCREMENT,
+            `customer_id`         int(11)        DEFAULT NULL,
+            `subscription_id`     int(11)        DEFAULT NULL,
+            `subscription_amount` decimal(18, 2) DEFAULT NULL,
+            subscription_validity date           default null,
+            `is_active`           tinyint(1)     DEFAULT '1',
+            `created_by`          int(11)        DEFAULT '1',
+            `modified_by`         int(11)        DEFAULT NULL,
+            `created`             timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+            `modified`            timestamp NULL DEFAULT NULL,
+            PRIMARY KEY (`id`)
+        );
     end if;
 end$$
 

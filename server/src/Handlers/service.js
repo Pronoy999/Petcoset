@@ -69,7 +69,47 @@ serviceHandler.services = (dataObject) => {
    });
 };
 /**
+ * Method to handle the requests to search for vendors providing a service.
+ * @param dataObject: The request object.
+ * @returns {Promise<Array>}:
+ */
+serviceHandler.vendors = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const method = dataObject.method;
+      if (method === constants.HTTP_GET) {
+         const serviceId = validator.validateNumber(dataObject.queryString[constants.SERVICE_ID]) ?
+            dataObject.queryString[constants.SERVICE_ID] : false;
+         const bookingDate = validator.validateUndefined(dataObject.queryString[constants.BOOKING_DATE]) ?
+            dataObject.queryString[constants.BOOKING_DATE] : false;
+         const bookingTime = validator.validateUndefined(dataObject.queryString[constants.BOOKING_TIME]) ?
+            dataObject.queryString[constants.BOOKING_TIME] : false;
+         const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (serviceId && bookingDate && bookingTime && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_TYPE] = constants.CORE_SERVICE_SEARCH_VENDORS;
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/service.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else {
+         reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
+      }
+   });
+};
+/**
  * Exporting the service Handler.
- * @type {{}}
  */
 module.exports = serviceHandler;

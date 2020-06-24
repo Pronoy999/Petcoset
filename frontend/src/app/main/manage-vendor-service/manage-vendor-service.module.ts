@@ -37,7 +37,9 @@ export const vendorService: Routes = [
     AdoptionComponent, 
     VeterinaryComponent,
     MattingComponent, 
-    TrainerComponent, DayCareComponent],
+    TrainerComponent, 
+    DayCareComponent
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild(vendorService),

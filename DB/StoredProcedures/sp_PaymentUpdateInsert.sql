@@ -19,21 +19,27 @@ begin
             modified_by       = par_customerId
         where transaction_id = par_transactionId
            OR booking_id = par_bookingId;
-        select LAST_INSERT_ID() as id;
+        select 1 as id;
     else
-        insert into tbl_PaymentMaster
-        ( booking_id
-        , transaction_id
-        , payment_amount
-        , payment_status_id
-        , created_by
-        , created)
-        values ( par_bookingId
-               , par_transactionId
-               , par_paymentAmount
-               , par_paymentStatusId
-               , par_customerId
-               , current_timestamp());
-        select last_insert_id() as id;
+        set @bookingAmt = 0;
+        select total_amount into @bookingAmt from tbl_BookingMaster where id = par_bookingId;
+        if par_paymentAmount = @bookingAmt then
+            insert into tbl_PaymentMaster
+            ( booking_id
+            , transaction_id
+            , payment_amount
+            , payment_status_id
+            , created_by
+            , created)
+            values ( par_bookingId
+                   , par_transactionId
+                   , par_paymentAmount
+                   , par_paymentStatusId
+                   , par_customerId
+                   , current_timestamp());
+            select last_insert_id() as id;
+        else
+            select -1 as id;
+        end if;
     end if;
 end;

@@ -47,13 +47,19 @@ export class LoginComponent implements OnInit {
       data.password = btoa(this.loginFrom.controls.password.value);
       this._authService.request('post', `auth`, data)
         .subscribe((response) => {
+          //console.log(response.res);
           if(response.res.user_data.id === -1){
             this.isLoginError = true;
             this.spinner.hide();
           } else {
             this._authService.setToken(response.res.jw_token);
             localStorage.setItem('userDetails',JSON.stringify(response.res.user_data));
-            this.route.navigateByUrl('/user/vendor');
+            if(response.res.user_data.role === 'tbl_CustomerMaster') {
+              this.route.navigateByUrl('/user/customer');
+            }
+            else{
+              this.route.navigateByUrl('/user/vendor');
+            }
           }
         })
     }

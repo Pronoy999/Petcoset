@@ -25,6 +25,15 @@ process.on("message", (serviceData) => {
             promise = bookingServices.createServiceBooking(serviceData[constants.CORE_DATA],
                serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_BOOKING_SEARCH:
+            promise = bookingServices.getBookingDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
+         case constants.CORE_BOOKING_UPDATE:
+            promise = bookingServices.updateBooking(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
+         default:
+            process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
+            process.exit(1);
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -51,7 +60,9 @@ bookingServices.createSubsServiceBooking = (dataObject, jwToken) => {
          const booking = new Booking(false, constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, dataObject[constants.BOOKING_CUSTOMER_ID],
             dataObject[constants.BOOKING_SERVICE_ID]);
          booking.createSubscriptionServiceBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID], dataObject[constants.CUSTOMER_ADDRESS_ID],
-            dataObject[constants.BOOKING_TIME], dataObject[constants.BOOKING_DATE])
+            dataObject[constants.BOOKING_TIME], dataObject[constants.BOOKING_END_TIME], dataObject[constants.BOOKING_DATE],
+            dataObject[constants.BOOKING_REMARKS],
+            dataObject[constants.RECURRING_BOOKINGS])
             .then(bookingId => {
                resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
             }).catch(err => {
@@ -97,9 +108,12 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
          const booking = new Booking(false, constants.BOOKING_TYPE_SERVICE, dataObject[constants.BOOKING_CUSTOMER_ID],
             dataObject[constants.BOOKING_SERVICE_ID]);
          booking.createServiceBooking(dataObject[constants.BOOKING_VENDOR_ID],
-            dataObject[constants.BOOKING_TOTAL_AMOUNT], dataObject[constants.PAYMENT_TRANSACTION_ID],
-            dataObject[constants.BOOKING_DATE], dataObject[constants.BOOKING_TIME],
-            dataObject[constants.CUSTOMER_ADDRESS_ID]).then(bookingId => {
+            dataObject[constants.BOOKING_TOTAL_AMOUNT], dataObject[constants.BOOKING_DATE],
+            dataObject[constants.BOOKING_TIME],
+            dataObject[constants.BOOKING_END_TIME],
+            dataObject[constants.CUSTOMER_ADDRESS_ID],
+            dataObject[constants.BOOKING_REMARKS],
+            dataObject[constants.RECURRING_BOOKINGS]).then(bookingId => {
             resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
@@ -112,10 +126,44 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
 /**
  * Method to search the booking details.
  * @param dataObject: The service data filter.
+ * @param jwToken: the token of the user.
  * @returns {Promise<Array>}: The response object and the success or error level.
  */
-bookingServices.getBookingDetails = (dataObject) => {
+bookingServices.getBookingDetails = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
-      //TODO: Search the booking.
+      if (tokenGenerator.validateToken(jwToken)) {
+         const booking = new Booking(dataObject[constants.BOOKING_ID], false, dataObject[constants.BOOKING_CUSTOMER_ID]);
+         booking.getBookingDetails().then(bookingDetails => {
+            resolve([bookingDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to update the booking details.
+ * @param dataObject: the required data.
+ * @param jwToken: The token of the user.
+ * @returns {Promise<Array>}
+ */
+bookingServices.updateBooking = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const booking = new Booking(dataObject[constants.BOOKING_ID]);
+         booking.updateBookingDetails(dataObject[constants.USER_ID], dataObject[constants.VENDOR_ID],
+            dataObject[constants.EMPLOYEE_ID], dataObject[constants.BOOKING_TOTAL_AMOUNT],
+            dataObject[constants.BOOKING_DATE], dataObject[constants.BOOKING_TIME],
+            dataObject[constants.CUSTOMER_ADDRESS_ID], dataObject[constants.BOOKING_REMARKS],
+            dataObject[constants.BOOKING_STATUS_ID]).then(updateDetails => {
+            resolve([updateDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
    });
 };

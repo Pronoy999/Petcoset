@@ -99,6 +99,5 @@ authHandler.otp = (dataObject) => {
 
 /**
  * Exporting the authentication handler.
- * @type {{}}
  */
 module.exports = authHandler;

@@ -10,7 +10,7 @@ constants.COLOR_GREEN = "\x1b[32m";
 /**
  * Logging File Details.
  */
-constants.LOG_FILE_NAME = 'pnc-logs.logs';
+constants.LOG_FILE_NAME = "pnc-logs.logs";
 
 /**
  * Date Format.
@@ -33,10 +33,10 @@ constants.DATE_REGEX = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
  * Header Data.
  */
 constants.HEADERS = {
-   'Access-Control-Allow-Origin': '*',
-   'Access-Control-Allow-Methods': 'OPTIONS, POST, GET, PUT, DELETE',
-   'Access-Control-Max-Age': 2592000,
-   'Access-Control-Allow-Headers': 'Content-Type,access-control-allow-origin,X-Requested-With,key,jw_token'
+   "Access-Control-Allow-Origin": "*",
+   "Access-Control-Allow-Methods": "OPTIONS, POST, GET, PUT, DELETE",
+   "Access-Control-Max-Age": 2592000,
+   "Access-Control-Allow-Headers": "Content-Type,access-control-allow-origin,X-Requested-With,key,jw_token"
 };
 constants.CONTENT_TYPE_TEXT = "Content-Type";
 constants.CONTENT_TYPE_JSON = "application/json";
@@ -145,10 +145,13 @@ constants.CORE_CUSTOMER_CREATE = "createCustomer";
 constants.CORE_CUSTOMER_GET = "getCustomer";
 constants.CORE_CUSTOMER_UPDATE = "updateCustomer";
 constants.CORE_CUSTOMER_ADDRESS_CREATE = "addAddressCustomer";
-constants.CORE_CUSTOMER_SERVICE_ADD = 'addCustomerService';
+constants.CORE_CUSTOMER_ADDRESS_GET = "addressCustomerGet";
+constants.CORE_CUSTOMER_SERVICE_ADD = "addCustomerService";
 constants.CORE_CUSTOMER_IMAGE_ADD = "customerImageAdd";
 constants.CORE_CUSTOMER_IMAGE_GET = "customerImageGet";
-constants.CORE_CUSTOMER_PET_DETAILS = 'petDetails';
+constants.CORE_CUSTOMER_PET_DETAILS = "petDetailsAdd";
+constants.CORE_CUSTOMER_PET_DETAILS_GET = "petDetailsGet";
+constants.CORE_CUSTOMER_PET_DETAILS_UPDATE = "petDetailsUpdate";
 constants.CORE_API_TOKEN_CHECK = "checkApiToken";
 constants.CORE_API_LOG = "logAPIStatus";
 constants.CORE_VENDOR_CREATE = "createVendor";
@@ -170,6 +173,7 @@ constants.CORE_AUTH_OTP_REQEUST = "reqOTP";
 constants.CORE_AUTH_OTP_VALIDATE = "checkOTP";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
 constants.CORE_SUBCRIPTION_SEARCH = "subscriptionSearch";
+constants.CORE_BOOKING_UPDATE = "updateBooking";
 constants.CORE_BOOKING_CREATE_SUBS_SERVICE = "createBooking";
 constants.CORE_BOOKING_SUBSCRIPTION = "createSubscription";
 constants.CORE_BOOKING_SERVICE = "createServiceBooking";
@@ -177,6 +181,8 @@ constants.CORE_BOOKING_SEARCH = "searchBooking";
 constants.CORE_CITY_SEARCH = "searchCity";
 constants.CORE_STATE_SEARCH = "searchState";
 constants.CORE_BREED_SEARCH = "searchBreed";
+constants.CORE_SERVICE_SEARCH_VENDORS = "searchVendorForService";
+constants.CORE_PAYMENT_CREATE = "createPayment";
 /**
  * SP Names.
  */
@@ -192,8 +198,7 @@ constants.SP_SERVICE_SEARCH = "sp_SearchServices";
 constants.SP_LOGIN = "sp_LoginGeneric";
 constants.SP_SUBSCRIPTION_REGISTRATION = "sp_SubscriptionRegistration";
 constants.SP_SUBSCRIPTION_SEARCH = "sp_SearchSubscription";
-constants.SP_BOOKING_SERVICE_FROM_SUBS = "sp_ServiceFromSubscriptionBooking";
-constants.SP_SUBSCRIPTION_BOOKING = "sp_SubscriptionServiceBookingOnly";
+constants.SP_HANDLE_BOOKING = "sp_HandleBooking";
 constants.SP_PAYMENT_CREATE = "sp_PaymentUpdateInsert";
 constants.SP_OTP = "sp_OtpCreateCheck";
 constants.SP_ADD_VENDOR_SERVICE = "sp_AddVendorServices";
@@ -207,10 +212,17 @@ constants.SP_GET_BREED_DETAILS = "sp_GetBreedDetails";
 constants.SP_UPLOAD_VENDOR_IMAGES = "sp_UpdateImageDetails";
 constants.SP_GET_VENDOR_IMAGES = "sp_GetVendorImages";
 constants.SP_CREATE_CUSTOMER_PET_DETAILS = "sp_InsertCustomerPetDetails";
+constants.SP_GET_CUSTOMER_PET_DETAILS = "sp_GetCustomerPetDetails";
 constants.SP_UPDATE_CUSTOMER_ADDRESS = "sp_UpdateCustomerAddress";
+constants.SP_GET_CUSTOMER_ADDRESS = "sp_GetCustomerAddress";
 constants.SP_UPDATE_CUSTOMER_DETAILS = "sp_UpdateCustomerDetails";
 constants.SP_UPDATE_CUSTOMER_IMAGES = "sp_UpdateCustomerImages";
 constants.SP_GET_CUSTOMER_IMAGES = "sp_GetCustomerImages";
+constants.SP_GET_BOOKING_DETAILS = "sp_GetBookingDetails";
+constants.SP_STORE_RECURRING_BOOKING = "sp_StoreRecurringBooking";
+constants.SP_SEARCH_VENDOR_SERVICE = "sp_SearchVendorServices";
+constants.SP_UPDATE_BOOKING_DETAILS = "sp_UpdateBookingDetails";
+constants.SP_UPDATE_CUSTOMER_PET_DETAILS = "sp_UpdateCustomerPetDetails";
 /**
  * General Keys
  */
@@ -233,6 +245,7 @@ constants.COLUMN_CREATED = "created";
 constants.COLUMN_MODIFIED_BY = "modified_by";
 constants.COLUMN_MODIFIED = "modified";
 constants.EMPLOYEE_ID = "employee_id";
+constants.USER_ID = "user_id";
 
 constants.CUSTOMER_ID = "customer_id";
 constants.CUSTOMER_FIRST_NAME = "first_name";
@@ -251,37 +264,39 @@ constants.CUSTOMER_PINCODE = "pincode";
 constants.CUSTOMER_IS_DEFAULT_ADDRESS = "is_default";
 constants.CUSTOMER_REFERAL_CODE = "referral_code";
 constants.CUSTOMER_USED_REFERAL_CODE = "used_referral_code";
-constants.CUSTOMER_PET_TYPE = 'pet_type';
-constants.CUSTOMER_PET_NAME = 'pet_name';
-constants.CUSTOMER_PET_BREED = 'breed';
-constants.CUSTOMER_PET_AGE = 'pet_age';
-constants.CUSTOMER_PET_SEX = 'pet_sex';
-constants.CUSTOMER_PET_WEIGHT = 'weight';
-constants.CUSTOMER_PREFERRED_LOACTION = 'preferred_location';
-constants.CUSTOMER_START_DATE = 'start_date';
-constants.CUSTOMER_END_DATE = 'end_date';
-constants.CUSTOMER_DROP_OFF_TIME = 'drop_off_time';
-constants.CUSTOMER_PICK_UP_TIME = 'pick_up_time';
-constants.CUSTOMER_HAS_HOUSE = 'has_house';
-constants.CUSTOMER_IS_PETS_ALLOWED_FURNITURE = 'is_pets_allowed_on_furniture';
-constants.CUSTOMER_HAS_FENCED_GARDEN = 'fenced_garden';
-constants.CUSTOMER_IS_ALLOWED_ON_BED = 'is_pet_allowed_on_bed';
-constants.CUSTOMER_IS_NON_SMOKING_HOME = 'is_non_smoking_home';
-constants.CUSTOMER_IS_OWN_DOG = 'is_own_dog';
-constants.CUSTOMER_IS_OWN_CAT = 'is_own_cat';
-constants.CUSTOMER_IS_ONE_BOOKING_AT_A_TIME = 'is_one_booking_at_a_time';
-constants.CUSTOMER_IS_CAGED_PET = 'is_caged_pet';
-constants.CUSTOMEER_CHILD_AGE = 'child_age';
-constants.CUSTOMER_BATH_NAIL_CLIPPING = 'bath_nail_clipping';
-constants.CUSTOMER_FIRST_AID_CERTFIED = 'first_aid_certified';
-constants.CUSTOMER_NEED_OFTEN = 'need_often';
-constants.CUSTOMER_NO_OF_VISIT = 'no_of_visit';
-constants.CUSTOMER_MATE_PET = 'mate_pat';
-constants.CUSTOMER_AVAILABLE_MATING = 'available_mating';
-constants.CUSTOMER_VISIT_TYPE = 'visit_type';
-constants.CUSTOMER_PET_ADOPTION = 'pet_adoption';
-constants.CUSTOMER_ENLIST_ADOPTION = 'enlist_adoption';
-constants.CUSTOMER_TRAINING_CATEGORY = 'training_category';
+constants.CUSTOMER_PET_DETAILS_ID = "pet_details_id";
+constants.IS_DELETE_PET_DETAILS = "is_delete";
+constants.CUSTOMER_PET_TYPE = "pet_type";
+constants.CUSTOMER_PET_NAME = "pet_name";
+constants.CUSTOMER_PET_BREED = "breed";
+constants.CUSTOMER_PET_AGE = "pet_age";
+constants.CUSTOMER_PET_SEX = "pet_sex";
+constants.CUSTOMER_PET_WEIGHT = "weight";
+constants.CUSTOMER_PREFERRED_LOACTION = "preferred_location";
+constants.CUSTOMER_START_DATE = "start_date";
+constants.CUSTOMER_END_DATE = "end_date";
+constants.CUSTOMER_DROP_OFF_TIME = "drop_off_time";
+constants.CUSTOMER_PICK_UP_TIME = "pick_up_time";
+constants.CUSTOMER_HAS_HOUSE = "has_house";
+constants.CUSTOMER_IS_PETS_ALLOWED_FURNITURE = "is_pets_allowed_on_furniture";
+constants.CUSTOMER_HAS_FENCED_GARDEN = "fenced_garden";
+constants.CUSTOMER_IS_ALLOWED_ON_BED = "is_pet_allowed_on_bed";
+constants.CUSTOMER_IS_NON_SMOKING_HOME = "is_non_smoking_home";
+constants.CUSTOMER_IS_OWN_DOG = "is_own_dog";
+constants.CUSTOMER_IS_OWN_CAT = "is_own_cat";
+constants.CUSTOMER_IS_ONE_BOOKING_AT_A_TIME = "is_one_booking_at_a_time";
+constants.CUSTOMER_IS_CAGED_PET = "is_caged_pet";
+constants.CUSTOMEER_CHILD_AGE = "child_age";
+constants.CUSTOMER_BATH_NAIL_CLIPPING = "bath_nail_clipping";
+constants.CUSTOMER_FIRST_AID_CERTFIED = "first_aid_certified";
+constants.CUSTOMER_NEED_OFTEN = "need_often";
+constants.CUSTOMER_NO_OF_VISIT = "no_of_visit";
+constants.CUSTOMER_MATE_PET = "mate_pat";
+constants.CUSTOMER_AVAILABLE_MATING = "available_mating";
+constants.CUSTOMER_VISIT_TYPE = "visit_type";
+constants.CUSTOMER_PET_ADOPTION = "pet_adoption";
+constants.CUSTOMER_ENLIST_ADOPTION = "enlist_adoption";
+constants.CUSTOMER_TRAINING_CATEGORY = "training_category";
 constants.IS_VALID = "isValid";
 constants.OTP = "otp";
 
@@ -373,6 +388,10 @@ constants.BOOKING_VENDOR_ID = "vendor_id";
 constants.BOOKING_TOTAL_AMOUNT = "total_amount";
 constants.BOOKING_DATE = "booking_date";
 constants.BOOKING_TIME = "booking_time";
+constants.BOOKING_END_TIME = "booking_end_time";
+constants.BOOKING_REMARKS = "remarks";
+constants.BOOKING_STATUS_ID = "booking_status_id";
+constants.RECURRING_BOOKINGS = "recurringBookings";
 
 constants.PAYMENT_BOOKING_ID = "booking_id";
 constants.PAYMENT_TRANSACTION_ID = "transaction_id";

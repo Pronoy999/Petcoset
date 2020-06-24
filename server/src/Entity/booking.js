@@ -19,7 +19,8 @@ class Booking {
    constructor(bookingId, bookingType, customerId, serviceId) {
       this._bookingId = validators.validateNumber(bookingId) ? bookingId : false;
       this._bookingType = validators.validateString(bookingType) &&
-      (bookingType === constants.BOOKING_TYPE_SERVICE || bookingType === constants.BOOKING_TYPE_SUBSCRIPTION) ?
+      (bookingType === constants.BOOKING_TYPE_SERVICE || bookingType === constants.BOOKING_TYPE_SUBSCRIPTION ||
+         bookingType === constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE) ?
          bookingType : false;
       this._customerId = validators.validateNumber(customerId) ? customerId : false;
       this._serviceId = validators.validateNumber(serviceId) ? serviceId : false;
@@ -52,19 +53,41 @@ class Booking {
     * @param subscriptionId: The Subscription that the user is buying.
     * @param addressId: The address id of the customer.
     * @param bookingTime: The booking date.
+    * @param bookingEndTime: the end time of the booking.
     * @param bookingDate: The booking time.
+    * @param remarks
+    * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Number>}: The booking id.
     */
-   createSubscriptionServiceBooking(subscriptionId, addressId, bookingTime, bookingDate) {
+   createSubscriptionServiceBooking(subscriptionId, addressId, bookingTime, bookingEndTime, bookingDate, remarks, recurringBookings) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_BOOKING_SERVICE_FROM_SUBS, [this._customerId, subscriptionId, this._serviceId,
-            addressId, bookingDate, bookingTime, 0]).then(_resultSet => {
+         database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, this._customerId,
+            subscriptionId, this._serviceId, 0, 0, bookingDate, bookingTime, bookingEndTime, addressId,
+            validators.validateString(remarks) ? remarks : "",
+            0, 0]).then(_resultSet => {
             const result = _resultSet[0][0];
-            if (validators.validateUndefined(result)) {
+            if (validators.validateUndefined(result) && result.id > 0) {
                this._bookingId = result.id;
-               resolve(this._bookingId);
+               if (validators.validateUndefined(recurringBookings)) {
+                  let recurringDates = [];
+                  let recurringTimes = [];
+                  recurringBookings.forEach(oneBooking => {
+                     recurringDates.push(oneBooking[constants.BOOKING_DATE]);
+                     recurringTimes.push(oneBooking[constants.BOOKING_TIME]);
+                  });
+                  database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
+                     recurringTimes.join(","), this._bookingId]).then(_resultSet => {
+                     const result = _resultSet[0][0];
+                     resolve(result);
+                  }).catch(err => {
+                     printer.printError(err);
+                     reject(err);
+                  });
+               } else {
+                  resolve(result);
+               }
             } else {
-               resolve(false);
+               resolve({id: -1});
             }
          }).catch(err => {
             printer.printError(err);
@@ -82,15 +105,20 @@ class Booking {
     */
    createSubscriptionBooking(subscriptionID, amount, transactionId) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_SUBSCRIPTION_BOOKING, [this._bookingType,
-            this._customerId, subscriptionID, 0, 0, amount, 0, "", "", 0]).then(async _resultSet => {
-            const result = _resultSet[0][0];
-            if (validators.validateUndefined(result)) {
-               this._bookingId = result.id;
-               await this._createPaymentForBooking(transactionId, amount);
-               resolve(result);
-            } else {
-               reject(false);
+         database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION, this._customerId, subscriptionID,
+            0, 0, amount, generator.generateCurrentDateOnly(), '', '', 0, '', 0, 0]).then(async _resultSet => {
+            try {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result) && result.id > 0) {
+                  this._bookingId = result.id;
+                  await this._createPaymentForBooking(transactionId, amount);
+                  resolve(result);
+               } else {
+                  resolve({id: -1});
+               }
+            } catch (e) {
+               printer.printError(e);
+               reject(e);
             }
          }).catch(err => {
             printer.printError(err);
@@ -103,23 +131,51 @@ class Booking {
     * Method to create the booking for the service without subscription.
     * @param vendorID: The vendorID
     * @param amount: The amount of booking.
-    * @param transactionId: The transaction id for the payment.
     * @param bookingDate: The booking date.
     * @param bookingTime: The booking time.
+    * @param bookingEndTime: The end time of the booking.
     * @param addressId: The address of the customer.
-    * @returns {Promise<unknown>}
+    * @param remarks: The booking remarks.
+    * @param recurringBookings: The array containing the recurring dates and time.
+    * @returns {Promise<Object>}: The booking id.
     */
-   createServiceBooking(vendorID, amount, transactionId, bookingDate, bookingTime, addressId) {
+   createServiceBooking(vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId, remarks, recurringBookings) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_SUBSCRIPTION_BOOKING, [this._bookingType, this._customerId, "0", this._serviceId,
-            vendorID, amount, addressId, bookingDate, bookingTime, 0]).then(async _resultSet => {
-            const result = _resultSet[0][0];
-            if (validators.validateUndefined(result)) {
-               this._bookingId = result.id;
-               await this._createPaymentForBooking(transactionId, amount);
-               resolve(result);
-            } else {
-               reject(false);
+         database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
+            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime,
+            validators.validateString(remarks) ? remarks : "",
+            addressId, 0, 0]).then(async _resultSet => {
+            try {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result) && result.id > 0) {
+                  this._bookingId = result.id;
+                  //await this._createPaymentForBooking(transactionId, amount);
+                  if (validators.validateUndefined(recurringBookings)) {
+                     let recurringDates = [];
+                     let recurringTimes = [];
+                     let recurringEndTimes = [];
+                     recurringBookings.forEach(oneBooking => {
+                        recurringDates.push(oneBooking[constants.BOOKING_DATE]);
+                        recurringTimes.push(oneBooking[constants.BOOKING_TIME]);
+                        recurringEndTimes.push(oneBooking[constants.BOOKING_END_TIME]);
+                     });
+                     database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
+                        recurringTimes.join(","), recurringEndTimes.join(","), this._bookingId]).then(_resultSet => {
+                        const result = _resultSet[0][0];
+                        resolve(result);
+                     }).catch(err => {
+                        printer.printError(err);
+                        reject(err);
+                     });
+                  } else {
+                     resolve(result);
+                  }
+               } else {
+                  resolve({id: -1});
+               }
+            } catch (e) {
+               printer.printError(e);
+               reject(e);
             }
          }).catch(err => {
             printer.printError(err);
@@ -130,17 +186,65 @@ class Booking {
 
    /**
     * Method to get the booking details.
-    * @returns {Promise<unknown>}
+    * @returns {Promise<Array>}: An array of booking details.
     */
    getBookingDetails() {
       return new Promise((resolve, reject) => {
-         //TODO: search for booking.
+         database.runSp(constants.SP_GET_BOOKING_DETAILS, [this._customerId, this._bookingId]).then(_resultSet => {
+            const result = _resultSet[0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve([{id: -1}]);
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+
+   /**
+    * Method to update the booking details.
+    * @param userId: The user taking the action, either the customer or the employee.
+    * @param vendorId: The vendor id to be updated.
+    * @param employeeId: The employee id to be updated.
+    * @param amount: The amount to be updated.
+    * @param bookingDate: The booking date to be updated.
+    * @param bookingTime: The booking time to be updated.
+    * @param addressId: The address id to be updated.
+    * @param remarks: The remarks to be updated.
+    * @param statusId: The status id to be updated.
+    * @returns {Promise<Array>}:
+    */
+   updateBookingDetails(userId, vendorId, employeeId, amount, bookingDate, bookingTime, addressId, remarks, statusId) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_UPDATE_BOOKING_DETAILS, [
+            this._bookingId, userId,
+            validators.validateNumber(vendorId) ? vendorId : 0,
+            validators.validateNumber(employeeId) ? employeeId : 0,
+            validators.validateNumber(amount) ? amount : 0,
+            validators.validateString(bookingDate) ? bookingDate : "",
+            validators.validateString(bookingTime) ? bookingTime : "",
+            validators.validateNumber(addressId) ? addressId : 0,
+            validators.validateString(remarks) ? remarks : "",
+            validators.validateNumber(statusId) ? statusId : 0
+         ]).then(_resultSet => {
+            const result = _resultSet[0][0];
+            if (validators.validateUndefined(result)) {
+               resolve(result);
+            } else {
+               resolve({id: -1});
+            }
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
       });
    }
 }
 
 /**
  * Exporting the module Booking.
- * @type {Booking}
  */
 module.exports = Booking;

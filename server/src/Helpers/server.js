@@ -69,7 +69,7 @@ server.unifiedServer = function (req, res) {
          execHandlers(handlerData);
       });
    }
-   
+
    /**
     * Method to send the response back to the client.
     * @param responseData: The response data to be send.
@@ -88,7 +88,7 @@ server.unifiedServer = function (req, res) {
          printer.printError(e);
       }
    }
-   
+
    /**
     * Method to execute the Handlers.
     * @param handlerData: The request object after parsing it.
@@ -101,6 +101,8 @@ server.unifiedServer = function (req, res) {
       } else if (handlerData.path !== 'ping') {
          validator.validateToken(apiKey).then(() => {
             delete handlerData[constants.API_TOKEN_KEY];
+            printer.printHighlightedLog("Request Body: ");
+            printer.printHighlightedLog(handlerData.postData);
             let promise = chosenHandler(handlerData);
             promise.then((responseObject) => {
                const requestKey = generator.generateRandomToken(16);
@@ -113,7 +115,7 @@ server.unifiedServer = function (req, res) {
                err[1][constants.API_REQUEST_KEY] = requestKey;
                sendResponse(err[1], err[0]);
             });
-            
+
          }).catch(err => {
             printer.printError(err);
             const response = responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_4);
