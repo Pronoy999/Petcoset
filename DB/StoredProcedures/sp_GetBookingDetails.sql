@@ -5,14 +5,15 @@ begin
     if parCustomerId > 0 then
         set @whereClaus = concat(@whereClaus, ' b.customer_id = ', parCustomerId, ' and ');
     end if;
-    if parBookingId > 0 then
+    if parBookingId > 0 and length(parBookingId) > 0 then
         set @whereClaus = concat(@whereClaus, ' b.id = ', parBookingId, ' and ');
     end if;
     if parStatusId > 0 then
         set @whereClaus = concat(@whereClaus, ' b.booking_status_id = ', parStatusId, ' and ');
     end if;
     set @whereClaus = concat(@whereClaus, ' b.is_active =1 ');
-    select concat('select b.id,
+    select concat('select
+           b.id,
            b.booking_type,
            b.customer_id,
            c.first_name as CustomerFirstName,
@@ -35,7 +36,7 @@ begin
            booking_date,
            booking_time,
            address_id,
-           ad.id,
+           ad.id as addressId,
            address1,
            address2,
            city_id,
