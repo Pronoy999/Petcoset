@@ -272,6 +272,26 @@ class Customer {
          });
       });
    }
+
+   /**
+    * Method to get the subscription details for a customer.
+    * @returns {Promise<Array>}:
+    */
+   getSubscriptionDetails() {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GET_CUSTOMER_SUBSCRIPTION_DETAILS, [this._id])
+            .then(_resultSet => {
+               const result = _resultSet[0];
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  resolve([{id: -1}]);
+               }
+            }).catch(err => {
+            reject(err);
+         });
+      });
+   }
 }
 
 /**

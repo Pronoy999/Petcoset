@@ -35,6 +35,7 @@ begin
            sm.status_name,
            booking_date,
            booking_time,
+           booking_end_time,
            address_id,
            ad.id as addressId,
            address1,

@@ -38,6 +38,13 @@ begin
                    , par_customerId
                    , current_timestamp());
             select last_insert_id() as id;
+            update tbl_BookingMaster
+            set booking_status_id=6,
+                modified=now(),
+                modified_by=par_customerId
+            where id = par_bookingId
+              and is_active = 1
+              and booking_status_id = 13;
         else
             select -1 as id;
         end if;
