@@ -183,6 +183,7 @@ constants.CORE_STATE_SEARCH = "searchState";
 constants.CORE_BREED_SEARCH = "searchBreed";
 constants.CORE_SERVICE_SEARCH_VENDORS = "searchVendorForService";
 constants.CORE_PAYMENT_CREATE = "createPayment";
+constants.CORE_CUSTOMER_SUBSCRIPTION_GET = "getCustomerSubscription";
 /**
  * SP Names.
  */
@@ -223,6 +224,7 @@ constants.SP_STORE_RECURRING_BOOKING = "sp_StoreRecurringBooking";
 constants.SP_SEARCH_VENDOR_SERVICE = "sp_SearchVendorServices";
 constants.SP_UPDATE_BOOKING_DETAILS = "sp_UpdateBookingDetails";
 constants.SP_UPDATE_CUSTOMER_PET_DETAILS = "sp_UpdateCustomerPetDetails";
+constants.SP_GET_CUSTOMER_SUBSCRIPTION_DETAILS = "sp_GetSubscriptionDetailsCustomer";
 /**
  * General Keys
  */

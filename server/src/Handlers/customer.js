@@ -382,6 +382,44 @@ customerHandler.images = (dataObject) => {
    });
 };
 /**
+ * Method to handle the requests for Customer's Subscription details.
+ * @param dataObject: the request object.
+ * @returns {Promise<unknown>}
+ */
+customerHandler.customerSubscription = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const method = dataObject.method;
+      if (method === constants.HTTP_GET) {
+         const customerId = validator.validateNumber(dataObject.queryString[constants.CUSTOMER_ID]) ?
+            dataObject.queryString[constants.CUSTOMER_ID] : false;
+         const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ?
+            dataObject[constants.JW_TOKEN] : false;
+         if (customerId && jwToken) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_DATA] = dataObject.queryString;
+            serviceData[constants.CORE_TOKEN] = jwToken;
+            serviceData[constants.CORE_TYPE] = constants.CORE_CUSTOMER_SUBSCRIPTION_GET;
+            const childWorker = childProcess.fork(`${__dirname}/../CoreServices/customer.js`);
+            childWorker.send(serviceData);
+            childWorker.on('message', childReply => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  printer.printLog(childReply[constants.CORE_ERROR_LEVEL]);
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  reject(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else {
+         reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
+      }
+   });
+};
+/**
  * Exporting the module.
  */
 module.exports = customerHandler;

@@ -45,6 +45,9 @@ process.on("message", (serviceData) => {
          case constants.CORE_CUSTOMER_PET_DETAILS_UPDATE:
             promise = customerService.updatePetDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
             break;
+         case constants.CORE_CUSTOMER_SUBSCRIPTION_GET:
+            promise = customerService.getSubscriptionDetails(serviceData[constants.CORE_DATA], serviceData[constants.CORE_TOKEN]);
+            break;
          default:
             process.send(responseGenerator.generateCoreResponse(false, false, constants.INVALID_PATH, constants.ERROR_LEVEL_1));
             process.exit(1);
@@ -262,6 +265,26 @@ customerService.updatePetDetails = (dataObject, jwToken) => {
             .then(updateDetails => {
                resolve([updateDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
             }).catch(err => {
+            reject([err, constants.ERROR_LEVEL_3]);
+         });
+      } else {
+         reject([constants.FORBIDDEN_MESSAGE, constants.ERROR_LEVEL_4]);
+      }
+   });
+};
+/**
+ * Method to get the Customer Subscription Details.
+ * @param dataObject: The required Data.
+ * @param jwToken: the token of the user.
+ * @returns {Promise<Array>}
+ */
+customerService.getSubscriptionDetails = (dataObject, jwToken) => {
+   return new Promise((resolve, reject) => {
+      if (tokenGenerator.validateToken(jwToken)) {
+         const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
+         customer.getSubscriptionDetails().then(response => {
+            resolve([response, constants.RESPONSE_SUCESS_LEVEL_1]);
+         }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);
          });
       } else {

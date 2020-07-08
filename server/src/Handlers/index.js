@@ -36,6 +36,9 @@ handlerObj.customers = (dataObject) => {
          case "service":
             promise = customer.customerService(dataObject);
             break;
+         case "subscription":
+            promise = customer.customerSubscription(dataObject);
+            break;
          case "pet":
             promise = customer.petDetails(dataObject);
             break;
