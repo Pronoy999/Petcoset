@@ -136,8 +136,10 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
 bookingServices.getBookingDetails = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
       if (tokenGenerator.validateToken(jwToken)) {
-         const booking = new Booking(dataObject[constants.BOOKING_ID], false, dataObject[constants.BOOKING_CUSTOMER_ID]);
-         booking.getBookingDetails(dataObject[constants.BOOKING_STATUS_ID]).then(bookingDetails => {
+         const booking = new Booking(dataObject[constants.BOOKING_ID], false,
+            dataObject[constants.BOOKING_CUSTOMER_ID]);
+         booking.getBookingDetails(dataObject[constants.BOOKING_STATUS_ID],
+            dataObject[constants.BOOKING_VENDOR_ID]).then(bookingDetails => {
             resolve([bookingDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);

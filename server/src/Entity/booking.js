@@ -193,10 +193,11 @@ class Booking {
     * Method to get the booking details.
     * @returns {Promise<Array>}: An array of booking details.
     */
-   getBookingDetails(statusId) {
+   getBookingDetails(statusId, vendorId) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_GET_BOOKING_DETAILS, [this._customerId, this._bookingId,
-            validators.validateNumber(statusId) ? statusId : 0]).then(_resultSet => {
+            validators.validateNumber(statusId) ? statusId : 0,
+            validators.validateNumber(vendorId) ? vendorId : 0]).then(_resultSet => {
             const result = _resultSet[0];
             if (validators.validateUndefined(result)) {
                resolve(result);
