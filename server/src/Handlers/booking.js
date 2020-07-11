@@ -128,8 +128,10 @@ bookingHandler.bookingSubscription = (dataObject) => {
             dataObject.postData[constants.PAYMENT_TRANSACTION_ID] : false;
          const customerId = validator.validateNumber(dataObject.postData[constants.BOOKING_CUSTOMER_ID]) ?
             dataObject.postData[constants.BOOKING_CUSTOMER_ID] : false;
+         const vendorId = validator.validateNumber(dataObject.postData[constants.VENDOR_ID]) ?
+            dataObject.postData[constants.VENDOR_ID] : false;
          const jwToken = validator.validateString(dataObject[constants.JW_TOKEN]) ? dataObject[constants.JW_TOKEN] : false;
-         if (subscriptionID && amount && transactionID && customerId && jwToken) {
+         if (subscriptionID && amount && transactionID && customerId && jwToken && vendorId) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];

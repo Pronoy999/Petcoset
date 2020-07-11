@@ -59,7 +59,9 @@ bookingServices.createSubsServiceBooking = (dataObject, jwToken) => {
       if (validator.validateUndefined(tokenGenerator.validateToken(jwToken))) {
          const booking = new Booking(false, constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, dataObject[constants.BOOKING_CUSTOMER_ID],
             dataObject[constants.BOOKING_SERVICE_ID]);
-         booking.createSubscriptionServiceBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID], dataObject[constants.CUSTOMER_ADDRESS_ID],
+         booking.createSubscriptionServiceBooking(dataObject[constants.BOOKING_SUBSCRIPTION_ID],
+            dataObject[constants.VENDOR_ID],
+            dataObject[constants.CUSTOMER_ADDRESS_ID],
             dataObject[constants.BOOKING_TIME], dataObject[constants.BOOKING_END_TIME], dataObject[constants.BOOKING_DATE],
             dataObject[constants.BOOKING_REMARKS],
             dataObject[constants.RECURRING_BOOKINGS])
