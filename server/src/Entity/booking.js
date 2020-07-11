@@ -4,6 +4,8 @@ const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
 const Payment = require('./payment');
+const Vendor = require('./vendor');
+const notificationManager = require('./../Helpers/notificationManager');
 
 class Booking {
    /**
@@ -47,6 +49,22 @@ class Booking {
       });
    }
 
+   _notifyVendor(vendorId) {
+      return new Promise(async (resolve, reject) => {
+         try {
+            const vendor = new Vendor(vendorId);
+            const vendorDetails = vendor.getVendor();
+            const phoneNumber = vendorDetails[0][constants.VENDOR_PHONE_NUMBER];
+            const firstName = vendorDetails[0][constants.VENDOR_FIRST_NAME];
+            let msg = constants.VENDOR_MESSAGE.replace("%n", firstName);
+            await notificationManager.sendSMS(msg, phoneNumber);
+         } catch (e) {
+            reject(e);
+            printer.printError(e);
+         }
+      });
+   }
+
    /**
     * Method to create a Subscription's service booking.
     * It books a service from an active subscription.
@@ -79,8 +97,9 @@ class Booking {
                      recurringTimes.push(oneBooking[constants.BOOKING_TIME]);
                   });
                   database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
-                     recurringTimes.join(","), this._bookingId]).then(_resultSet => {
+                     recurringTimes.join(","), this._bookingId]).then(async _resultSet => {
                      const result = _resultSet[0][0];
+                     await this._notifyVendor(vendorId);
                      resolve(result);
                   }).catch(err => {
                      printer.printError(err);
@@ -165,8 +184,9 @@ class Booking {
                         recurringEndTimes.push(oneBooking[constants.BOOKING_END_TIME]);
                      });
                      database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
-                        recurringTimes.join(","), recurringEndTimes.join(","), this._bookingId]).then(_resultSet => {
+                        recurringTimes.join(","), recurringEndTimes.join(","), this._bookingId]).then(async _resultSet => {
                         const result = _resultSet[0][0];
+                        await this._notifyVendor(vendorID);
                         resolve(result);
                      }).catch(err => {
                         printer.printError(err);

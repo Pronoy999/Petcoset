@@ -44,7 +44,7 @@ class Vendor {
       this._city = validators.validateNumber(city) ? city : false;
       this._gender = validators.validateCharacter(gender) ? gender : false;
    }
-   
+
    /**
     * Method to notify the Admin of a new Vendor.
     * @returns {Promise<Boolean>}true, if SMS is send, else ERROR.
@@ -61,7 +61,7 @@ class Vendor {
          })
       });
    }
-   
+
    /**
     * Method to register the vendor.
     * @param password: the vendor login password.
@@ -72,7 +72,7 @@ class Vendor {
    createVendor(password, documentIdentificationNumber, documentType) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_CREATE_VENDOR, [this._firstName, this._lastName, this._email, password,
-               this._phone, this._gender, documentType, documentIdentificationNumber])
+            this._phone, this._gender, documentType, documentIdentificationNumber])
             .then(async _resultSet => {
                try {
                   const result = _resultSet[0][0];
@@ -94,7 +94,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to add the vendor service.
     * @param serviceId: The service Id.
@@ -141,41 +141,41 @@ class Vendor {
                         onlyOneBooking, petWeight, numOfVisits, breed, childAge, fullTime, firstAid, serviceDuration, servicePerWeek, serviceCharge) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId,
-               validators.validateUndefined(petType) ? petType : "",
-               validators.validateUndefined(isBathing) ? isBathing : false,
-               validators.validateUndefined(isMassage) ? isMassage : false,
-               validators.validateUndefined(isCleaning) ? isCleaning : false,
-               validators.validateUndefined(isFurTrim) ? isFurTrim : false,
-               validators.validateUndefined(petSex) ? petSex : false,
-               validators.validateUndefined(petAge) ? petAge : false,
-               validators.validateUndefined(isPedigreeCert) ? isPedigreeCert : false,
-               validators.validateUndefined(isMedicalCert) ? isMedicalCert : false,
-               validators.validateUndefined(isImmuneCert) ? isImmuneCert : false,
-               validators.validateUndefined(isBehaveModification) ? isBehaveModification : false,
-               validators.validateUndefined(isObedienceTrain) ? isObedienceTrain : false,
-               validators.validateUndefined(isScientificTrain) ? isObedienceTrain : false,
-               validators.validateUndefined(isAgilityTrain) ? isAgilityTrain : false,
-               validators.validateUndefined(isTherapyTrain) ? isTherapyTrain : false,
-               validators.validateUndefined(numOfDogs) ? numOfDogs : false,
-               validators.validateUndefined(hasHouse) ? hasHouse : false,
-               validators.validateUndefined(hasFencedGarden) ? hasFencedGarden : false,
-               validators.validateUndefined(isPetOnFurniture) ? isPetOnFurniture : false,
-               validators.validateUndefined(isPetOnBed) ? isPetOnBed : false,
-               validators.validateUndefined(isNoSmoking) ? isNoSmoking : false,
-               validators.validateUndefined(doesOwnDog) ? doesOwnDog : false,
-               validators.validateUndefined(doesOwnCat) ? doesOwnCat : false,
-               validators.validateUndefined(doesOwnCagedAnimals) ? doesOwnCagedAnimals : false,
-               validators.validateUndefined(onlyOneBooking) ? onlyOneBooking : false,
-               validators.validateUndefined(petWeight) ? petWeight : false,
-               validators.validateUndefined(numOfVisits) ? numOfVisits : false,
-               validators.validateUndefined(breed) ? breed : false,
-               validators.validateUndefined(childAge) ? childAge : false,
-               validators.validateUndefined(fullTime) ? fullTime : false,
-               validators.validateUndefined(firstAid) ? firstAid : false,
-               serviceDuration,
-               validators.validateUndefined(servicePerWeek) ? servicePerWeek : false,
-               serviceCharge
-            ])
+            validators.validateUndefined(petType) ? petType : "",
+            validators.validateUndefined(isBathing) ? isBathing : false,
+            validators.validateUndefined(isMassage) ? isMassage : false,
+            validators.validateUndefined(isCleaning) ? isCleaning : false,
+            validators.validateUndefined(isFurTrim) ? isFurTrim : false,
+            validators.validateUndefined(petSex) ? petSex : false,
+            validators.validateUndefined(petAge) ? petAge : false,
+            validators.validateUndefined(isPedigreeCert) ? isPedigreeCert : false,
+            validators.validateUndefined(isMedicalCert) ? isMedicalCert : false,
+            validators.validateUndefined(isImmuneCert) ? isImmuneCert : false,
+            validators.validateUndefined(isBehaveModification) ? isBehaveModification : false,
+            validators.validateUndefined(isObedienceTrain) ? isObedienceTrain : false,
+            validators.validateUndefined(isScientificTrain) ? isObedienceTrain : false,
+            validators.validateUndefined(isAgilityTrain) ? isAgilityTrain : false,
+            validators.validateUndefined(isTherapyTrain) ? isTherapyTrain : false,
+            validators.validateUndefined(numOfDogs) ? numOfDogs : false,
+            validators.validateUndefined(hasHouse) ? hasHouse : false,
+            validators.validateUndefined(hasFencedGarden) ? hasFencedGarden : false,
+            validators.validateUndefined(isPetOnFurniture) ? isPetOnFurniture : false,
+            validators.validateUndefined(isPetOnBed) ? isPetOnBed : false,
+            validators.validateUndefined(isNoSmoking) ? isNoSmoking : false,
+            validators.validateUndefined(doesOwnDog) ? doesOwnDog : false,
+            validators.validateUndefined(doesOwnCat) ? doesOwnCat : false,
+            validators.validateUndefined(doesOwnCagedAnimals) ? doesOwnCagedAnimals : false,
+            validators.validateUndefined(onlyOneBooking) ? onlyOneBooking : false,
+            validators.validateUndefined(petWeight) ? petWeight : false,
+            validators.validateUndefined(numOfVisits) ? numOfVisits : false,
+            validators.validateUndefined(breed) ? breed : false,
+            validators.validateUndefined(childAge) ? childAge : false,
+            validators.validateUndefined(fullTime) ? fullTime : false,
+            validators.validateUndefined(firstAid) ? firstAid : false,
+            serviceDuration,
+            validators.validateUndefined(servicePerWeek) ? servicePerWeek : false,
+            serviceCharge
+         ])
             .then(_resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
@@ -189,7 +189,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to get the vendor services.
     * @returns {Promise<Array>}: The list of services provided.
@@ -210,7 +210,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to get the vendor details.
     * @param vendorStatus: The status of the vendor.
@@ -219,7 +219,7 @@ class Vendor {
    getVendor(vendorStatus) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_GET_VENDOR, [this._email, this._phone, this._vendorId,
-               validators.validateUndefined(vendorStatus) ? vendorStatus : false])
+            validators.validateUndefined(vendorStatus) ? vendorStatus : false])
             .then(_resultSet => {
                let result = _resultSet[0];
                if (validators.validateUndefined(result)) {
@@ -233,7 +233,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to verify the 2F mobile number of the vendor.
     * @param otp: The OTP entered by the vendor.
@@ -259,7 +259,7 @@ class Vendor {
          }
       });
    }
-   
+
    /**
     * Method to create the bank details of the vendor.
     * @param accountHolderName: The account holder Name.
@@ -272,7 +272,7 @@ class Vendor {
    createUpdateBankDetails(accountHolderName, accountNumber, bankName, ifscCode, isUpdate) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_CREATE_BANK_DETAILS, [this._vendorId, "tbl_VendorMaster", accountHolderName,
-               accountNumber, bankName, ifscCode, this._phone, '', 0, isUpdate])
+            accountNumber, bankName, ifscCode, this._phone, '', 0, isUpdate])
             .then(_resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
@@ -286,7 +286,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to update the vendor payment gateway account id.
     * @param accountNumber: The account number of the bank.
@@ -296,7 +296,7 @@ class Vendor {
    updateBankDetails(accountNumber, paymentGatewayAccountId) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_CREATE_BANK_DETAILS, [this._vendorId, "tbl_VendorMaster", '', accountNumber,
-               '', '', '', paymentGatewayAccountId, 1, 0])
+            '', '', '', paymentGatewayAccountId, 1, 0])
             .then(_resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
@@ -310,7 +310,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to get the bank details of the vendor.
     * @returns {Promise<Array>}: The bank details.
@@ -331,7 +331,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to update the vendor details.
     * @param password: The password of the vendor.
@@ -340,8 +340,8 @@ class Vendor {
    updateVendorDetails(password) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_UPDATE_VENDOR_DETAILS, [this._vendorId, this._email,
-               validators.validateUndefined(password) ? password : false,
-               this._phone, this._address1, this._address2, this._city, this._pincode])
+            validators.validateUndefined(password) ? password : false,
+            this._phone, this._address1, this._address2, this._city, this._pincode])
             .then(_resultSet => {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result)) {
@@ -355,7 +355,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to get the booking for a vendor.
     * @param dateFilter: The date filter.
@@ -365,8 +365,8 @@ class Vendor {
    getVendorBooking(dateFilter, timeFilter) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_GET_VENDOR_BOOKING, [this._vendorId,
-               validators.validateUndefined(dateFilter) ? dateFilter : false,
-               validators.validateUndefined(timeFilter) ? timeFilter : false])
+            validators.validateUndefined(dateFilter) ? dateFilter : false,
+            validators.validateUndefined(timeFilter) ? timeFilter : false])
             .then(_resultSet => {
                const result = _resultSet[0];
                if (validators.validateUndefined(result)) {
@@ -380,7 +380,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to upload the images for vendor.
     * This method is used to upload the profile picture
@@ -409,7 +409,7 @@ class Vendor {
          });
       });
    }
-   
+
    /**
     * Method to get the images of the vendor.
     * @param imageType: the type of images to be searched.
@@ -434,6 +434,5 @@ class Vendor {
 
 /**
  * Exporting the module.
- * @type {Vendor}
  */
 module.exports = Vendor;

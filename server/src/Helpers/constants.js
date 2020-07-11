@@ -107,6 +107,7 @@ constants.ERROR_LEVEL_3 = "3";
 constants.ERROR_LEVEL_4 = "4";
 
 constants.BOOKING_REMINDER_MESSAGE = "Hi %n, Please go to petcoset.com and choose a vendor for your upcoming booking on %d";
+constants.VENDOR_MESSAGE = "Hi %n, You have a new booking.";
 /**
  * S3 URLs
  */
