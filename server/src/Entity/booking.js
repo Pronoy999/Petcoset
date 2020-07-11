@@ -56,14 +56,16 @@ class Booking {
     * @param bookingTime: The booking date.
     * @param bookingEndTime: the end time of the booking.
     * @param bookingDate: The booking time.
+    * @param breedId
     * @param remarks
     * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Number>}: The booking id.
     */
-   createSubscriptionServiceBooking(subscriptionId, vendorId, addressId, bookingTime, bookingEndTime, bookingDate, remarks, recurringBookings) {
+   createSubscriptionServiceBooking(subscriptionId, vendorId, addressId, bookingTime, bookingEndTime, bookingDate, breedId, remarks, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, this._customerId,
             subscriptionId, this._serviceId, vendorId, 0, bookingDate, bookingTime, bookingEndTime, addressId,
+            breedId,
             validators.validateString(remarks) ? remarks : "",
             0, 0]).then(_resultSet => {
             const result = _resultSet[0][0];
@@ -137,13 +139,15 @@ class Booking {
     * @param bookingEndTime: The end time of the booking.
     * @param addressId: The address of the customer.
     * @param remarks: The booking remarks.
+    * @param breedId
     * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Object>}: The booking id.
     */
-   createServiceBooking(vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId, remarks, recurringBookings) {
+   createServiceBooking(vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId, remarks, breedId, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
             0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId,
+            breedId,
             validators.validateString(remarks) ? remarks : "",
             0, 0]).then(async _resultSet => {
             try {

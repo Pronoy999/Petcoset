@@ -20,7 +20,7 @@ class Authentication {
       this._password = validators.validateString(password) ? password : false;
       this._role = validators.validateString(role) ? role : false;
    }
-   
+
    /**
     * Method to check the validity of the login.
     * @returns {Promise<Array>}: the details of the user after successful login.
@@ -42,7 +42,7 @@ class Authentication {
          });
       });
    }
-   
+
    /**
     * Method to send OTP to the user.
     * @param mobileNumber: the mobile number of the user.
@@ -71,7 +71,7 @@ class Authentication {
          }
       });
    }
-   
+
    /**
     * Method to verify the OTP from the user.
     * @param mobileNumber: The mobile number.
@@ -97,6 +97,5 @@ class Authentication {
 
 /**
  * Exporting the authentication class.
- * @type {Authentication}
  */
 module.exports = Authentication;

@@ -63,6 +63,7 @@ bookingServices.createSubsServiceBooking = (dataObject, jwToken) => {
             dataObject[constants.VENDOR_ID],
             dataObject[constants.CUSTOMER_ADDRESS_ID],
             dataObject[constants.BOOKING_TIME], dataObject[constants.BOOKING_END_TIME], dataObject[constants.BOOKING_DATE],
+            dataObject[constants.BOOKING_BREED_ID],
             dataObject[constants.BOOKING_REMARKS],
             dataObject[constants.RECURRING_BOOKINGS])
             .then(bookingId => {
@@ -115,6 +116,7 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
             dataObject[constants.BOOKING_END_TIME],
             dataObject[constants.CUSTOMER_ADDRESS_ID],
             dataObject[constants.BOOKING_REMARKS],
+            dataObject[constants.BOOKING_BREED_ID],
             dataObject[constants.RECURRING_BOOKINGS]).then(bookingId => {
             resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
