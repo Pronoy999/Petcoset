@@ -16,7 +16,8 @@ begin
                         on a.customer_id = c.id
     where c.id = parCustomerId
       and a.id = parAddressId
-      and c.is_active = 1;
+      and c.is_active = 1
+    limit 1;
     if parBookingType = 'subscription_service_booking' then
         #Booking from subscription.
 
@@ -31,13 +32,15 @@ begin
           and csm.subscription_validity > date(now())
           and cssm.service_id = parServiceId
           and cssm.service_count > 0
-          and csm.is_active = 1;
+          and csm.is_active = 1
+        limit 1;
         if @isSubValid > 0 and @isCustValid > 0 then
             #Creating the booking with pending status.
-            insert into tbl_BookingMaster (booking_type, customer_id, subscription_id, service_id, booking_status_id,
+            insert into tbl_BookingMaster (booking_type, customer_id, subscription_id, service_id, vendor_id,
+                                           booking_status_id,
                                            booking_date, booking_time, booking_end_time,
                                            address_id, remarks, created_by)
-                value (parBookingType, parCustomerId, parSubscriptionId, parServiceId, 4,
+                value (parBookingType, parCustomerId, parSubscriptionId, parServiceId, parVendorId, 4,
                        parDate, parTime, parEndTime, parAddressId, parRemarks, parCustomerId);
             select last_insert_id() into parBookingId;
             #Updating the service count after booking confirmed.

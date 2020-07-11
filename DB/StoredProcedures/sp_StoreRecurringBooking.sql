@@ -32,6 +32,32 @@ begin
                             on d.ID = t.ID
                  inner join TempEndTimes te
                             on d.ID = te.ID;
+        set @bookingType = '',@subscriptionId = null,@serviceId = null,@totalAmount = 0.0,
+            @addressId = 0,@remarks = '',@customerId = 0;
+        select booking_type, subscription_id, service_id, total_amount, address_id, remarks, customer_id
+        into @bookingType,@subscriptionId,@serviceId,@totalAmount,@addressId,@remarks,@customerId
+        from tbl_BookingMaster
+        where id = parInitialBookingId
+          and is_active = 1;
+        insert into tbl_BookingMaster (booking_type, customer_id, subscription_id, service_id,
+                                       total_amount, booking_status_id, booking_date, booking_time, booking_end_time,
+                                       address_id, remarks, created_by)
+        select @bookingType,
+               @customerId,
+               @subscriptionId,
+               @serviceId,
+               @totalAmount,
+               14,
+               booking_date,
+               booking_time,
+               booking_end_time,
+               @addressId,
+               @remarks,
+               @customerId
+        from tbl_RecurringBooking
+        where customer_id = @customerId
+          and initial_booking_id = parInitialBookingId
+          and is_active = 1;
         select 1 as id;
     else
         select -1 as id;

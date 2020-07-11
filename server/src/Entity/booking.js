@@ -51,6 +51,7 @@ class Booking {
     * Method to create a Subscription's service booking.
     * It books a service from an active subscription.
     * @param subscriptionId: The Subscription that the user is buying.
+    * @param vendorId: The vendor id.
     * @param addressId: The address id of the customer.
     * @param bookingTime: The booking date.
     * @param bookingEndTime: the end time of the booking.
@@ -59,10 +60,10 @@ class Booking {
     * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Number>}: The booking id.
     */
-   createSubscriptionServiceBooking(subscriptionId, addressId, bookingTime, bookingEndTime, bookingDate, remarks, recurringBookings) {
+   createSubscriptionServiceBooking(subscriptionId, vendorId, addressId, bookingTime, bookingEndTime, bookingDate, remarks, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, this._customerId,
-            subscriptionId, this._serviceId, 0, 0, bookingDate, bookingTime, bookingEndTime, addressId,
+            subscriptionId, this._serviceId, vendorId, 0, bookingDate, bookingTime, bookingEndTime, addressId,
             validators.validateString(remarks) ? remarks : "",
             0, 0]).then(_resultSet => {
             const result = _resultSet[0][0];
@@ -142,9 +143,9 @@ class Booking {
    createServiceBooking(vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId, remarks, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
-            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime,
+            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId,
             validators.validateString(remarks) ? remarks : "",
-            addressId, 0, 0]).then(async _resultSet => {
+            0, 0]).then(async _resultSet => {
             try {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result) && result.id > 0) {
