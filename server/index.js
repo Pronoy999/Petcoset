@@ -1,8 +1,9 @@
 #!/usr/bin/env node
+require('dotenv').config();
 const server = require('./src/Helpers/server');
 const os = require('os');
 const cluster = require('cluster');
-require('dotenv').config();
+const worker = require('./src/Workers/index');
 const app = {};
 app.init = () => {
    const cpuLength = os.cpus().length;
@@ -16,3 +17,5 @@ app.init = () => {
 };
 //Starting the App.
 app.init();
+//Starting the worker.
+worker.init();

@@ -105,6 +105,8 @@ constants.ERROR_LEVEL_1 = "1";
 constants.ERROR_LEVEL_2 = "2";
 constants.ERROR_LEVEL_3 = "3";
 constants.ERROR_LEVEL_4 = "4";
+
+constants.BOOKING_REMINDER_MESSAGE = "Hi %n, Please go to petcoset.com and choose a vendor for your upcoming booking on %d";
 /**
  * S3 URLs
  */
@@ -225,6 +227,7 @@ constants.SP_SEARCH_VENDOR_SERVICE = "sp_SearchVendorServices";
 constants.SP_UPDATE_BOOKING_DETAILS = "sp_UpdateBookingDetails";
 constants.SP_UPDATE_CUSTOMER_PET_DETAILS = "sp_UpdateCustomerPetDetails";
 constants.SP_GET_CUSTOMER_SUBSCRIPTION_DETAILS = "sp_GetSubscriptionDetailsCustomer";
+constants.SP_GET_UPCOMING_BOOKINGS = "sp_GetUpcomingBookings";
 /**
  * General Keys
  */

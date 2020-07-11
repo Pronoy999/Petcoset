@@ -34,6 +34,5 @@ notificationManager.sendSMS = (msg, address) => {
 };
 /**
  * Exporting the notification manager.
- * @type {{}}
  */
 module.exports = notificationManager;
