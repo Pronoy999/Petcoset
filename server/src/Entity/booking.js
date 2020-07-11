@@ -142,9 +142,9 @@ class Booking {
    createServiceBooking(vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId, remarks, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
-            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime,
+            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId,
             validators.validateString(remarks) ? remarks : "",
-            addressId, 0, 0]).then(async _resultSet => {
+            0, 0]).then(async _resultSet => {
             try {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result) && result.id > 0) {
