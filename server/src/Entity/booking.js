@@ -166,7 +166,7 @@ class Booking {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
             0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId,
-            breedId,
+            validators.validateNumber(breedId) ? breedId : 0,
             validators.validateString(remarks) ? remarks : "",
             0, 0]).then(async _resultSet => {
             try {
