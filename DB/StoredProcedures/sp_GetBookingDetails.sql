@@ -66,7 +66,7 @@ begin
             left join tbl_PaymentMaster p
                 on p.booking_id = b.id
              left join tbl_CityMaster cm
-                       on ad.city_id = cm.id  where ', @whereClaus)
+                       on ad.city_id = cm.id  where ', @whereClaus, ' order by booking_date')
     into @stmtSQL;
     #select @stmtSQL;
     prepare stmtExec from @stmtSQL;
