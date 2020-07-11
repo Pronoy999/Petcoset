@@ -275,6 +275,7 @@ constants.CUSTOMER_PET_TYPE = "pet_type";
 constants.CUSTOMER_PET_NAME = "pet_name";
 constants.CUSTOMER_PET_BREED = "breed";
 constants.CUSTOMER_PET_AGE = "pet_age";
+constants.CUSTOMER_PET_AGE_MONTH = "pet_age_month";
 constants.CUSTOMER_PET_SEX = "pet_sex";
 constants.CUSTOMER_PET_WEIGHT = "weight";
 constants.CUSTOMER_PREFERRED_LOACTION = "preferred_location";

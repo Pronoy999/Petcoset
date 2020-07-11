@@ -255,11 +255,13 @@ customerHandler.petDetails = (dataObject) => {
             dataObject.postData[constants.CUSTOMER_PET_BREED] : false;
          const pet_age = validator.validateNumber(dataObject.postData[constants.CUSTOMER_PET_AGE]) ?
             dataObject.postData[constants.CUSTOMER_PET_AGE] : false;
+         const petMonth = validator.validateNumber(dataObject.postData[constants.CUSTOMER_PET_AGE_MONTH]) ?
+            dataObject.postData[constants.CUSTOMER_PET_AGE_MONTH] : false;
          const pet_sex = validator.validateString(dataObject.postData[constants.CUSTOMER_PET_SEX]) ?
             dataObject.postData[constants.CUSTOMER_PET_SEX] : false;
          const weight = validator.validateNumber(dataObject.postData[constants.CUSTOMER_PET_WEIGHT]) ?
             dataObject.postData[constants.CUSTOMER_PET_WEIGHT] : false;
-         if (customerId && jwToken && petType && petName && breed && pet_age && pet_sex && weight) {
+         if (customerId && jwToken && petType && petName && breed && (pet_age || petMonth) && pet_sex && weight) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
