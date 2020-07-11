@@ -3,7 +3,7 @@ require('dotenv').config();
 const server = require('./src/Helpers/server');
 const os = require('os');
 const cluster = require('cluster');
-const worker = require('./src/Workers/index');
+const worker = require('./src/Workers');
 const app = {};
 app.init = () => {
    const cpuLength = os.cpus().length;

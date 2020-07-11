@@ -10,6 +10,7 @@ const worker = {};
  * Method to initialize the worker.
  */
 worker.init = () => {
+   printer.printHighlightedLog("Worker Scheduled.");
    startBookingReminder();
 };
 
