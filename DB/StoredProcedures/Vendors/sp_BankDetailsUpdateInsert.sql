@@ -59,7 +59,7 @@ begin
     ELSE
         #Deleting the previous record and inserting new one.
         update tbl_BankDetailsMaster set is_active=0 where holder_id = par_holder_id and holder_type = par_holder_type;
-        select concat('UPDATE ', par_holder_type, ' set status_id=4,modified_by=', par_holder_id,
+        select concat('UPDATE ', par_holder_type, ' set status_id=6,modified_by=', par_holder_id,
                       ',modified=now() where id = ', par_holder_id)
         into @dySql;
         #select @dySQL;
