@@ -324,6 +324,7 @@ constants.VENDOR_PINCODE = "pincode";
 constants.VENDOR_PROFILE_IMAGE = "profile_image";
 constants.VENDOR_STATUS = "status_id";
 constants.VENDOR_PET_TYPE = "pet_type";
+constants.VENDOR_SERVICE_IS_DELETE = "is_delete";
 constants.VENDOR_IS_BATHING_PROVIDED = "is_bathing_provided";
 constants.VENDOR_IS_MASSAGE_PROVIDED = "is_massage_provided";
 constants.VENDOR_IS_CLEANING_PROVIDED = "is_cleaning_provided";

@@ -97,6 +97,7 @@ class Vendor {
 
    /**
     * Method to add the vendor service.
+    * @param isDelete
     * @param serviceId: The service Id.
     * @param petType: The type of pet.
     * @param isBathing: 1 for bathing provided with the service.
@@ -134,13 +135,15 @@ class Vendor {
     * @param serviceCharge: The charge per service.
     * @returns {Promise<Array>}: 1 if completed, else -1.
     */
-   createVendorServices(serviceId, petType, isBathing, isMassage, isCleaning, isFurTrim, petSex, petAge, isPedigreeCert,
+   createVendorServices(isDelete, serviceId, petType, isBathing, isMassage, isCleaning, isFurTrim, petSex, petAge, isPedigreeCert,
                         isMedicalCert, isImmuneCert, isBehaveModification, isObedienceTrain, isScientificTrain,
                         isAgilityTrain, isTherapyTrain, numOfDogs, hasHouse, hasFencedGarden, isPetOnFurniture,
                         isPetOnBed, isNoSmoking, doesOwnDog, doesOwnCat, doesOwnCagedAnimals,
                         onlyOneBooking, petWeight, numOfVisits, breed, childAge, fullTime, firstAid, serviceDuration, servicePerWeek, serviceCharge) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_ADD_VENDOR_SERVICE, [this._vendorId, serviceId,
+         database.runSp(constants.SP_ADD_VENDOR_SERVICE, [
+            validators.validateUndefined(isDelete) ? isDelete : false,
+            this._vendorId, serviceId,
             validators.validateUndefined(petType) ? petType : "",
             validators.validateUndefined(isBathing) ? isBathing : false,
             validators.validateUndefined(isMassage) ? isMassage : false,

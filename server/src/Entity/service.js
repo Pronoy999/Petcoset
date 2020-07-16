@@ -85,6 +85,5 @@ class Service {
 
 /**
  * Method to export the service module.
- * @type {Service}
  */
 module.exports = Service;

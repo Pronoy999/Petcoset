@@ -331,7 +331,7 @@ BEGIN
               and COLUMN_NAME = 'pet_weight'
         ) then
         alter table tbl_VendorServiceMapping
-            add column pet_weight int default null after only_one_booking;
+            add column pet_weight varchar(20) default null after only_one_booking;
     end if;
     if not exists(
             select 1
