@@ -14,12 +14,10 @@ begin
     truncate tbl_OTPMaster;
     truncate tbl_PaymentMaster;
     truncate tbl_ApiLogger;
-    truncate tbl_BookingType;
     truncate tbl_EmployeeMaster;
     truncate tbl_EmployeeServiceMapping;
-    truncate tbl_SubscriptionMaster;
-    truncate tbl_SubscriptionServiceBooking;
-    truncate tbl_SubscriptionServiceMapping;
+    truncate tbl_BookingMaster;
+    truncate tbl_RecurringBooking;
     truncate tbl_VendorImages;
     insert into tbl_EmployeeMaster(first_name, last_name,
                                    employee_role, email,

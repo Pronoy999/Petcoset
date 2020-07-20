@@ -38,6 +38,7 @@ begin
            booking_status_id,
            sm.status_name,
            booking_date,
+           booking_end_date,
            booking_time,
            booking_end_time,
            address_id,
