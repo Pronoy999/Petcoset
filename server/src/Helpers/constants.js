@@ -241,6 +241,7 @@ constants.TWO_FACTOR_KEY = "2F";
 constants.AWS_DOCUMENTS_BUCKET = "petcoset-documents";
 constants.AWS_IMAGES_BUCKET = "petcoset-images";
 constants.S3_BUCKET_KEY = "Bucket";
+constants.S3_RESPONSE_QUIET = "Quiet";
 constants.S3_KEY_KEY = "Key";
 constants.S3_BODY_KEY = "Body";
 

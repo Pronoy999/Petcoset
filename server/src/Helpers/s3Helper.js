@@ -45,6 +45,40 @@ s3Helper.uploadFile = (fileData, fileName, isUploadToSecure) => {
    });
 };
 /**
+ * Method to delete the Keys from s3 buckets.
+ * @param keysToDelete: The Keys to be deleted.
+ * @param isSecureDelete: true to delete this keys from secure bucket, else false.
+ * @returns {Promise<Boolean>}: true if deleted.
+ */
+s3Helper.deleteObjects = (keysToDelete, isSecureDelete) => {
+   return new Promise((resolve, reject) => {
+      let s3Params = {};
+      if (isSecureDelete) {
+         s3Params[constants.S3_BUCKET_KEY] = constants.AWS_DOCUMENTS_BUCKET;
+      } else {
+         s3Params[constants.S3_BUCKET_KEY] = constants.AWS_IMAGES_BUCKET;
+      }
+      let objects = [];
+      keysToDelete.forEach(oneKey => {
+         let oneObj = {};
+         oneObj[constants.S3_KEY_KEY] = oneKey;
+         objects.push(oneObj);
+      });
+      let deleteObj = {};
+      deleteObj[constants.S3_RESPONSE_QUIET] = false;
+      deleteObj.Objects = objects;
+      s3Params.Delete = deleteObj;
+      awsHelper.s3.deleteObjects(s3Params, (err, data) => {
+         if (err) {
+            printer.printError(err);
+            return reject(err);
+         } else {
+            return resolve(true);
+         }
+      });
+   });
+};
+/**
  * Exporting the s3 helper.
  */
 module.exports = s3Helper;
