@@ -230,6 +230,7 @@ constants.SP_UPDATE_BOOKING_DETAILS = "sp_UpdateBookingDetails";
 constants.SP_UPDATE_CUSTOMER_PET_DETAILS = "sp_UpdateCustomerPetDetails";
 constants.SP_GET_CUSTOMER_SUBSCRIPTION_DETAILS = "sp_GetSubscriptionDetailsCustomer";
 constants.SP_GET_UPCOMING_BOOKINGS = "sp_GetUpcomingBookings";
+constants.SP_GET_IN_ACTIVE_IMAGES = "sp_GetInActiveImages";
 /**
  * General Keys
  */
@@ -397,6 +398,7 @@ constants.BOOKING_EMPLOYEE_ID = "employee_id";
 constants.BOOKING_VENDOR_ID = "vendor_id";
 constants.BOOKING_TOTAL_AMOUNT = "total_amount";
 constants.BOOKING_DATE = "booking_date";
+constants.BOOKING_END_DATE = "booking_end_date";
 constants.BOOKING_TIME = "booking_time";
 constants.BOOKING_END_TIME = "booking_end_time";
 constants.BOOKING_BREED_ID = "breed_id";

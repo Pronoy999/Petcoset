@@ -12,6 +12,7 @@ const worker = {};
 worker.init = () => {
    printer.printHighlightedLog("Worker Scheduled.");
    startBookingReminder();
+   deleteImages();
 };
 
 /**
@@ -35,6 +36,28 @@ function startBookingReminder() {
          } else {
             printer.printError("No Upcoming bookings present.");
          }
+      }).catch(err => {
+         printer.printError(err);
+      });
+   });
+}
+
+/**
+ * Method to delete the inactive images from S3 bucket.
+ */
+function deleteImages() {
+   scheduler.scheduledJobs('30 2 * * 0', () => {
+      database.runSp(constants.SP_GET_IN_ACTIVE_IMAGES, []).then(_resultSet => {
+         const result = _resultSet[0];
+         let imageKeys = [];
+         result.forEach(oneResult => {
+            imageKeys.push(oneResult[constants.VENDOR_IMAGES_IMAGE_KEY]);
+         });
+         s3Helper.deleteObjects(imageKeys, false).then(() => {
+            printer.printHighlightedLog("In active Images Deleted.");
+         }).catch(err => {
+            printer.printError(err);
+         });
       }).catch(err => {
          printer.printError(err);
       });

@@ -63,6 +63,7 @@ bookingServices.createSubsServiceBooking = (dataObject, jwToken) => {
             dataObject[constants.VENDOR_ID],
             dataObject[constants.CUSTOMER_ADDRESS_ID],
             dataObject[constants.BOOKING_TIME], dataObject[constants.BOOKING_END_TIME], dataObject[constants.BOOKING_DATE],
+            dataObject[constants.BOOKING_END_DATE],
             dataObject[constants.BOOKING_BREED_ID],
             dataObject[constants.BOOKING_REMARKS],
             dataObject[constants.RECURRING_BOOKINGS])
@@ -112,6 +113,7 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
             dataObject[constants.BOOKING_SERVICE_ID]);
          booking.createServiceBooking(dataObject[constants.BOOKING_VENDOR_ID],
             dataObject[constants.BOOKING_TOTAL_AMOUNT], dataObject[constants.BOOKING_DATE],
+            dataObject[constants.BOOKING_END_DATE],
             dataObject[constants.BOOKING_TIME],
             dataObject[constants.BOOKING_END_TIME],
             dataObject[constants.CUSTOMER_ADDRESS_ID],
