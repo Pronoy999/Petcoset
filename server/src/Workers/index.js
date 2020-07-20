@@ -46,7 +46,7 @@ function startBookingReminder() {
  * Method to delete the inactive images from S3 bucket.
  */
 function deleteImages() {
-   scheduler.scheduledJobs('30 2 * * 0', () => {
+   scheduler.scheduleJob('30 2 * * 0', () => {
       database.runSp(constants.SP_GET_IN_ACTIVE_IMAGES, []).then(_resultSet => {
          const result = _resultSet[0];
          let imageKeys = [];
