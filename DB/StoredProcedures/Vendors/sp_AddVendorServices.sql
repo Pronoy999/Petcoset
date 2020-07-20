@@ -43,6 +43,7 @@ BEGIN
         where vendor_id = parVendorId
           and service_id = parServiceID
           and is_active = 1;
+        call sp_DeleteServiceImages(parVendorId, parServiceID);
         select 1 as id;
     else
         set @isExists = 0;
