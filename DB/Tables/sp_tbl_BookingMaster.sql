@@ -76,7 +76,7 @@ begin
         ) then
         begin
             alter table tbl_BookingMaster
-                add column booking_end_date date default null after booking_date;
+                add column booking_end_date timestamp default null after booking_date;
         end;
     end if;
 end;

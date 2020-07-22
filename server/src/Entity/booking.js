@@ -49,6 +49,12 @@ class Booking {
       });
    }
 
+   /**
+    * Method to notify a vendor for a service booking.
+    * @param vendorId
+    * @returns {Promise<unknown>}
+    * @private
+    */
    _notifyVendor(vendorId) {
       return new Promise(async (resolve, reject) => {
          try {
@@ -85,7 +91,7 @@ class Booking {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, this._customerId,
             subscriptionId, this._serviceId, vendorId, 0, bookingDate,
-            validators.validateUndefined(bookingEndTime) ? bookingEndDate : false,
+            validators.validateUndefined(bookingEndTime) ? bookingEndDate : bookingDate,
             bookingTime, bookingEndTime, addressId,
             breedId,
             validators.validateString(remarks) ? remarks : "",
@@ -172,7 +178,7 @@ class Booking {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
             0, this._serviceId, vendorID, amount, bookingDate,
-            validators.validateUndefined(bookingEndDate) ? bookingEndDate : false,
+            validators.validateUndefined(bookingEndDate) ? bookingEndDate : bookingDate,
             bookingTime, bookingEndTime, addressId,
             validators.validateNumber(breedId) ? breedId : 0,
             validators.validateString(remarks) ? remarks : "",
