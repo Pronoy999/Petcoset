@@ -8,7 +8,9 @@ begin
     truncate tbl_IdentificationDocumentMaster;
     truncate tbl_CustomerMaster;
     truncate tbl_CustomerAddressMapping;
+    truncate tbl_CustomerPetDetailsMapping;
     truncate tbl_CustomerServiceBooking;
+    truncate tbl_CustomerImages;
     truncate tbl_CustomerSubscriptionMapping;
     truncate tbl_CustomerSubscriptionServiceMapping;
     truncate tbl_OTPMaster;

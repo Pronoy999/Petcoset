@@ -31,7 +31,7 @@ BEGIN
         ) then
         BEGIN
             alter table tbl_VendorServiceMapping
-                add column pet_type ENUM ('DOG','CAT','') DEFAULT NULL after service_id;
+                add column pet_type varchar(5) DEFAULT NULL after service_id;
         end;
     end if;
     if not exists(
