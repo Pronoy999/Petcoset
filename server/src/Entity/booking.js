@@ -59,11 +59,12 @@ class Booking {
       return new Promise(async (resolve, reject) => {
          try {
             const vendor = new Vendor(vendorId);
-            const vendorDetails = vendor.getVendor();
+            const vendorDetails = await vendor.getVendor();
             const phoneNumber = vendorDetails[0][constants.VENDOR_PHONE_NUMBER];
             const firstName = vendorDetails[0][constants.VENDOR_FIRST_NAME];
             let msg = constants.VENDOR_MESSAGE.replace("%n", firstName);
             await notificationManager.sendSMS(msg, phoneNumber);
+            resolve();
          } catch (e) {
             reject(e);
             printer.printError(e);
@@ -187,8 +188,9 @@ class Booking {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result) && result.id > 0) {
                   this._bookingId = result.id;
+                  await this._notifyVendor(vendorID);
                   //await this._createPaymentForBooking(transactionId, amount);
-                  if (validators.validateUndefined(recurringBookings)) {
+                  if (validators.validateUndefined(recurringBookings) && recurringBookings.length > 0) {
                      let recurringDates = [];
                      let recurringTimes = [];
                      let recurringEndTimes = [];
@@ -200,7 +202,6 @@ class Booking {
                      database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
                         recurringTimes.join(","), recurringEndTimes.join(","), this._bookingId]).then(async _resultSet => {
                         const result = _resultSet[0][0];
-                        await this._notifyVendor(vendorID);
                         resolve(result);
                      }).catch(err => {
                         printer.printError(err);
