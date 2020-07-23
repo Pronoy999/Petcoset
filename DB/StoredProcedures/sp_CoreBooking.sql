@@ -63,7 +63,8 @@ begin
         where vendor_id = parVendorId
           and booking_date = parDate
           and booking_time = parTime
-          and booking_status_id NOT IN (2, 11);
+          and booking_status_id NOT IN (2, 11)
+          and is_active = 1;
         if @isVendorValid = 0 then
             #Creating the booking with pending status.
             insert into tbl_BookingMaster (booking_type, customer_id, service_id, vendor_id, total_amount,
