@@ -93,6 +93,54 @@ class Authentication {
          });
       });
    }
+
+   /**
+    * Method to request the Password generate Token.
+    * @returns {Promise<Boolean>}
+    */
+   requestPasswordChangeToken() {
+      return new Promise((resolve, reject) => {
+         const token = generator.generateRandomToken(8);
+         const emailMessage = constants.PASSWORD_CHANGE_MESSAGE.replace("%l", constants.PASSWORD_CHANGE_URL + token);
+         notificationManager.sendEmail(this._emailId, emailMessage, "Password Change Link.").then(() => {
+            database.runSp(constants.SP_GENERATE_AND_VALIDATE_PASSWORD_TOKEN,
+               [this._emailId, token, 0, false]).then(_resultSet => {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  result({"id": -1});
+               }
+            }).catch(err => {
+               printer.printError(err);
+            });
+         }).catch(err => {
+            printer.printError(err);
+            reject(err);
+         });
+      });
+   }
+
+   /**
+    * Method to validate the password change token and change the password.
+    * @param token: The token of the user.
+    * @returns {Promise<unknown>}
+    */
+   validateTokenAndChangePassword(token) {
+      return new Promise((resolve, reject) => {
+         database.runSp(constants.SP_GENERATE_AND_VALIDATE_PASSWORD_TOKEN, [this._emailId, token, 1, this._password])
+            .then(_resultSet => {
+               const result = _resultSet[0][0];
+               if (validators.validateUndefined(result)) {
+                  resolve(result);
+               } else {
+                  resolve({id: -1});
+               }
+            }).catch(err => {
+            reject(err);
+         });
+      });
+   }
 }
 
 /**

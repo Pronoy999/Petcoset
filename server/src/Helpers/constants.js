@@ -124,6 +124,16 @@ constants.INCORRECT_OTP = "Incorrect OTP";
 constants.NO_BOOKING_FOUND = "No booking found";
 constants.NO_SERVICES_FOUND = "No services found.";
 constants.NO_BANK_DETAILS = "No bank details found.";
+constants.PASSWORD_CHANGE_URL = "http://localhost:4200/forgetPassword?token=";
+constants.PASSWORD_CHANGE_MESSAGE = "<p>Hi,</p>\n" +
+   "<p>You have requested to change your password for your petcoset.com account.&nbsp;</p>\n" +
+   "<p>Kindly click on this link to change the password.&nbsp;</p>\n" +
+   "<p>%l</p>\n" +
+   "<p>This link is valid for 12 hours.&nbsp;</p>\n" +
+   "<p><strong>Regards,</strong></p>\n" +
+   "<p><strong>Petcoset Admin.&nbsp;</strong></p>\n" +
+   "<p>&nbsp;</p>\n" +
+   "<p><em>Note: Kindly do not reply to this email.&nbsp;</em></p>";
 
 /**
  * Core-Service Keys
@@ -231,6 +241,7 @@ constants.SP_UPDATE_CUSTOMER_PET_DETAILS = "sp_UpdateCustomerPetDetails";
 constants.SP_GET_CUSTOMER_SUBSCRIPTION_DETAILS = "sp_GetSubscriptionDetailsCustomer";
 constants.SP_GET_UPCOMING_BOOKINGS = "sp_GetUpcomingBookings";
 constants.SP_GET_IN_ACTIVE_IMAGES = "sp_GetInActiveImages";
+constants.SP_GENERATE_AND_VALIDATE_PASSWORD_TOKEN = "sp_GenerateAndValidatePasswordChangeToken";
 /**
  * General Keys
  */
