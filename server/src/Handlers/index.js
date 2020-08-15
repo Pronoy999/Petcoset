@@ -132,6 +132,9 @@ handlerObj.auth = (dataObject) => {
          case "otp":
             promise = authentication.otp(dataObject);
             break;
+         case "password":
+            promise = authentication.forgetPassword(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }

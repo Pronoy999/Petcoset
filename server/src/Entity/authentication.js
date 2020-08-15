@@ -98,10 +98,11 @@ class Authentication {
     * Method to request the Password generate Token.
     * @returns {Promise<Boolean>}
     */
-   requestPasswordChangeToken() {
+   requestPasswordChangeToken(isProduction) {
       return new Promise((resolve, reject) => {
          const token = generator.generateRandomToken(8);
-         const emailMessage = constants.PASSWORD_CHANGE_MESSAGE.replace("%l", constants.PASSWORD_CHANGE_URL + token);
+         const url = (isProduction) ? constants.PASSWORD_CHANGE_URL_PROD : constants.PASSWORD_CHANGE_URL_DEV;
+         const emailMessage = constants.PASSWORD_CHANGE_MESSAGE.replace("%l", url + token);
          notificationManager.sendEmail(this._emailId, emailMessage, "Password Change Link.").then(() => {
             database.runSp(constants.SP_GENERATE_AND_VALIDATE_PASSWORD_TOKEN,
                [this._emailId, token, 0, false]).then(_resultSet => {

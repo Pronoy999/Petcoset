@@ -124,7 +124,8 @@ constants.INCORRECT_OTP = "Incorrect OTP";
 constants.NO_BOOKING_FOUND = "No booking found";
 constants.NO_SERVICES_FOUND = "No services found.";
 constants.NO_BANK_DETAILS = "No bank details found.";
-constants.PASSWORD_CHANGE_URL = "http://localhost:4200/forgetPassword?token=";
+constants.PASSWORD_CHANGE_URL_DEV = "http://localhost:4200/forgetPassword?token=";
+constants.PASSWORD_CHANGE_URL_PROD = "http://petcoset.com/forgetPassword?token=";
 constants.PASSWORD_CHANGE_MESSAGE = "<p>Hi,</p>\n" +
    "<p>You have requested to change your password for your petcoset.com account.&nbsp;</p>\n" +
    "<p>Kindly click on this link to change the password.&nbsp;</p>\n" +
@@ -183,6 +184,8 @@ constants.CORE_VENDOR_GET_IMAGES = "getImages";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
+constants.CORE_AUTH_REQUEST_PASSWORD_TOKEN = "passwordToken";
+constants.CORE_AUTH_PASSWORD_FORGET = "passwordForget";
 constants.CORE_AUTH_OTP_REQEUST = "reqOTP";
 constants.CORE_AUTH_OTP_VALIDATE = "checkOTP";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
@@ -256,6 +259,7 @@ constants.S3_BUCKET_KEY = "Bucket";
 constants.S3_RESPONSE_QUIET = "Quiet";
 constants.S3_KEY_KEY = "Key";
 constants.S3_BODY_KEY = "Body";
+constants.IS_PRODUCTION = "is_prod";
 
 /**
  * Column Names
@@ -388,6 +392,7 @@ constants.SERVICE_TYPE = "service_type";
 
 constants.AUTH_EMAIL = "email_id";
 constants.AUTH_PASSWORD = "password";
+constants.AUTH_PASSWORD_TOKEN = "password_token";
 
 constants.SUBSCRIPTION_NAME = "subscription_name";
 constants.SUBSCRIPTION_AMOUNT = "subscription_amount";

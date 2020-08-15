@@ -64,7 +64,8 @@ notificationManager.sendEmail = (targetAddress, emailBody, subject) => {
          },
          Source: 'noreply@petcoset.com'
       };
-      aws.ses.sendEmail(params).then(data => {
+      const emailPromise = aws.ses.sendEmail(params).promise();
+      emailPromise.then(data => {
          printer.printLog(data);
          resolve(true);
       }).catch(err => {
