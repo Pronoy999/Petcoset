@@ -146,14 +146,15 @@ class Customer {
     * @param petName
     * @param breed
     * @param age
+    * @param ageMonth
     * @param sex
     * @param weight
     * @returns {Promise<unknown>}: 1 if complete else -1
     */
-   addCustomerPetDetails(petType, petName, breed, age, sex, weight) {
+   addCustomerPetDetails(petType, petName, breed, age, ageMonth, sex, weight) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_CREATE_CUSTOMER_PET_DETAILS,
-            [this._id, petType, petName, breed, age, 0, sex, weight]).then(_resultSet => {
+            [this._id, petType, petName, breed, age, ageMonth, sex, weight]).then(_resultSet => {
             const result = _resultSet[0][0];
             if (validators.validateUndefined(result))
                resolve(result);

@@ -71,5 +71,6 @@ begin
                          and booking_time = parBookingTime)
       and vs.service_id = parServiceId
       and sm.is_active = 1
+      and v.status_id = 12
       and v.is_active = 1;
 end;

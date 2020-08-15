@@ -55,6 +55,30 @@ begin
                 add column remarks varchar(255) default null after address_id;
         end;
     end if;
+    if not exists(
+            select 1
+            from information_schema.COLUMNS
+            where TABLE_SCHEMA = currentSchema
+              and TABLE_NAME = 'tbl_BookingMaster'
+              and COLUMN_NAME = 'breed_id'
+        ) then
+        begin
+            alter table tbl_BookingMaster
+                add column breed_id int default null after address_id;
+        end;
+    end if;
+    if not exists(
+            select 1
+            from information_schema.COLUMNS
+            where TABLE_NAME = 'tbl_BookingMaster'
+              and TABLE_SCHEMA = currentSchema
+              and COLUMN_NAME = 'booking_end_date'
+        ) then
+        begin
+            alter table tbl_BookingMaster
+                add column booking_end_date timestamp default null after booking_date;
+        end;
+    end if;
 end;
 call sp_tbl_BookingMaster();
 drop procedure if exists sp_tbl_BookingMaster;

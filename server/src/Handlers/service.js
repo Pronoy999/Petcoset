@@ -85,7 +85,7 @@ serviceHandler.vendors = (dataObject) => {
             dataObject.queryString[constants.BOOKING_TIME] : false;
          const jwToken = validator.validateUndefined(dataObject[constants.JW_TOKEN]) ?
             dataObject[constants.JW_TOKEN] : false;
-         if (serviceId && bookingDate && bookingTime && jwToken) {
+         if (serviceId && jwToken) {
             let serviceData = {};
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
             serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];

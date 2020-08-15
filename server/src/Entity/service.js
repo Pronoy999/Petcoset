@@ -68,7 +68,9 @@ class Service {
     */
    getVendors(bookingDate, bookingTime) {
       return new Promise((resolve, reject) => {
-         database.runSp(constants.SP_SEARCH_VENDOR_SERVICE, [this._serviceId, bookingDate, bookingTime]).then(_resultSet => {
+         database.runSp(constants.SP_SEARCH_VENDOR_SERVICE, [this._serviceId,
+            validators.validateUndefined(bookingDate) ? bookingDate : false,
+            validators.validateUndefined(bookingTime) ? bookingTime : false]).then(_resultSet => {
             const result = _resultSet[0];
             if (validators.validateUndefined(result)) {
                resolve(result);
@@ -85,6 +87,5 @@ class Service {
 
 /**
  * Method to export the service module.
- * @type {Service}
  */
 module.exports = Service;

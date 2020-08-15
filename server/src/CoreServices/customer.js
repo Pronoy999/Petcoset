@@ -175,7 +175,9 @@ customerService.addPetDetails = (dataObject, jwToken) => {
          const customer = new Customer(dataObject[constants.CUSTOMER_ID]);
          customer.addCustomerPetDetails(dataObject[constants.CUSTOMER_PET_TYPE],
             dataObject[constants.CUSTOMER_PET_NAME], dataObject[constants.CUSTOMER_PET_BREED],
-            dataObject[constants.CUSTOMER_PET_AGE], dataObject[constants.CUSTOMER_PET_SEX],
+            dataObject[constants.CUSTOMER_PET_AGE],
+            dataObject[constants.CUSTOMER_PET_AGE_MONTH],
+            dataObject[constants.CUSTOMER_PET_SEX],
             dataObject[constants.CUSTOMER_PET_WEIGHT]).then(result => {
             resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {

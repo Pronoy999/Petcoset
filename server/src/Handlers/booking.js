@@ -22,7 +22,9 @@ bookingHandler.booking = (dataObject) => {
             dataObject[constants.JW_TOKEN] : false;
          const statusId = validator.validateNumber(dataObject.queryString[constants.BOOKING_STATUS_ID]) ?
             dataObject.queryString[constants.BOOKING_STATUS_ID] : false;
-         if ((customerId || bookingId || statusId) && jwToken) {
+         const vendorId = validator.validateNumber(dataObject.queryString[constants.BOOKING_VENDOR_ID]) ?
+            dataObject.queryString[constants.BOOKING_VENDOR_ID] : false;
+         if ((customerId || bookingId || statusId || vendorId) && jwToken) {
             let serviceData = {};
             serviceData[constants.CORE_TOKEN] = jwToken;
             serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];

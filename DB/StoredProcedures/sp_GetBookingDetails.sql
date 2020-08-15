@@ -1,5 +1,5 @@
 drop procedure if exists sp_GetBookingDetails;
-create procedure sp_GetBookingDetails(parCustomerId int, parBookingId int, parStatusId int)
+create procedure sp_GetBookingDetails(parCustomerId int, parBookingId int, parStatusId int, parVendorId int)
 begin
     set @whereClaus = '';
     if parCustomerId > 0 then
@@ -11,6 +11,9 @@ begin
     if parStatusId > 0 then
         set @whereClaus = concat(@whereClaus, ' b.booking_status_id = ', parStatusId, ' and ');
     end if;
+    if parVendorId > 0 then
+        set @whereClaus = concat(@whereClaus, ' b.vendor_id = ', parVendorId, ' and ');
+    end if;
     set @whereClaus = concat(@whereClaus, ' b.is_active =1 ');
     select concat('select
            b.id,
@@ -18,6 +21,7 @@ begin
            b.customer_id,
            c.first_name as CustomerFirstName,
            c.last_name as CustomerLastName,
+           c.phone_number,
            c.email,
            sub.subscription_name,
            subscription_id,
@@ -34,6 +38,7 @@ begin
            booking_status_id,
            sm.status_name,
            booking_date,
+           booking_end_date,
            booking_time,
            booking_end_time,
            address_id,
@@ -43,6 +48,7 @@ begin
            city_id,
            cm.city_name,
            ad.pincode,
+           b.breed_id,
            is_default,
            p.id as payment_id,
            p.payment_amount,

@@ -111,7 +111,8 @@ vendorService.addVendorService = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
       if (tokenGenerator.validateToken(jwToken)) {
          const vendor = new Vendor(dataObject[constants.VENDOR_ID]);
-         vendor.createVendorServices(dataObject[constants.SERVICE_ID], dataObject[constants.VENDOR_PET_TYPE],
+         vendor.createVendorServices(dataObject[constants.VENDOR_SERVICE_IS_DELETE],
+            dataObject[constants.SERVICE_ID], dataObject[constants.VENDOR_PET_TYPE],
             dataObject[constants.VENDOR_IS_BATHING_PROVIDED], dataObject[constants.VENDOR_IS_MASSAGE_PROVIDED],
             dataObject[constants.VENDOR_IS_CLEANING_PROVIDED], dataObject[constants.VENDOR_IS_FUR_TRIMMING_PROVIDED],
             dataObject[constants.VENDOR_PET_SEX], dataObject[constants.VENDOR_PET_AGE],

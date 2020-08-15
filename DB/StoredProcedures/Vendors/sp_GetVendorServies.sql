@@ -1,11 +1,11 @@
 drop procedure if exists sp_GetVendorServices;
 create procedure sp_GetVendorServices(parVendorId int)
 begin
-    select v.id  as vendor_id,
+    select v.id       as vendor_id,
            s.service_id,
            sm.service_name,
            sm.service_type,
-           s.pet_type,
+           s.pet_type as PetType,
            s.is_bathing_provided,
            s.is_massage_provided,
            s.is_cleaning_provided,

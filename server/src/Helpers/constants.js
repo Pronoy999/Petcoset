@@ -36,7 +36,8 @@ constants.HEADERS = {
    "Access-Control-Allow-Origin": "*",
    "Access-Control-Allow-Methods": "OPTIONS, POST, GET, PUT, DELETE",
    "Access-Control-Max-Age": 2592000,
-   "Access-Control-Allow-Headers": "Content-Type,access-control-allow-origin,X-Requested-With,key,jw_token"
+   "maxContentLength": 4194304,
+   "Access-Control-Allow-Headers": "Content-Type,access-control-allow-origin,X-Requested-With,key,jw_token,Content-Length,maxContentLength"
 };
 constants.CONTENT_TYPE_TEXT = "Content-Type";
 constants.CONTENT_TYPE_JSON = "application/json";
@@ -46,6 +47,11 @@ constants.CONTENT_TYPE_JSON = "application/json";
  */
 constants.ROLE_ADMIN = "Admin";
 constants.ROLE_EMPLOYEE = "Employee";
+constants.ROLE_VENDOR_KEY = "Vendor";
+constants.ROLE_CUSTOMER_KEY = "Customer";
+constants.ROLE_CUSTOMER_VALUE = "tbl_CustomerMaster";
+constants.ROLE_VENDOR_VALUE = "tbl_VendorMaster";
+constants.ROLE_KEY = "role";
 
 /**
  * Request Keys.
@@ -107,6 +113,7 @@ constants.ERROR_LEVEL_3 = "3";
 constants.ERROR_LEVEL_4 = "4";
 
 constants.BOOKING_REMINDER_MESSAGE = "Hi %n, Please go to petcoset.com and choose a vendor for your upcoming booking on %d";
+constants.VENDOR_MESSAGE = "Hi %n, You have a new booking.";
 /**
  * S3 URLs
  */
@@ -122,6 +129,17 @@ constants.INCORRECT_OTP = "Incorrect OTP";
 constants.NO_BOOKING_FOUND = "No booking found";
 constants.NO_SERVICES_FOUND = "No services found.";
 constants.NO_BANK_DETAILS = "No bank details found.";
+constants.PASSWORD_CHANGE_URL_DEV = "http://localhost:4200/forgetPassword?token=";
+constants.PASSWORD_CHANGE_URL_PROD = "http://petcoset.com/forgetPassword?token=";
+constants.PASSWORD_CHANGE_MESSAGE = "<p>Hi,</p>\n" +
+   "<p>You have requested to change your password for your petcoset.com account.&nbsp;</p>\n" +
+   "<p>Kindly click on this link to change the password.&nbsp;</p>\n" +
+   "<p>%l</p>\n" +
+   "<p>This link is valid for 12 hours.&nbsp;</p>\n" +
+   "<p><strong>Regards,</strong></p>\n" +
+   "<p><strong>Petcoset Admin.&nbsp;</strong></p>\n" +
+   "<p>&nbsp;</p>\n" +
+   "<p><em>Note: Kindly do not reply to this email.&nbsp;</em></p>";
 
 /**
  * Core-Service Keys
@@ -171,6 +189,9 @@ constants.CORE_VENDOR_GET_IMAGES = "getImages";
 constants.CORE_CREATE_SERVICE = "createService";
 constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
+constants.CORE_AUTH_REQUEST_PASSWORD_TOKEN = "passwordToken";
+constants.CORE_AUTH_PASSWORD_FORGET = "passwordForget";
+constants.CORE_AUTH_SOCIAL_REGISTER = "socialRegister";
 constants.CORE_AUTH_OTP_REQEUST = "reqOTP";
 constants.CORE_AUTH_OTP_VALIDATE = "checkOTP";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
@@ -228,6 +249,9 @@ constants.SP_UPDATE_BOOKING_DETAILS = "sp_UpdateBookingDetails";
 constants.SP_UPDATE_CUSTOMER_PET_DETAILS = "sp_UpdateCustomerPetDetails";
 constants.SP_GET_CUSTOMER_SUBSCRIPTION_DETAILS = "sp_GetSubscriptionDetailsCustomer";
 constants.SP_GET_UPCOMING_BOOKINGS = "sp_GetUpcomingBookings";
+constants.SP_GET_IN_ACTIVE_IMAGES = "sp_GetInActiveImages";
+constants.SP_GENERATE_AND_VALIDATE_PASSWORD_TOKEN = "sp_GenerateAndValidatePasswordChangeToken";
+constants.SP_SOCIAL_REGISTER = "sp_RegisterSocial";
 /**
  * General Keys
  */
@@ -239,8 +263,10 @@ constants.TWO_FACTOR_KEY = "2F";
 constants.AWS_DOCUMENTS_BUCKET = "petcoset-documents";
 constants.AWS_IMAGES_BUCKET = "petcoset-images";
 constants.S3_BUCKET_KEY = "Bucket";
+constants.S3_RESPONSE_QUIET = "Quiet";
 constants.S3_KEY_KEY = "Key";
 constants.S3_BODY_KEY = "Body";
+constants.IS_PRODUCTION = "is_prod";
 
 /**
  * Column Names
@@ -275,6 +301,7 @@ constants.CUSTOMER_PET_TYPE = "pet_type";
 constants.CUSTOMER_PET_NAME = "pet_name";
 constants.CUSTOMER_PET_BREED = "breed";
 constants.CUSTOMER_PET_AGE = "pet_age";
+constants.CUSTOMER_PET_AGE_MONTH = "pet_age_month";
 constants.CUSTOMER_PET_SEX = "pet_sex";
 constants.CUSTOMER_PET_WEIGHT = "weight";
 constants.CUSTOMER_PREFERRED_LOACTION = "preferred_location";
@@ -321,6 +348,7 @@ constants.VENDOR_PINCODE = "pincode";
 constants.VENDOR_PROFILE_IMAGE = "profile_image";
 constants.VENDOR_STATUS = "status_id";
 constants.VENDOR_PET_TYPE = "pet_type";
+constants.VENDOR_SERVICE_IS_DELETE = "is_delete";
 constants.VENDOR_IS_BATHING_PROVIDED = "is_bathing_provided";
 constants.VENDOR_IS_MASSAGE_PROVIDED = "is_massage_provided";
 constants.VENDOR_IS_CLEANING_PROVIDED = "is_cleaning_provided";
@@ -371,6 +399,7 @@ constants.SERVICE_TYPE = "service_type";
 
 constants.AUTH_EMAIL = "email_id";
 constants.AUTH_PASSWORD = "password";
+constants.AUTH_PASSWORD_TOKEN = "password_token";
 
 constants.SUBSCRIPTION_NAME = "subscription_name";
 constants.SUBSCRIPTION_AMOUNT = "subscription_amount";
@@ -380,6 +409,7 @@ constants.SUBSCRIPTION_SERVICE_DETAILS = "service_details";
 constants.SUBSCRIPTION_PRICE_START = "price_start";
 constants.SUBSCRIPTION_PRICE_END = "price_end";
 
+constants.BOOKING_ID = "booking_id";
 constants.BOOKING_ID = "booking_id";
 constants.BOOKING_TYPE_SERVICE = "service_booking";
 constants.BOOKING_TYPE_SUBSCRIPTION = "subscription_booking";
@@ -392,8 +422,10 @@ constants.BOOKING_EMPLOYEE_ID = "employee_id";
 constants.BOOKING_VENDOR_ID = "vendor_id";
 constants.BOOKING_TOTAL_AMOUNT = "total_amount";
 constants.BOOKING_DATE = "booking_date";
+constants.BOOKING_END_DATE = "booking_end_date";
 constants.BOOKING_TIME = "booking_time";
 constants.BOOKING_END_TIME = "booking_end_time";
+constants.BOOKING_BREED_ID = "breed_id";
 constants.BOOKING_REMARKS = "remarks";
 constants.BOOKING_STATUS_ID = "booking_status_id";
 constants.RECURRING_BOOKINGS = "recurringBookings";

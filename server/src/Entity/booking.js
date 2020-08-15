@@ -4,6 +4,8 @@ const validators = require('./../Helpers/validators');
 const generator = require('./../Services/generator');
 const printer = require('./../Helpers/printer');
 const Payment = require('./payment');
+const Vendor = require('./vendor');
+const notificationManager = require('./../Helpers/notificationManager');
 
 class Booking {
    /**
@@ -48,6 +50,29 @@ class Booking {
    }
 
    /**
+    * Method to notify a vendor for a service booking.
+    * @param vendorId
+    * @returns {Promise<unknown>}
+    * @private
+    */
+   _notifyVendor(vendorId) {
+      return new Promise(async (resolve, reject) => {
+         try {
+            const vendor = new Vendor(vendorId);
+            const vendorDetails = await vendor.getVendor();
+            const phoneNumber = vendorDetails[0][constants.VENDOR_PHONE_NUMBER];
+            const firstName = vendorDetails[0][constants.VENDOR_FIRST_NAME];
+            let msg = constants.VENDOR_MESSAGE.replace("%n", firstName);
+            await notificationManager.sendSMS(msg, phoneNumber);
+            resolve();
+         } catch (e) {
+            reject(e);
+            printer.printError(e);
+         }
+      });
+   }
+
+   /**
     * Method to create a Subscription's service booking.
     * It books a service from an active subscription.
     * @param subscriptionId: The Subscription that the user is buying.
@@ -56,14 +81,20 @@ class Booking {
     * @param bookingTime: The booking date.
     * @param bookingEndTime: the end time of the booking.
     * @param bookingDate: The booking time.
+    * @param bookingEndDate
+    * @param breedId
     * @param remarks
     * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Number>}: The booking id.
     */
-   createSubscriptionServiceBooking(subscriptionId, vendorId, addressId, bookingTime, bookingEndTime, bookingDate, remarks, recurringBookings) {
+   createSubscriptionServiceBooking(subscriptionId, vendorId, addressId, bookingTime, bookingEndTime, bookingDate, bookingEndDate,
+                                    breedId, remarks, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION_SERVICE, this._customerId,
-            subscriptionId, this._serviceId, vendorId, 0, bookingDate, bookingTime, bookingEndTime, addressId,
+            subscriptionId, this._serviceId, vendorId, 0, bookingDate,
+            validators.validateUndefined(bookingEndTime) ? bookingEndDate : bookingDate,
+            bookingTime, bookingEndTime, addressId,
+            breedId,
             validators.validateString(remarks) ? remarks : "",
             0, 0]).then(_resultSet => {
             const result = _resultSet[0][0];
@@ -77,8 +108,9 @@ class Booking {
                      recurringTimes.push(oneBooking[constants.BOOKING_TIME]);
                   });
                   database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
-                     recurringTimes.join(","), this._bookingId]).then(_resultSet => {
+                     recurringTimes.join(","), this._bookingId]).then(async _resultSet => {
                      const result = _resultSet[0][0];
+                     await this._notifyVendor(vendorId);
                      resolve(result);
                   }).catch(err => {
                      printer.printError(err);
@@ -107,7 +139,7 @@ class Booking {
    createSubscriptionBooking(subscriptionID, amount, transactionId) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SUBSCRIPTION, this._customerId, subscriptionID,
-            0, 0, amount, generator.generateCurrentDateOnly(), '', '', 0, '', 0, 0]).then(async _resultSet => {
+            0, 0, amount, generator.generateCurrentDateOnly(), '', '', '', 0, '', 0, 0]).then(async _resultSet => {
             try {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result) && result.id > 0) {
@@ -133,25 +165,32 @@ class Booking {
     * @param vendorID: The vendorID
     * @param amount: The amount of booking.
     * @param bookingDate: The booking date.
+    * @param bookingEndDate
     * @param bookingTime: The booking time.
     * @param bookingEndTime: The end time of the booking.
     * @param addressId: The address of the customer.
     * @param remarks: The booking remarks.
+    * @param breedId
     * @param recurringBookings: The array containing the recurring dates and time.
     * @returns {Promise<Object>}: The booking id.
     */
-   createServiceBooking(vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId, remarks, recurringBookings) {
+   createServiceBooking(vendorID, amount, bookingDate, bookingEndDate,
+                        bookingTime, bookingEndTime, addressId, remarks, breedId, recurringBookings) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_HANDLE_BOOKING, [constants.BOOKING_TYPE_SERVICE, this._customerId,
-            0, this._serviceId, vendorID, amount, bookingDate, bookingTime, bookingEndTime, addressId,
+            0, this._serviceId, vendorID, amount, bookingDate,
+            validators.validateUndefined(bookingEndDate) ? bookingEndDate : bookingDate,
+            bookingTime, bookingEndTime, addressId,
+            validators.validateNumber(breedId) ? breedId : 0,
             validators.validateString(remarks) ? remarks : "",
             0, 0]).then(async _resultSet => {
             try {
                const result = _resultSet[0][0];
                if (validators.validateUndefined(result) && result.id > 0) {
                   this._bookingId = result.id;
+                  await this._notifyVendor(vendorID);
                   //await this._createPaymentForBooking(transactionId, amount);
-                  if (validators.validateUndefined(recurringBookings)) {
+                  if (validators.validateUndefined(recurringBookings) && recurringBookings.length > 0) {
                      let recurringDates = [];
                      let recurringTimes = [];
                      let recurringEndTimes = [];
@@ -161,7 +200,7 @@ class Booking {
                         recurringEndTimes.push(oneBooking[constants.BOOKING_END_TIME]);
                      });
                      database.runSp(constants.SP_STORE_RECURRING_BOOKING, [recurringDates.join(","),
-                        recurringTimes.join(","), recurringEndTimes.join(","), this._bookingId]).then(_resultSet => {
+                        recurringTimes.join(","), recurringEndTimes.join(","), this._bookingId]).then(async _resultSet => {
                         const result = _resultSet[0][0];
                         resolve(result);
                      }).catch(err => {
@@ -189,10 +228,11 @@ class Booking {
     * Method to get the booking details.
     * @returns {Promise<Array>}: An array of booking details.
     */
-   getBookingDetails(statusId) {
+   getBookingDetails(statusId, vendorId) {
       return new Promise((resolve, reject) => {
          database.runSp(constants.SP_GET_BOOKING_DETAILS, [this._customerId, this._bookingId,
-            validators.validateNumber(statusId) ? statusId : 0]).then(_resultSet => {
+            validators.validateNumber(statusId) ? statusId : 0,
+            validators.validateNumber(vendorId) ? vendorId : 0]).then(_resultSet => {
             const result = _resultSet[0];
             if (validators.validateUndefined(result)) {
                resolve(result);

@@ -8,3 +8,12 @@ test("Upload a file to AWS S3 Bucket", () => {
       console.error(err);
    });
 });
+
+test("Should delete an image", () => {
+   let images = ["2WETZE8o11YLikMC.jpeg", "4E6eE7kFVs5w2aur.jpeg"];
+   s3Helper.deleteObjects(images, false).then(() => {
+      console.log("DELETED.");
+   }).catch(err => {
+      console.error(err);
+   });
+});

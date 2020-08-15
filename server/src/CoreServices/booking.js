@@ -63,6 +63,8 @@ bookingServices.createSubsServiceBooking = (dataObject, jwToken) => {
             dataObject[constants.VENDOR_ID],
             dataObject[constants.CUSTOMER_ADDRESS_ID],
             dataObject[constants.BOOKING_TIME], dataObject[constants.BOOKING_END_TIME], dataObject[constants.BOOKING_DATE],
+            dataObject[constants.BOOKING_END_DATE],
+            dataObject[constants.BOOKING_BREED_ID],
             dataObject[constants.BOOKING_REMARKS],
             dataObject[constants.RECURRING_BOOKINGS])
             .then(bookingId => {
@@ -111,10 +113,12 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
             dataObject[constants.BOOKING_SERVICE_ID]);
          booking.createServiceBooking(dataObject[constants.BOOKING_VENDOR_ID],
             dataObject[constants.BOOKING_TOTAL_AMOUNT], dataObject[constants.BOOKING_DATE],
+            dataObject[constants.BOOKING_END_DATE],
             dataObject[constants.BOOKING_TIME],
             dataObject[constants.BOOKING_END_TIME],
             dataObject[constants.CUSTOMER_ADDRESS_ID],
             dataObject[constants.BOOKING_REMARKS],
+            dataObject[constants.BOOKING_BREED_ID],
             dataObject[constants.RECURRING_BOOKINGS]).then(bookingId => {
             resolve([bookingId, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
@@ -134,8 +138,10 @@ bookingServices.createServiceBooking = (dataObject, jwToken) => {
 bookingServices.getBookingDetails = (dataObject, jwToken) => {
    return new Promise((resolve, reject) => {
       if (tokenGenerator.validateToken(jwToken)) {
-         const booking = new Booking(dataObject[constants.BOOKING_ID], false, dataObject[constants.BOOKING_CUSTOMER_ID]);
-         booking.getBookingDetails(dataObject[constants.BOOKING_STATUS_ID]).then(bookingDetails => {
+         const booking = new Booking(dataObject[constants.BOOKING_ID], false,
+            dataObject[constants.BOOKING_CUSTOMER_ID]);
+         booking.getBookingDetails(dataObject[constants.BOOKING_STATUS_ID],
+            dataObject[constants.BOOKING_VENDOR_ID]).then(bookingDetails => {
             resolve([bookingDetails, constants.RESPONSE_SUCESS_LEVEL_1]);
          }).catch(err => {
             reject([err, constants.ERROR_LEVEL_3]);

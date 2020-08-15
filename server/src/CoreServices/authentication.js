@@ -18,6 +18,12 @@ process.on("message", (serviceData) => {
          promise = authentication.requestOTP(serviceData[constants.CORE_DATA]);
       } else if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_OTP_VALIDATE) {
          promise = authentication.verifyOTP(serviceData[constants.CORE_DATA]);
+      } else if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_REQUEST_PASSWORD_TOKEN) {
+         promise = authentication.requestPasswordToken(serviceData[constants.CORE_DATA]);
+      } else if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_PASSWORD_FORGET) {
+         promise = authentication.changePassword(serviceData[constants.CORE_DATA]);
+      } else if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_SOCIAL_REGISTER) {
+         promise = authentication.socialRegister(serviceData[constants.CORE_DATA]);
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -72,6 +78,53 @@ authentication.verifyOTP = (dataObject) => {
       const authentication = new Authentication();
       authentication.verifyOtp(dataObject[constants.CUSTOMER_PHONE_NUMBER], dataObject[constants.OTP]).then((isValid) => {
          resolve([isValid, constants.RESPONSE_SUCESS_LEVEL_1]);
+      }).catch(err => {
+         reject([err, constants.ERROR_LEVEL_3]);
+      });
+   });
+};
+/**
+ * Method to request the password change token.
+ * @param dataObject: the required object.
+ * @returns {Promise<unknown>}
+ */
+authentication.requestPasswordToken = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const authentication = new Authentication(dataObject[constants.AUTH_EMAIL]);
+      authentication.requestPasswordChangeToken(dataObject[constants.IS_PRODUCTION]).then(result => {
+         resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
+      }).catch(err => {
+         reject([err, constants.ERROR_LEVEL_3]);
+      });
+   });
+};
+/**
+ * Method to change the password with valid token.
+ * @param dataObject: the required object.
+ * @returns {Promise<unknown>}
+ */
+authentication.changePassword = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const authentication = new Authentication(dataObject[constants.AUTH_EMAIL], dataObject[constants.AUTH_PASSWORD]);
+      authentication.validateTokenAndChangePassword(dataObject[constants.AUTH_PASSWORD_TOKEN]).then(result => {
+         resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
+      }).catch(err => {
+         reject([err, constants.ERROR_LEVEL_3]);
+      });
+   });
+};
+/**
+ * Method to handle the social register requests.
+ * @param dataObject: The required data.
+ * @returns {Promise<unknown>}
+ */
+authentication.socialRegister = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const authentication = new Authentication(dataObject[constants.AUTH_EMAIL], dataObject[constants.AUTH_PASSWORD],
+         dataObject[constants.ROLE_KEY]);
+      authentication.registerFromSocial(dataObject[constants.CUSTOMER_FIRST_NAME],
+         dataObject[constants.CUSTOMER_LAST_NAME]).then(result => {
+         resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
       }).catch(err => {
          reject([err, constants.ERROR_LEVEL_3]);
       });

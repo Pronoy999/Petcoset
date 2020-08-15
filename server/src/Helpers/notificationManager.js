@@ -33,6 +33,48 @@ notificationManager.sendSMS = (msg, address) => {
    });
 };
 /**
+ * Method to send email to a specified address.
+ * @param targetAddress: The target address.
+ * @param emailBody: the email body.
+ * @param subject: The subject of the email.
+ * @returns {Promise<Boolean>}: true, if email is send successfully.
+ */
+notificationManager.sendEmail = (targetAddress, emailBody, subject) => {
+   return new Promise((resolve, reject) => {
+      const params = {
+         Destination: {
+            CcAddresses: [],
+            ToAddresses: [targetAddress]
+         },
+         Message: {
+            Body: {
+               Html: {
+                  Charset: "UTF-8",
+                  Data: emailBody
+               },
+               Text: {
+                  Charset: "UTF-8",
+                  Data: emailBody
+               }
+            },
+            Subject: {
+               Charset: 'UTF-8',
+               Data: subject
+            }
+         },
+         Source: 'noreply@petcoset.com'
+      };
+      const emailPromise = aws.ses.sendEmail(params).promise();
+      emailPromise.then(data => {
+         printer.printLog(data);
+         resolve(true);
+      }).catch(err => {
+         printer.printError(err);
+         reject(err);
+      });
+   });
+};
+/**
  * Exporting the notification manager.
  */
 module.exports = notificationManager;
