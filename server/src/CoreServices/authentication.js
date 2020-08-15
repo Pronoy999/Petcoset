@@ -22,6 +22,8 @@ process.on("message", (serviceData) => {
          promise = authentication.requestPasswordToken(serviceData[constants.CORE_DATA]);
       } else if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_PASSWORD_FORGET) {
          promise = authentication.changePassword(serviceData[constants.CORE_DATA]);
+      } else if (serviceData[constants.CORE_TYPE] === constants.CORE_AUTH_SOCIAL_REGISTER) {
+         promise = authentication.socialRegister(serviceData[constants.CORE_DATA]);
       }
       promise.then((data) => {
          process.send(responseGenerator.generateCoreResponse(data[0], data[1]));
@@ -105,6 +107,23 @@ authentication.changePassword = (dataObject) => {
    return new Promise((resolve, reject) => {
       const authentication = new Authentication(dataObject[constants.AUTH_EMAIL], dataObject[constants.AUTH_PASSWORD]);
       authentication.validateTokenAndChangePassword(dataObject[constants.AUTH_PASSWORD_TOKEN]).then(result => {
+         resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
+      }).catch(err => {
+         reject([err, constants.ERROR_LEVEL_3]);
+      });
+   });
+};
+/**
+ * Method to handle the social register requests.
+ * @param dataObject: The required data.
+ * @returns {Promise<unknown>}
+ */
+authentication.socialRegister = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const authentication = new Authentication(dataObject[constants.AUTH_EMAIL], dataObject[constants.AUTH_PASSWORD],
+         dataObject[constants.ROLE_KEY]);
+      authentication.registerFromSocial(dataObject[constants.CUSTOMER_FIRST_NAME],
+         dataObject[constants.CUSTOMER_LAST_NAME]).then(result => {
          resolve([result, constants.RESPONSE_SUCESS_LEVEL_1]);
       }).catch(err => {
          reject([err, constants.ERROR_LEVEL_3]);

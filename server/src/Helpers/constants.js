@@ -47,6 +47,11 @@ constants.CONTENT_TYPE_JSON = "application/json";
  */
 constants.ROLE_ADMIN = "Admin";
 constants.ROLE_EMPLOYEE = "Employee";
+constants.ROLE_VENDOR_KEY = "Vendor";
+constants.ROLE_CUSTOMER_KEY = "Customer";
+constants.ROLE_CUSTOMER_VALUE = "tbl_CustomerMaster";
+constants.ROLE_VENDOR_VALUE = "tbl_VendorMaster";
+constants.ROLE_KEY = "role";
 
 /**
  * Request Keys.
@@ -186,6 +191,7 @@ constants.CORE_GET_SERVICE = "getService";
 constants.CORE_AUTH_CHECK = "authCheck";
 constants.CORE_AUTH_REQUEST_PASSWORD_TOKEN = "passwordToken";
 constants.CORE_AUTH_PASSWORD_FORGET = "passwordForget";
+constants.CORE_AUTH_SOCIAL_REGISTER = "socialRegister";
 constants.CORE_AUTH_OTP_REQEUST = "reqOTP";
 constants.CORE_AUTH_OTP_VALIDATE = "checkOTP";
 constants.CORE_SUBCRIPTION_CREATE = "subscriptionCreate";
@@ -245,6 +251,7 @@ constants.SP_GET_CUSTOMER_SUBSCRIPTION_DETAILS = "sp_GetSubscriptionDetailsCusto
 constants.SP_GET_UPCOMING_BOOKINGS = "sp_GetUpcomingBookings";
 constants.SP_GET_IN_ACTIVE_IMAGES = "sp_GetInActiveImages";
 constants.SP_GENERATE_AND_VALIDATE_PASSWORD_TOKEN = "sp_GenerateAndValidatePasswordChangeToken";
+constants.SP_SOCIAL_REGISTER = "sp_RegisterSocial";
 /**
  * General Keys
  */
@@ -402,6 +409,7 @@ constants.SUBSCRIPTION_SERVICE_DETAILS = "service_details";
 constants.SUBSCRIPTION_PRICE_START = "price_start";
 constants.SUBSCRIPTION_PRICE_END = "price_end";
 
+constants.BOOKING_ID = "booking_id";
 constants.BOOKING_ID = "booking_id";
 constants.BOOKING_TYPE_SERVICE = "service_booking";
 constants.BOOKING_TYPE_SUBSCRIPTION = "subscription_booking";

@@ -135,6 +135,9 @@ handlerObj.auth = (dataObject) => {
          case "password":
             promise = authentication.forgetPassword(dataObject);
             break;
+         case "social-register":
+            promise = authentication.socialRegister(dataObject);
+            break;
          default:
             reject(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, constants.ERROR_LEVEL_2));
       }

@@ -157,6 +157,48 @@ authHandler.forgetPassword = (dataObject) => {
       }
    });
 };
+/**
+ * Method to handle the Social Register requests.
+ * @param dataObject: The request object.
+ * @returns {Promise<Array>}
+ */
+authHandler.socialRegister = (dataObject) => {
+   return new Promise((resolve, reject) => {
+      const method = dataObject.method;
+      if (method === constants.HTTP_POST) {
+         const email = validator.validateEmail(dataObject.postData[constants.AUTH_EMAIL]) ?
+            dataObject.postData[constants.AUTH_EMAIL] : false;
+         const password = validator.validateString(dataObject.postData[constants.AUTH_PASSWORD]) ?
+            dataObject.postData[constants.AUTH_PASSWORD] : false;
+         const firstName = validator.validateString(dataObject.postData[constants.CUSTOMER_FIRST_NAME]) ?
+            dataObject.postData[constants.CUSTOMER_FIRST_NAME] : false;
+         const lastName = validator.validateString(dataObject.postData[constants.CUSTOMER_LAST_NAME]) ?
+            dataObject.postData[constants.CUSTOMER_LAST_NAME] : false;
+         const role = validator.validateString(dataObject.postData[constants.ROLE_KEY]) ?
+            dataObject.postData[constants.ROLE_KEY] : false;
+         if (email && password && firstName && lastName && role) {
+            let serviceData = {};
+            serviceData[constants.CORE_SERVICE_USER_NAME] = process.env[constants.CORE_SERVICE_USER_NAME];
+            serviceData[constants.CORE_SERVICE_PASSWORD] = process.env[constants.CORE_SERVICE_PASSWORD];
+            serviceData[constants.CORE_TYPE] = constants.CORE_AUTH_SOCIAL_REGISTER;
+            serviceData[constants.CORE_DATA] = dataObject.postData;
+            let childWorker = childProcess.fork(`${__dirname}/../CoreServices/authentication.js`);
+            childWorker.send(serviceData);
+            childWorker.on("message", (childReply) => {
+               if (childReply[constants.CORE_ERROR_LEVEL]) {
+                  resolve(responseGenerator.generateErrorResponse(constants.ERROR_MESSAGE, childReply[constants.CORE_ERROR_LEVEL]));
+               } else {
+                  resolve(responseGenerator.generateResponse(childReply[constants.CORE_RESPONSE], childReply[constants.CORE_SUCCESS_LEVEL]));
+               }
+            });
+         } else {
+            reject(responseGenerator.generateErrorResponse(constants.INSUFFICIENT_DATA_MESSAGE, constants.ERROR_LEVEL_1));
+         }
+      } else {
+         reject(responseGenerator.generateErrorResponse(constants.INVALID_METHOD_MESSAGE, constants.ERROR_LEVEL_1));
+      }
+   });
+};
 
 /**
  * Exporting the authentication handler.
