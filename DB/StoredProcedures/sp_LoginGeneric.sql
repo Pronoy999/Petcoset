@@ -1,6 +1,6 @@
 drop procedure if exists sp_LoginGeneric;
-create procedure sp_LoginGeneric(in par_emailId varchar(200),
-                                 in par_password varchar(100))
+create procedure sp_LoginGeneric(in par_emailId varchar(255),
+                                 in par_password varchar(255))
 BEGIN
     SET @role = (select role from tbl_LoginMaster where email_id = par_emailId and password = par_password);
     IF @role IS NOT NULL

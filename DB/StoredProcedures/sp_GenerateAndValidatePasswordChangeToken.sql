@@ -19,9 +19,10 @@ begin
         from tbl_PasswordChangeToken
         where email_id = parEmailId
           and token = parToken
-          and is_active = 1;
+          and is_active = 1
+        limit 1;
         if @isExists > 0 then
-            delete from tbl_PasswordChangeToken where id = @isExists;
+            delete from tbl_PasswordChangeToken where email_id = parEmailId;
             update tbl_LoginMaster
             set password=parPassword,
                 modified=now(),
