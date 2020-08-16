@@ -44,7 +44,7 @@ generator.generateOTP = () => {
  */
 generator.generateRandomToken = (len) => {
    const possibleCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-   len = !validator.validateNumber(len) ? len : 16;
+   len = validator.validateNumber(len) ? len : 16;
    let key = "";
    for (let i = 0; i < len; i++) {
       key += possibleCharacters.charAt(Math.floor(Math.random() * possibleCharacters.length));
