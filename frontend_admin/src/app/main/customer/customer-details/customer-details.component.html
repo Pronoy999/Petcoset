@@ -1,0 +1,72 @@
+<div class="container-fluid mt-4 p-font">
+    <div class="row">
+        <div class="col-md-2 div col-lg-2 col-6">
+            <img src="../../../../assets/image/avatar.png" alt="customer-img" srcset="" class="img-thumbnail" style="max-width: 50%;">
+        </div>
+        <div class=" col-md-10 col-lg-10 col-6"></div>
+        <div class="col-12 my-3">
+            <h5>{{bookingDetails['CustomerFirstName']}} {{bookingDetails['CustomerLastName']}}</h5>
+            <p style="font-size: 13px;">
+                <span>{{bookingDetails['address1'] ? bookingDetails['address1'] : '--'}}</span><br>
+                <span>Email: {{bookingDetails['email']}}</span><br>
+                <span>Phone Number: {{bookingDetails['phone_number']}}</span>
+            </p>
+        </div>
+        <div class="col-12">
+            <h5>Booking Details</h5>
+            <div class="row" style="font-size: 13px;">
+                <div class="col-md-3 col-lg-3 col-6 font-weight-bold my-2">Service Name</div>
+                <div class="col-md-3 col-lg-3 col-6 my-2">{{bookingDetails['service_name']}}</div>
+                <div class="col-md-3 col-lg-3 col-6 font-weight-bold my-2">Service Type</div>
+                <div class="col-md-3 col-lg-3 col-6 my-2">{{bookingDetails['service_type']}}</div>
+                <div class="col-md-3 col-lg-3 col-6 font-weight-bold my-2">Booking Date</div>
+                <div class="col-md-3 col-lg-3 col-6 my-2">{{bookingDetails['booking_date']}}</div>
+                <div class="col-md-3 col-lg-3 col-6 font-weight-bold my-2">Booking Time</div>
+                <div class="col-md-3 col-lg-3 col-6 my-2">{{bookingDetails['booking_time']}}</div>
+                <div class="col-md-3 col-lg-3 col-6 font-weight-bold my-2">Total Amount</div>
+                <div class="col-md-3 col-lg-3 col-6 my-2">{{bookingDetails['total_amount']}}/-</div>
+                <div class="col-md-3 col-lg-3 col-6 font-weight-bold my-2">Booking Status</div>
+                <div class="col-md-3 col-lg-3 col-6 my-2">{{bookingDetails['status_name']}}</div>
+                <div class="col-md-3 col-lg-3 col-6 font-weight-bold my-2">Vendor Name</div>
+                <div class="col-md-3 col-lg-3 col-6 my-2">{{bookingDetails['VendorFirstName']}} {{bookingDetails['VendorLastName']}}</div>
+                <div class="col-md-3 col-lg-3 col-6 font-weight-bold my-2">Booking Type</div>
+                <div class="col-md-3 col-lg-3 col-6 my-2">{{bookingDetails['booking_type']}}</div>
+            </div>
+        </div>
+        <div class="col-12 text-center my-5" *ngIf="type==='pending'">
+            <button type="button" class="btn btn-success btn-sm mx-1" (mousedown)="approveRequest()">Approve</button>
+            <button type="button" class="btn btn-danger btn-sm mx-1" (mousedown)="rejectRequest()">Reject</button>
+            <button type="button" class="btn btn-secondary btn-sm mx-1" routerLink="/admin/customer/customer-list/{{type}}">Close</button>
+        </div>
+        <div class="col-12 mt-5" *ngIf="type==='approve'">
+            <h5>Vendor Details</h5>
+            <div class="my-3" *ngIf="vendorList.length === 0">
+                No vendor Available on selected date
+            </div>
+            <div class="mt-3" *ngIf="vendorList.length !== 0">
+                <div class="row">
+                    <div class="col-12 col-md-3 col-lg-3 my-2" *ngFor="let vendor of vendorList">
+                        <div class="card pointer" (mousedown)="getNewVendor(vendor.VendorId)" [ngClass]="{'border-primary': selectedId === vendor.VendorId}">
+                            <div class="card-body">
+                                {{vendor.first_name | titlecase}} {{vendor.last_name | titlecase}}
+                                <p class="card-text" style="font-size: 13px;">
+                                    <span class="font-weight-bold">Service Name:</span> {{vendor.service_name}}<br>
+                                    <span class="font-weight-bold">Amount:</span> {{vendor.service_charge}}/-
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="vendorSelectErrorText">
+                    <div class="col-12" style="color: red; font-size: 13px;">
+                        {{vendorSelectErrorText}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 text-center my-5" *ngIf="type==='approve'">
+            <button type="button" class="btn btn-success btn-sm mx-1" (mousedown)="updateVendor()">Update</button>
+            <button type="button" class="btn btn-secondary btn-sm mx-1" routerLink="/admin/customer/customer-list/{{type}}">Close</button>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@
     <div class="row p-font">
         <div class="col-md-3 col-lg-3 d-flex justify-content-start py-2 text-right">
             <a href="#"><img src="../../../../assets/logo-main.png" alt="" height="60" width="80" style="cursor: pointer;"></a>
+            <!--             <small class="w-100">The coolest care on the world</small> -->
         </div>
         <div class="col-md-5 col-lg-5 py-2 fontNav text-center">
             <div class="d-flex justify-content-end">
@@ -21,11 +22,11 @@
                 <div class="d-flex fontNav justify-content-center">
                     <div class="link-style mt-4">
                         <a [routerLink]="['/auth']" style="text-decoration: none;" [style.display]="!isLoggedInUser ? 'block' : 'none'">Sign in</a>
-                        <a [routerLink]="['/user/vendor']" class="p-text-color font-weight-bold" style="font-size: 14px; text-decoration: none;" [style.display]="isLoggedInUser ? 'block' : 'none'">{{fullName | uppercase}}</a>
+                        <a [routerLink]='profileUrl' class="p-text-color font-weight-bold" style="font-size: 14px; text-decoration: none;" [style.display]="isLoggedInUser ? 'block' : 'none'">{{fullName | uppercase}}</a>
                     </div>
                     <a [routerLink]="['/auth/register']" class="ml-3 mt-4" style="text-decoration: none;" [style.display]="!isLoggedInUser ? 'block' : 'none'">Register</a>
                     <a class="ml-3 mt-4 p-text-color font-weight-bold" style="text-decoration: none; cursor: pointer; font-size: 14px;" [style.display]="isLoggedInUser ? 'block' : 'none'" (mousedown)="logoutUser()">LOGOUT</a>
-                    <a href="#"><i class="fa fa-search mt-4 ml-4" style="font-size: 23px;" aria-hidden="true"></i></a>
+                    <!-- <a href="#"><i class="fa fa-search mt-4 ml-4" style="font-size: 23px;" aria-hidden="true"></i></a> -->
                     <a href="#home" class="ml-3 mt-4 ml-4"><i class="fa fa-phone" style="font-size: 25px;"aria-hidden="true"></i></a>
                 </div>
             </div>
@@ -41,7 +42,7 @@
             </div>
             <div class="col-md-5 col-lg-5 col-sm-6 py-2 fontNav text-right">
                 <div class="d-flex">
-                    <div class="mr-4 mt-4">
+                    <div class="mr-4 mt-4" *ngIf="!isLoggedInUser">
                         <h6><a [routerLink]="['become-a-partnar']" style="text-decoration: none;">Become a Partner</a></h6>
                     </div>
                     <div class="mr-4 mt-4 text-center">
@@ -56,13 +57,13 @@
                 <div class="">
                     <div class="d-flex fontNav">
                         <div class="link-style mt-4">
-                            <a href="#news" style="text-decoration: none;">Sign up</a>
+                            <a href="#news" style="text-decoration: none;" [style.display]="!isLoggedInUser ? 'block' : 'none'">Sign in</a>
+                            <a [routerLink]='profileUrl' class="p-text-color font-weight-bold" style="font-size: 14px; text-decoration: none;" [style.display]="isLoggedInUser ? 'block' : 'none'">{{fullName | uppercase}}</a>
                         </div>
-                        <a href="#contact" class="ml-3 mt-4 ml-4" style="text-decoration: none;">Register</a>
-                        <a href="#"><i class="fa fa-search mt-4 ml-4" style="font-size: 23px;"
-                                aria-hidden="true"></i></a>
-                        <a href="#home" class="ml-3 mt-4 ml-4"><i class="fa fa-phone" style="font-size: 25px;"
-                                aria-hidden="true"></i></a>
+                        <a href="#contact" class="ml-3 mt-4 ml-4" style="text-decoration: none;" [style.display]="!isLoggedInUser ? 'block' : 'none'">Register</a>
+                        <a class="ml-3 mt-4 p-text-color font-weight-bold" style="text-decoration: none; cursor: pointer;" [style.display]="isLoggedInUser ? 'block' : 'none'" (mousedown)="logoutUser()">LOGOUT</a>
+                        <!-- <a href="#"><i class="fa fa-search mt-4 ml-4" style="font-size: 23px;" aria-hidden="true"></i></a> -->
+                        <a href="#home" class="ml-3 mt-4 ml-4"><i class="fa fa-phone" style="font-size: 25px;"aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>
@@ -99,7 +100,7 @@
                     <div class="p-text-color">
                         <!-- <a [routerLink]="['/auth']">Sign up</a> -->
                         <a [routerLink]="['/auth']" style="text-decoration: none;" [style.display]="!isLoggedInUser ? 'block' : 'none'">Sign in</a>
-                        <a [routerLink]="['/user/vendor']" class="p-text-color font-weight-bold" style="font-size: 14px; text-decoration: none;" [style.display]="isLoggedInUser ? 'block' : 'none'">{{fullName | titlecase}}</a>
+                        <a [routerLink]='profileUrl' class="p-text-color font-weight-bold" style="font-size: 14px; text-decoration: none;" [style.display]="isLoggedInUser ? 'block' : 'none'">{{fullName | titlecase}}</a>
                     </div>
                     <div class="p-text-color border-left border-right px-5">
                         <!-- <a [routerLink]="['/auth/register']">Register</a> -->

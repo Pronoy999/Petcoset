@@ -8,6 +8,10 @@
     color: #0d519c;
 }
 
+.p-color {
+    color: #0d519c;
+}
+
 .middle-y {
     margin-top: auto;
     margin-bottom: auto;
@@ -42,9 +46,13 @@
 
 .invalid-text {
     color: #ff3547;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .pointer {
     cursor: pointer;
+}
+
+.border-project {
+    border: 1px solid #0d519c;
 }

@@ -29,6 +29,7 @@ export class VendorVerifiedComponent implements OnInit {
     setTimeout(() => {
       this._authService.request('get',`vendors?status_id=Verified`)
         .subscribe((response) => {
+          console.log('vendor list ', response);
           this.verifiedVendorList = response.res;
           this.spinner.hide()
         })

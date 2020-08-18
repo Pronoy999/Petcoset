@@ -23,6 +23,7 @@ export class GroomingComponent implements OnInit {
   isSubmitted = false;
   servicesProvidedToValue;
   parentForm: FormGroup;
+  petWeight = [];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -55,12 +56,29 @@ export class GroomingComponent implements OnInit {
     this.isCatSelected = value === 'cat' ? true : false;
   }
 
-  lookAfterClicked(value) {
-    console.log(value)
-    this.isLookAfterOneClicked = value === 1 ? true : false;
-    this.isLookAfterTwoClicked = value === 2 ? true : false;
-    this.isLookAfterThreeClicked = value === 3 ? true : false;
-    this.isLookAfterFourClicked = value === 4 ? true : false;
+  lookAfterClicked(value, pos) {
+    if (this.petWeight.indexOf(value) === -1) {
+      this.petWeight.push(value);
+      if (pos === 1)
+        this.isLookAfterOneClicked = true;
+      if (pos === 2)
+        this.isLookAfterTwoClicked = true;
+      if (pos === 3)
+        this.isLookAfterThreeClicked = true;
+      if (pos === 4)
+        this.isLookAfterFourClicked = true;
+    }
+    else {
+      this.petWeight.splice(this.petWeight.indexOf(value), 1);
+      if (pos === 1)
+        this.isLookAfterOneClicked = false;
+      if (pos === 2)
+        this.isLookAfterTwoClicked = false;
+      if (pos === 3)
+        this.isLookAfterThreeClicked = false;
+      if (pos === 4)
+        this.isLookAfterFourClicked = false;
+    }
   }
 
   submitBoarding() {
@@ -78,6 +96,7 @@ export class GroomingComponent implements OnInit {
       data.is_massage_provided = data.is_massage_provided === true ? 1 : 0;
       data.is_cleaning_provided = data.is_cleaning_provided === true ? 1 : 0;
       data.is_fur_trimming_provided = data.is_fur_trimming_provided === true ? 1 : 0;
+      data.pet_weight = +this.petWeight.toString();
       this._authService.request('post', `vendors/service`, data)
         .subscribe((response) => {
           this.spinner.hide();

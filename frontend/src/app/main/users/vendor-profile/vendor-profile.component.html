@@ -16,21 +16,19 @@
                     </div>
                 </div>
                 <div class="card e1sGxS p-3 mt-3 mb-3">
-                    <div class="p-3 text-uppercase border-bottom pointer user-font-size-14" (mousedown)="selectProfileType('details')" [ngClass]="{'selected-option': detailsSelected}">My Details
+                    <div class="p-3 text-uppercase pet-border pointer user-font-size-14" (mousedown)="selectProfileType('details')" [ngClass]="{'selected-option': detailsSelected}">My Details
                     </div>
-                    <div class="p-3 text-uppercase border-bottom pointer user-font-size-14" (mousedown)="selectProfileType('profile')" [ngClass]="{'selected-option': profileSelected}">My Profile
+                    <div class="p-3 text-uppercase pet-border pointer user-font-size-14" (mousedown)="selectProfileType('profile')" [ngClass]="{'selected-option': profileSelected}">My Profile
                     </div>
-                    <div class="p-3 text-uppercase pointer user-font-size-14" (mousedown)="selectProfileType('document')" [ngClass]="{'selected-option': isDocumentSelected}">
+                    <div class="p-3 text-uppercase pet-border pointer user-font-size-14" (mousedown)="selectProfileType('document')" [ngClass]="{'selected-option': isDocumentSelected}">
                         Upload Document / Images</div>
-                    <!-- <div class="p-3 text-uppercase border-bottom pointer user-font-size-14" (mousedown)="selectProfileType('service')" [ngClass]="{'selected-option': serviceSelected}">Services</div>
-                    <div class="p-3 text-uppercase pointer user-font-size-14" (mousedown)="selectProfileType('pervious-case')" [ngClass]="{'selected-option': previousCaesSelected}">My previous cases</div> -->
+                    <div class="p-3 text-uppercase pointer user-font-size-14" (mousedown)="selectProfileType('service')" [ngClass]="{'selected-option': serviceSelected}">Booked services</div>
                 </div>
             </div>
-            <!-- [routerLink]="['/user/update-details', 1]" -->
             <div class="col-lg-8 col-md-8">
                 <div [style.display]="selectProfileTypeCount === 1 ? 'block' : 'none'">
                     <form [formGroup]="parentForm">
-                        <div class="card e1sGxS p-3 mt-3 mb-3">
+                        <div class="card e1sGxS p-3 mt-3 mb-3 p-color p-color">
                             Personal Information <a class="edit-button badge badge-light" (mousedown)="updateProfile()">Edit</a>
                             <hr class="mt-0">
                             <div class="row">
@@ -110,7 +108,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card e1sGxS p-3 mt-3 mb-3">
+                        <div class="card e1sGxS p-3 mt-3 mb-3 p-color">
                             Banking Information
                             <hr class="mt-0">
                             <div class="row">
@@ -138,225 +136,15 @@
                             </div>
                         </div>
                     </form>
-                    <!-- <form [formGroup]="vendorFreelancerForm">
-                        <div class="card e1sGxS p-3 mt-3 mb-4">
-                            <p class=" text-uppercase font-weight-bold" style="font-size: 14px;">Personal Information
-                            </p>
-
-                            <hr class="mt-0 mb-0">
-                            <div class="p-4" [style.display]="selectedFormType === 0 ? 'block' : 'none'">
-                                <p class=" text-uppercase pt-3" style="font-size: 14px;">Please select your type</p>
-                                <div class="d-flex justify-content-start">
-                                    <div class="card p-3 w-50 mr-3 shadow-sm pointer text-center text-uppercase user-font-size-10 border" (mousedown)="selectType(2)" [ngClass]="{'border-success' : isFreelancerSelected === true}">Freelancer</div>
-                                    <div class="card p-3 w-50 shadow-sm pointer text-center text-uppercase user-font-size-10 border" (mousedown)="selectType(3)" [ngClass]="{'border-success' : isCompanySelected === true}">
-                                        Company</div>
-                                </div>
-                            </div>
-                            <div class="p-4" [style.display]="isSelected ? 'block' : 'none'">
-                                <div class="row">
-                                    <div class="col-md-6 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Phone Number (can't change)" readonly formControlName="phoneNo">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Email (can't change)" readonly formControlName="email">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Other phone number" formControlName="otherNumber">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Location/Current Location" formControlName="location" [style.border]="isSubmitted && vendorFreelancerForm.controls.location.errors ? '1px solid red' : ''">
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.location.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.location.errors.required">
-                                                    Location is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Address line 1" formControlName="addressLineOne" [style.border]="isSubmitted && vendorFreelancerForm.controls.addressLineOne.errors ? '1px solid red' : ''">
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.addressLineOne.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.addressLineOne.errors.required">
-                                                    Address line one is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Address line 2" formControlName="addressLineTwo" [style.border]="isSubmitted && vendorFreelancerForm.controls.addressLineTwo.errors ? '1px solid red' : ''">
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.addressLineTwo.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.addressLineTwo.errors.required">
-                                                    Address line two is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <div class="form-div">
-                                            <div class="form-div">
-                                                <select id="cars" formControlName="state" (change)="selectedState($event.target.value)" [style.border]="isSubmitted && vendorFreelancerForm.controls.state.errors ? '1px solid red' : ''">
-                                                    <option value="" selected>State</option>
-                                                    <option *ngFor="let state of stateList" value="{{state.code}}">
-                                                        {{state.value}}</option>
-                                                </select>
-                                            </div>
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.state.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.state.errors.required">State is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <div class="form-div">
-                                            <div class="form-div">
-                                                <select id="cars" formControlName="city" [style.border]="isSubmitted && vendorFreelancerForm.controls.city.errors ? '1px solid red' : ''">
-                                                    <option value="" selected>City</option>
-                                                    <option *ngFor="let city of cityList" value="{{city.code}}">
-                                                        {{city.value}}</option>
-                                                </select>
-                                            </div>
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.city.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.city.errors.required">City is required
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Pincode" formControlName="pincode" [style.border]="isSubmitted && vendorFreelancerForm.controls.pincode.errors ? '1px solid red' : ''">
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.pincode.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.pincode.errors.required">
-                                                    Pincode is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Company name/Brand name" formControlName="companyBrand" [style.border]="isSubmitted && vendorFreelancerForm.controls.companyBrand.errors ? '1px solid red' : ''">
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.companyBrand.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.companyBrand.errors.required">
-                                                    Company/Brand is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div [style.display]="selectedFormType === 3 ? 'block' : 'none'">
-                                    <p class=" text-uppercase font-weight-bold mt-3" style="font-size: 14px;">GST Details
-                                    </p>
-                                    <hr class="mt-0 mb-0">
-                                    <div class="row">
-                                        <div class="col-md-12 mt-3">
-                                            <div class="form-div">
-                                                <input type="text" placeholder="Enter GST Number" formControlName="gstNumber">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class=" text-uppercase font-weight-bold mt-3" style="font-size: 14px;">Pan card Details
-                                    </p>
-                                    <hr class="mt-0 mb-0">
-                                    <div class="row">
-                                        <div class="input-group p-4 w-50" style="font-size: 12px;">
-                                            <div class="custom-file" style=" outline: none;">
-                                                <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                                <label class="custom-file-label" for="inputGroupFile01">Upload PAN
-                                                    card</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 mt-3 p-4" style="font-size: 12px;">
-                                            <input type="file" class="uploadContainer">
-                                            <label>Upload PAN CARD</label>
-                                        </div>
-
-                                    </div>
-                                    <p class=" text-uppercase font-weight-bold  mt-3" style="font-size: 14px;">Trade Licence/CIN
-                                    </p>
-                                    <hr class="mt-0 mb-0">
-                                    <div class="row p-4">
-                                        <div class="col-md-12" style="font-size: 12px;">
-                                            <label>Upload Trade Licence/ CIN </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <p class=" text-uppercase font-weight-bold mt-3" style="font-size: 14px;">Personal Doc
-                                </p>
-                                <hr class="mt-0 mb-0">
-                                <div class="p-4">
-                                    <div class="row">
-                                        <div class="col-md-12" style="font-size: 12px;">
-                                            <label>Upload your voter/aadhar card </label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <p class=" text-uppercase font-weight-bold" style="font-size: 14px;">Bank Information
-                                </p>
-                                <hr class="mt-0 mb-0">
-                                <div class="row">
-                                    <div class="col-md-12 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Enter bank account number" formControlName="bankAccountNo" [style.border]="isSubmitted && vendorFreelancerForm.controls.bankAccountNo.errors ? '1px solid red' : ''">
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.bankAccountNo.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.bankAccountNo.errors.required">
-                                                    Bank account number is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <select id="cars" formControlName="accountType" [style.border]="isSubmitted && vendorFreelancerForm.controls.accountType.errors ? '1px solid red' : ''">
-                                            <option value="" selected>Account type</option>
-                                            <option value="saab">Saving</option>
-                                            <option value="mercedes">Current</option>
-                                        </select>
-                                        <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.accountType.errors">
-                                            <div *ngIf="vendorFreelancerForm.controls.accountType.errors.required">
-                                                Account type is required</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Enter IFSC code" formControlName="IFCSCode" [style.border]="isSubmitted && vendorFreelancerForm.controls.IFCSCode.errors ? '1px solid red' : ''">
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.IFCSCode.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.IFCSCode.errors.required">IFSC Code is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <div class="form-div">
-                                            <input type="text" placeholder="Beneficiary name" formControlName="beneficiary" [style.border]="isSubmitted && vendorFreelancerForm.controls.beneficiary.errors ? '1px solid red' : ''">
-                                            <div class="invalid-text" *ngIf="isSubmitted && vendorFreelancerForm.controls.beneficiary.errors">
-                                                <div *ngIf="vendorFreelancerForm.controls.beneficiary.errors.required">
-                                                    Beneficiary is required</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 mt-3" style="font-size: 12px;">
-                                        <label>Upload your cancel cheque Pdf or jpg upload</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center mt-3 p-4" *ngIf="selectedFormType !== 0">
-                                <div class="d-flex justify-content-center">
-                                    <button type="submit" class="close-btn-project mr-2" (mousedown)="backPage()">BACK</button>
-                                    <button type="submit" class="btn-project" (mousedown)="submitVendor()">SUBMIT</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form> -->
                 </div>
 
                 <div [style.display]="selectProfileTypeCount === 2 ? 'block' : 'none'">
-                    <div class="card e1sGxS p-3 mt-3 mb-4">
+                    <div class="card e1sGxS p-3 mt-3 mb-4 p-color">
                         Your Profile
                         <hr class="mt-0 mb-0">
 
                         <div class="p-4">
-                            <span class="user-font-size-14">Choose more service</span>
+                            <span class="user-font-size-14 p-color">Choose more service</span>
                             <form [formGroup]="myProfileServiceForm">
                                 <div class="form-div">
                                     <select id="cars" formControlName="service" (change)="selectedService($event.target.value)" [style.border]="isProfileFormSubmitted && myProfileServiceForm.controls.service.errors ? '1px solid red' : ''">
@@ -375,13 +163,15 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="p-4">
-                            My chosen Service
+                        <!-- <div class="p-4">
+                            My chosen Services
+                            <hr class="mt-0">
                             <div class="p-2 text-center">
                                 <ng-container *ngIf="vendorSelectedServiceList">
                                     <div class="row">
-                                        <div class="col-md-3 col-lg-3 col-sm-12 mt-2" *ngFor="let service of vendorSelectedServiceList">
-                                            <div class="card text-uppercase text-center">
+                                        <div class="col-md-3 col-lg-3 col-sm-12 mt-2" *ngFor="let service of vendorSelectedServiceList; let i = index">
+                                            <i class="fa fa-window-close cross pointer" aria-hidden="true" (mousedown)="removeService(service.service_id, i)"></i>
+                                            <div class="card text-uppercase text-center border-project">
                                                 <img src={{getSelectedImg(service.service_name)}} class="img-fluid middle-x" height="90" width="90">
                                                 <span class="font-weight-bold p-3" style="font-size: 13px;">{{service.service_name}}</span>
                                             </div>
@@ -389,14 +179,94 @@
                                     </div>
                                 </ng-container>
                             </div>
+                        </div> -->
+                        <div class="p-4">
+                            <span *ngIf="!noServiceText">My chosen Services</span>
+                            <hr class="mt-0">
+                            <div class="p-2">
+                                <div class="row">
+                                    <div class="col-12 text-center text-muted" *ngIf="noServiceText">
+                                        {{noServiceText}}
+                                    </div>
+                                    <div class="col-12" *ngIf="!noServiceText">
+                                        <div class="container" *ngFor="let service of registereServiceList; let i = index">
+                                            <div class="row border-project mb-3 rounded p-3">
+                                                <i class="fa fa-window-close cross pointer" aria-hidden="true" (mousedown)="removeService(service.service_id, i)"></i>
+                                                <div class="col-12">
+                                                    <h5 class="card-text">{{service.service_name}}</h5>
+                                                    <div class="row" style="font-size: 13px;">
+                                                        <div class="col-md-6 col-lg-6 col-12 my-1">Service Type: {{service.service_type}}</div>
+                                                        <div class="col-md-6 col-lg-6 col-12 my-1">Total Amount: {{service.service_charge}}</div>
+                                                        <div class="col-md-12 col-lg-12 col-12 my-1">Pet Weight: {{getPetWeightDetaild(service.pet_weight)}}</div>
+                                                        <div class="col-md-6 col-lg-6 col-12 my-1">Pet Gender: {{service.pet_sex ? service.pet_sex : '--'}}</div>
+                                                        <div class="col-md-6 col-lg-6 col-12 my-1">Pet Type: {{service.PetType ? service.PetType : '--'}}</div>
+                                                    </div>
+                                                    <div class="row my-2" *ngIf="service.service_name === 'Veterinary' && VetAttachmentList.length !== 0">
+                                                        <div class="col-md-3 col-lg-3 col-6" *ngFor="let attachment of VetAttachmentList">
+                                                            <img src="{{attachment.base_url}}" alt="" srcset="" class="img-thumbnail" style="height: 100px;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row my-2" *ngIf="service.service_name === 'Adoption' && adoptionAttachmentList.length !== 0">
+                                                        <div class="col-md-3 col-lg-3 col-6" *ngFor="let attachment of adoptionAttachmentList">
+                                                            <img src="{{attachment.base_url}}" alt="" srcset="" class="img-thumbnail" style="height: 100px;">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row my-2" *ngIf="service.service_name === 'Mating' && matingAttachmentList.length !== 0">
+                                                        <div class="col-md-3 col-lg-3 col-6" *ngFor="let attachment of matingAttachmentList">
+                                                            <img src="{{attachment.base_url}}" alt="" srcset="" class="img-thumbnail" style="height: 100px;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
                 </div>
-                <div [style.display]="selectProfileTypeCount === 3 ? 'block' : 'none'">service</div>
+                <div [style.display]="selectProfileTypeCount === 3 ? 'block' : 'none'">
+                    <div class="card e1sGxS p-3 mt-3 mb-4 p-color">
+                        Services
+                        <div class="card-body p-color">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="container" *ngFor="let bookingDetails of vendorBookingList">
+                                        <div class="row border-project mb-3 rounded p-3">
+                                            <div class="col-12">
+                                                <h5 class="card-text">{{bookingDetails.service_name}}</h5>
+                                                <div class="row" style="font-size: 13px;">
+                                                    <div class="col-md-6 col-lg-6 col-12">Date: {{bookingDetails.booking_date.split('T')[0] | date: 'd-MM-yyyy'}}</div>
+                                                    <div class="col-md-6 col-lg-6 col-12">Time: {{bookingDetails.booking_time}}</div>
+                                                    <div class="col-12">Customer's Name: {{bookingDetails.CustomerFirstName}} {{bookingDetails.CustomerLastName}}</div>
+                                                    <div class="col-12" *ngIf="bookingDetails.status_name === 'Confirmed'">
+                                                        Phone Number: {{bookingDetails.phone_number}}
+                                                    </div>
+                                                    <div class="col-12">
+                                                        Status: {{bookingDetails.status_name}}
+                                                    </div>
+                                                    <div class="col-12">
+                                                        Address:
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <p>
+                                                            <span>{{bookingDetails.address1}}</span><br>
+                                                            <span>{{bookingDetails.address2}}</span><br>
+                                                            <span>{{bookingDetails.city_name}}, {{bookingDetails.pincode}} </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div [style.display]="selectProfileTypeCount === 4 ? 'block' : 'none'">pervious case</div>
                 <div [style.display]="selectProfileTypeCount === 5 ? 'block' : 'none'">
-                    <div class="card e1sGxS p-3 mt-3 mb-4">
+                    <div class="card e1sGxS p-3 mt-3 mb-4 p-color">
                         Upload Document
                         <hr class="mt-0 mb-0">
                         <div class="p-4" *ngIf="vendorCurrentStatus === 'Pending'">
@@ -413,7 +283,7 @@
                             Supported Document already uploaded!
                         </div>
                     </div>
-                    <div class="card e1sGxS p-3 mt-3 mb-4">
+                    <div class="card e1sGxS p-3 mt-3 mb-4 p-color">
                         Image of you and your pet
                         <hr class="mt-0">
                         <div class="">
@@ -421,7 +291,8 @@
                                 <div class="col-lg-3 col-md-3 col-6 mt-2">
                                     <div class="image-upload">
                                         <label for="file-input-pic1">
-                                            <img src="{{uploadedFileList[0] ? uploadedFileList[0] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}" [ngClass]="{'img-fluid' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}"/>
+                                            <img src="{{uploadedFileList[0] ? uploadedFileList[0] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                                [ngClass]="{'img-icon' : !uploadedFileList[0], 'img-pet' : uploadedFileList[0] }" />
                                         </label>
                                         <input id="file-input-pic1" type="file" (change)="uploadImages($event, 'pic-1')" />
                                     </div>
@@ -430,7 +301,9 @@
                                 <div class="col-lg-3 col-md-3 col-6 mt-2">
                                     <div class="image-upload">
                                         <label for="file-input-pic2">
-                                            <img src="{{uploadedFileList[1] ? uploadedFileList[1] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}" alt="" srcset="" [ngClass]="{'img-fluid' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}">
+                                            <img src="{{uploadedFileList[1] ? uploadedFileList[1] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                                alt="" srcset=""
+                                                [ngClass]="{'img-pet' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}">
                                         </label>
                                         <input id="file-input-pic2" type="file" (change)="uploadImages($event, 'pic-2')" />
                                     </div>
@@ -439,7 +312,8 @@
                                 <div class="col-lg-3 col-md-3 col-6 mt-2">
                                     <div class="image-upload">
                                         <label for="file-input-pic3">
-                                            <img src="{{uploadedFileList[2] ? uploadedFileList[2] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}" [ngClass]="{'img-fluid' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}"/>
+                                            <img src="{{uploadedFileList[2] ? uploadedFileList[2] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                                [ngClass]="{'img-pet' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}" />
                                         </label>
                                         <input id="file-input-pic3" type="file" (change)="uploadImages($event, 'pic-3')" />
                                     </div>
@@ -448,7 +322,8 @@
                                 <div class="col-lg-3 col-md-3 col-6 mt-2">
                                     <div class="image-upload">
                                         <label for="file-input-pic4">
-                                            <img src="{{uploadedFileList[3] ? uploadedFileList[3] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"[ngClass]="{'img-fluid' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}"/>
+                                            <img src="{{uploadedFileList[3] ? uploadedFileList[3] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                                [ngClass]="{'img-pet' : uploadedFileList[0], 'img-icon' : !uploadedFileList[0]}" />
                                         </label>
                                         <input id="file-input-pic4" type="file" (change)="uploadImages($event, 'pic-4')" />
                                     </div>

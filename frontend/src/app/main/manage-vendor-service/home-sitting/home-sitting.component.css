@@ -20,14 +20,14 @@ input[type=text] {
     padding-left: 15px;
     border-radius: 6px;
     outline: none;
-    border: 1px solid lightgray;
+    border: 1px solid #0d519c;
     font-size: 13px;
 }
 
 .btn-project {
     height: 40px;
-    width: 60%;
-    border-radius: 12px;
+    width: auto;
+    border-radius: 6px;
     background: #0d519c;
     border: 1px solid #0d519c;
     color: #fff;

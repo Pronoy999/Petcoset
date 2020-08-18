@@ -1,0 +1,68 @@
+<article class="p-font p-color" style="min-height: 75vh;">
+    <div class="container py-4">
+        <div class="card p-4">
+            <h5 class="card-title">Update your pet details</h5>
+            <hr class="mt-0">
+            <div class="card-body">
+                <form [formGroup]="parentForm">
+                    <div class="row" style="font-size: 14px;">
+                        <div class="col-6">
+                            <div class="card p-3 w-100 pointer text-center text-uppercase user-font-size-14 border" (mousedown)="petType('DOG')" [ngClass]="{'border border-primary' : isDogSelected}">
+                                <img src="../../../../assets/images/become-a-partner/dog.png" class="service-img" alt=""> Dog
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card p-3 w-100 pointer text-center text-uppercase user-font-size-14 border" (mousedown)="petType('CAT')" [ngClass]="{'border border-primary' : isCatSelected}">
+                                <img src="../../../../assets/images/become-a-partner/cat.png" class="service-img" alt=""> Cat
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12 mt-3">
+                            <label>Pet Name</label>
+                            <input type="text" formControlName="pet_name" placeholder="Pet Name" />
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12 mt-3">
+                            <label>Breed Name</label>
+                            <select formControlName="breed_name">
+                              <option *ngFor="let breed of breedList" [value]="breed.code">{{breed.value}}</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12 mt-3">
+                            <label>Pet Age (Year)</label>
+                            <input type="number" formControlName="pet_age_yr" placeholder="Pet age (Year)" />
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-12 mt-3">
+                            <label>Pet Age (Month)</label>
+                            <input type="number" formControlName="pet_age_month" placeholder="Pet age (Month)" />
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <div class="d-flex justify-content-center">
+                                <div class="card p-3 w-100 mr-4 pointer text-center user-font-size-100 border" [ngClass]="{'border border-primary' : isMaleSelected}">Male</div>
+                                <div class="card p-3 w-100 pointer text-center user-font-size-100 border" [ngClass]="{'border border-primary' : isFemaleSelected}">Female</div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div class="row">
+                                <div class="col-6 col-md-3 col-lg-3 mt-2">
+                                    <div class="card p-3 w-100 mr-3 pointer text-center user-font-size-100 border" (mousedown)="lookAfterClicked(1)" [ngClass]="{'border border-primary' : isLookAfterOneClicked}">0-7 kg</div>
+                                </div>
+                                <div class="col-6 col-md-3 col-lg-3 mt-2">
+                                    <div class="card p-3 w-100 mr-3 pointer text-center user-font-size-100 border" (mousedown)="lookAfterClicked(2)" [ngClass]="{'border border-primary' : isLookAfterTwoClicked}">8-18 kg</div>
+                                </div>
+                                <div class="col-6 col-md-3 col-lg-3 mt-2">
+                                    <div class="card p-3 w-100 mr-3 pointer text-center user-font-size-100 border" (mousedown)="lookAfterClicked(3)" [ngClass]="{'border border-primary' : isLookAfterThreeClicked}">19-45 kg</div>
+                                </div>
+                                <div class="col-6 col-md-3 col-lg-3 mt-2">
+                                    <div class="card p-3 w-100 pointer text-center user-font-size-100 border" (mousedown)="lookAfterClicked(4)" [ngClass]="{'border border-primary' : isLookAfterFourClicked}">45+ kg</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3 text-center my-5">
+                            <button type="button" class="btn-project mx-2" (mousedown)="updateCustomerPetDetails()">UPDATE PET</button>
+                            <button type="button" class="close-btn-project" (mousedown)="closeUpdate()">CLOSE</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</article>

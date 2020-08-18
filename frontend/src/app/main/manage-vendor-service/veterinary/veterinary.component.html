@@ -1,0 +1,63 @@
+<article class="p-font border-top border-bottom" style="min-height: 75vh;background: #fff;">
+    <div class="container">
+        <div class="row my-5">
+            <div class="col-lg-4 col-md-4 col-sm-12 mt-3">
+                <div class="form-div p-color">
+                    <label class="font-weight-normal">Selected Service</label>
+                    <input type="text" placeholder="Veterinary" readonly>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-12 p-color mt-3">
+                <div class="row">
+                    <div class="col-md-3 col-lg-3 col-6">
+                        <div class="image-upload">
+                            <label for="file-input">
+                                <img src="../../../assets/images/become-a-partner/add_a_photo-24px.png"
+                                    class="file-icon" />
+                            </label>
+                            <input id="file-input" type="file" (change)="uploadIdProof($event)" />
+                        </div>
+                        <label style="font-size: 13px;" *ngIf="idProofText" [ngClass]="{'invalid-text': idProofText === 'Pdf only!', 'text-success': idProofText === 'Uploaded Successfully'}">{{idProofText}}</label>
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-6">
+                        <div class="image-upload">
+                            <label for="file-input1">
+                                <img src="{{uploadedFileList[0] ? uploadedFileList[0] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                [ngClass]="{'file-icon': !uploadedFileList[0], 'img-pet': uploadedFileList[0]}" />
+                            </label>
+                            <input id="file-input1" type="file" (change)="uploadImages($event)" />
+                        </div>
+                        <label style="font-size: 13px;" *ngIf="ownImagesText" [ngClass]="{'invalid-text': ownImagesText === 'png/jpeg image file only!', 'text-success': ownImagesText === 'Uploaded Successfully'}">{{ownImagesText}}</label>
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-6"></div>
+                    <div class="col-md-3 col-lg-3 col-6"></div>
+                    <div class="col-md-3 col-lg-3 col-6">
+                        <div class="image-upload">
+                            <label for="file-input3">
+                                <img src="{{uploadedFileList[1] ? uploadedFileList[1] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                [ngClass]="{'file-icon': !uploadedFileList[1], 'img-pet': uploadedFileList[1]}" />
+                            </label>
+                            <input id="file-input3" type="file" (change)="registrationUpload($event)" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-12">
+                        <label style="font-size: 13px;" *ngIf="registrationText" [ngClass]="{'invalid-text' : registrationText === 'png/jpeg image file only!', 'text-success' : registrationText === 'Uploaded Successfully'}">{{registrationText}}</label>
+                    </div>
+                    <form [formGroup]="veterinaryForm" class="w-100">
+                        <div class="col-md-12 col-lg-12 col-12 mt-3">
+                            <input type="text" placeholder="Per visit I will charge" formControlName="service_charge">
+                            <div class="invalid-text" *ngIf="submitted && veterinaryForm.controls.service_charge.errors">
+                                <div *ngIf="submitted && veterinaryForm.controls.service_charge.errors.required">
+                                    This field is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="btn-project" (mousedown)="submitVeteinaryForm()">SAVE DETAILS</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

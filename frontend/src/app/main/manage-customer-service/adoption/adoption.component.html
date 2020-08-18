@@ -1,0 +1,92 @@
+<article class="p-font border-top border-bottom" style="min-height: 75vh;background: #fff;">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="p-3">
+                    <div class="form-div p-color">
+                        <label class="font-weight-normal">Selected Service</label>
+                        <input type="text" placeholder="Adoption" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 p-color">
+                <form [formGroup]="parentForm">
+                    <div class="p-3" *ngIf="displayCount=== 0">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <!-- <label class="p-color">Preferred location</label>
+                                <input type="text" formControlName="preferred_location" placeholder="Preferred Location" />
+                                <div class="invalid-text" *ngIf="submitted && parentForm.controls.preferred_location.errors">
+                                    <div *ngIf="parentForm.controls.preferred_location.errors.required">
+                                        Preferred Location is required
+                                    </div>
+                                </div> -->
+                                <div class="autocomplete">
+                                    <label class="p-color">Preferred location</label>
+                                    <ng-autocomplete [data]="cityList" formControlName="preferred_location" [searchKeyword]="keyword" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" placeHolder="Type your location">
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.name"></a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-12 mt-5">
+                                <input type="checkbox" formControlName="pet_adoption" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;"><span style="font-size: 12px;">Available for
+                  pet adoption</span>
+                            </div>
+                            <div class="col-md-6 col-lg-6 col-sm-12 mt-5">
+                                <input type="checkbox" formControlName="enlist_pet_adoption" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;"><span style="font-size: 12px;">Enlist for
+                  pet adoption</span>
+                            </div>
+
+                            <!-- <div class="col-12 mt-5 text-center w-50">
+                                <button class="btn-project" (mousedown)="submitParentForm()">SUBMIT</button>
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-12" *ngIf="noVendorText">{{noVendorText}}</div>
+                            <div class="col-12 pet-border mb-3" *ngFor="let vendor of vendorList; let i = index">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6 col-6 text-left">
+                                        <div class="p-3" *ngIf="!noVendorText">
+                                            <h5 class="card-title mb-0 p-color">
+                                                {{vendor.first_name | titlecase}} {{vendor.last_name | titlecase}}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-6 col-6 p-3 text-right">
+                                        <p>
+                                            <span class="font-weight-bold">INR
+                                                    {{vendor.service_charge}}</span>&nbsp;<small>per
+                                                    visit</small><br>
+                                            <button class="book-now-button mt-2" (mousedown)="selectedVendor(vendor.VendorId)">Next</button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3" *ngIf="displayCount=== 1">
+                        <div class="row">
+                            <div class="col-6 col-md-3 col-lg-3" *ngFor="let img of imageList">
+                                <div class="border rounded mt-3">
+                                    <img src="{{img}}" alt="pet-image" srcset="" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="col-12 my-3">
+                                <div class="col-12 text-center">
+                                    <button class="close-btn-project mx-2" (mousedown)="backFilter()">Back</button>
+                                    <button class="btn-payment mt-2" (mousedown)="submitParentForm()">Book Now</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</article>

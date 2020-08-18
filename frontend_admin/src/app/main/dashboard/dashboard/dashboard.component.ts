@@ -51,6 +51,11 @@ export class DashboardComponent implements OnInit {
       this.route.navigateByUrl('admin/vendor/vendor-list')
     if (value === 'vendor-verified')
       this.route.navigateByUrl('admin/vendor/vendor-verified-list');
+    if(value === 'customer') 
+      this.route.navigateByUrl('admin/customer/customer-list/pending');
+    if(value === 'customer-approve') {
+      this.route.navigateByUrl('admin/customer/customer-list/approve');
+    }
   }
 
 }

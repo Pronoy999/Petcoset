@@ -9,8 +9,10 @@ import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 export class NavbarComponent implements OnInit {
 
   status: boolean = false;
-  userDetails: UserDetails
-  
+  userDetails: UserDetails;
+  vendorStatus = false;
+  customerStatus = false;
+
   constructor(
     private eRef: ElementRef,
     private _authService: AuthenticationService
@@ -22,7 +24,7 @@ export class NavbarComponent implements OnInit {
 
   sidebarToggle() {
     console.log('toggle button hit', this.status);
-    if(this.status === true) 
+    if (this.status === true)
       this.status = false;
     else
       this.status = true;

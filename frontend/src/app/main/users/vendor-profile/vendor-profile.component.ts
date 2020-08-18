@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { AuthenticationService, UserDetails } from 'src/app/authentication.service';
 
+
 @Component({
   selector: 'app-vendor-profile',
   templateUrl: './vendor-profile.component.html',
@@ -66,13 +67,21 @@ export class VendorProfileComponent implements OnInit {
   imageUploadErrorMessage4 = '';
   uploadedFileList = ['', '', '', ''];
   vendorCurrentStatus = '';
+  vendorBookingList = [];
+  registereServiceList = [];
+  VetAttachmentList = [];
+  adoptionAttachmentList = [];
+  matingAttachmentList = [];
+  noServiceText: string;
 
   constructor(
     private _formbuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private route: Router,
     private _authService: AuthenticationService
-  ) { }
+  ) { 
+    this.noServiceText = '';
+  }
 
   ngOnInit() {
     this.spinner.show();
@@ -84,6 +93,8 @@ export class VendorProfileComponent implements OnInit {
     this.fullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`;
     this.getService();
     this.getStateList();
+    this.getVendorBookingDetails();
+    this.getVendorsRegisterdServices()
   }
 
   selectProfileType(value) {
@@ -103,6 +114,7 @@ export class VendorProfileComponent implements OnInit {
         this.serviceSelected = false;
         this.previousCaesSelected = false;
         this.isDocumentSelected = false;
+        this.getUploadedDocument();
         break;
       case 'service':
         this.selectProfileTypeCount = 3;
@@ -223,6 +235,11 @@ export class VendorProfileComponent implements OnInit {
               this.setValueToParentForm();
               this.spinner.hide();
             })
+        }, err => {
+          if(err === 403) {
+            localStorage.clear();
+            this.route.navigateByUrl('/user/customer');
+          }
         })
     }, 1000);
   }
@@ -230,6 +247,7 @@ export class VendorProfileComponent implements OnInit {
   getVendorSelectedServive() {
     this._authService.request('get', `vendors/service?vendor_id=${this.userDetails.id}`)
       .subscribe((response) => {
+        console.log('vendor services ', response);
         this.vendorSelectedServiceList = response.res;
       })
   }
@@ -486,14 +504,22 @@ export class VendorProfileComponent implements OnInit {
       this._authService.request('get', `vendors/images?vendor_id=${this.userDetails.id}&image_type=PET`)
         .subscribe((response) => {
           if(response.res.length > 0) {
-            this.uploadedFileList[0] = response.res.filter(x=> x.position === 1)[0].base_url;
-            this.uploadedFileList[1] = response.res.filter(x=> x.position === 2)[0].base_url;
-            this.uploadedFileList[2] = response.res.filter(x=> x.position === 3)[0].base_url;
-            this.uploadedFileList[3] = response.res.filter(x=> x.position === 4)[0].base_url;
+            this.VetAttachmentList = response.res.filter(x=> x.position === 901 || x.position === 902);
+            this.adoptionAttachmentList = response.res.filter(x => x.position === 1001 || x.position === 1002 || x.position === 1003 || x.position === 1004);
+            this.matingAttachmentList = response.res.filter(x => x.position === 801 || x.position === 802 || x.position === 803 || x.position === 804)
+            if (response.res.filter(x => x.position === 1)[0] !== undefined)
+              this.uploadedFileList[0] = response.res.filter(x => x.position === 1)[0].base_url;
+            if (response.res.filter(x => x.position === 2)[0] !== undefined)
+              this.uploadedFileList[1] = response.res.filter(x => x.position === 2)[0].base_url;
+            if (response.res.filter(x => x.position === 3)[0] !== undefined)
+              this.uploadedFileList[2] = response.res.filter(x => x.position === 3)[0].base_url;
+            if (response.res.filter(x => x.position === 4)[0] !== undefined)
+              this.uploadedFileList[3] = response.res.filter(x => x.position === 4)[0].base_url;
             this.spinner.hide();
           } else {
             this.spinner.hide();
           }
+          console.log('imges ', this.VetAttachmentList);
         });
     }, 1000);
   }
@@ -585,6 +611,112 @@ export class VendorProfileComponent implements OnInit {
         }
         this.getUploadedDocument();
       });
+  }
+
+  /**
+   * Method to get vendor booking details
+   */
+  getVendorBookingDetails = () =>{
+    this.spinner.show();
+    this._authService.request('get', `booking?vendor_id=${this.userDetails.id}`)
+      .subscribe(response => {
+        if(response.res.length !== 0) {
+          this.vendorBookingList = response.res;
+          console.log('vendor booking details ', this.vendorBookingList);
+          this.spinner.hide();
+        }
+      });
+  }
+
+  /**
+   * Method to remove which is already registerd by vendor.
+   * @param index: Parameter for id of registerd service.
+   * @param pos: Parameter for index of array we are going to delete.
+   */
+  removeService = (index, pos) => {
+    let service = this.vendorSelectedServiceList.filter(x=> x.service_id === index);
+    if(service){
+      Swal.fire({
+        title: 'Are you sure to delete this service?',
+        icon: 'warning',
+      }).then(result => {
+        const data = {...service[0]}
+        data.is_delete = 1;
+        if(result.value) {
+          this.spinner.show();
+          this._authService.request('post', `vendors/service`, data)
+            .subscribe(response => {
+              this.spinner.hide();
+              if(response.res.id !== -1){
+                Swal.fire({
+                  title: 'Deleted Successfully',
+                  icon: 'success'
+                }).then(result1 => {
+                  if(result1.value){
+                    this.vendorSelectedServiceList.splice(pos, 1);
+                    this.registereServiceList.splice(pos,1)
+                  }
+                })
+              } else {
+                this.spinner.hide();
+                Swal.fire({
+                  text: 'Something went wrong. Please try again later!',
+                  icon: 'error'
+                }).then(res2 => {
+                  if(res2.value){
+                    this.getVendorBookingDetails();
+                  }
+                })
+              }
+            });
+        } else {
+          this.spinner.hide();
+          Swal.fire({
+            text: 'Something went wrong. Please try again later!',
+            icon: 'error'
+          }).then(res3 => {
+            if(res3.value){
+              this.getVendorBookingDetails();
+            }
+          })
+        }
+      });
+    }
+  }
+
+  /**
+   * Method to get all registered services of a vendor.
+   */
+  getVendorsRegisterdServices = () => {
+    this._authService.request('get', `vendors/service?vendor_id=${this.userDetails.id}`)
+      .subscribe(response => {
+        if(response.res.length > 0) {
+          this.noServiceText = '';
+          this.registereServiceList = response.res;
+          console.log('services ', response);
+        } else {
+          this.noServiceText = 'No Registed Service Found';
+        }
+      });
+  }
+
+  /**
+   * Method to get 
+   */
+  getPetWeightDetaild = (value) => {
+    let weight;
+    value.split(',').forEach(x => {
+      if(x === '1')
+        weight = ' 0 - 7 kg ';
+      if(x === '2')
+        weight+= ' 8 - 18 kg ';
+      if(x === '3')
+        weight+= ' 19 - 45 kg '
+      if(x === '4')
+        weight+= ' 45+ kg '
+    });
+
+    return weight;
   }
 
 }

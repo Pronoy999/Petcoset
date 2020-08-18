@@ -26,7 +26,7 @@ export class VendorListComponent implements OnInit {
 
   getvendorList() {
     setTimeout(()=>{
-      this._authService.request('get', `vendors?status_id=Pending`)
+      this._authService.request('get', `vendors?status_id=Confirmed`)
         .subscribe((response) => {
           this.vendorList = response.res;
           console.log('vendor list ', this.vendorList);

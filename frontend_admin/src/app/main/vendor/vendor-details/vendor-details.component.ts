@@ -5,7 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequiredValidator } from 'src/app/core/validator/required.validator';
 import { ToastrService } from 'ngx-toastr';
-import { isError } from 'util';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-vendor-details',
@@ -20,6 +20,7 @@ export class VendorDetailsComponent implements OnInit {
   vendorBankDetails = [];
   isUpdateError = false;
   isUpdated;
+
 
   constructor(
     private _authService: AuthenticationService,
@@ -42,26 +43,22 @@ export class VendorDetailsComponent implements OnInit {
 
   getvendorDetailsbyId() {
     setTimeout(() => {
-      this._authService.request('get', `vendors?vendor_id=${this.bookingId}`)
-        .subscribe((response) => {
-          this.vendorDetails = response.res[0];
-          this._authService.request('get', `vendors/details?vendor_id=${this.bookingId}`)
-            .subscribe((response) => {
-              if(response.res.length > 0 ) {
-                this.vendorDetails['account_number'] = response.res[0].account_number;
-                this.vendorDetails['bank_name'] = response.res[0].bank_name;
-                this.vendorDetails['ifsc_code'] = response.res[0].ifsc_code;
-              }
-              console.log('vendor details ', this.vendorDetails);
-            })
-          this.spinner.hide();
-        })
+      let vendor = this._authService.request('get', `vendors?vendor_id=${this.bookingId}`);
+      let details = this._authService.request('get', `vendors/details?vendor_id=${this.bookingId}`);
+      forkJoin([vendor, details]).subscribe(response => {
+        console.log('vendor details ', response);
+        this.vendorDetails = response[0].res[0];
+        this.vendorDetails['account_number'] = response[1].res[0] ? response[1].res[0].account_number : '--';
+        this.vendorDetails['bank_name'] = response[1].res[0] ? response[1].res[0].bank_name : '--';
+        this.vendorDetails['ifsc_code'] = response[1].res[0] ? response[1].res[0].ifsc_code : '--';
+        this.spinner.hide();
+      });
     }, 1000);
   }
 
   initParentForm() {
     this.parentForm = this._formBuilder.group({
-      payment_gateway_account_id: ['', Validators.compose([RequiredValidator('Payment getway account id is required')])]
+      payment_gateway_account_id: ['']
     })
   }
 
@@ -73,10 +70,15 @@ export class VendorDetailsComponent implements OnInit {
       const data = { ...this.parentForm.value };
       data.account_number = this.vendorDetails['account_number'];
       data.vendor_id = +this.bookingId;
+      this.spinner.hide();
       if(data.account_number) {
         this._authService.request('put', `vendors/details`, data)
         .subscribe((response) => {
           this.isUpdated = 'Account Updated Successfully';
+          this.route.navigateByUrl('/admin/vendor/vendor-details/');
+          this.spinner.hide();
+        }, err=>{
+          this.isUpdated = 'Something went wrong!';
           this.route.navigateByUrl('/admin/vendor/vendor-details/');
           this.spinner.hide();
         })

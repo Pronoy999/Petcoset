@@ -28,3 +28,57 @@
 
 2020-05-13 20:55:04 : RETURNING: "Welcome to Petcoset API."FOR PATH: ping with: 200
 
+2020-08-16 23:25:53 : Worker Scheduled.
+
+2020-08-16 23:25:54 : Worker Scheduled.
+
+2020-08-16 23:25:54 : Server Listening on Port 7010
+
+2020-08-16 23:25:54 : Worker Scheduled.
+
+2020-08-16 23:25:55 : Server Listening on Port 7010
+
+2020-08-16 23:25:55 : Worker Scheduled.
+
+2020-08-16 23:25:55 : Worker Scheduled.
+
+2020-08-16 23:25:55 : Server Listening on Port 7010
+
+2020-08-16 23:25:55 : Server Listening on Port 7010
+
+2020-08-16 23:25:55 : Worker Scheduled.
+
+2020-08-16 23:25:55 : Server Listening on Port 7010
+
+2020-08-16 23:25:55 : Worker Scheduled.
+
+2020-08-16 23:25:55 : Server Listening on Port 7010
+
+2020-08-16 23:26:03 : CALL sp_checkApiToken('5e31eb7b48506f1')
+
+2020-08-16 23:26:04 : Request Body: 
+
+2020-08-16 23:26:04 : [object Object]
+
+2020-08-16 23:26:06 : CALL sp_OtpCreateCheck('+918583897801',1234,1)
+
+2020-08-16 23:26:06 : RETURNING: {"res":-1,"request_Key":"TFUilDipwAj4C0Yg"}FOR PATH: otp with: 200
+
+2020-08-16 23:26:06 : CALL sp_LogApiStatus('TFUilDipwAj4C0Yg','otp',2,200,'5e31eb7b48506f1')
+
+2020-08-16 23:26:07 : [object Object]
+
+2020-08-16 23:26:41 : CALL sp_checkApiToken('5e31eb7b48506f1')
+
+2020-08-16 23:26:42 : Request Body: 
+
+2020-08-16 23:26:42 : [object Object]
+
+2020-08-16 23:26:43 : CALL sp_OtpCreateCheck('+918583897801',4744,1)
+
+2020-08-16 23:26:44 : RETURNING: {"res":true,"request_Key":"DBCehtLb32H55npq"}FOR PATH: otp with: 200
+
+2020-08-16 23:26:44 : CALL sp_LogApiStatus('DBCehtLb32H55npq','otp',2,200,'5e31eb7b48506f1')
+
+2020-08-16 23:26:44 : [object Object]
+

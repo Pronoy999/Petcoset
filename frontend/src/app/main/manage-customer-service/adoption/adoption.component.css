@@ -1,0 +1,143 @@
+input[type=text] {
+    height: 40px;
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 6px;
+    outline: none;
+    border: 1px solid #0d519c;
+    font-size: 13px;
+}
+
+select {
+    height: 40px;
+    width: 100%;
+    border-radius: 6px;
+    outline: none;
+    padding-left: 11px;
+    background: #fff;
+    font-size: 13px;
+    border: 1px solid #0d519c;
+}
+
+select option {
+    font-size: 13px;
+    line-height: 10;
+}
+
+input[type=date] {
+    height: 40px;
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 6px;
+    outline: none;
+    border: 1px solid #0d519c;
+    font-size: 13px;
+}
+
+input[type=time] {
+    height: 40px;
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 6px;
+    outline: none;
+    border: 1px solid #0d519c;
+    font-size: 13px;
+}
+
+.btn-project {
+    height: 40px;
+    width: auto;
+    border-radius: 6px;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    color: #fff;
+    margin-bottom: 7%;
+    outline: none;
+    padding: 12px;
+    font-size: 13px;
+}
+
+@media only screen and (max-width: 414px) {
+    .pet-img {
+        width: 78%;
+    }
+    .pet-block {
+        width: 20%;
+    }
+}
+
+@media only screen and (min-width: 415px) {
+    .pet-img {
+        width: 85%;
+    }
+    .pet-block {
+        width: 20%;
+    }
+}
+
+.cross {
+    font-size: 22px;
+    color: #0d519c;
+    position: absolute;
+    right: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    border-radius: 6px;
+    resize: none;
+    border: 1px solid #0d519c;
+    outline: none;
+    font-size: 13px;
+    padding-left: 15px;
+}
+
+.book-now-button {
+    height: 36px;
+    width: 60%;
+    border-radius: 6px;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    color: #fff;
+    outline: none;
+    padding: 7px;
+}
+
+.pet-border {
+    border-bottom: 1px solid #0d519c;
+}
+
+.close-btn-project {
+    height: 40px;
+    width: auto;
+    border-radius: 6px;
+    background: #f66531;
+    border: 1px solid #f66531;
+    color: #fff;
+    margin-bottom: 7%;
+    outline: none;
+    padding: 7px;
+    font-size: 17px;
+}
+
+.btn-payment {
+    height: 40px;
+    width: auto;
+    border-radius: 6px;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    color: #fff;
+    outline: none;
+    padding: 7px;
+}
+
+.ng-autocomplete {
+    width: 100%;
+    max-width: 600px;
+    display: table;
+    margin: 0 auto;
+    border: 1px solid #0d519c;
+    box-shadow: none;
+    border-radius: 2px;
+}

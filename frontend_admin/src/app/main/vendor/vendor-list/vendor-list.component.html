@@ -1,34 +1,32 @@
-<div class="container-fluid p-font pt-5 pb-5">
-    <div class="card border shadow-sm">
-        <div class="table-responsive table-design">
-            <table class="table text-center">
-                <thead class="thead-dark ces-list-thead">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Phone Number</th>
-                        <th scope="col">Action</th>
+<div class="container-fluid p-font pt-5 pb-5" style="font-size: 13px;">
+    <div class="table-responsive" style="height:75vh; overflow-y: auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone Number</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="vendorList && vendorList.length; else noDataFound">
+                    <tr *ngFor="let entry of vendorList">
+                        <td>{{entry.first_name}} {{entry.last_name}}</td>
+                        <td>{{entry.email}}</td>
+                        <td>{{entry.phone_number}}</td>
+                        <td class="text-white">
+                            <button class="btn btn-info btn-sm mr-2" [routerLink]="['/admin/vendor/vendor-details', entry.id]" data-toggle="tooltip" data-placement="top" title="Details">Details</button>
+                            <!-- <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-ban" aria-hidden="true"></i></button> -->
+                        </td>
                     </tr>
-                </thead>
-                <tbody class="ces-list-tbody">
-                    <ng-container *ngIf="vendorList && vendorList.length; else noDataFound">
-                        <tr *ngFor="let entry of vendorList">
-                            <td>{{entry.first_name}} {{entry.last_name}}</td>
-                            <td>{{entry.email}}</td>
-                            <td>{{entry.phone_number}}</td>
-                            <td class="text-center text-white">
-                                <button class="btn btn-sm btn-info mr-2" [routerLink]="['/admin/vendor/vendor-details', entry.id]" data-toggle="tooltip" data-placement="top" title="Details"><i class="fa fa-eye" aria-hidden="true"></i></button>
-                                <button class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Reject"><i class="fa fa-ban" aria-hidden="true"></i></button>
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-template #noDataFound>
-                        <tr>
-                            <td colspan="12">No Entries</td>
-                        </tr>
-                    </ng-template>
-                </tbody>
-            </table>
-        </div>
+                </ng-container>
+                <ng-template #noDataFound>
+                    <tr class="text-center">
+                        <td colspan="12">No Entries</td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
     </div>
 </div>

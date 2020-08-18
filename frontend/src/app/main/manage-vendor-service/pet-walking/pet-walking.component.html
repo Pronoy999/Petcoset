@@ -4,24 +4,24 @@
             <div class="row mt-3">
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="p-3">
-                        <div class="form-div">
+                        <div class="form-div p-color">
                             <label class="font-weight-normal">Selected Service</label>
                             <input type="text" placeholder="Pet Walking" readonly>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8 col-md-8 col-sm-12">
-                    <div class="p-3 mt-5">
+                <div class="col-lg-8 col-md-8 col-sm-12 p-color">
+                    <div class="p-3">
                         <span class="custom-font-weight">How long is my walk</span>
                         <div class="row">
                             <div class="col-6">
-                                <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('1')" [ngClass]="{'selection-border' : isDogSelected}">
-                                    1 hour
+                                <div class="card p-3 w-100 pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('1')" [ngClass]="{'selection-border' : isDogSelected}">
+                                    30 Minutes
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('2')" [ngClass]="{'selection-border' : isCatSelected}">
-                                    2 hours
+                                <div class="card p-3 w-100 pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('2')" [ngClass]="{'selection-border' : isCatSelected}">
+                                    1 hour
                                 </div>
                             </div>
                         </div>

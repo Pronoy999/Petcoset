@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 export interface UserDetails {
   id: string;
@@ -25,6 +27,8 @@ export class AuthenticationService {
   public baseurl = 'http://www.petcoset.com/api/v1';
   //public key = '5e31eb7b48506f1';
   public key = 'VGhpcyBpcyB0aGU';
+
+  subscription_id;
 
   constructor(private http: HttpClient) { }
 
@@ -51,32 +55,35 @@ export class AuthenticationService {
   public request(method: 'post' | 'get' | 'put' | 'delete' | 'patch' | 'file', type: String, data?: any): Observable<any> {
     let base;
     if (method === 'post') {
-      if(type === 'vendors'){
+      if (type === 'vendors') {
         base = this.http.post(`${this.baseurl}/${type}`, data, {
           headers: {
             'Content-Type': 'application/json',
             'key': this.key,
             'Access-Control-Allow-Origin': '*',
+            'maxContentLength' : '4194304'
           }
         });
-      } else if(type === 'customers') {
+      } else if (type === 'customers') {
         base = this.http.post(`${this.baseurl}/${type}`, data, {
           headers: {
             'Content-Type': 'application/json',
             'key': this.key,
             'jw_token': this.getToken(),
             'Access-Control-Allow-Origin': '*',
+            'maxContentLength' : '4194304'
           }
         });
         console.log(base);
       }
-      else{
+      else {
         base = this.http.post(`${this.baseurl}/${type}`, data, {
           headers: {
             'Content-Type': 'application/json',
             'key': this.key,
             'jw_token': this.getToken(),
             'Access-Control-Allow-Origin': '*',
+            'maxContentLength' : '4194304'
           }
         });
       }
@@ -87,8 +94,9 @@ export class AuthenticationService {
           'key': this.key,
           'jw_token': this.getToken(),
           'Access-Control-Allow-Origin': '*',
+          'maxContentLength' : '4194304'
         }
-      });
+      }).catch(this.errorHandler);
     } else if (method === 'put') {
       base = this.http.put(`${this.baseurl}/${type}`, data, {
         headers: {
@@ -96,11 +104,20 @@ export class AuthenticationService {
           'key': this.key,
           'Access-Control-Allow-Origin': '*',
           'jw_token': this.getToken(),
+          'maxContentLength' : '4194304'
         }
       });
     }
 
     return base;
+  }
+
+  /**
+   * METHOD TO HANDLE ERRORS.
+   * @param error
+   */
+  errorHandler = (error: HttpErrorResponse) => {
+    return Observable.throw(error.status);
   }
 }
 

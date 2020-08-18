@@ -16,6 +16,8 @@ export class TopbarComponent implements OnInit {
   isCLicked = false;
   isLoggedInUser = false;
   fullName;
+  userType;
+  profileUrl;
   constructor(
     private eRef: ElementRef,
     private route: Router,
@@ -24,10 +26,13 @@ export class TopbarComponent implements OnInit {
   ngOnInit() {
     this.userDetails = this._authService.getUserDetails();
     this.isLoggedInUser = this._authService.isLoggedIn() === true ? true : false; 
-    if(this.userDetails !== null)
+    if(this.userDetails !== null){
       this.fullName = this.userDetails.first_name;
+      this.profileUrl = this.userDetails.role === 'tbl_CustomerMaster' ? '/user/customer' : '/user/vendor';
+    }
     else
       this.fullName = '';
+    console.log('profile url ', this.profileUrl);
   }
 
   @HostListener("window:scroll", [])

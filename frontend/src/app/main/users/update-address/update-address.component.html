@@ -1,0 +1,66 @@
+<article class="p-font" style="min-height: 75vh;">
+    <div class="container pt-5">
+        <div class="card e1sGxS p-3 p-color">
+            Create New Address
+            <hr class="mt-0">
+            <form [formGroup]="parentForm">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="text" formControlName="address_1" placeholder="Address Line 1" />
+                        <div *ngIf="parentForm.controls.address_1.errors && isSubmit" class="invalid-text">
+                            <div *ngIf="parentForm.controls.address_1.errors.required">
+                                Address Line 1 is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <input type="text" formControlName="address_2" placeholder="Address Line 2" />
+                        <div *ngIf="parentForm.controls.address_2.errors && isSubmit" class="invalid-text">
+                            <div *ngIf="parentForm.controls.address_2.errors.required">
+                                Address Line 2 is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 mt-3">
+                        <select formControlName="state" (change)="getSelectedState($event.target.value)">
+                            <option value="">Select State</option>
+                            <option *ngFor="let state of stateList" [value]="state.code">{{state.value}}</option>
+                        </select>
+                        <div *ngIf="parentForm.controls.state.errors && isSubmit" class="invalid-text">
+                            <div *ngIf="parentForm.controls.state.errors.required">
+                                State is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 mt-3">
+                        <select formControlName="city">
+                            <option value="">Select City</option>
+                            <option *ngFor="let city of cityList" [value]="city.code">{{city.value}}</option>
+                        </select>
+                        <div *ngIf="parentForm.controls.city.errors && isSubmit" class="invalid-text">
+                            <div *ngIf="parentForm.controls.city.errors.required">
+                                City is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4 mt-3">
+                        <input type="text" formControlName="pincode" placeholder="Pincode" />
+                        <div *ngIf="parentForm.controls.pincode.errors && isSubmit" class="invalid-text">
+                            <div *ngIf="parentForm.controls.pincode.errors.required">
+                                Pincode is required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-3">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <input type="checkbox" formControlName="is_default" value="1" style="zoom: 1.2; vertical-align: sub; margin-right: 2%;"><span style="font-size: 12px;">Mark this address as default</span>
+                        </div>
+                    </div>
+                    <div class="col-12 text-center mt-5">
+                        <button type="submit" class="btn-project" (mousedown)="addCustomerAddress()">ADD ADDRESS</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</article>
