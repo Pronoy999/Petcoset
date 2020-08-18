@@ -19,6 +19,7 @@ const routes: Routes = [
     children: [
       {path: 'dashboard', canActivate: [AuthGuard], loadChildren: './main/dashboard/dashboard.module#DashboardModule'},
       {path: 'vendor', canActivate: [AuthGuard], loadChildren: './main/vendor/vendor.module#VendorModule'},
+      {path: 'customer', canActivate: [AuthGuard], loadChildren: './main/customer/customer.module#CustomerModule'},
       {path: '**', redirectTo: 'dashboard'}
     ]
   },
@@ -29,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

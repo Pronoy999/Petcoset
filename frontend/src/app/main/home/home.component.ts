@@ -1,3 +1,5 @@
+import { UserDetails, AuthenticationService } from './../../authentication.service';
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -19,9 +21,21 @@ export class HomeComponent implements OnInit {
   isMatingClick = false;
   isVeterinaryClicked = false;
   isAdptionClicked = false;
-  constructor() { }
+  selectedPath = '';
+  userDetails: UserDetails;
+  isVendor: boolean;
+
+
+  constructor(
+    private router: Router,
+    private _authService: AuthenticationService
+  ) { 
+    this.isVendor = false;
+  }
 
   ngOnInit() {
+    this.userDetails = this._authService.getUserDetails();
+    this.getuserType();
   }
 
   getServiceText(service) {
@@ -38,6 +52,7 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = false;
+        this.selectedPath = 'boarding';
         break;
       case 'dropIn':
         this.serviceText = 'We will keep visiting by and say Hi!';
@@ -51,6 +66,7 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = false;
+        this.selectedPath = 'dropIn';
         break;
       case 'dayCare':
         this.serviceText = 'Daytime play time for your furry buddy with an unlimited amount of hugs and snuggles';
@@ -64,7 +80,8 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = false;
-      break;
+        this.selectedPath = 'dayCare';
+        break;
       case 'homeSitting':
         this.serviceText = 'A professional pet-sitter to look after your buddy overnight';
         this.isboardingClicked = false;
@@ -77,7 +94,8 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = false;
-      break;
+        this.selectedPath = 'homeSitting';
+        break;
       case 'trinner':
         this.serviceText = 'Coaches to coach your furry fairy';
         this.isboardingClicked = false;
@@ -90,6 +108,7 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = false;
+        this.selectedPath = 'trainer'
         break;
       case 'gromming':
         this.serviceText = 'Washing, Smiling, Clipping drying and getting your buddy squeaky clean';
@@ -103,7 +122,8 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = false;
-      break;
+        this.selectedPath = 'gromming';
+        break;
       case 'walking':
         this.serviceText = 'Because we are always up for a long, bouncy scroll, sun in or sun out!';
         this.isboardingClicked = false;
@@ -116,7 +136,8 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = false;
-      break;
+        this.selectedPath = 'walking';
+        break;
       case 'mating':
         this.serviceText = 'Bceause Love and Family, knows no boundaries!';
         this.isboardingClicked = false;
@@ -129,7 +150,8 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = true;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = false;
-      break;
+        this.selectedPath = 'mating';
+        break;
       case 'veterinary':
         this.serviceText = 'Regular mrdical care for your BFFs good health';
         this.isboardingClicked = false;
@@ -142,6 +164,7 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = true;
         this.isAdptionClicked = false;
+        this.selectedPath = 'veterinary';
         break;
       case 'adption':
         this.serviceText = 'Because theres no place like home';
@@ -155,10 +178,53 @@ export class HomeComponent implements OnInit {
         this.isMatingClick = false;
         this.isVeterinaryClicked = false;
         this.isAdptionClicked = true;
-      break;
+        this.selectedPath = 'adoption';
+        break;
       default:
         this.serviceText = 'Petcoset!';
     }
+  }
+
+  /**
+   * METHOD TO NAVIGATE ONE PAGE TO ANOTHER PAGE FOR MOBILE VERSION 
+   */
+  serviceLink = () => {
+    switch (this.selectedPath) {
+      case 'boarding':
+        this.router.navigateByUrl('/customer/boarding');
+        break;
+      case 'dropIn':
+        this.router.navigateByUrl('/customer/drop-in');
+        break;
+      case 'dayCare':
+        this.router.navigateByUrl('/customer/day-care');
+        break;
+      case 'homeSitting':
+        this.router.navigateByUrl('/customer/home-sitting');
+        break;
+      case 'trainer':
+        this.router.navigateByUrl('/customer/trainer');
+        break;
+      case 'gromming':
+        this.router.navigateByUrl('/customer/grooming');
+        break;
+      case 'walking':
+        this.router.navigateByUrl('/customer/pet-walking');
+        break;
+      case 'mating':
+        this.router.navigateByUrl('/customer/mating')
+        break;
+      case 'veterinary':
+        this.router.navigateByUrl('/customer/veterinary-doctor');
+        break;
+      case 'adoption':
+        this.router.navigateByUrl('/customer/adoption');
+        break;
+    }
+  }
+
+  getuserType = () => {
+    this.isVendor = this.userDetails.role === 'tbl_VendorMaster' ? true : false;
   }
 
 }

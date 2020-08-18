@@ -100,7 +100,7 @@
 
 .sign-up-button {
     background: white;
-    width: 39%;
+    width: auto;
     height: 34px;
     border-radius: 30px;
     border: 1px solid #0d519c;
@@ -172,7 +172,7 @@ input[type="checkbox"]:focus+label::before {
 
 .sign-up-button {
     background: white;
-    width: 50%;
+    width: auto;
     height: 34px;
     border-radius: 30px;
     border: 1px solid #0d519c;

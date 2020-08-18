@@ -1,9 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthenticationService, UserDetails} from '../../../authentication.service';
-import {NgxSpinnerService} from 'ngx-spinner';
-import {Router} from '@angular/router';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthenticationService, UserDetails } from '../../../authentication.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 import Swal from "sweetalert2";
+import { forkJoin } from 'rxjs';
+import { Constant } from 'src/app/core/helper/constant';
+
+declare const Razorpay: any;
 
 @Component({
   selector: 'app-customer-profile',
@@ -17,6 +21,7 @@ export class CustomerProfileComponent implements OnInit {
   addMoreAddressForm: FormGroup;
   parentForm: FormGroup;
   myPetDayCareForm: FormGroup;
+  addPetDetailsForm: FormGroup;
   selectProfileTypeCount = 1;
   isFreelancerSelected = false;
   isCompanySelected = false;
@@ -31,6 +36,8 @@ export class CustomerProfileComponent implements OnInit {
   profileSelected = false;
   serviceSelected = false;
   previousCaesSelected = false;
+  addressSelected: boolean = false;
+  isPetDetaildSelected: boolean = false;
   isProfileFormSubmitted = false;
   isAddMoreAddress = false;
   customerService;
@@ -56,7 +63,7 @@ export class CustomerProfileComponent implements OnInit {
   vendorBankDetails = [];
   selectedImgUrl = '';
   vendorBankDetailsForm: FormGroup;
-  openform=false;
+  openform = false;
   isEditClicked = false;
   userGender = '';
   userState = '';
@@ -70,16 +77,40 @@ export class CustomerProfileComponent implements OnInit {
   imageUploadErrorMessage4 = '';
   uploadedFileList = ['', '', '', ''];
   vendorCurrentStatus = '';
+  addressList = [];
+  addressErrorText = '';
+  isDogSelected: boolean = false;
+  isCatSelected: boolean = false;
+  servicesProvidedToValue;
+  breedList = [];
+  petGender;
+  isLookAfterOneClicked = false;
+  isLookAfterTwoClicked = false;
+  isLookAfterThreeClicked = false;
+  isLookAfterFourClicked = false;
+  petWeightId;
+  isPetDetailsSubmit: boolean = false;
+  petDetails = [];
+  petDetailsTextError: string = '';
+  bookingDetails = [];
+  bookingErrorText = '';
+  updatedPhoneNumberError = '';
+  bookingId;
+  paymentAmount;
+  subscriptionDetails = [];
 
   constructor(
     private _formbuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private route: Router,
-    private _authService: AuthenticationService
+    private _authService: AuthenticationService,
+    private constant: Constant,
+    private ngZone: NgZone
   ) { }
 
   ngOnInit() {
     this.spinner.show();
+    window.scrollTo(0, 0);
     this.getCustomerDetailsById();
     this.getStateList();
     //this.initVendorFreelancerForm();
@@ -88,10 +119,11 @@ export class CustomerProfileComponent implements OnInit {
     this.userDetails = this._authService.getUserDetails();
     this.fullName = `${this.userDetails.first_name} ${this.userDetails.last_name}`;
     this.getService();
+    this.initPetDetailsForm();
   }
 
-  onClickOpenForm(){
-    this.openform=true;
+  onClickOpenForm() {
+    this.openform = true;
   }
   selectProfileType(value) {
     switch (value) {
@@ -102,6 +134,8 @@ export class CustomerProfileComponent implements OnInit {
         this.serviceSelected = false;
         this.previousCaesSelected = false;
         this.isDocumentSelected = false;
+        this.addressSelected = false;
+        this.isPetDetaildSelected = false;
         break;
       case 'profile':
         this.selectProfileTypeCount = 2;
@@ -110,6 +144,9 @@ export class CustomerProfileComponent implements OnInit {
         this.serviceSelected = false;
         this.previousCaesSelected = false;
         this.isDocumentSelected = false;
+        this.addressSelected = false;
+        this.isPetDetaildSelected = false;
+        this.getCustomerBookingDetails();
         break;
       case 'service':
         this.selectProfileTypeCount = 3;
@@ -118,6 +155,8 @@ export class CustomerProfileComponent implements OnInit {
         this.serviceSelected = true;
         this.previousCaesSelected = false;
         this.isDocumentSelected = false;
+        this.addressSelected = false;
+        this.isPetDetaildSelected = false;
         break;
       case 'pervious-case':
         this.selectProfileTypeCount = 4;
@@ -126,6 +165,8 @@ export class CustomerProfileComponent implements OnInit {
         this.serviceSelected = false;
         this.previousCaesSelected = true;
         this.isDocumentSelected = false;
+        this.addressSelected = false;
+        this.isPetDetaildSelected = false;
         break;
       case 'document':
         this.selectProfileTypeCount = 5;
@@ -134,7 +175,31 @@ export class CustomerProfileComponent implements OnInit {
         this.serviceSelected = false;
         this.previousCaesSelected = false;
         this.isDocumentSelected = true;
+        this.addressSelected = false;
+        this.isPetDetaildSelected = false;
         this.getUploadedDocument();
+        break;
+      case 'address':
+        this.selectProfileTypeCount = 6;
+        this.detailsSelected = false;
+        this.profileSelected = false;
+        this.serviceSelected = false;
+        this.previousCaesSelected = false;
+        this.isDocumentSelected = false;
+        this.addressSelected = true;
+        this.isPetDetaildSelected = false;
+        this.getCustomerAddressList();
+        break;
+      case 'pet-details':
+        this.selectProfileTypeCount = 7;
+        this.detailsSelected = false;
+        this.profileSelected = false;
+        this.serviceSelected = false;
+        this.previousCaesSelected = false;
+        this.isDocumentSelected = false;
+        this.addressSelected = false;;
+        this.isPetDetaildSelected = true;
+        break;
     }
   }
 
@@ -175,14 +240,6 @@ export class CustomerProfileComponent implements OnInit {
         phoneNo: customer['phone_number'],
         email: customer['email'],
         gender: customer['gender'] === 'M' ? 'Male' : 'Female',
-        // address_1: vendor[0]['address_1'] ? vendor[0]['address_1'] : 'Address Line One',
-        // address_2: vendor[0]['address_2'] ? vendor[0]['address_2'] : 'Address Line Two',
-        // state_name: vendor[0]['state_name'] ? vendor[0]['state_name'] : 'State',
-        // city_name: vendor[0]['city_name'] ? vendor[0]['city_name'] : 'City',
-        // pincode: vendor[0]['pincode'] ? vendor[0]['pincode'] : 'Pincode',
-        // account_number: vendor[0]['account_number'] ? vendor[0]['account_number'] : 'Bank Account Number',
-        // bank_name: vendor[0]['bank_name'] ? vendor[0]['bank_name'] : 'Branch Name',
-        // ifsc_code: vendor[0]['ifsc_code'] ? vendor[0]['ifsc_code'] : 'IFSC Code'
       });
     }
   }
@@ -216,13 +273,21 @@ export class CustomerProfileComponent implements OnInit {
 
   getCustomerDetailsById() {
     setTimeout(() => {
-      this._authService.request(`get`, `customers?customer_id=${this.userDetails.id}`)
-        .subscribe((response) => {
-          console.log('customer details', response.res);
-          this.customerDetails = response.res;
-          this.setValueToParentForm();
-          this.spinner.hide();
-        })
+      let customer = this._authService.request(`get`, `customers?customer_id=${this.userDetails.id}`);
+      let pet = this._authService.request('get', `customers/pet?customer_id=${this.userDetails.id}`);
+      forkJoin([customer, pet]).subscribe((response) => {
+        console.log('customer details', response);
+        this.customerDetails = response[0].res;
+        this.petDetails = response[1].res;
+        this.setValueToParentForm();
+        /* this.getCustomerPetDetails(); */
+        this.spinner.hide();
+      }, err => {
+        if (err === 403) {
+          localStorage.clear();
+          this.route.navigateByUrl('/user/customer');
+        }
+      })
     }, 1000);
   }
 
@@ -277,31 +342,6 @@ export class CustomerProfileComponent implements OnInit {
     console.log('works');
   }
 
-  /*
-  initVendorFreelancerForm() {
-    this.vendorFreelancerForm = this._formbuilder.group({
-      name: [''],
-      type: [''],
-      gender: [''],
-      phoneNo: [''],
-      email: [''],
-      otherNumber: [''],
-      location: ['', Validators.compose([Validators.required])],
-      addressLineOne: ['', Validators.compose([Validators.required])],
-      addressLineTwo: ['', Validators.compose([Validators.required])],
-      city: ['', Validators.compose([Validators.required])],
-      state: ['', Validators.compose([Validators.required])],
-      pincode: ['', Validators.compose([Validators.required])],
-      companyBrand: ['', Validators.compose([Validators.required])],
-      gstNumber: [''],
-      bankAccountNo: ['', Validators.compose([Validators.required])],
-      accountType: ['', Validators.compose([Validators.required])],
-      IFCSCode: ['', Validators.compose([Validators.required])],
-      beneficiary: ['', Validators.compose([Validators.required])],
-    });
-    this.setValueToForm();
-  }*/
-
   setValueToForm() {
     const vendor = { ...this.customerDetails };
     if (vendor) {
@@ -312,14 +352,17 @@ export class CustomerProfileComponent implements OnInit {
     }
   }
 
-  addCustomerAddress(){
+  addCustomerAddress() {
     this.isAddMoreAddress = true;
-    if(this.addMoreAddressForm.invalid)
+    if (this.addMoreAddressForm.invalid)
       return;
-    else {}
+    else { }
   }
 
-  submitVendor() {
+  /** 
+   * METHOD TO UPDATE USER PHONE NUMBER
+   */
+  updateCustomerDetails = () => {
     Swal.fire({
       text: 'Do you want to update this account?',
       icon: 'warning',
@@ -332,56 +375,26 @@ export class CustomerProfileComponent implements OnInit {
       if (result.value) {
         this.spinner.show();
         const data = { ...this.parentForm.value };
-        data.vendor_id = this.userDetails.id;
-        data.address_1 = this.parentForm.controls.address_1.value === 'Address Line one' ? '' : this.parentForm.controls.address_1.value;
-        data.address_2 = this.parentForm.controls.address_2.value === 'Address Line two' ? '' : this.parentForm.controls.address_2.value;
-        data.city = this.parentForm.controls.city_name.value === 'City' ? '' : this.parentForm.controls.city_name.value;
-        data.pincode = this.parentForm.controls.pincode.value === 'Pincode' ? '' : this.parentForm.controls.pincode.value;
-        data.phone_number = data.phoneNo;
-        data.email = data.email;
-        delete data.first_name;
-        delete data.last_name;
-        delete data.state_name;
-        delete data.phoneNo;
-
-        let personal = {}
-        personal['vendor_id'] = this.userDetails.id;
-        personal['address_1'] = data.address_1;
-        personal['address_2'] = data.address_2;
-        personal['email'] = data.email;
-        personal['phone_number'] = data.phone_number;
-        personal['city'] = data.city;
-        personal['pincode'] = data.pincode
-
-        let banking = {};
-        banking['holder_id'] = this.userDetails.id;
-        banking['account_number'] = data.account_number;
-        banking['bank_name'] = data.bank_name;
-        banking['ifsc_code'] = data.ifsc_code;
-        banking['holder_type'] = 'tbl_VendorMaster';
-        banking['holder_name'] = `${this.userDetails.first_name} ${this.userDetails.last_name}`
-        banking['contact_number'] = data.phone_number;
-        banking['is_update'] = 1
-
-        this._authService.request('put', `vendors`, personal)
-          .subscribe((response) => {
-            this._authService.request('post', `vendors/details`, banking)
-              .subscribe((res) => {
+        data.customer_id = +this.userDetails.id;
+        if (data.phoneNo.length === 10) {
+          let newPhoneNumber = data.phoneNo.substring(0, 3);
+          data.phone_number = newPhoneNumber === '+91' ? data.phoneNo : `+91${data.phoneNo}`;
+          this.updatedPhoneNumberError = '';
+        } else {
+          this.updatedPhoneNumberError = `Mobile number length can't be more than 10`;
+          this.spinner.hide();
+        }
+        if (!this.updatedPhoneNumberError) {
+          this._authService.request('put', `customers`, data)
+            .subscribe(response => {
+              console.log('respons data ', response);
+              if (response.res.id === 1) {
                 this.spinner.hide();
-                Swal.fire({
-                  text: 'Account is updated successfully',
-                  icon: 'success',
-                  confirmButtonText: 'Okay',
-                  width: 400,
-                  allowOutsideClick: false
-                }).then((end) => {
-                  if (end.value) {
-                    this.isEditClicked = false;
-                    this.getCustomerDetailsById();
-                  }
-                })
-              })
-          })
+                this.setValueToParentForm();
+                this.isEditClicked = false;
+              }
+            })
+        }
       }
     })
   }
@@ -421,10 +434,10 @@ export class CustomerProfileComponent implements OnInit {
           this.route.navigateByUrl('/customer/adoption');
           break;
         case '9':
-          this.route.navigateByUrl('/customer/veterinary');
+          this.route.navigateByUrl('/customer/veterinary-doctor');
           break;
         case '8':
-          this.route.navigateByUrl('/customer/matting');
+          this.route.navigateByUrl('/customer/mating');
           break;
 
       }
@@ -494,11 +507,16 @@ export class CustomerProfileComponent implements OnInit {
     setTimeout(() => {
       this._authService.request('get', `vendors/images?vendor_id=${this.userDetails.id}&image_type=PET`)
         .subscribe((response) => {
-          if(response.res.length > 0) {
-            this.uploadedFileList[0] = response.res.filter(x=> x.position === 1)[0].base_url;
-            this.uploadedFileList[1] = response.res.filter(x=> x.position === 2)[0].base_url;
-            this.uploadedFileList[2] = response.res.filter(x=> x.position === 3)[0].base_url;
-            this.uploadedFileList[3] = response.res.filter(x=> x.position === 4)[0].base_url;
+          console.log('image response ', response);
+          if (response.res.length > 0) {
+            if (response.res.filter(x => x.position === 1)[0] !== undefined)
+              this.uploadedFileList[0] = response.res.filter(x => x.position === 1)[0].base_url;
+            if (response.res.filter(x => x.position === 2)[0] !== undefined)
+              this.uploadedFileList[1] = response.res.filter(x => x.position === 2)[0].base_url;
+            if (response.res.filter(x => x.position === 3)[0] !== undefined)
+              this.uploadedFileList[2] = response.res.filter(x => x.position === 3)[0].base_url;
+            if (response.res.filter(x => x.position === 4)[0] !== undefined)
+              this.uploadedFileList[3] = response.res.filter(x => x.position === 4)[0].base_url;
             this.spinner.hide();
           } else {
             this.spinner.hide();
@@ -593,6 +611,310 @@ export class CustomerProfileComponent implements OnInit {
             break;
         }
         this.getUploadedDocument();
+      });
+  }
+
+  updateAddress = () => {
+    this.route.navigate(['user/update-address', this.userDetails.id])
+  }
+
+  /**
+   * GET ADDRESS LIST OF CUSTOMER:
+   */
+  getCustomerAddressList = () => {
+    this.spinner.show();
+    this._authService.request('get', `customers/address?customer_id=${this.userDetails.id}`)
+      .subscribe(response => {
+        console.log('address list', response.res);
+        if (response.res.length === 0) {
+          this.addressErrorText = 'No address added yet!';
+          this.spinner.hide();
+        }
+        else {
+          this.addressErrorText = '';
+          this.addressList = response.res;
+          this.spinner.hide();
+        }
+      }, err => {
+        this.addressErrorText = 'Something went worng, please try again later!';
+        this.spinner.hide();
+      });
+  }
+
+  /**
+   * INIT PET DETAILS FORM:
+   */
+  initPetDetailsForm = () => {
+    this.addPetDetailsForm = this._formbuilder.group({
+      pet_type: [''],
+      pet_name: ['', Validators.compose([Validators.required])],
+      breed: ['', Validators.compose([Validators.required])],
+      pet_age: ['', Validators.compose([Validators.required])],
+      pet_age_month: [],
+      weight: [''],
+      pet_sex: ['']
+    });
+  }
+
+  /**
+   * SUBMIT PET DETAILS FORM:
+   */
+  submitPetDetailsForm = () => {
+    this.isPetDetailsSubmit = true;
+    if (this.addPetDetailsForm.invalid)
+      return;
+    else {
+      this.spinner.show();
+      const data = { ...this.addPetDetailsForm.value };
+      data.customer_id = +this.userDetails.id;
+      data.weight = this.petWeightId;
+      data.pet_type = this.servicesProvidedToValue;
+      data.pet_sex = this.petGender;
+
+      console.log('add pet details ', data)
+      this._authService.request(`post`, `customers/pet`, data)
+        .subscribe(response => {
+          this.spinner.hide();
+          Swal.fire({
+            text: 'Pet Details Added Successfully',
+            icon: 'success',
+            confirmButtonText: 'Okay',
+            width: 400,
+            allowOutsideClick: false
+          }).then(result => {
+            if (result.value) {
+              this.getCustomerPetDetails();
+              this.selectProfileTypeCount = 1;
+              this.addPetDetailsForm.reset();
+            }
+          })
+        })
+    }
+  }
+
+  /**
+   * SELECTED TYPE OF ANIMAL
+   */
+  serviceProvide = (value) => {
+    this.servicesProvidedToValue = value;
+    this.isDogSelected = value === 'Dog' ? true : false;
+    this.isCatSelected = value === 'Cat' ? true : false;
+
+    /**
+     * API CALL TO POPULATE CAT / DOG BREED LIST:
+     */
+    this.breedList = [];
+    this._authService.request(`get`, `breed?pet_type=${value}`)
+      .subscribe(response => {
+        response.res.forEach(element => {
+          this.breedList.push({ code: element.id, value: element.breed_name })
+        });
+      })
+  }
+
+  /**
+   * GET SELECTED GENDER:
+   */
+  genderSelected = (value) => {
+    this.isMaleSelected = value === 'M' ? true : false;
+    this.isFemaleSelected = value === 'F' ? true : false;
+    this.petGender = value;
+  }
+
+  /**
+   * GET WEIGHT OF PET:
+   */
+  lookAfterClicked = (value) => {
+    this.isLookAfterOneClicked = value === 1 ? true : false;
+    this.isLookAfterTwoClicked = value === 2 ? true : false;
+    this.isLookAfterThreeClicked = value === 3 ? true : false;
+    this.isLookAfterFourClicked = value === 4 ? true : false;
+    this.petWeightId = value;
+  }
+
+  /**
+   * GET CUSTOMER PET DETAILS:
+   */
+  getCustomerPetDetails = () => {
+    this._authService.request(`get`, `customers/pet?customer_id=${this.userDetails.id}`)
+      .subscribe(response => {
+        console.log('customer pet details ', response.res);
+        if (response.res.length !== 0)
+          this.petDetails = response.res;
+        else
+          this.petDetailsTextError = 'No Pet Added!';
+      });
+  }
+
+
+  /**
+   * METHOD TO GET CUSTOMER PREVIOUS BOOKING AND UPCOMING BOOKING:
+   */
+  getCustomerBookingDetails = () => {
+    this.spinner.show();
+    setTimeout(() => {
+      let booking = this._authService.request('get', `booking?customer_id=${this.userDetails.id}`);
+      let subscription = this._authService.request('get', `customers/subscription?customer_id=${this.userDetails.id}`);
+      forkJoin([booking, subscription]).subscribe(response => {
+        this.subscriptionDetails = response[1].res;
+        this._authService.subscription_id = this.subscriptionDetails['SubscriptionId'];
+      })
+      this._authService.request('get', `booking?customer_id=${this.userDetails.id}`)
+        .subscribe(response => {
+          if (response.res.length !== 0) {
+            this.bookingDetails = response.res.filter(x => x.booking_type === 'service_booking');
+            console.log('booking ', this.bookingDetails);
+            this.bookingErrorText = '';
+          } else {
+            this.bookingErrorText = 'No requested service found';
+          }
+          this.spinner.hide();
+        })
+    }, 1000);
+  }
+
+  /**
+   * DELETE PET DETAILS:
+   */
+  deletePetDetails = (index) => {
+    if (index) [
+      Swal.fire({
+        text: 'Do you want to delete this pet details?',
+        icon: 'warning',
+        confirmButtonText: 'Okay',
+        showCancelButton: true,
+        width: 400,
+        allowOutsideClick: false
+      }).then(result => {
+        if (result.value) {
+          this.spinner.show();
+          const data = {};
+          data['customer_id'] = +this.userDetails.id;
+          data['pet_details_id'] = +index;
+          data['pet_type'] = this.petDetails['pet_type'];
+          data['pet_name'] = this.petDetails['pet_name'];
+          data['breed'] = +this.petDetails['breed_id'];
+          data['pet_age'] = +this.petDetails['pet_age_yr'];
+          data['weight'] = +this.petDetails['weight'];
+          data['is_delete'] = 1;
+          this._authService.request('put', `customers/pet`, data)
+            .subscribe(response => {
+              this.spinner.hide();
+              Swal.fire({
+                text: 'Deleted Successfully',
+                icon: 'success',
+                confirmButtonText: 'Okay',
+                width: 400,
+              }).then(res => {
+                if(res.value) {
+                  window.location.reload();
+                }
+              })
+            }, err => {
+              Swal.fire({
+                text: 'Something went wrong! Please try again leter.',
+                icon: 'error'
+              }).then(res => {
+                if(res.value) {
+                  window.location.reload();
+                }
+              })
+            });
+        }
+      })
+    ]
+  }
+
+  /**
+   * mathod to make payment.
+   * @param value: Parameter to get serice value
+   * @param id: Parameter for booking id
+   */
+  makePayment = (value, id) => {
+    this.bookingId = id;
+    this.paymentAmount = value;
+    const rzpConfig = {
+      "key": this.constant.RAZORPAY_KEY_ID,
+      "amount": value * 100, // 2000 paise = INR 20
+      "name": "Petcoset",
+      "description": "Purchase Description",
+      "image": '',
+      "prefill": {
+        "name": `${this.userDetails.first_name} ${this.userDetails.last_name}`,
+        "email": `${this.userDetails.email}`
+      },
+      "notes": {
+        "address": `${this.userDetails.address_1} ${this.userDetails.address_2}`
+      },
+      "theme": {
+        "color": "#0d519c"
+      },
+      "handler": this.getTnxId.bind(this),
+    }
+    let rzp = new Razorpay(rzpConfig);
+    rzp.open();
+  }
+
+  /**
+   * Method to get Tansaction id of Transaction.
+   * @param response: Parameter to get razorpay payment id
+   */
+  getTnxId = (response) => {
+    /* this.confirmRequest(response.razorpay_payment_id) */
+
+    this.spinner.show();
+    const data = {};
+    data['booking_id'] = this.bookingId;
+    data['transaction_id'] = response.razorpay_payment_id;
+    data['customer_id'] = this.userDetails.id;
+    data['payment_amount'] = this.paymentAmount;
+    console.log('payment data ', data);
+    this._authService.request('post', `payment`, data)
+      .subscribe(response => {
+        console.log('payment response',response);
+        this.spinner.hide();
+        Swal.fire({
+          title: 'Payment Successfull',
+          icon: 'success'
+        }).then(result => {
+          if(result.value) {
+            this.selectProfileTypeCount = 1;
+            this.spinner.hide();
+          }
+        });
+      }, err => {
+        Swal.fire({
+          text: 'Something went wrong! Please try again later',
+          icon: 'error'
+        })
+      });
+  }
+
+  /**
+   * Method to confirm service request. 
+   * @param value : Parameter for payment id.
+   */
+  confirmRequest = (value) => {
+    console.log('booking id ', this.bookingId);
+    console.log('payment id ', value);
+    this.spinner.show();
+    const data = {};
+    data['booking_id'] = this.bookingId;
+    data['transaction_id'] = value;
+    data['customer_id'] = this.userDetails.id;
+    data['payment_amount'] = this.paymentAmount;
+    this._authService.request('post', `payment`, data)
+      .subscribe(response => {
+        this.spinner.hide();
+        Swal.fire({
+          title: 'Payment successfull',
+          icon: 'success',
+        });
+      }, err =>{
+        Swal.fire({
+          title: 'Payment unsuccessfull',
+          icon: 'error',
+        });
       });
   }
 

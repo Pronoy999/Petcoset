@@ -8,12 +8,13 @@ import { SubscriptionComponent } from './subscription/subscription.component';
 import { BecomeAPartnerComponent } from './become-a-partner/become-a-partner.component';
 import { NgOtpInputModule } from 'ng-otp-input';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { Constant } from '../core/helper/constant';
 
 export const mainRoute: Routes = [
   { path: '', component: HomeComponent },
   { path: 'subscription', component: SubscriptionComponent },
   { path: 'become-a-partnar', component: BecomeAPartnerComponent },
-  { path: 'user-profile', component: UserProfileComponent}
+  { path: 'user-profile', component: UserProfileComponent},
 ]
 
 @NgModule({
@@ -25,6 +26,7 @@ export const mainRoute: Routes = [
     FormsModule,
     ReactiveFormsModule,
     NgOtpInputModule
-  ]
+  ],
+  providers: [Constant]
 })
 export class MainModule { }

@@ -40,7 +40,7 @@ input[type=text] {
     padding-left: 15px;
     border-radius: 6px;
     outline: none;
-    border: 1px solid lightgray;
+    border: 1px solid #0d519c;
     font-size: 13px;
 }
 
@@ -49,7 +49,7 @@ input[type=number] {
     width: 100%;
     padding-left: 15px;
     border-radius: 6px;
-    border: 1px solid lightgray;
+    border: 1px solid #0d519c;
     outline: none;
     -moz-appearance: textfield;
     font-size: 12px;
@@ -72,6 +72,7 @@ select {
     padding-left: 11px;
     background: #fff;
     font-size: 13px;
+    border: 1px solid #0d519c;
 }
 
 select option {
@@ -137,7 +138,7 @@ select option {
 }
 
 .image-upload {
-    border: 1px solid lightgray;
+    border: 1px solid #0d519c;
     height: 130px;
     border-radius: 5px;
     width: 100%;
@@ -175,13 +176,25 @@ select option {
         cursor: pointer;
         position: absolute;
         width: 25%;
-        left: 30%;
+        left: 38%;
         top: 30%;
     }
 }
 
-.img-fluid {
+.img-pet {
     cursor: pointer;
-  height: 100px;
-  width: 100px;
+    height: 130px;
+    width: 100%;
+    display: block;
+}
+
+.pet-border {
+    border-bottom: 1px solid #0d519c;
+}
+
+.cross {
+    font-size: 22px;
+    color: #0d519c;
+    position: absolute;
+    right: -7px;
 }

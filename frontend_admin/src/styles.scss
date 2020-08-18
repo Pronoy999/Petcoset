@@ -3,7 +3,7 @@
 // regular style toast 
 @import '~ngx-toastr/toastr';
 .p-font {
-    font-family: 'Amaranth' !important;
+    font-family: 'Roboto', sans-serif !important;
 }
 
 .table-design {
@@ -74,4 +74,8 @@ tbody.ces-list-tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
+}
+
+.project-font {
+    font-family: 'Roboto', sans-serif !important;
 }

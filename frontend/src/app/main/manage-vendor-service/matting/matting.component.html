@@ -4,13 +4,13 @@
             <div class="row mt-3">
                 <div class="col-lg-4 col-md-4 col-sm-12">
                     <div class="p-3">
-                        <div class="form-div">
+                        <div class="form-div p-color">
                             <label class="font-weight-normal">Selected Service</label>
                             <input type="text" placeholder="Matting" readonly>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8 col-md-8 col-sm-12">
+                <div class="col-lg-8 col-md-8 col-sm-12 p-color">
                     <div class="p-3">
                         <div class="form-div">
                             <input type="text" placeholder="Breed" formControlName="breed" required>
@@ -21,12 +21,12 @@
 
                         <div class="row mt-4">
                             <div class="col-6">
-                                <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('M')" [ngClass]="{'selection-border' : isDogSelected}">
+                                <div class="card p-3 w-100 pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('M')" [ngClass]="{'selection-border' : isDogSelected}">
                                     Male
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="card p-3 w-100 shadow-sm pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('F')" [ngClass]="{'selection-border' : isCatSelected}">
+                                <div class="card p-3 w-100 pointer text-center text-uppercase user-font-size-14 border" (mousedown)="serviceProvide('F')" [ngClass]="{'selection-border' : isCatSelected}">
                                     Female
                                 </div>
                             </div>
@@ -58,6 +58,50 @@
                                         <div *ngIf="parentForm.controls.service_charge.errors.required">This field is required
                                         </div>
                                         <div *ngIf="parentForm.controls.service_charge.errors.pattern">Field conatins only number</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-4">
+                                <div class="row">
+                                    <div class="col-md-3 col-lg-3 col-6">
+                                        <div class="image-upload">
+                                            <label for="file-input">
+                                                <img src="{{uploadedFileList[0] ? uploadedFileList[0] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                                [ngClass]="{'file-icon': !uploadedFileList[0], 'img-pet': uploadedFileList[0]}" />
+                                            </label>
+                                            <input id="file-input" type="file" (change)="uploadImages($event, 801)" />
+                                        </div>
+                                        <label style="font-size: 13px;" *ngIf="imgPosOneText" [ngClass]="{'invalid-text': imgPosOneText === 'png/jpge only', 'text-success': imgPosOneText === 'Uploaded Successfully'}">{{imgPosOneText}}</label>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-6">
+                                        <div class="image-upload">
+                                            <label for="file-input1">
+                                                <img src="{{uploadedFileList[1] ? uploadedFileList[1] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                                [ngClass]="{'file-icon': !uploadedFileList[1], 'img-pet': uploadedFileList[1]}" />
+                                            </label>
+                                            <input id="file-input1" type="file" (change)="uploadImages($event, 802)" />
+                                        </div>
+                                        <label style="font-size: 13px;" *ngIf="imgPosTwoText" [ngClass]="{'invalid-text': imgPosTwoText === 'png/jpge only', 'text-success': imgPosTwoText === 'Uploaded Successfully'}">{{imgPosTwoText}}</label>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-6">
+                                        <div class="image-upload">
+                                            <label for="file-input2">
+                                                <img src="{{uploadedFileList[2] ? uploadedFileList[2] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                                [ngClass]="{'file-icon': !uploadedFileList[2], 'img-pet': uploadedFileList[2]}" />
+                                            </label>
+                                            <input id="file-input2" type="file" (change)="uploadImages($event, 803)" />
+                                        </div>
+                                        <label style="font-size: 13px;" *ngIf="imgPosThreeText" [ngClass]="{'invalid-text': imgPosThreeText === 'png/jpge only', 'text-success': imgPosThreeText === 'Uploaded Successfully'}"> {{imgPosThreeText}}</label>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-6">
+                                        <div class="image-upload">
+                                            <label for="file-input3">
+                                                <img src="{{uploadedFileList[3] ? uploadedFileList[3] : '../../../assets/images/become-a-partner/add_a_photo-24px.png'}}"
+                                                [ngClass]="{'file-icon': !uploadedFileList[3], 'img-pet': uploadedFileList[3]}" />
+                                            </label>
+                                            <input id="file-input3" type="file" (change)="uploadImages($event, 804)" />
+                                        </div>
+                                        <label style="font-size: 13px;" *ngIf="imgPosFourText" [ngClass]="{'invalid-text': imgPosFourText === 'png/jpge only', 'text-success': imgPosFourText === 'Uploaded Successfully'}">{{imgPosFourText}}</label>
                                     </div>
                                 </div>
                             </div>

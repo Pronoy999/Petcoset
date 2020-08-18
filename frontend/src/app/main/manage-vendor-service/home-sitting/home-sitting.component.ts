@@ -24,6 +24,7 @@ export class HomeSittingComponent implements OnInit {
   isSubmitted = false;
   servicesProvidedToValue;
   confirmationText = '';
+  petWight = [];
 
   constructor(
     private _formBuilder: FormBuilder,
@@ -44,12 +45,29 @@ export class HomeSittingComponent implements OnInit {
     this.isCatSelected = value === 'cat' ? true : false;
   }
 
-  lookAfterClicked(value) {
-    console.log(value)
-    this.isLookAfterOneClicked = value === 1 ? true : false;
-    this.isLookAfterTwoClicked = value === 2 ? true : false;
-    this.isLookAfterThreeClicked = value === 3 ? true : false;
-    this.isLookAfterFourClicked = value === 4 ? true : false; 
+  lookAfterClicked(value, pos) {
+    if (this.petWight.indexOf(value) === -1) {
+      this.petWight.push(value);
+      if (pos === 1)
+        this.isLookAfterOneClicked = true;
+      if (pos === 2)
+        this.isLookAfterTwoClicked = true;
+      if (pos === 3)
+        this.isLookAfterThreeClicked = true;
+      if (pos === 4)
+        this.isLookAfterFourClicked = true;
+    }
+    else {
+      this.petWight.splice(this.petWight.indexOf(value), 1);
+      if (pos === 1)
+        this.isLookAfterOneClicked = false;
+      if (pos === 2)
+        this.isLookAfterTwoClicked = false;
+      if (pos === 3)
+        this.isLookAfterThreeClicked = false;
+      if (pos === 4)
+        this.isLookAfterFourClicked = false;
+    }
   }
 
   initParentForm() {
@@ -76,6 +94,7 @@ export class HomeSittingComponent implements OnInit {
       data.service_duration_hours = 1;
       data.is_bathing_provided = data.is_bathing_provided === true ? 1 : 0;
       data.is_first_aid = data.is_first_aid === true ? 1 : 0;
+      data.pet_weight = this.petWight.toString();
       this._authService.request('post', `vendors/service`, data)
         .subscribe((response) => {
           this.spinner.hide();

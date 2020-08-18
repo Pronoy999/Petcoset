@@ -18,7 +18,7 @@
                                     <p>Slumber parties<br>and play dates for your pet,<br>for as long you want</p>
                                 </div>
                                 <!--  <button type="button" class="btn btn-outline-light btn-block">Book Now</button> -->
-                                <button type="button" [routerLink]="['service/boarding']" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" [routerLink]="['/customer/boarding']" class="service-button">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                                 <div style="height: 130px;">
                                     <p class="mb-5">We will keep visiting<br>by and say Hi!</p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/drop-in']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                     <p>Daytime playtime<br>for your furry buddy with an unlimited<br>amount of hugs and snuggles
                                     </p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/day-care']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                                 <div style="height: 130px;">
                                     <p>A professional pet-sitter<br>to look after<br>your buddy overnight</p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/home-sitting']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -83,7 +83,7 @@
                                 <div style="height: 130px;">
                                     <p>Coaches to coach<br>your furry fairy</p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/trainer']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +101,7 @@
                                 <div style="height: 130px;">
                                     <p>Washing, Smiling, Clipping<br>drying and getting your buddy squeaky clean</p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/grooming']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
                                 <div style="height: 130px;">
                                     <p>Because we are always up for a long, bouncy scroll, sun in or sun out!</p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/pet-walking']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                                 <div style="height: 130px;">
                                     <p>Bceause Love and Family, <br>knows no boundaries!</p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/mating']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                                 <div style="height: 130px;">
                                     <p>Regular mrdical care<br>for your BFF's good health</p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/veterinary-doctor']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                                 <div style="height: 130px;">
                                     <p>Because there's<br>no place like home</p>
                                 </div>
-                                <button type="button" class="service-button">Book Now</button>
+                                <button type="button" *ngIf="!isVendor" class="service-button" [routerLink]="['/customer/adoption']">Book Now</button>
                             </div>
                         </div>
                     </div>
@@ -282,7 +282,7 @@
                     </div>
                     <div [ngClass]="isTrainnerClick ? 'mobile-icon-click': 'mobile-icon'" (mousedown)="getServiceText('trinner')">
                         <img src="../../../assets/images/product/home-1/mobile/TRAINING.png" alt="" height="45px" width="45px" style="margin-bottom: 22%;">
-                        <span class="mt-5" style="font-size: 11px;">Triner</span>
+                        <span class="mt-5" style="font-size: 11px;">Trainer</span>
                     </div>
                     <div [ngClass]="isGrommingClick ? 'mobile-icon-click': 'mobile-icon'" (mousedown)="getServiceText('gromming')">
                         <img src="../../../assets/images/product/home-1/mobile/GROOMING.png" alt="" height="45px" width="45px" style="margin-bottom: 22%;">
@@ -310,7 +310,7 @@
                 {{serviceText}}
             </div>
             <div class="text-right p-2" style="background: white;border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-                <button type="button" class="aquarium-button-mobile my-2">Book Now</button>
+                <button type="button" *ngIf="!isVendor" class="aquarium-button-mobile my-2" (mousedown)="serviceLink()">Book Now</button>
             </div>
         </div>
     </div>
@@ -384,110 +384,4 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="container ">
-            <div class="row ">
-                <div class="col-lg-5 col-md-6 ">
-                    <img src="../../../assets/images/others/ambu.jpg " class="img-fluid specialServiceImg " alt=" ">
-                </div>
-                <div class="col-lg-7 col-md-6 ">
-                    <div class="pt-3 ">
-                        <div class="post-category text-primary topnav-element ">
-                            <i class="fa fa-folder text-success mr-2 " aria-hidden="true "></i>
-                            <a href="# ">Services</a>,
-                            <a href="# ">Ambulance</a>
-                        </div>
-                        <h3 class="mt-2 topnav-element "><a href="blog-details.html ">Ambulance Service </a></h3>
-                        <p class="py-3 ">Coming Soon</p>
-                        <footer class="blog-post-footer ">
-                            <div class="blog-btn ">
-                                <a href="# " class="btn btn btn-outline-success text-dark ">Read More</a>
-                            </div>
-                        </footer>
-                    </div>
-                </div>
-                <div class="col-lg-7 col-md-6 mt-4 ">
-                    <div class="pt-3 ">
-                        <div class="post-category text-primary topnav-element ">
-                            <i class="fa fa-folder text-success mr-2 " aria-hidden="true "></i>
-                            <a href="# ">Medical</a>
-                        </div>
-                        <h3 class="mt-2 topnav-element "><a href="blog-details.html ">Dialysis </a></h3>
-                        <p class="py-3 text-dark ">Coming Soon</p>
-                        <footer class="blog-post-footer ">
-                            <div class="blog-btn ">
-                                <a href="# " class="btn btn btn-outline-success ">Read More</a>
-                            </div>
-                        </footer>
-                    </div>
-                </div>
-                <div class="col-lg-5 col-md-6 mt-4 ">
-                    <img src="../../../assets/images/others/dial.jpg " class="img-fluid specialServiceImg " alt=" ">
-                </div>
-
-                <div class="col-lg-5 col-md-6 mt-4 ">
-                    <img src="../../../assets/images/others/micro.jpg " class="img-fluid specialServiceImg " alt=" ">
-                </div>
-                <div class="col-lg-7 col-md-6 mt-4 ">
-                    <div class="pt-3 ">
-                        <div class="post-category text-primary topnav-element ">
-                            <i class="fa fa-folder text-success mr-2 " aria-hidden="true "></i>
-                            <a href="# ">Services</a>,
-                        </div>
-                        <h3 class="mt-2 topnav-element "><a href="blog-details.html ">Micro Chipping</a></h3>
-                        <p class="py-3 text-dark ">Coming Soon</p>
-                        <footer class="blog-post-footer ">
-                            <div class="blog-btn ">
-                                <a href="# " class="btn btn btn-outline-success ">Read More</a>
-                            </div>
-                        </footer>
-                    </div>
-                </div>
-
-                <div class="col-lg-7 col-md-6 mt-4 ">
-                    <div class="pt-3 ">
-                        <div class="post-category text-primary topnav-element ">
-                            <i class="fa fa-folder text-success mr-2 " aria-hidden="true "></i>
-                            <a href="# ">Medical</a>
-                        </div>
-                        <h3 class="mt-2 topnav-element "><a href="blog-details.html ">Never Say Goodbye</a></h3>
-                        <p class="py-3 text-dark ">Coming Soon</p>
-                        <footer class="blog-post-footer ">
-                            <div class="blog-btn ">
-                                <a href="# " class="btn btn btn-outline-success ">Read More</a>
-                            </div>
-                        </footer>
-                    </div>
-                </div>
-                <div class="col-lg-5 col-md-6 mt-4 ">
-                    <img src="../../../assets/images/others/never.jpg " class="img-fluid specialServiceImg " alt=" ">
-                </div>
-            </div>
-        </div> -->
     </div>
-
-    <!-- <div class="container-fluid p-4 " style="background: antiquewhite; ">
-        <div class="container ">
-            <div class="block-title-2 ">
-                <h2>OUR FEATURES</h2>
-            </div>
-
-            <div class="row ">
-                <div class="col-lg-3 ">
-                    <img src="../../../assets/images/product/promo-product-image-1--home-3.jpg " alt=" " class="img-fluid ">
-                </div>
-                <div class="col-lg-3 ">
-                    <img src="../../../assets/images/product/promo-product-image-2--home-3.jpg " alt=" " class="img-fluid ">
-                </div>
-                <div class="col-lg-3 ">
-                    <img src="../../../assets/images/product/promo-product-image-3--home-3.jpg " alt=" " class="img-fluid ">
-                </div>
-                <div class="col-lg-3 ">
-                    <img src="../../../assets/images/product/promo-product-image-3--home-3.jpg " alt=" " class="img-fluid ">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid ">
-        <img src="../../../assets/images/others/mobileapps.jpg " class="img-fluid " alt=" ">
-    </div> -->
-</div>

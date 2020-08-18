@@ -1,4 +1,4 @@
-<div class="container mt-4 p-font">
+<div class="container mt-4 p-font" style="font-size: 13px;">
     <div class="row">
         <div class="col-sm-12 col-lg-12 col-md-12">
             <div class="card shadow-sm">
@@ -32,7 +32,7 @@
                                 <div class="col-md-6 col-lg-6 col-sm-12">{{vendorDetails['ifsc_code'] ? vendorDetails['ifsc_code'] : '--'}}</div>
                                 <div class="col-12 text-center mt-5">
                                     <a routerLink={{getBackPath()}} class="btn btn-secondary mr-2">Back</a>
-                                    <button class="btn btn-info" *ngIf="vendorBankDetails['status_name'] === 'Pending'" data-toggle="modal" data-target="#exampleModal" data-keyboard="false" data-backdrop="static">Update Account</button>
+                                    <button class="btn btn-info" data-toggle="modal" data-target="#exampleModal">Update Account</button>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" (mousedown)="updateVendor()">Save changes</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (mousedown)="updateVendor()">Save changes</button>
             </div>
         </div>
     </div>

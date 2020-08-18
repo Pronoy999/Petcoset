@@ -62,9 +62,9 @@
 .subscription-design {
     background: #f66531;
     height: 27px;
-    border-radius: 9px;
+    border-radius: 6px;
     color: white;
-    width: 18%;
+    width: auto;
     padding: 4px;
     margin-top: 3.3%;
     cursor: pointer;

@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators  } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { Component, OnInit, NgZone } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { UserDetails, AuthenticationService } from 'src/app/authentication.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2'
 import { Router } from '@angular/router';
+import { Constant } from 'src/app/core/helper/constant';
 
+declare const Razorpay: any;
 
 @Component({
   selector: 'app-pet-walking',
@@ -14,331 +17,425 @@ import { Router } from '@angular/router';
 export class PetWalkingComponent implements OnInit {
 
   parentForm: FormGroup;
-  isEditClicked = false;
-  isMaleSelected = false;
-  isFemaleSelected = false;
-  isDogSelected = false;
-  isCatSelected = false;
-  isOneTimeSelected = false;
-  isTwoTimeSelected = false;
-  isOneSelected = false;
-  isRepeatSelected = false;
-  isMoreThanThreeTimeSelected = false;
-  isFirstHourSelected = false;
-  isSecondHourSelected = false;
-  isThirdHourSelected = false;
-  breedList = [];
-  petGender;
-  petWeightId;
-  openform = false;
-  selectProfileTypeCount = 0;
-  newPetDetails = false;
-  newDayCareDetails = false;
-  dateValue: Date [];
-  chosenDay: string = 'Tuesday';
-  multiSelectDate: Boolean = true;
-  isLookAfterOneClicked = false;
-  isLookAfterTwoClicked = false;
-  isLookAfterThreeClicked = false;
-  isLookAfterFourClicked = false;
   userDetails: UserDetails;
-  isSubmitted = false;
-  //SelectedDays = Array<{id: number, name: string}>();
-  isDaysSelected = [];
-  days = [];
-  
-  serviceSelectionIntervalValue;
-  servicesProvidedToValue;
-  imageUploadErrorMessage1 = '';
-  imageUploadErrorMessage2 = '';
-  imageUploadErrorMessage3 = '';
-  imageUploadErrorMessage4 = '';
-  uploadedFileList = ['', '', '', ''];
+  displayCount: number = 0;
+  timePickerhrs = [];
+  timePickerMin = [];
+  petDetails = [];
+  petDetailsTextError;
+  selectedPetList;
+  vendorList = [];
+  noVendorText: string = '';
+  selectedVendorId;
+  bookingDetails = [];
+  preferredLocationErrorText = '';
+  bookingDetailsError = '';
+  petSelectError = '';
+  bookingList = [];
+  addressList;
+  selectedPetIndex;
+  todayDate;
+  oneTimeImgSrc = '../../../../assets/images/customer_form_icon/onetime 1.png';
+  repeateImgSrc = '../../../../assets/images/customer_form_icon/Repeat 2.png';
+  subscriptionDetails = [];
+  subscriptionId;
+  isSubscription;
+  public cityList = [];
+  keyword = 'name';
+
+
   constructor(
     private _formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
     private _authService: AuthenticationService,
-    private route: Router
-  ) { }
+    private route: Router,
+    private constant: Constant,
+    private datePipe: DatePipe,
+    private ngZone: NgZone
+  ) {
+    this.isSubscription = false;
+  }
 
   ngOnInit() {
-    this.initDropInForm();
     this.userDetails = this._authService.getUserDetails();
-    this.days = [
-      {id: 1, name: 'Sun'},
-      {id: 2, name: 'Mon'},
-      {id: 3, name: 'Tue'},
-      {id: 4, name: 'Wed'},
-      {id: 5, name: 'Thu'},
-      {id: 6, name: 'Fri'},
-      {id: 7, name: 'Sat'}
-    ];
+    this.todayDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd')
+    this.initParentForm();
+    this.getPetInformation();
+    this.getCityList();
+    this.constructionTime();
+    this.getCustomerAddressList();
+    this.getSubscriptionDetails();
   }
 
-  setNewPetDetails(value){
-    switch (value){
-      case 1:
-        this.selectProfileTypeCount = 1;
-        this.newPetDetails = true;
-        this.newDayCareDetails = false;
-      break;
-      default:
-        this.selectProfileTypeCount = 0;
-        this.newPetDetails = false;
-        this.newDayCareDetails = true;
-      break;
-    }
-  }
-  serviceProvide(value) {
-    this.breedList = [];
-    this.servicesProvidedToValue = value;
-    this.isDogSelected = value === 'Dog' ? true : false;
-    this.isCatSelected = value === 'Cat' ? true : false;
-
-    this._authService.request('get', `breed?pet_type=${value}`)
-      .subscribe((response) => {
-        response.res.forEach(element => {
-          this.breedList.push({code: element.id, value: element.breed_name});
-        });
-      });
-  }
-
-  genderSelected(value) {
-    this.isMaleSelected = value === 'M' ? true : false;
-    this.isFemaleSelected = value === 'F' ? true : false;
-    this.petGender = value;
-  }
-  onClickOpenForm(){
-    this.openform=true;
-  }
-
-  serviceSelectionInterval(value){
-    this.serviceSelectionIntervalValue = value;
-    this.isOneSelected = value === 'One Time' ? true : false;
-    this.isRepeatSelected = value === 'Repeat' ? true : false;
-  }
-
-  numberOfWalksPerDay(value){
-    this.serviceSelectionIntervalValue = value;
-    this.isOneTimeSelected = value === '1' ? true : false;
-    this.isTwoTimeSelected = value === '2' ? true : false;
-    this.isMoreThanThreeTimeSelected = value === '3' ? true : false;
-  }
-
-  selectPreferredTiming(value){
-    this.serviceSelectionIntervalValue = value;
-    this.isFirstHourSelected = value === '6-11' ? true : false;
-    this.isSecondHourSelected = value === '11-15' ? true : false;
-    this.isThirdHourSelected = value === '15-22' ? true : false;
-  }
-
-  preferredDaysSelected(value, event){
-    
-    this.isDaysSelected.push(value);
-    event.srcElement.classList.add("selection-border");
-    console.log(this.isDaysSelected);
-    // this.isMondaySelected = value === 1 ? true : false;
-    // this.isTuesdaySelected = value === 2 ? true : false;
-    // this.isWednesdaySelected = value === 3 ? true : false;
-    // this.isThursdaySelected = value === 4 ? true : false;
-    // this.isFridaySelected = value === 5 ? true : false;
-    // this.isSaturdaySelected = value === 6 ? true : false;
-    // this.isSundaySelected = value === 7 ? true : false;
-  }
-
-  changeLocation(){}
-
-  submitPetDetails(){}
-
-  lookAfterClicked(value) {
-    this.isLookAfterOneClicked = value === 1 ? true : false;
-    this.isLookAfterTwoClicked = value === 2 ? true : false;
-    this.isLookAfterThreeClicked = value === 3 ? true : false;
-    this.isLookAfterFourClicked = value === 4 ? true : false;
-    this.petWeightId = value;
-  }
-
-  initDropInForm() {
+  /**
+   * INTI DAY-CARE BOOKING FORM:
+   */
+  initParentForm = () => {
     this.parentForm = this._formBuilder.group({
-      // service_duration_hours: [1],
-      breed: ['', Validators.compose([Validators.required])],
-      age_yr: ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
-      age_month: ['', Validators.compose([Validators.required, Validators.maxLength(2)])],
-      pet_name: ['', Validators.required],
-      //service_charge: ['', Validators.compose([Validators.required, Validators.pattern("^[0-9]*$")])],
-      // has_house: [0],
-      // is_pets_allowed_on_furniture: [0],
-      // is_non_smoking: [0],
-      // has_fenced_garden: [0],
-      // is_pets_allowed_on_bed: [0],
-      // does_own_dog: [0],
-      // only_one_booking: [0],
-      // does_own_cat: [0],
-      // does_own_caged_animals: [0],
-      // pet_weight: [0],
-      // number_of_visits: [0],
-      // is_full_time: [0],
-      // is_first_aid: [0],
-      // is_bathing_provided: [0],
-      // child_age: [0]
+      preferred_location: [''],
+      date: [''],
+      pick_up_time: [''],
+      drop_off_time: [''],
+      bookingInformation: this._formBuilder.array([]),
+      extraMessage: [''],
+      subscription_id: ['']
     })
   }
 
-  getUploadedDocument() {
+  /**
+   * DYNAMIC FORM SECTION:
+   */
+  get bookingInfoFormarray(): FormArray {
+    return this.parentForm.get('bookingInformation') as FormArray;
+  }
+
+  createBookingInfoForm = () => {
+    return this._formBuilder.group({
+      start_date: [''],
+      pick_up_time: [''],
+      drop_off_time: ['']
+    });
+  }
+
+  addBookingInfoForm = () => {
+    this.imgSelection('two');
+    this.bookingInfoFormarray.push(this.createBookingInfoForm());
+  }
+
+  /**
+   * METHOD TO GET TIME PICKER ONLY HRS
+   */
+  constructionTime = () => {
+    for (let i = 0; i <= 23; i++) {
+      let timeHour = i < 10 ? `0${i}` : `${i}`;
+      this.timePickerhrs.push({ code: timeHour, value: timeHour });
+    }
+
+    for (let i = 0; i < 60; i++) {
+      let timeMin = i < 10 ? `0${i}` : `${i}`;
+      this.timePickerMin.push({ code: timeMin, value: timeMin })
+    }
+  }
+
+  /**
+   * METHOD TO CHANGE BLOCK BOOKING INFORMATION TO PET INFORMATION
+   */
+  changeFirstBlock = () => {
+    const data = { ...this.parentForm.value };
+    this.preferredLocationErrorText = data.preferred_location === '' ? 'Preferred Location is required' : '';
+
+    if (!data.date || !data.pick_up_time || !data.drop_off_time)
+      this.bookingDetailsError = 'Full booking details is required';
+    else
+      this.bookingDetailsError = '';
+
+    this.petSelectError = this.selectedPetList ? '' : 'Please select one pet from list';
+
+    if (!this.preferredLocationErrorText && !this.bookingDetailsError && !this.petSelectError) {
+      this.displayCount = 1;
+      this.getVendorList();
+    }
+  }
+
+  /**
+   * GET VENDOR DETAILS AS PER CUSTOMER SELECTION
+   */
+  selectedVendor = (id) => {
+    if (this.selectedPetList) {
+      this.selectedVendorId = this.vendorList[id];
+      this.bookingList = this.parentForm.controls.bookingInformation.value;
+      this.displayCount = 3;
+      this.petSelectError = '';
+    } else {
+      this.petSelectError = 'Please select one pet from list';
+    }
+  }
+
+  /**
+   * METHOD TO GET SAVED PAT INFORMATION
+   */
+  getPetInformation = () => {
     this.spinner.show();
     setTimeout(() => {
-      this._authService.request('get', `vendors/images?vendor_id=${this.userDetails.id}&image_type=PET`)
-        .subscribe((response) => {
-          if(response.res.length > 0) {
-            this.uploadedFileList[0] = response.res.filter(x=> x.position === 1)[0].base_url;
-            this.uploadedFileList[1] = response.res.filter(x=> x.position === 2)[0].base_url;
-            this.uploadedFileList[2] = response.res.filter(x=> x.position === 3)[0].base_url;
-            this.uploadedFileList[3] = response.res.filter(x=> x.position === 4)[0].base_url;
+      this._authService.request('get', `customers/pet?customer_id=${this.userDetails.id}`)
+        .subscribe(response => {
+          if (response.res.length !== 0) {
+            this.petDetails = response.res;
             this.spinner.hide();
-          } else {
+          }
+          else {
+            this.petDetailsTextError = 'No Pet Added!';
+            this.spinner.hide();
+          }
+        }, err => {
+          if (err === 403) {
+            localStorage.clear();
+            this.route.navigateByUrl('/auth/login');
             this.spinner.hide();
           }
         });
     }, 1000);
+    console.log('pet details list ', this.petDetails);
   }
 
-  uploadImages(event, value) {
-    this.spinner.show();
-    let file = event.target.files[0];
-    console.log('file', file);
-    let fileReader = new FileReader();
-    switch (value) {
-      case 'pic-1':
-        if (file.type === 'image/png' || file.type === 'image/jpeg') {
-          fileReader.readAsBinaryString(file);
-          fileReader.onload = () => this.uploadPetImages(btoa(fileReader.result.toString()), 'pic1', file.type);
-        } else {
-          this.imageUploadErrorMessage1 = 'PNG/JPGE image file only!';
-          this.spinner.hide()
-        }
-        break;
-      case 'pic-2':
-        if (file.type === 'image/png' || file.type === 'image/jpeg') {
-          fileReader.readAsBinaryString(file);
-          fileReader.onload = () => this.uploadPetImages(btoa(fileReader.result.toString()), 'pic2', file.type);
-        }
-        else {
-          this.imageUploadErrorMessage2 = 'PNG/JPGE image file only!';
-          this.spinner.hide();
-        }
-        break;
-      case 'pic-3':
-        if (file.type === 'image/png' || file.type === 'image/jpeg') {
-          fileReader.readAsBinaryString(file);
-          fileReader.onload = () => this.uploadPetImages(btoa(fileReader.result.toString()), 'pic3', file.type);
-        }
-        else {
-          this.imageUploadErrorMessage3 = 'PNG/JPGE image file only!';
-          this.spinner.hide();
-        }
-        break;
-      case 'pic-4':
-        if (file.type === 'image/png' || file.type === 'image/jpeg') {
-          fileReader.readAsBinaryString(file);
-          fileReader.onload = () => this.uploadPetImages(btoa(fileReader.result.toString()), 'pic4', file.type);
-        }
-        else {
-          this.imageUploadErrorMessage4 = 'PNG/JPGE image file only!';
-          this.spinner.hide()
-        }
-        break;
-    }
+  /**
+   * METHOD TO GET SELECTED PET ID 
+   */
+  selectedPet = (index) => {
+    this.selectedPetList = this.petDetails[index];
+    this.selectedPetIndex = index;
   }
 
-  uploadPetImages(result, value, type) {
-    let pos = 0;
-    if (value === 'pic1')
-      pos = 1;
-    if (value === 'pic2')
-      pos = 2;
-    if (value === 'pic3')
-      pos = 3;
-    if (value === 'pic4')
-      pos = 4;
-    let data = {};
-    data['vendor_id'] = this.userDetails.id;
-    data['image_type'] = 'PET';
-    data['image_data'] = result;
-    data['file_extension'] = type.split("/")[1];
-    data['position'] = pos;
-    this._authService.request('post', `vendors/images`, data)
-      .subscribe((response) => {
-        console.log('images upload resposne ', response);
-        switch (value) {
-          case 'pic1':
-            this.imageUploadErrorMessage1 = 'Image uploaded Successfully!';
-            this.spinner.hide();
-            break;
-          case 'pic2':
-            this.imageUploadErrorMessage2 = 'Image uploaded Successfully!';
-            this.spinner.hide();
-            break;
-          case 'pic3':
-            this.imageUploadErrorMessage3 = 'Image uploaded Successfully!';
-            this.spinner.hide();
-            break;
-          case 'pic4':
-            this.imageUploadErrorMessage4 = 'Image uploaded Successfully!';
-            this.spinner.hide();
-            break;
-        }
-        this.getUploadedDocument();
+  /**
+   * METHOD WILL RETURN VENDOR LIST AS PER CUSTOMER REQUIRMENT:
+   */
+  getVendorList = () => {
+    this._authService.request('get', `services/vendors?service_id=7&booking_date=${this.parentForm.controls.date.value}&booking_time=${this.parentForm.controls.pick_up_time.value}:00:00`)
+      .subscribe(response => {
+        if (response.res.length !== 0) {
+          this.vendorList = response.res;
+          this.noVendorText = '';
+        } else
+          this.noVendorText = 'No vendor found';
       });
   }
 
-  submitPetWalking() {
-    this.isSubmitted = true;
-    if (this.parentForm.invalid)
-      return;
-    else {
-      
-      this.spinner.show();
-      const data = { ...this.parentForm.value };
-      console.log(data);
-      data.vendor_id = this.userDetails.id;
-      data.service_id = 3;
-      data.pet_type = this.servicesProvidedToValue;
-      data.pet_weight = this.petWeightId;
-      data.pet_gender = this.petGender;
-      // data.int_input = +data.int_input;
-      // data.has_house = data.has_house === true ? 1 : 0;
-      // data.is_pets_allowed_on_furniture = data.is_pets_allowed_on_furniture === true ? 1 : 0;
-      // data.is_non_smoking = data.is_non_smoking === true ? 1: 0;
-      // data.has_fenced_garden = data.has_fenced_garden === true ? 1 : 0;
-      // data.is_pets_allowed_on_bed = data.is_pets_allowed_on_bed === true ? 1 : 0;
-      // data.does_own_dog = data.does_own_dog === true ? 1: 0;
-      // data.only_one_booking = data.only_one_booking === true ? 1: 0;
-      // data.does_own_cat = data.does_own_cat === true ? 1 : 0;
-      // data.does_own_caged_animals = data.does_own_caged_animals === true ? 1: 0;
-      // data.number_of_visits = data.number_of_visits === true ? 1 : 0;
-      // data.is_full_time = data.is_full_time === true ? 1 : 0;
-      // data.is_first_aid = data.is_first_aid === true ? 1 : 0;
-      // data.is_bathing_provided = data.is_bathing_provided === true ? 1 : 0;
-      // data.child_age = data.child_age === true ? 1 : 0;
-
-      /*
-      this._authService.request('post', `vendors/service`, data)
-        .subscribe((response) => {
-          this.spinner.hide();
+  /**
+   * METHOD TO GET CUSTOMER ADDRESS LIST
+   * DEFAULT ADDRESS IS THE BOOKING ADDRESS 
+   */
+  getCustomerAddressList = () => {
+    this._authService.request('get', `customers/address?customer_id=${this.userDetails.id}`)
+      .subscribe(response => {
+        if (response.res.length !== 0) {
+          let noDefault;
+          this.addressList = response.res.find(x => x.is_default === 1) !== undefined ? response.res.find(x => x.is_default === 1)['id'] : noDefault = true;
+          console.log('address list ', this.addressList);
+          if(noDefault) {
+            Swal.fire({
+              text: 'No default address found. Please mark one address as default!',
+              icon: 'error',
+              confirmButtonText: 'OKay',
+              width: 400,
+              allowOutsideClick: false,
+            }).then(result => {
+              if(result.value) {
+                this.route.navigateByUrl('/user/customer');
+                this.spinner.hide();
+              }
+            })
+          }
+        }else {
           Swal.fire({
-            text: 'Day care is successfully added with your account!',
+            text: 'No Addess details found. Please add address!',
             icon: 'success',
             confirmButtonText: 'OKay',
             width: 400,
-            allowOutsideClick: false
-          }).then((result) => {
-            if(result.value){
-              this.route.navigateByUrl('/user/vendor');
+            allowOutsideClick: false,
+          }).then(result => {
+            if(result.value) {
+              this.route.navigateByUrl('/user/customer');
+              this.spinner.hide();
             }
           })
+        }
+      });
+  }
+
+  /**
+  * INIT PAYMENT WITH RAZORPAY:
+  */
+  initRazorPay = () => {
+    /* const rzpConfig = {
+      "key": this.constant.RAZORPAY_KEY_ID,
+      "amount": this.selectedVendorId['service_charge'] * 100, // 2000 paise = INR 20
+      "name": "Petcoset",
+      "description": "Purchase Description",
+      "image": '',
+      "handler": this.submitParentForm.bind(this),
+      "prefill": {
+        "name": `${this.userDetails.first_name} ${this.userDetails.last_name}`,
+        "email": `${this.userDetails.email}`
+      },
+      "notes": {
+        "address": `${this.userDetails.address_1} ${this.userDetails.address_2}`
+      },
+      "theme": {
+        "color": "#0d519c"
+      }
+    }
+    let rzp = new Razorpay(rzpConfig);
+    rzp.open(); */
+    this.spinner.show();
+    const data = { ...this.parentForm.value };
+    data.customer_id = +this.userDetails.id;
+    data.vendor_id = +this.selectedVendorId['VendorId'];
+    data.total_amount = +this.selectedVendorId['service_charge'];
+    data.service_id = 7;
+    data.address_id = +this.addressList;
+    data.booking_date = data.date;
+    data.booking_time = `${data.drop_off_time}:00`;
+    data.booking_end_time = `${data.pick_up_time}:00`; 
+    data.remarks = data.extraMessage;
+    data.preferred_location = data.preferred_location.name;
+    data.transaction_id = '';
+    if (data.bookingInformation.length === 0) {
+      data.recurringBookings = null;
+    } else {
+      let recurringList = [];
+      for (let i = 0; i < data.bookingDetails.length; i++) {
+        let recurringData = {};
+        recurringData['booking_time'] = `${this.bookingList[i]['pick_up_time']}:00`;
+        recurringData['booking_date'] = `${this.bookingList[i]['date']}`;
+        recurringData['booking_end_time'] = `${this.bookingList[i]['drop_off_time']}:00`
+        recurringList.push(recurringData);
+      }
+      data.recurringBookings = recurringList;
+    }
+
+    delete data.extraMessage;
+    delete data.drop_off_time;
+    let url;
+    if(data.subscription_id === true ) {
+      data.subscription_id = this.subscriptionId;
+      url = 'booking';
+    } else 
+      url = 'booking/service';
+    this._authService.request('post', url, data)
+      .subscribe(response => {
+        console.log('submitted response', response)
+        this.spinner.hide();
+        Swal.fire({
+          text: 'Pet Walking Request Added Successfully!',
+          icon: 'success',
+          confirmButtonText: 'OKay',
+          width: 400,
+          allowOutsideClick: false
+        }).then(result => {
+          if (result.value) {
+            this.route.navigate(['/user/customer']);
+            this.spinner.hide()
+          }
         })
-        */
+      })
+
+  }
+
+
+  /**
+   * SUBMIT DAY-CARE BOOKING FORM:
+   */
+  submitParentForm = (response) => {
+    this.spinner.show();
+    const data = { ...this.parentForm.value };
+    data.customer_id = +this.userDetails.id;
+    data.service_id = 7;
+    data.vendor_id = +this.selectedVendorId['VendorId'];
+    data.address_id = +this.addressList;
+    data.total_amount = +this.selectedVendorId['service_charge'];
+    data.transaction_id = response.razorpay_payment_id;
+    data.booking_time = `${this.bookingList[0]['pick_up_time']}:00`;
+    data.booking_date = `${this.bookingList[0]['start_date']}`;
+    if (this.bookingList.length === 1)
+      data.recurringBookings = null;
+    else {
+      let recurringList = [];
+      for (let i = 1; i < this.bookingList.length; i++) {
+        let recurringData = {};
+        recurringData['booking_time'] = `${this.bookingList[i]['pick_up_time']}:00:00`;
+        recurringData['booking_date'] = `${this.bookingList[i]['start_date']}`
+        recurringList.push(recurringData);
+      }
+      data.recurringBookings = recurringList;
+    }
+    delete data.bookingDetails;
+    delete data.child_age;
+    delete data.does_own_caged_animals;
+    delete data.does_own_cat;
+    delete data.does_own_dog;
+    delete data.has_fenced_garden;
+    delete data.has_house;
+    delete data.is_bathing_provided;
+    delete data.is_first_aid;
+    delete data.is_non_smoking;
+    delete data.is_pets_allowed_on_bed;
+    delete data.is_pets_allowed_on_furniture;
+    delete data.only_one_booking;
+
+    this._authService.request('post', `booking/service`, data)
+      .subscribe(response => {
+        console.log('submitted response', response)
+        this.spinner.hide();
+        Swal.fire({
+          text: 'Pet Walking Request Added Successfully!',
+          icon: 'success',
+          confirmButtonText: 'OKay',
+          width: 400,
+          allowOutsideClick: false
+        }).then(result => {
+          if (result.value)
+            this.ngZone.run(() => this.route.navigate(['/user/customer']));
+        })
+      })
+  }
+
+  /**
+  * METHOD TO CHANGE IMAGE NON SELECT TO SELCTED FOR REPEAT OR SINGLE TIME 
+  */
+  imgSelection = (value) => {
+    this.oneTimeImgSrc = value === "one" ? '../../../../assets/images/customer_form_icon/onetime 2.png' : '../../../../assets/images/customer_form_icon/onetime 1.png';
+    this.repeateImgSrc = value === "two" ? '../../../../assets/images/customer_form_icon/Repeat 1.png' : '../../../../assets/images/customer_form_icon/Repeat 2.png';
+    if (value === 'one') {
+      while (this.bookingInfoFormarray.length !== 0) {
+        this.bookingInfoFormarray.removeAt(0);
+      }
     }
   }
+
+  /**
+   * METHOD TO  REMOVE ITEM FROM FORMARRAY:
+   */
+  removeItem = (index) => {
+    this.bookingInfoFormarray.removeAt(index);
+  }
+
+  /**
+   * METHOD TO BACK PET INFORMATION BLOCK FORM VENDOE SELECTION PAGE.
+   */
+  backToBookingInfoBlock = () => {
+    this.displayCount = 0;
+  }
+
+
+  /**
+   * Method to get customer subscription details
+ */
+  getSubscriptionDetails = () => {
+    this._authService.request('get', `customers/subscription?customer_id=${this.userDetails.id}`)
+      .subscribe(response => {
+        if (response.res.lenght !== undefined) {
+          this.subscriptionDetails = response.res;
+          this.subscriptionId = response.res[0].SubscriptionId;
+          this.isSubscriptionPrivilegeService();
+        }
+      });
+  }
+
+  /**
+   * Method to get weathe this service have subscription privilege.
+  */
+  isSubscriptionPrivilegeService = () => {
+    this.isSubscription = this.subscriptionDetails.find(x => x.ServiceId === 7) ? true : false;
+  }
+
+  getCityList = () => {
+    this._authService.request('get', `city?state_id=29`)
+      .subscribe(response => {
+        response.res.forEach(element => {
+          this.cityList.push({id: element.id, name: element.city_name})
+        });
+      });
+  }
+
 
 }

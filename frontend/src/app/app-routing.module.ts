@@ -69,11 +69,35 @@ const routes: Routes = [
         loadChildren: './main/manage-customer-service/manage-customer-service.module#ManageCustomerServiceModule'
       }
     ]
-  }
+  },
+  {
+    path: 'payment',
+    canActivate: [AuthGuard],
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: './main/payment/payment.module#PaymentModule'
+      }
+    ]
+  },
+  {
+    path: 'document',
+    component: MainLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: './main/document/document.module#DocumentModule'
+      }
+    ]
+  },
+
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule { 
+  constructor() { }
+}

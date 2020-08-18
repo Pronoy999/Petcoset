@@ -1,0 +1,47 @@
+input[type=text] {
+    height: 40px;
+    width: 100%;
+    padding-left: 15px;
+    border-radius: 6px;
+    outline: none;
+    border: 1px solid #0d519c;
+    font-size: 13px;
+}
+
+.image-upload {
+    border: 1px solid #0d519c;
+    height: 130px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.image-upload>input {
+    display: none;
+}
+
+.file-icon {
+    cursor: pointer;
+    position: absolute;
+    left: 39%;
+    top: 31%;
+}
+
+.btn-project {
+    height: 40px;
+    width: auto;
+    border-radius: 6px;
+    background: #0d519c;
+    border: 1px solid #0d519c;
+    color: #fff;
+    margin-bottom: 7%;
+    outline: none;
+    padding: 12px;
+    font-size: 13px;
+}
+
+.img-pet {
+    cursor: pointer;
+    height: 130px;
+    width: 100%;
+    display: block;
+}

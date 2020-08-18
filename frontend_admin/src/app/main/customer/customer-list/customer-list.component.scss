@@ -1,0 +1,12 @@
+/* Hide scrollbar for Chrome, Safari and Opera */
+
+.service-mobile::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* Hide scrollbar for IE and Edge */
+
+.service-mobile {
+    -ms-overflow-style: none;
+}

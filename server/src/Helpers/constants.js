@@ -129,8 +129,8 @@ constants.INCORRECT_OTP = "Incorrect OTP";
 constants.NO_BOOKING_FOUND = "No booking found";
 constants.NO_SERVICES_FOUND = "No services found.";
 constants.NO_BANK_DETAILS = "No bank details found.";
-constants.PASSWORD_CHANGE_URL_DEV = "http://localhost:4200/forgetPassword?token=";
-constants.PASSWORD_CHANGE_URL_PROD = "http://petcoset.com/forgetPassword?token=";
+constants.PASSWORD_CHANGE_URL_DEV = "http://localhost:4200/#/auth/forgetPassword/";
+constants.PASSWORD_CHANGE_URL_PROD = "http://petcoset.com/#/auth/forgetPassword/";
 constants.PASSWORD_CHANGE_MESSAGE = "<p>Hi,</p>\n" +
    "<p>You have requested to change your password for your petcoset.com account.&nbsp;</p>\n" +
    "<p>Kindly click on this link to change the password.&nbsp;</p>\n" +

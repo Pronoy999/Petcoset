@@ -15,17 +15,19 @@
                     <img src="../../../../assets/logo-main.png" class="middle-x" alt="" height="70" width="90">
                     <a href="#" class="skip-text">Skip</a>
                     <p class="p-text-color mt-2 login-box-text text-center">Welcome to petcoset</p>
-                    <form [formGroup]="registerForm" class="padding-both-x" >
-                        <div class="row">
-                            <div class="col-6">
-                                <app-input-field [placeholder]="'First Name'" [form]="registerForm" [name]="'first_name'" [validation]="true"></app-input-field>
+                    <form [formGroup]="registerForm" class="padding-both-x">
+                        <!-- FIRST REGISTRATION BLOCK START(PERSONAL INFORMATION) -->
+                        <div [style.display]="displayCount === 1 ? 'block': 'none'">
+                            <div class="row">
+                                <div class="col-6">
+                                    <app-input-field [placeholder]="'First Name'" [form]="registerForm" [name]="'first_name'" [validation]="true"></app-input-field>
+                                </div>
+                                <div class="col-6">
+                                    <app-input-field [placeholder]="'Last Name'" [form]="registerForm" [name]="'last_name'" [validation]="true"></app-input-field>
+                                </div>
                             </div>
-                            <div class="col-6">
-                                <app-input-field [placeholder]="'Last Name'" [form]="registerForm" [name]="'last_name'" [validation]="true"></app-input-field>
-                            </div>
-                        </div>
-                        
-                            <select id="gender" formControlName="gender">
+
+                            <select class="mb-3" id="gender" formControlName="gender">
                                 <option value="" selected> Select gender</option>
                                 <option value="f">Female</option>
                                 <option value="m">Male</option>
@@ -34,43 +36,72 @@
                             <div *ngIf="registerForm.controls.gender.errors" class="invalid-text">
                                 <div *ngIf="registerForm.controls.gender.errors.required">Gender is required</div>
                             </div>
-                        
-                        <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true"></app-input-field>
-                        <app-input-field [placeholder]="'Enter valid email address'" [form]="registerForm" [name]="'email'" [type]="'email'" [validation]="true"></app-input-field>
-                        <app-input-field [type]="'password'" [form]="registerForm" [placeholder]="'Password'" [name]="'password'" [validation]="true"></app-input-field>
-                                    <div *ngIf="registerForm.controls.password.errors" class="invalid-text">
-                                        <div *ngIf="registerForm.controls.password.errors.pattern">
-                                            Password validator Requires 6-16 characters including at least 1 upper and 1 lower alpha, and 1 digit and 1 special character.
-                                        </div>
-                                    </div>
-                                
-                        <app-input-field [type]="'password'" [form]="registerForm" [placeholder]="'Confirm password'" [name]="'confirmPassword'" [validation]="true"></app-input-field>
-                                    <div *ngIf="registerForm.controls.confirmPassword.errors" class="invalid-text">
-                                        <div *ngIf="registerForm.controls.confirmPassword.errors.required">Confirm password is required</div>
-                                        <div *ngIf="registerForm.controls.confirmPassword.errors.mustMatch">Didn't match with password</div>
-                                    </div>
-                                
-                        <div class="form-row">
-                            <div class="col-md-6 col-lg-6 mt-3 text-left"></div>
-                            <div class="col-md-6 col-lg-6 mt-2 text-right">
-                                <button type="submit" class="login-button" (click)="register()">Sign Up</button>
+
+                            <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true"></app-input-field>
+                            <app-input-field [placeholder]="'Enter valid email address'" [form]="registerForm" [name]="'email'" [type]="'email'" [validation]="true"></app-input-field>
+                            <app-input-field [type]="'password'" [form]="registerForm" [placeholder]="'Password'" [name]="'password'" [validation]="true"></app-input-field>
+                            <div *ngIf="registerForm.controls.password.errors" class="invalid-text">
+                                <div class="invalid-text" *ngIf="registerForm.controls.password.errors.required">
+                                    Password is required
+                                </div>
+                                <div *ngIf="registerForm.controls.password.errors.pattern">
+                                    Password validator Requires 6-16 characters including at least 1 upper and 1 lower alpha, and 1 digit and 1 special character.
+                                </div>
+                            </div>
+
+                            <app-input-field [type]="'password'" [form]="registerForm" [placeholder]="'Confirm password'" [name]="'confirmPassword'" [validation]="true">
+                            </app-input-field>
+                            <div *ngIf="registerForm.controls.confirmPassword.errors" class="invalid-text">
+                                <div *ngIf="registerForm.controls.confirmPassword.errors.required">Confirm password is required
+                                </div>
+                                <div *ngIf="registerForm.controls.confirmPassword.errors.mustMatch">Didn't match with password
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col-md-6 col-lg-6 mt-3 text-left"></div>
+                                <div class="col-md-6 col-lg-6 mt-2 text-right">
+                                    <button type="submit" class="login-button" (click)="register()">Sign Up</button>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                    <div class="padding-both-x">
+                        <!-- FIRST REGISTRATION BLOCK END(PERSONAL INFORMATION) -->
+                        <!-- SECOND REGISTRATION BLOCK START(OTP BLOCK) -->
+                        <div [style.display]="displayCount === 2 ? 'block' : 'none'">
+                            <div class="pb-5 pt-2 otp-text text-center banner-text">
+                                <p><span>Please enter the verification code we sent</span><br>
+                                    <span>to you mobile {{userMobileNumber}}</span></p>
+                                <div class="text-center">
+                                    <ng-otp-input [config]="config" (onInputChange)="onOtpChange($event)">
+                                    </ng-otp-input>
+                                </div>
+                                <div class="mt-5 form-div text-center middle-x">
+                                    <button type="submit" class="btn-project" (click)="createAccount()" [disabled]="userOtpValue && userOtpValue.length !== 4">Verify & Create
+                                        account</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SECOND REGISTRATION BLOCK START(OTP BLOCK) -->
+                        <!-- <div class="padding-both-x">
                         <h1 class="line">OR</h1>
-                    </div>
-                    <div class="padding-both-x">
+                    </div> -->
+                        <!-- <div class="padding-both-x">
                         <a><img src="../../../assets/images/social-icon/facebook-button.png" alt="" style="width: 100%; cursor: pointer;"></a>
                         <a><img src="../../../assets/images/social-icon/google-button.png" alt="" style="width: 100%; margin-top: 3%; cursor: pointer;"></a>
-                    </div>
-                    <div class="checkbox text-center" style="width: 95%;">
-                        <input type="checkbox" id="checkbox" name="" value="">
-                        <label for="checkbox"><span style="margin-left: 3%; font-size: 13px; color: #0d519c;">Accepting means you are ok with our <b>Term of
-                  Services</b> and <b>Privacy policy</b></span></label>
-                    </div>
+                    </div> -->
+
+                        <div class="text-center">
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="1" formControlName="termsCondition">
+                            <label for="vehicle1"><span class="mx-2" style="font-size: 13px;" [ngClass]="{'invalid-text': !isChecked, 'p-color': isChecked}">Accepting  means you are ok with our <b><a routerLink="/document/document/Term of Services">Term of Services</a></b> and <b><a routerLink="/document/document/Privacy policy">Privacy policy</a></b></span></label>
+                        </div>
+                        <!-- <div class="text-center" style="width: 95%;">
+                            <input type="checkbox" value="1" formControlName="termsCondition">
+                            <label><span class="mx-2" [ngClass]="{'invalid-text': !isChecked, 'p-color': isChecked}" >Accepting
+                                means you are ok with our <b><a routerLink="/document/document/Term of Services">Term of Services</a></b> and <b><a routerLink="/document/document/Privacy policy">Privacy policy</a></b></span></label>
+                        </div> -->
+                    </form>
                     <div class="w-100 text-center">
-                        <button type="button" class="sign-up-button">Already here ? Sign in</button>
+                        <button routerLink="/auth/login" type="button" class="sign-up-button">Already here ? Sign in</button>
                     </div>
                 </div>
             </div>
@@ -94,46 +125,113 @@
                                 <a href="#" class="skip-text-mobile">Skip</a>
                                 <p class="p-font p-text-color mt-3 text-center" style="font-size: 15px;">Its great to see you again!
                                 </p>
+                                <div class="row">
+                                    <div class="col-12 invalid-text" *ngIf="otpError">
+                                        {{otpError}}
+                                    </div>
+                                    <div class="col-12 invalid-text" *ngIf="registrationError">
+                                        {{registrationError}}
+                                    </div>
+                                </div>
                                 <form [formGroup]="registerForm" class="w-100">
-                                    <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true"></app-input-field>
-                                    <app-input-field [placeholder]="'Enter valid email address'" [form]="registerForm" [name]="'email'" [type]="'email'" [validation]="true"></app-input-field>
-                                    <app-input-field [placeholder]="'Password(min 8 character)'" [form]="registerForm" [name]="'password'" [type]="'password'" [validation]="true"></app-input-field>
-                                    
-                                    <div class="form-row">
-                                        <div class="col-md-6 col-lg-6 mt-3 text-left">
-                                            <!-- <div class="checkbox">
-                                                <input type="checkbox" id="checkbox" name="" value="">
-                                                <label for="checkbox" style="width: 71%;"><span style="margin-left: 10%;">Remember
-                                                    me</span></label>
-                                            </div> -->
+                                    <div [style.display]="displayCount === 1 ? 'block': 'none'">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <app-input-field [placeholder]="'First Name'" [form]="registerForm" [name]="'first_name'" [validation]="true"></app-input-field>
+                                            </div>
+                                            <div class="col-6">
+                                                <app-input-field [placeholder]="'Last Name'" [form]="registerForm" [name]="'last_name'" [validation]="true"></app-input-field>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6 col-lg-6 mt-2 text-right">
-                                            <button type="button" class="login-button-mobile" (mousedown)="register()">Sign Up</button>
+                                        <select class="mb-3" id="gender" formControlName="gender">
+                                            <option value="" selected> Select gender</option>
+                                            <option value="f">Female</option>
+                                            <option value="m">Male</option>
+                                            <option value="0">Other</option>
+                                        </select>
+                                        <app-input-field [placeholder]="'Mobile no'" [form]="registerForm" [name]="'mobileNo'" [validation]="true"></app-input-field>
+                                        <app-input-field [placeholder]="'Enter valid email address'" [form]="registerForm" [name]="'email'" [type]="'email'" [validation]="true">
+                                        </app-input-field>
+                                        <app-input-field type="password" [form]="registerForm" [placeholder]="'Password'" [name]="'password'" [validation]="true">
+                                        </app-input-field>
+                                        <div *ngIf="registerForm.controls.password.errors" class="invalid-text">
+                                            <div class="invalid-text" *ngIf="registerForm.controls.password.errors.required">
+                                                Password is required
+                                            </div>
+                                            <div *ngIf="registerForm.controls.password.errors.pattern">
+                                                Password validator Requires 6-16 characters including at least 1 upper and 1 lower alpha, and 1 digit and 1 special character.
+                                            </div>
+                                        </div>
+
+                                        <app-input-field [type]="'password'" [form]="registerForm" [placeholder]="'Confirm password'" [name]="'confirmPassword'" [validation]="true"></app-input-field>
+                                        <div *ngIf="registerForm.controls.confirmPassword.errors" class="invalid-text">
+                                            <div *ngIf="registerForm.controls.confirmPassword.errors.required">Confirm password is required</div>
+                                            <div *ngIf="registerForm.controls.confirmPassword.errors.mustMatch">Didn't match with password</div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="col-md-6 col-lg-6 mt-3 text-left">
+                                                <!-- <div class="checkbox">
+                                                    <input type="checkbox" id="checkbox" name="" value="">
+                                                    <label for="checkbox" style="width: 71%;"><span style="margin-left: 10%;">Remember
+                                                        me</span></label>
+                                                </div> -->
+                                            </div>
+                                            <div class="col-md-6 col-lg-6 mt-2 text-right">
+                                                <button type="button" class="login-button-mobile" (mousedown)="register()">Sign Up</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </form>
-                                <div class="">
+                                    <div [style.display]="displayCount === 2 ? 'block' : 'none'">
+                                        <div class="pb-5 pt-2 otp-text text-center banner-text">
+                                            <p><span>Please enter the verification code we sent</span><br>
+                                                <span>to you mobile {{userMobileNumber}}</span></p>
+                                            <div class="text-center">
+                                                <ng-otp-input [config]="config" (onInputChange)="onOtpChange($event)">
+                                                </ng-otp-input>
+                                            </div>
+                                            <div class="mt-5 form-div text-center middle-x">
+                                                <button type="submit" class="btn-project" (click)="createAccount()" [disabled]="userOtpValue && userOtpValue.length !== 4">Verify &
+                                                    Create
+                                                    account</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--  <div class="">
                                     <h1 class="line">OR</h1>
-                                </div>
-                                <div class="">
-                                    <a><img src="../../../assets/images/social-icon/facebook-button.png" alt="" style="width: 100%; cursor: pointer;"></a>
-                                    <a><img src="../../../assets/images/social-icon/google-button.png" alt="" style="width: 100%; margin-top: 3%; cursor: pointer;"></a>
-                                    <!-- <button type="button" class="facebook-button"><img
+                                </div> -->
+                                    <div class="">
+                                        <!--  <a><img src="../../../assets/images/social-icon/facebook-button.png" alt="" style="width: 100%; cursor: pointer;"></a>
+                                    <a><img src="../../../assets/images/social-icon/google-button.png" alt="" style="width: 100%; margin-top: 3%; cursor: pointer;"></a> -->
+                                        <!-- <button type="button" class="facebook-button"><img
                                           src="../../../assets/images/login/facebook.svg" width="20" height="20"
                                           class="mr-3"> Continue with Facebook</button>
                                   <button type="button" class="google-button mt-2"><img
                                           src="../../../assets/images/login/brands-and-logotypes.svg" width="20"
                                           height="20" class="mr-4"> Continue with Google</button> -->
-                                    <div class="checkbox" style="width: 95%;">
-                                        <input type="checkbox" id="checkbox" name="" value="">
-                                        <label for="checkbox"><span style="margin-left: 3%; font-size: 13px; color: #0d519c;">Accepting means you are ok with our <b>Term of
-                                      Services</b> and <b>Privacy policy</b></span></label>
+                                        <!-- <div class="checkbox" style="width: 95%;">
+                                            <input type="checkbox" id="checkbox" value=true formControlName="termsCondition">
+                                            <label for="checkbox"><span>Accepting
+                                                    means you are ok with our <b>Term of
+                                                        Services</b> and <b>Privacy policy</b></span></label>
+                                        </div> -->
+                                        <!-- <div class="" style="width: 95%;">
+                                            <input type="checkbox" formControlName="termsCondition" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;">
+                                            <span class="user-font-size-14"> <label for="checkbox"><span>Accepting means you are ok with our <b>Term ofServices</b> and <b>Privacy policy</b></span></label>
+                                            </span>
+                                        </div> -->
+                                        <div class="checkbox text-center" style="width: 95%;">
+                                            <input type="checkbox" value="1" formControlName="termsCondition">
+                                            <label><span class="mx-2" [ngClass]="{'invalid-text': !isChecked, 'p-color': isChecked}" >Accepting
+                                                means you are ok with our <b><a routerLink="/document/document/Term of Services">Term of Services</a></b> and <b><a routerLink="/document/document/Privacy policy">Privacy policy</a></b></span></label>
+                                        </div>
+                                        <div class="w-100 text-center">
+                                            <button routerLink="/auth/login" type="button" class="sign-up-button-mobile">Already here ? Sign
+                                                in</button>
+                                        </div>
+                                        <!--  <button type="button" class="sign-up-button" style="font-size: 12px;">New here ? Sign up</button> -->
                                     </div>
-                                    <div class="w-100 text-center">
-                                        <button type="button" class="sign-up-button-mobile">Already here ? Sign in</button>
-                                    </div>
-                                    <!--  <button type="button" class="sign-up-button" style="font-size: 12px;">New here ? Sign up</button> -->
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>

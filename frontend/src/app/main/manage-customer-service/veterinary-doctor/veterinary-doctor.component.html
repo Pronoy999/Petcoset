@@ -1,0 +1,264 @@
+<article class="p-font border-top border-bottom" style="min-height: 75vh;background: #fff;">
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="p-3">
+                    <div class="form-div p-color">
+                        <label class="font-weight-normal">Selected Service</label>
+                        <input type="text" placeholder="Veterinary Doctor" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12 p-color">
+                <form [formGroup]="parentForm">
+                    <!-- BOOKING INFORMATION BLOCK START -->
+                    <div class="p-3" [style.display]="displayCount === 0 ? 'block':'none'">
+                        <span class="p-color" style="line-height: 2;">Pet details</span>
+                        <div class="row">
+                            <div class="col-md-4 col-lg-4 col-12" *ngFor="let pet of petDetails; let i = index">
+                                <div class="card mb-3 p-2 pointer p-color" (mousedown)="selectedPet(i)" [ngClass]="{'border-project': selectedPetIndex === i}">
+                                    <div class="d-flex justify-content-start">
+                                        <div class="pet-block">
+                                            <img src="../../../../assets/images/customer_form_icon/Group 1.png" alt="" srcset="" class="pet-img">
+                                        </div>
+                                        <div style="width: 80%;">
+                                            <h6 class="card-title mb-0 font-weight-bold">{{pet.pet_name}}</h6>
+                                            <span style="font-size: 12px;">{{pet.breed_name}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 invalid-text mb-3" *ngIf="petSelectError">
+                                {{petSelectError}}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <!-- <div class="col-12">
+                                <label class="p-color">Preferred location</label>
+                                <input type="text" formControlName="preferred_location" placeholder="Preferred Location" />
+                                <div class="invalid-text" *ngIf="preferredLocationErrorText">
+                                    {{preferredLocationErrorText}}
+                                </div>
+                            </div> -->
+                            <div class="col-12 mt-3">
+                                <div class="autocomplete">
+                                    <label class="p-color">Preferred location</label>
+                                    <ng-autocomplete [data]="cityList" formControlName="preferred_location" [searchKeyword]="keyword" [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate" placeHolder="Type your location">
+                                    </ng-autocomplete>
+
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.name"></a>
+                                    </ng-template>
+
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
+                                <div class="invalid-text" *ngIf="preferredLocationErrorText">
+                                    {{preferredLocationErrorText}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-6 text-center">
+                                <img src={{oneTimeImgSrc}} alt="" class="w-100 pointer" (mousedown)="imgSelection('one')">
+                            </div>
+                            <div class="col-6 text-center">
+                                <img src={{repeateImgSrc}} alt="" class="w-100 pointer" (mousedown)="addBookingInfoForm()">
+                            </div>
+                        </div>
+                        <div class="px-3">
+                            <div class="row border-project rounded mb-3 py-4">
+                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                    <label class="p-color">Booking date</label>
+                                    <input type="date" formControlName="date" [min]="todayDate">
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                    <label class="p-color"> Time</label>
+                                    <input type="time" formControlName="pick_up_time">
+                                </div>
+                                <!-- <div class="col-md-4 col-lg-4 col-sm-12">
+                                    <label class="p-color">Drop off time</label>
+                                    <input type="time" formControlName="pick_up_time">
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="px-3" formArrayName="bookingInformation" *ngFor="let item of bookingInfoFormarray.controls; let i=index">
+                            <i class="fa fa-window-close cross pointer" aria-hidden="true" (mousedown)="removeItem(i)"></i>
+                            <div class="row border-project rounded mb-3 py-4" [formGroupName]="i">
+                                <div class="col-md-6 col-lg-6 col-sm-12 mb-3">
+                                    <label style="font-size: 12px;">Booking Date</label>
+                                    <input type="date" formControlName="start_date" [min]="todayDate">
+                                </div>
+                                <div class="col-md-6 col-lg-6 col-sm-12">
+                                    <label class="p-color"> Pick up time</label>
+                                    <input type="time" formControlName="pick_up_time">
+                                </div>
+                                <!--  <div class="col-md-4 col-lg-4 col-sm-12">
+                                    <label class="p-color">Drop off time</label>
+                                    <input type="time" formControlName="drop_off_time">
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="bookingDetailsError">
+                            <div class="col-12">
+                                <div class="invalid-text">
+                                    {{bookingDetailsError}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-12 text-right">
+                                <button class="btn btn-info btn-sm" (mousedown)="addBookingInfoForm()">Repeat</button>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-12 text-center">
+                                <button class="btn-project" (mousedown)="changeFirstBlock()">NEXT</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BOOKING INFORMATION BLOCK END -->
+                    <!--PET INFORMAION BLOCK START-->
+                    <div class="p-3" [style.display]="displayCount === 1 ? 'block':'none'">
+                        <div class="mb-3 px-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <label class="p-color">Message</label><br>
+                                    <span class="p-color" style="font-size: 13px;">Share a little info about your pet
+                                        you want to share with
+                                        us</span><br>
+                                    <textarea formControlName="extraMessage"></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6 col-12 mt-5" *ngIf="isSubscription">
+                                    <div class="mt-3 p-3">
+                                        <span class="p-color" style="line-height: 2;">Payment Method</span>
+                                        <div class="row p-color">
+                                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <input type="checkbox" formControlName="subscription_id" value="1" style="zoom: 1.3; vertical-align: sub; margin-right: 3%;"><span style="font-size: 12px;">Subscription</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2 p-3" style="font-size: 14px;">
+                                    <p *ngIf="isSubscription">Please check subscription if you already purchased subscription.</p>
+                                    <p class="font-weight-bold">Please complete your payment once your service request become approved.</p>
+                                </div>
+                            </div>
+                            <!-- SELECT VENDOR BLOCK START -->
+                            <div class="my-5">
+                                <div class="mb-3">
+                                    <div class="row">
+                                        <div class="col-12" *ngIf="noVendorText">{{noVendorText}}</div>
+                                        <div class="col-12 pet-border mb-3" *ngFor="let vendor of vendorList; let i = index">
+                                            <div class="row">
+                                                <div class="col-md-6 col-lg-6 col-6 text-left">
+                                                    <div class="p-3" *ngIf="!noVendorText">
+                                                        <h5 class="card-title mb-0 p-color">
+                                                            {{vendor.first_name | titlecase}} {{vendor.last_name | titlecase}}</h5>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-lg-6 col-6 p-3 text-right">
+                                                    <p>
+                                                        <span class="font-weight-bold">INR
+                                                            {{vendor.service_charge}}</span>&nbsp;<small>per
+                                                            visit</small><br>
+                                                        <button class="book-now-button mt-2" (mousedown)="selectedVendor(i)">Book Now</button>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-12 text-center">
+                                            <button class="close-btn-project" (mousedown)="backToBookingInfoBlock()">Back</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SELECT VENDOR BLOCK END -->
+                        </div>
+                    </div>
+                    <!--PET INFORMAION BLOCK END-->
+                    <!--PAYMENT BLOCK START-->
+                    <div [style.display]="displayCount === 3 ? 'block' : 'none'">
+                        <div class="row mt-3 p-3" *ngIf="selectedPetList">
+                            <div class="col-12 p-color">
+                                <label class="p-color"><span>Pet Details</span></label>
+                            </div>
+                            <div class="col-6" style="font-size: 12px;">Pet Name: {{selectedPetList.pet_name}}</div>
+                            <div class="col-6" style="font-size: 12px;">Pet Type: {{selectedPetList.pet_type}}</div>
+                            <div class="col-6" style="font-size: 12px;">Breed Name: {{selectedPetList.breed_name}}</div>
+                            <div class="col-12 pet-border mt-2"></div>
+                        </div>
+                        <div class="row mt-3 p-3" *ngIf="selectedVendorId">
+                            <div class="col-12 p-color">
+                                <label class="p-color"><span>Your Pet Friend Details</span></label>
+                            </div>
+                            <div class="col-6" style="font-size: 12px;">Name: {{selectedVendorId['first_name'] | titlecase}} {{selectedVendorId['last_name'] | titlecase}}</div>
+                            <div class="col-6" style="font-size: 12px;">Price: INR {{selectedVendorId['service_charge']}}
+                            </div>
+                            <div class="col-12 pet-border mt-2"></div>
+                        </div>
+                        <div class="mb-3 mt-4 border-project rounded" style="font-size: 12px;">
+                            <div class="row p-3">
+                                <div class="col-12 mb-2 pet-border">
+                                    <span class="p-color">Billing Details</span>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    Booking Date:
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    {{parentForm.controls.date.value | date: 'dd-MM-yyyy'}}
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    Pick up time:
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    {{parentForm.controls.pick_up_time.value + ':00'}}
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    Drop off time:
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    {{parentForm.controls.drop_off_time.value + ':00'}}
+                                </div>
+                            </div>
+                            <div class="row p-3" *ngFor="let bookingItem of bookingList; let i = index;">
+                                <div class="col-12 mb-2 pet-border">
+                                    <span class="p-color">Billing Details</span>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    Booking Date:
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    {{bookingItem.start_date | date: 'dd-MM-yyyy'}}
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    Pick up time:
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    {{bookingItem.pick_up_time_hrs + ':00'}}
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    Drop off time
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-6">
+                                    {{bookingItem.dropOffTime + ':00'}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 text-right">
+                                <button class="btn-payment mt-2" (mousedown)="initRazorPay()">Book Now</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--PAYMENT BLOCK END-->
+                </form>
+            </div>
+        </div>
+    </div>
+</article>

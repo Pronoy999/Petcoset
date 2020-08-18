@@ -1,0 +1,33 @@
+<div class="container-fluid p-font pt-5 pb-5" style="font-size: 14px;">
+    <div class="p-2">
+        <h5 *ngIf="type==='pending'">Pending Customers</h5>
+        <h5 *ngIf="type==='approve'">Approved Customers</h5>
+    </div>
+    <div class="table-responsive  mobile-service" style="height:75vh; overflow-y: auto;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-uppercase">Name</th>
+                    <th scope="col" class="text-uppercase">Service Name</th>
+                    <th scope="col" class="text-uppercase">Booking Date</th>
+                    <th scope="col" class="text-uppercase">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngIf="requestList && requestList.length; else noDataFound">
+                    <tr *ngFor="let req of requestList">
+                        <td>{{req.CustomerFirstName}} {{req.CustomerLastName}}</td>
+                        <td>{{req.service_name}}</td>
+                        <td>{{req.booking_date.split('T')[0] | date: 'dd-MM-yyyy'}}</td>
+                        <td><button class="btn btn-sm btn-info" [routerLink]="['/admin/customer/customer-details/'+ type, req.id]">Details</button></td>
+                    </tr>
+                </ng-container>
+                <ng-template #noDataFound>
+                    <tr class="text-center">
+                        <td colspan="12">No Entries</td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
+    </div>
+</div>

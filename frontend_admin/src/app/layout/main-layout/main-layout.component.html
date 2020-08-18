@@ -1,4 +1,4 @@
-<div class="d-flex">
+<!-- <div class="d-flex project-font">
     <div class="sidebar border shadow-sm">
         <app-navbar></app-navbar>
     </div>
@@ -9,4 +9,21 @@
         </div>
         <app-footer></app-footer>
     </div>
-</div>
+</div> -->
+
+<section class="main_layout-area d-flex">
+    <div class="navigation__nav border">
+        <app-navbar></app-navbar>
+    </div>
+    <div class="main_body border">
+        <div class="top_bar-area">
+            <app-topbar></app-topbar>
+        </div>
+        <div class="main">
+            <router-outlet></router-outlet>
+        </div>
+        <div class="footer_area">
+            <app-footer></app-footer>
+        </div>
+    </div>
+</section>

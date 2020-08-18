@@ -22,7 +22,7 @@ export class TrainerComponent implements OnInit {
   isCatSelected = false;
   trainingValue = '';
   isSubmit;
-  petWeight = '';
+  petWeight = [];
   constructor(
     private _formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -35,13 +35,30 @@ export class TrainerComponent implements OnInit {
     this.userDetails = this._authService.getUserDetails();
   }
 
-  lookAfterClicked(value) {
-    this.isLookAfterOneClicked = value === '1' ? true : false;
-    this.isLookAfterTwoClicked = value === '8' ? true : false;
-    this.isLookAfterThreeClicked = value === '19' ? true : false;
-    this.isLookAfterFourClicked = value === '45' ? true : false;
-    this.petWeight = value
-  }
+  lookAfterClicked(value, pos) {
+    if (this.petWeight.indexOf(value) === -1) {
+      this.petWeight.push(value);
+      if (pos === 1)
+        this.isLookAfterOneClicked = true;
+      if (pos === 2)
+        this.isLookAfterTwoClicked = true;
+      if (pos === 3)
+        this.isLookAfterThreeClicked = true;
+      if (pos === 4)
+        this.isLookAfterFourClicked = true;
+    }
+    else {
+      this.petWeight.splice(this.petWeight.indexOf(value), 1);
+      if (pos === 1)
+        this.isLookAfterOneClicked = false;
+      if (pos === 2)
+        this.isLookAfterTwoClicked = false;
+      if (pos === 3)
+        this.isLookAfterThreeClicked = false;
+      if (pos === 4)
+        this.isLookAfterFourClicked = false;
+    }
+  }  
 
   serviceProvide(value){
     this.isDogSelected = value === '1' ? true : false;
@@ -78,7 +95,7 @@ export class TrainerComponent implements OnInit {
       data.is_therapy_training = data.is_therapy_training === true ? 1 : 0;
       data.service_duration_hours = +this.trainingValue;
       data.service_per_week = +data.service_per_week;
-      data.pet_weight = +this.petWeight;
+      data.pet_weight = +this.petWeight.toString();
       this._authService.request('post', `vendors/service`, data)
       .subscribe((response) => {
         this.spinner.hide();

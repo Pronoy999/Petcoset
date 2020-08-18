@@ -20,7 +20,7 @@ input[type=text] {
     padding-left: 15px;
     border-radius: 6px;
     outline: none;
-    border: 1px solid lightgray;
+    border: 1px solid #0d519c;
     font-size: 13px;
 }
 

@@ -22,7 +22,7 @@ export class BoardingComponent implements OnInit {
   userDetails: UserDetails;
   isSubmitted = false;
   servicesProvidedToValue;
-  petWight;
+  petWight = [];
   constructor(
     private _formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
@@ -41,11 +41,29 @@ export class BoardingComponent implements OnInit {
     this.isCatSelected = value === 'Cat' ? true : false;
   }
 
-  lookAfterClicked(value) {
-    this.isLookAfterOneClicked = value === 1 ? true : false;
-    this.isLookAfterTwoClicked = value === 2 ? true : false;
-    this.isLookAfterThreeClicked = value === 3 ? true : false;
-    this.isLookAfterFourClicked = value === 4 ? true : false;
+  lookAfterClicked(value, pos) {
+    if (this.petWight.indexOf(value) === -1) {
+      this.petWight.push(value);
+      if (pos === 1)
+        this.isLookAfterOneClicked = true;
+      if (pos === 2)
+        this.isLookAfterTwoClicked = true;
+      if (pos === 3)
+        this.isLookAfterThreeClicked = true;
+      if (pos === 4)
+        this.isLookAfterFourClicked = true;
+    }
+    else {
+      this.petWight.splice(this.petWight.indexOf(value), 1);
+      if (pos === 1)
+        this.isLookAfterOneClicked = false;
+      if (pos === 2)
+        this.isLookAfterTwoClicked = false;
+      if (pos === 3)
+        this.isLookAfterThreeClicked = false;
+      if (pos === 4)
+        this.isLookAfterFourClicked = false;
+    }
   }
 
   initBoardingForm() {
@@ -83,18 +101,19 @@ export class BoardingComponent implements OnInit {
       data.service_charge = +data.service_charge;
       data.has_house = data.has_house === true ? 1 : 0;
       data.is_pets_allowed_on_furniture = data.is_pets_allowed_on_furniture === true ? 1 : 0;
-      data.is_non_smoking = data.is_non_smoking === true ? 1: 0;
+      data.is_non_smoking = data.is_non_smoking === true ? 1 : 0;
       data.has_fenced_garden = data.has_fenced_garden === true ? 1 : 0;
       data.is_pets_allowed_on_bed = data.is_pets_allowed_on_bed === true ? 1 : 0;
-      data.does_own_dog = data.does_own_dog === true ? 1: 0;
-      data.only_one_booking = data.only_one_booking === true ? 1: 0;
+      data.does_own_dog = data.does_own_dog === true ? 1 : 0;
+      data.only_one_booking = data.only_one_booking === true ? 1 : 0;
       data.does_own_cat = data.does_own_cat === true ? 1 : 0;
-      data.does_own_caged_animals = data.does_own_caged_animals === true ? 1: 0;
+      data.does_own_caged_animals = data.does_own_caged_animals === true ? 1 : 0;
       data.number_of_visits = data.number_of_visits === true ? 1 : 0;
       data.is_full_time = data.is_full_time === true ? 1 : 0;
       data.is_first_aid = data.is_first_aid === true ? 1 : 0;
       data.is_bathing_provided = data.is_bathing_provided === true ? 1 : 0;
       data.child_age = data.child_age === true ? 1 : 0;
+      data.pet_weight = this.petWight.toString();
       this._authService.request('post', `vendors/service`, data)
         .subscribe((response) => {
           this.spinner.hide();
@@ -105,7 +124,7 @@ export class BoardingComponent implements OnInit {
             width: 400,
             allowOutsideClick: false
           }).then((result) => {
-            if(result.value){
+            if (result.value) {
               this.route.navigateByUrl('/user/vendor');
             }
           })

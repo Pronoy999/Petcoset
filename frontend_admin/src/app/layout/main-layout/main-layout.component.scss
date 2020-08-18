@@ -1,26 +1,60 @@
+@import "../../../assets/common";
 @import "../../../assets/variable";
-.project-background {
-    //background-color: $main-background-color;
-    min-height: 85vh;
-}
-
-.sidebar {
-    width: 18%;
-    max-height: 100%;
-    @media screen and (max-width: 414px) {
+@import "../../../assets/responsive";
+.navigation__nav {
+    width: 300px;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    position: fixed;
+    box-sizing: border-box;
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    transition: .3s;
+    z-index: 999;
+    /*  padding: .5rem 0 .5rem 1rem; */
+    background: #fff;
+    @media #{$tab} {
+        width: 0;
+    }
+    @media #{$min-mobile} {
         width: 0;
     }
 }
 
-.main {
-    width: 82%;
-    max-height: 100vh;
-    @media screen and (max-width: 414px) {
+.topbar_area {
+    height: 75px;
+}
+
+.main_body {
+    margin-left: 300px;
+    width: calc(100% - 300px);
+    transition: .3s;
+    min-height: 100vh;
+    .main_view {
+        padding: 0 15px 15px 15px;
+        // min-height: 600px
+        // min-height: 100vh;
+    }
+    @media #{$tab} {
+        margin-left: 0;
+        width: 100%;
+    }
+    @media #{$min-mobile} {
+        margin-left: 0;
         width: 100%;
     }
 }
 
-.bar {
-    zoom: 1.5;
-    color: lightblue;
+.top_bar-area {
+    @extend .sticky_position;
+    background: $nav-bg-color;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: calc(100vh - 105px);
+    padding: 0 15px;
 }
